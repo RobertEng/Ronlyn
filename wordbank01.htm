@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+width: 100%;
+//border: 1px solid black;
+}
+td {
+text-align: center;
+//border: 1px solid black;
+}
+
+button {
+  display: inline-block;
+  border-radius: 3px;
+  border: none;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8em;
+  background: #69c773;
+  border-bottom: 1px solid #498b50;
+  color: black; // font-color
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+button:hover, button:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+btn:hover, bt:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+button:active {
+  opacity: 1;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1) inset;
+}
+</style>
+</head>
+<BODY onload="loadTable(tableWidth)">
+
+<title>Ronlyn's Speaking Journal (Text-To-Speech example)</title>
+<body>
+<p id="os-msg"></p>
+<p id="browser-msg"></p>
+
+<div class="option">
+   <label for="voice">Voice</label>
+   <select name="voice" id="voice"></select>
+</div>
+
+<div class="option">
+   <label for="volume">Volume</label>
+   <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+</div>
+
+<h1>Ronlyn's Word Bank</h1>
+<table id="wordTable">
+</body>
+<script>
+/***
+ *
+ * global variables
+ *
+ ***/
+var button = document.getElementById('speak');
+var speechMsgInput = document.getElementById('speech-msg');
+var volumeInput = document.getElementById('volume');
+var voiceSelect = document.getElementById('voice');
+/***
+ *
+ * Function definitions
+ *
+ ***/
+
+/*
+ * getOS
+ */
+function getOS() {
+   var userAgent = window.navigator.userAgent,
+   platform = window.navigator.platform,
+   macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+   windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+   iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+   os = null; // initalize string
+
+   if (macosPlatforms.indexOf(platform) !== -1) {
+      os = 'Mac OS'; } 
+   else if (iosPlatforms.indexOf(platform) !== -1) {
+      os = 'iOS'; }
+   else if (windowsPlatforms.indexOf(platform) !== -1) {
+      os = 'Windows'; }
+   else if (/Android/.test(userAgent)) {
+      os = 'Android'; }
+   else if (!os && /Linux/.test(platform)) {
+      os = 'Linux'; }
+   return os;
+}
+/*
+ * Populate list of voices for voice options.
+ */
+function populateVoices(defaultVoice) {
+   // Fetch the available voices.
+   var voices = speechSynthesis.getVoices();
+   var option;  
+   // Loop through each of the voices.
+   voices.forEach(function(voice, i) {
+      // Create a new option element.
+    
+      // Set the options value and text.
+      option = document.createElement('option');
+      option.value = voice.name;
+      option.innerHTML = voice.name;
+      option.selected = (voice.name == defaultVoice);
+      // Add the option to the voice selector.
+      voiceSelect.appendChild(option);
+   });
+}
+
+wordList = ["antelope", "bear", "cat", "dog", "elephant", "fox","goat", "horse","ibex", "jaguar","kid", "lamb"]; //word list settable via text box
+tableWidth = 6;  
+/*
+ * Speak a word
+ */
+
+function wordSpeak(button) {
+   speak(button.value);
+} // function wordSpeak
+/*
+ * Speak
+ */
+function speak(text, callback) {
+   var msg = new SpeechSynthesisUtterance('default');
+   msg.text = text;
+   msg.volume = parseFloat(volumeInput.value);
+   msg.lang = 'en-US'; 
+   msg.rate = 1; 
+   msg.pitch = 1;
+   if (voiceSelect.value) {
+      msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+	}
+    msg.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+ 
+    msg.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    }; 
+    window.speechSynthesis.speak(msg);
+} // function speak
+/*
+ * Load words into table
+ */
+function loadTable(tableWidth) {
+wordTable = document.getElementById('wordTable');
+lastWordIdx = wordList.length - 1; // zero based array
+
+for (var wordIdx = 0; wordIdx <= lastWordIdx; wordIdx++) {
+   cellIdx = wordIdx % tableWidth;
+   if (cellIdx % tableWidth == 0 ) {  // first word in new row
+      var tr = document.createElement('tr'); // var forces creation of new tr
+   }
+   var td = document.createElement('td'); // var forces creation of new td
+//   td.appendChild(document.createTextNode(wordList[wordIdx]));
+   var btn = document.createElement('button');
+   btn.type = "button";
+   btn.value = wordList[wordIdx];
+   btn.innerHTML = wordList[wordIdx]; // button label
+//   btn.onclick = function() { wordSpeak()};
+   btn.addEventListener('click', function(event) { wordSpeak(this)});
+   td.appendChild(btn);
+   tr.appendChild(td);
+
+   if (cellIdx == tableWidth - 1 || wordIdx == lastWordIdx) { // last word in row or last word in list
+      wordTable.appendChild(tr);
+   }
+} // for
+} // function loadTable
+/*
+ * speak
+ */
+function speak(text, callback) {
+   var msg = new SpeechSynthesisUtterance('default');
+   msg.text = text;
+   msg.volume = parseFloat(volumeInput.value);
+   msg.lang = 'en-US'; 
+   msg.rate = 1; 
+   msg.pitch = 1;
+   if (voiceSelect.value) {
+      msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+	}
+    msg.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+  
+    msg.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    }; 
+    window.speechSynthesis.speak(msg);
+}
+
+
+/***
+ *
+ * Initialize page
+ *
+ ***/ 
+
+/*
+ * Check browser support for speech synthesis 
+ */
+var supportMsg = document.getElementById('browser-msg');
+
+if ('speechSynthesis' in window) {
+	supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+} else {
+	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
+        + 'Try again with another browser.';
+	supportMsg.classList.add('not-supported');
+	// remove all speak buttons
+}
+
+var osMsg = document.getElementById('os-msg');
+var os = getOS();
+if (os == 'iOS') {
+   defaultVoice = "Fred"; }
+else {
+   defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+
+populateVoices(defaultVoice);
+
+// Chrome loads voices asynchronously.
+window.speechSynthesis.onvoiceschanged = function(e) {
+  populateVoices('Microsoft Zira Desktop - English (United States)');
+};
+
+</script>
+</html>

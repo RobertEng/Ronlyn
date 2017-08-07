@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@media screen {
+   .journal-title {
+   font-size: 18pt;
+   font-family: Arial;
+   }
+   .journal-entry-title {
+   font-size: 14pt;
+   font-family: Arial;
+   }
+   .journal-entry-date {
+   font-size: 12pt;
+   font-family: Arial;
+   }
+   .journal-entry-items {
+   display: table;
+   border-collapse: collapse; 
+   }
+   .journal-entry-item {
+
+   display: table-row;
+   border-top: 5px solid gray;
+   border-spacing: 50px;
+   }
+   .journal-entry-item-image {
+   display: table-cell;
+   width:20%;
+   }
+   .journal-entry-item-descriptions {
+    display: table-cell;
+    font-size: 12pt;
+    font-family: Arial;
+    vertical-align:top;
+    width:80%;
+    padding-left:20px;
+   }
+   .journal-entry-item-descriptions-table {
+    display: table;
+    width: 100%;
+    vertical-align:top;
+    font-size: 11pt;
+    padding-top:10px;
+   }
+   .journal-entry-item-descriptions-table-row {
+    display: table-row;
+    horizontal-align: left;
+
+    width: 100%;
+   }
+   .journal-entry-item-description {
+    display: table-cell;
+    vertical-align:top;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-right:10px;
+   }
+   .journal-entry-item-description-speak {
+    display: table-cell;
+    vertical-align:top;
+    horizontal-align: right;
+    width: 10%;
+    padding-bottom: 10px;
+   }
+button {
+  display: inline-block;
+  border-radius: 3px;
+  border: none;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8em;
+  background: #69c773;
+  border-bottom: 1px solid #498b50;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  margin: 0;
+  width: 72px;
+  text-align: center;
+}
+
+button:hover, button:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+button:active {
+  opacity: 1;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1) inset;
+}
+{
+    background-color: linen;
+}
+h1
+{
+   font-family: Arial; 
+   font-size: 24pt; 
+}
+img.portrait
+{
+  max-width:300px;
+}
+img.landscape
+{
+  max-height:300px;
+}
+}
+
+</style>
+<title>Ronlyn's Speaking Journal (Text-To-Speech example)</title>
+</head>
+<body>
+<p id="os-msg"></p>
+<p id="browser-msg"></p>
+
+<div class="option">
+   <label for="voice">Voice</label>
+   <select name="voice" id="voice"></select>
+</div>
+
+<div class="option">
+   <label for="volume">Volume</label>
+   <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+</div>
+
+What do you want to say?<input type="text" name="speech-msg" id="speech-msg" value="The quick brown fox jumped over the lazy dog" size="35" x-webkit-speech>
+<button id="speak">Speak</button>
+
+<div class="journal">
+   <div class="journal-title">Ronlyn's Journal</div>
+
+   <div class="journal-entry">         
+      <div class="journal-entry-title">My first entry</div>
+      <div class="journal-entry-date">4/25/2017</div>
+      <div class="journal-entry-items"> <!-- includes one image/video and descriptions --> <!-- table -->
+         <div class="journal-entry-item"> 
+            <div class="journal-entry-item-image"><img class="portrait" src="ronlyn.jpg" alt="Ronlyn"></div>
+
+            <div class="journal-entry-item-descriptions">Who am I?<!-- description wrapper -->
+            <div class="journal-entry-item-descriptions-table"><!-- description table wrapper -->
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 1 blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 2</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 3</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+            </div>
+            </div>
+         </div>
+         <div class="journal-entry-item"> 
+            <div class="journal-entry-item-image"><img class="portrait" src="swimming.jpg" alt="Ronlyn"></div>
+
+            <div class="journal-entry-item-descriptions">Started swimming<!-- description wrapper -->
+            <div class="journal-entry-item-descriptions-table"><!-- description table wrapper -->
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 1 blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 2</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 3</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+            </div>
+            </div>
+         </div>
+         <div class="journal-entry-item"> 
+            <div class="journal-entry-item-image"><img class="portrait" src="skills plus eoy.jpg" alt="Ronlyn"></div>
+
+            <div class="journal-entry-item-descriptions">Skills Plus End-of-Year Party<!-- description wrapper -->
+            <div class="journal-entry-item-descriptions-table"><!-- description table wrapper -->
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 1 blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 2</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+
+               <div class="journal-entry-item-descriptions-table-row">
+                  <div class="journal-entry-item-description">description 3</div>
+                  <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
+               </div>
+            </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+</body>
+
+<script>
+
+/***
+ *
+ * global variables
+ *
+ ***/
+var button = document.getElementById('speak');
+var speechMsgInput = document.getElementById('speech-msg');
+var volumeInput = document.getElementById('volume');
+var voiceSelect = document.getElementById('voice');
+
+/***
+ *
+ * Function definitions
+ *
+ ***/
+
+/*
+ * getOS
+ */
+function getOS() {
+   var userAgent = window.navigator.userAgent,
+   platform = window.navigator.platform,
+   macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+   windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+   iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+   os = null; // initalize string
+
+   if (macosPlatforms.indexOf(platform) !== -1) {
+      os = 'Mac OS'; } 
+   else if (iosPlatforms.indexOf(platform) !== -1) {
+      os = 'iOS'; }
+   else if (windowsPlatforms.indexOf(platform) !== -1) {
+      os = 'Windows'; }
+   else if (/Android/.test(userAgent)) {
+      os = 'Android'; }
+   else if (!os && /Linux/.test(platform)) {
+      os = 'Linux'; }
+   return os;
+}
+/*
+ * Populate list of voices for voice options.
+ */
+function populateVoices(defaultVoice) {
+   // Fetch the available voices.
+   var voices = speechSynthesis.getVoices();
+   var option;  
+   // Loop through each of the voices.
+   voices.forEach(function(voice, i) {
+      // Create a new option element.
+    
+      // Set the options value and text.
+      option = document.createElement('option');
+      option.value = voice.name;
+      option.innerHTML = voice.name;
+      option.selected = (voice.name == defaultVoice);
+      // Add the option to the voice selector.
+      voiceSelect.appendChild(option);
+   });
+}
+/*
+ * Speak
+ */
+function speak(text, callback) {
+   var msg = new SpeechSynthesisUtterance('default');
+   msg.text = text;
+   msg.volume = parseFloat(volumeInput.value);
+   msg.lang = 'en-US'; 
+   msg.rate = 1; 
+   msg.pitch = 1;
+   if (voiceSelect.value) {
+      msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+	}
+    msg.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+ 
+    msg.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    }; 
+    window.speechSynthesis.speak(msg);
+}
+/***
+ *
+ * Event listener defintions
+ *
+ ***/
+
+// click of 'speak' button
+if (!button) 
+    alert("button does not exist");
+else {
+   button.addEventListener('click', function(e) {
+	if (speechMsgInput.value.length > 0) {
+		speak(speechMsgInput.value);
+   }
+})}
+/***
+ *
+ * Initialize page
+ *
+ ***/ 
+
+/*
+ * Check browser support for speech synthesis 
+ */
+var supportMsg = document.getElementById('browser-msg');
+
+if ('speechSynthesis' in window) {
+	supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+} else {
+	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
+        + 'Try again with another browser.';
+	supportMsg.classList.add('not-supported');
+	// remove all speak buttons
+}
+var osMsg = document.getElementById('os-msg');
+var os = getOS();
+if (os == 'iOS') {
+   defaultVoice = "Fred"; }
+else {
+   defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+
+populateVoices(defaultVoice);
+
+// Chrome loads voices asynchronously.
+window.speechSynthesis.onvoiceschanged = function(e) {
+  populateVoices('Microsoft Zira Desktop - English (United States)');
+};
+
+</script>
+</html>
