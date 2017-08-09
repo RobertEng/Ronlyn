@@ -39,30 +39,26 @@ h2 {
 //  background-color:  var(--button-background-color);
 //  color: #000;
 //}
-.wrapper8 {
+.wrapper,  .wrapper1  .wrapper2, .wrapper8 {
   //width: 600px;
   display: grid;
   grid-gap: 5px;
-  grid-template-columns: repeat(8, auto);
+//  grid-template-columns: repeat(8, auto);
   //grid-template-columns: var(--grid-column-repeat);
   resize: horizontal;
 }
+.wrapper8 {
+  grid-template-columns: repeat(8, auto);
+}
+
 .wrapper2 {
-  //width: 600px;
-  display: grid;
-  grid-gap: 5px;
   grid-template-columns: repeat(2, auto);
-  //grid-template-columns: var(--grid-column-repeat);
-  resize: horizontal;
 }
 .wrapper1 {
   width: 150px;
-  display: grid;
-  grid-gap: 15px;
+//  grid-gap: 15px;
   grid-template-columns: repeat(1,auto);
-  //grid-template-columns: var(--grid-column-repeat);
-  resize: horizontal;
-  }
+}
 main {
   position: fixed;
   top: 0;
@@ -74,7 +70,22 @@ main {
   background: #fff;
   margin: 10px;
 }
-
+.ul
+{
+  font-weight: bold;
+  font-family: arial;
+  }
+.li
+{
+  padding: 10px;
+}
+.ul:hover, button:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+.li:nth-child(even) {
+  background: white;
+}
 #nav{
   position: absolute;
   top: 0;
@@ -85,7 +96,7 @@ main {
   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
   background: #eee;
 }
-}
+
 </style>
 </head>
 <title>Ronlyn's Speaking Word Bank (Text-To-Speech example)</title>
@@ -565,11 +576,12 @@ main {
 <nav>
   <nav id="nav">
     <!--div class="innertube"-->
-      Links - generated from h2 anchors
-      <div class="wrapper1">
-        <div id="navbar-item-list">
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+      <div class="navbar-list ul">
+        <div id="navbar-items">
       </div>
-    <!--/div>-->
+    </div>
   </nav>
 </nav>
 </body>
@@ -599,10 +611,9 @@ document.body.onclick = function(e) {   //when the document body is clicked
          speak("choose again") }
       }
     } //onclick
-    /*
-     * onload
-     */
-
+/*
+ * onload
+ */
 document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
@@ -651,13 +662,13 @@ function getOS() {
  */
 function populateNavbar() {
 
-    navbarList = document.getElementById('navbar-item-list');
+    navbarList = document.getElementById('navbar-items');
 
     //scan main for <h2> to build navbar
-    var navbarItemList = document.getElementsByClassName("navbar-item");
+    var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h2>
     for (var i = 0; i < navbarItemList.length; i++) {
       var div = document.createElement('div'); // var forces creation of new tr
-      div.className = "box href-onclick";
+      div.className = "navbar-li li href-onclick";
       div.id = navbarItemList[i].id;
       div.innerHTML = navbarItemList[i].innerHTML;
       navbarList.append(div);
