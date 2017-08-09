@@ -2,50 +2,551 @@
 <html>
 <head>
 <style>
-table {
-width: 100%;
-//border: 1px solid black;
+:root {
+  --columns:8;  // number of columns for grid
+  --grid-column-repeat: repeat(6, auto);
+  --button-background-color: #69c773;
 }
-td {
-text-align: center;
-//border: 1px solid black;
+body {
+  margin: 40px;
 }
-
-button {
-  display: inline-block;
+h1 {
+  font-family: arial;
+  font-size: 120%;
+}
+h2 {
+  font-family: arial;
+  font-size: 100%;
+}
+.box {
+  background-color: var(--button-background-color);
+  color: #ffff;
   border-radius: 3px;
-  border: none;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.8em;
-  background: #69c773;
-  border-bottom: 1px solid #498b50;
-  color: black; // font-color
+  padding: 0.5rem 0.8em;;
+  font-family: arial;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
-  margin: 0;
-  width: 100%;
+  font-size: 85%;
   text-align: center;
+  resize: horizontal;
+  min-width:50px;
 }
-
-button:hover, button:focus {
+.box:hover, button:focus {
   opacity: 0.75;
   cursor: pointer;
 }
-btn:hover, bt:focus {
-  opacity: 0.75;
-  cursor: pointer;
+//.box:nth-child(even) {
+//  background-color:  var(--button-background-color);
+//  color: #000;
+//}
+.wrapper8 {
+  //width: 600px;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(8, auto);
+  //grid-template-columns: var(--grid-column-repeat);
+  resize: horizontal;
+}
+.wrapper2 {
+  //width: 600px;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(2, auto);
+  //grid-template-columns: var(--grid-column-repeat);
+  resize: horizontal;
+}
+.wrapper1 {
+  width: 150px;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(1,auto);
+  //grid-template-columns: var(--grid-column-repeat);
+  resize: horizontal;
+  }
+main {
+  position: fixed;
+  top: 0;
+  left: 160px; /* Set this to the width of the navigation frame */
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  height: 100%;
+  background: #fff;
+  margin: 10px;
 }
 
-button:active {
-  opacity: 1;
-  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1) inset;
+#nav{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 150px; /* Width of navigation frame */
+  height: 100%;
+  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  background: #eee;
+}
 }
 </style>
 </head>
-<BODY onload="loadTable(tableWidth)">
-
-<title>Ronlyn's Speaking Journal (Text-To-Speech example)</title>
+<title>Ronlyn's Speaking Word Bank (Text-To-Speech example)</title>
 <body>
+<main>
+<h1>Ronlyn's Word Bank</h1>
+
+<h2><a class="navbar-item" id="Common Words">Common Words</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">a</div>
+  <div class="box speak-onclick">about</div>
+  <div class="box speak-onclick">all</div>
+  <div class="box speak-onclick">am</div>
+  <div class="box speak-onclick">an</div>
+  <div class="box speak-onclick">at</div>
+  <div class="box speak-onclick">are</div>
+  <div class="box speak-onclick">be</div>
+  <div class="box speak-onclick">but</div>
+  <div class="box speak-onclick">by</div>
+  <div class="box speak-onclick">can</div>
+  <div class="box speak-onclick">do</div>
+  <div class="box speak-onclick">every</div>
+  <div class="box speak-onclick">for</div>
+  <div class="box speak-onclick">feel</div>
+  <div class="box speak-onclick">from</div>
+  <div class="box speak-onclick">have</div>
+  <div class="box speak-onclick">had</div>
+  <div class="box speak-onclick">has</div>
+  <div class="box speak-onclick">he</div>
+  <div class="box speak-onclick">help</div>
+  <div class="box speak-onclick">his</div>
+  <div class="box speak-onclick">I</div>
+  <div class="box speak-onclick">in</div>
+  <div class="box speak-onclick">is</div>
+  <div class="box speak-onclick">it</div>
+  <div class="box speak-onclick">know</div>
+  <div class="box speak-onclick">like</div>
+  <div class="box speak-onclick">me</div>
+  <div class="box speak-onclick">my</div>
+  <div class="box speak-onclick">need</div>
+  <div class="box speak-onclick">new</div>
+  <div class="box speak-onclick">no</div>
+  <div class="box speak-onclick">not</div>
+  <div class="box speak-onclick">of</div>
+  <div class="box speak-onclick">off</div>
+  <div class="box speak-onclick">on</div>
+  <div class="box speak-onclick">one</div>
+  <div class="box speak-onclick">only</div>
+  <div class="box speak-onclick">or</div>
+  <div class="box speak-onclick">please</div>
+  <div class="box speak-onclick">said</div>
+  <div class="box speak-onclick">she</div>
+  <div class="box speak-onclick">some</div>
+  <div class="box speak-onclick">thank</div>
+  <div class="box speak-onclick">that</div>
+  <div class="box speak-onclick">the</div>
+  <div class="box speak-onclick">their</div>
+  <div class="box speak-onclick">them</div>
+  <div class="box speak-onclick">then</div>
+  <div class="box speak-onclick">they</div>
+  <div class="box speak-onclick">this</div>
+  <div class="box speak-onclick">think</div>
+  <div class="box speak-onclick">to</div>
+  <div class="box speak-onclick">up</div>
+  <div class="box speak-onclick">us</div>
+  <div class="box speak-onclick">was</div>
+  <div class="box speak-onclick">were</div>
+  <div class="box speak-onclick">with</div>
+  <div class="box speak-onclick">yes</div>
+  <div class="box speak-onclick">you</div>
+  <div class="box speak-onclick">your</div>
+
+</div>
+<h2><a class="navbar-item" id="pronouns">Pronouns</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">I</div>
+  <div class="box speak-onclick">she</div>
+  <div class="box speak-onclick">he</div>
+  <div class="box speak-onclick">it</div>
+  <div class="box speak-onclick">you</div>
+  <div class="box speak-onclick">they</div>
+  <div class="box speak-onclick">we</div>
+  <div class="box speak-onclick">what</div>
+  <div class="box speak-onclick">who</div>
+  <div class="box speak-onclick">me</div>
+  <div class="box speak-onclick">him</div>
+  <div class="box speak-onclick">her</div>
+  <div class="box speak-onclick">us</div>
+  <div class="box speak-onclick">whom</div>
+  <div class="box speak-onclick">them</div>
+  <div class="box speak-onclick">my</div>
+  <div class="box speak-onclick">his</div>
+  <div class="box speak-onclick">her</div>
+  <div class="box speak-onclick">our</div>
+  <div class="box speak-onclick">their</div>
+  <div class="box speak-onclick">your</div>
+  <div class="box speak-onclick">its</div>
+</div>
+<h2><a class="navbar-item" id="nouns">Nouns</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">bicycle</div>
+  <div class="box speak-onclick">breakfast</div>
+  <div class="box speak-onclick">car</div>
+  <div class="box speak-onclick">dinner</div>
+  <div class="box speak-onclick">dish</div>
+  <div class="box speak-onclick">lunch</div>
+  <div class="box speak-onclick"></div>
+  <div class="box speak-onclick"></div>
+  <div class="box speak-onclick"></div>
+</div>
+<h2><a class="navbar-item" id="food">Food</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">almond</div>
+  <div class="box speak-onclick">apple</div>
+  <div class="box speak-onclick">apricot</div>
+  <div class="box speak-onclick">avocado</div>
+  <div class="box speak-onclick">bacon</div>
+  <div class="box speak-onclick">bagel</div>
+  <div class="box speak-onclick">banana</div>
+  <div class="box speak-onclick">bean</div>
+  <div class="box speak-onclick">beef</div>
+  <div class="box speak-onclick">blueberry</div>
+  <div class="box speak-onclick">bread</div>
+  <div class="box speak-onclick">broccoli</div>
+  <div class="box speak-onclick">burrito</div>
+  <div class="box speak-onclick">butter</div>
+  <div class="box speak-onclick">cabbage</div>
+  <div class="box speak-onclick">cake</div>
+  <div class="box speak-onclick">carrot</div>
+  <div class="box speak-onclick">cashew</div>
+  <div class="box speak-onclick">cantalope</div>
+  <div class="box speak-onclick">celery</div>
+  <div class="box speak-onclick">cereal</div>
+  <div class="box speak-onclick">cheese</div>
+  <div class="box speak-onclick">cherry</div>
+  <div class="box speak-onclick">chicken</div>
+  <div class="box speak-onclick">chocolate</div>
+  <div class="box speak-onclick">chowder</div>
+  <div class="box speak-onclick">coffee</div>
+  <div class="box speak-onclick">cookie</div>
+  <div class="box speak-onclick">corn</div>
+  <div class="box speak-onclick">crab</div>
+  <div class="box speak-onclick">cupcake</div>
+  <div class="box speak-onclick">date</div>
+  <div class="box speak-onclick">dip</div>
+  <div class="box speak-onclick">duck</div>
+  <div class="box speak-onclick">donut</div>
+  <div class="box speak-onclick">egg</div>
+  <div class="box speak-onclick">enchilada</div>
+  <div class="box speak-onclick">eggroll</div>
+  <div class="box speak-onclick">fajita</div>
+  <div class="box speak-onclick">falafel</div>
+  <div class="box speak-onclick">fish</div>
+  <div class="box speak-onclick">frappo</div>
+  <div class="box speak-onclick">fries</div>
+  <div class="box speak-onclick">garlic</div>
+  <div class="box speak-onclick">ginger</div>
+  <div class="box speak-onclick">granola</div>
+  <div class="box speak-onclick">grape</div>
+  <div class="box speak-onclick">green bean</div>
+  <div class="box speak-onclick">halibut</div>
+  <div class="box speak-onclick">ham</div>
+  <div class="box speak-onclick">hamburger</div>
+  <div class="box speak-onclick">honey</div>
+  <div class="box speak-onclick">hash brown</div>
+  <div class="box speak-onclick">hot dog</div>
+  <div class="box speak-onclick">jambalaya</div>
+  <div class="box speak-onclick">jelly</div>
+  <div class="box speak-onclick">ketchup</div>
+  <div class="box speak-onclick">lamb</div>
+  <div class="box speak-onclick">lasagna</div>
+  <div class="box speak-onclick">lemon</div>
+  <div class="box speak-onclick">lime</div>
+  <div class="box speak-onclick">lobster</div>
+  <div class="box speak-onclick">meatball</div>
+  <div class="box speak-onclick">milk</div>
+  <div class="box speak-onclick">noodle</div>
+  <div class="box speak-onclick">oatmeal</div>
+  <div class="box speak-onclick">onion</div>
+  <div class="box speak-onclick">orange</div>
+  <div class="box speak-onclick">pancake</div>
+  <div class="box speak-onclick">peanut</div>
+  <div class="box speak-onclick">peanut butter</div>
+  <div class="box speak-onclick">pepper</div>
+  <div class="box speak-onclick">pizza</div>
+  <div class="box speak-onclick">pork</div>
+  <div class="box speak-onclick">potato</div>
+  <div class="box speak-onclick">rice</div>
+  <div class="box speak-onclick">quesadilla</div>
+  <div class="box speak-onclick">quiche</div>
+  <div class="box speak-onclick">salad</div>
+  <div class="box speak-onclick">salmon</div>
+  <div class="box speak-onclick">salt</div>
+  <div class="box speak-onclick">sandwich</div>
+  <div class="box speak-onclick">spaghetti</div>
+  <div class="box speak-onclick">spinach</div>
+  <div class="box speak-onclick">strawberry</div>
+  <div class="box speak-onclick">sushi</div>
+  <div class="box speak-onclick">tea</div>
+  <div class="box speak-onclick">toast</div>
+  <div class="box speak-onclick">tomato</div>
+  <div class="box speak-onclick">waffle</div>
+  <div class="box speak-onclick">wine</div>
+  <div class="box speak-onclick">walnut</div>
+  <div class="box speak-onclick">yogurt</div>
+  <div class="box speak-onclick">zucchini</div>
+</div>
+<h2><a class="navbar-item" id="drink">Drinks</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">coffee</div>
+  <div class="box speak-onclick">diet pepsi</div>
+  <div class="box speak-onclick">frappo</div>
+  <div class="box speak-onclick">juice</div>
+  <div class="box speak-onclick">milk</div>
+  <div class="box speak-onclick">orange juice</div>
+  <div class="box speak-onclick">7 up</div>
+  <div class="box speak-onclick">smoothie</div>
+  <div class="box speak-onclick">soda</div>
+  <div class="box speak-onclick">soy milk</div>
+  <div class="box speak-onclick">tea</div>
+  <div class="box speak-onclick">water</div>
+</div>
+
+<h2><a class="navbar-item" id="mood">Moods</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">afraid</div>
+  <div class="box speak-onclick">amazed</div>
+  <div class="box speak-onclick">angry</div>
+  <div class="box speak-onclick">blessed</div>
+  <div class="box speak-onclick">calm</div>
+  <div class="box speak-onclick">comfortable</div>
+  <div class="box speak-onclick">concerned</div>
+  <div class="box speak-onclick">curious</div>
+  <div class="box speak-onclick">depressed</div>
+  <div class="box speak-onclick">disgusted</div>
+  <div class="box speak-onclick">fortunate</div>
+  <div class="box speak-onclick">glad</div>
+  <div class="box speak-onclick">grateful</div>
+  <div class="box speak-onclick">inspired</div>
+  <div class="box speak-onclick">interested</div>
+  <div class="box speak-onclick">pity</div>
+  <div class="box speak-onclick">pleased</div>
+  <div class="box speak-onclick">relaxed</div>
+  <div class="box speak-onclick">sad</div>
+  <div class="box speak-onclick">satisfied</div>
+  <div class="box speak-onclick">surprised</div>
+  <div class="box speak-onclick">thankful</div>
+  <div class="box speak-onclick">thrilled</div>
+  <div class="box speak-onclick">uncomfortable</div>
+  <div class="box speak-onclick">wonderful</div>
+</div>
+
+<h2><a class="navbar-item" id="verbs">Verbs</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">ask</div>
+  <div class="box speak-onclick">bounce</div>
+  <div class="box speak-onclick">build</div>
+  <div class="box speak-onclick">buy</div>
+  <div class="box speak-onclick">brush</div>
+  <div class="box speak-onclick">call</div>
+  <div class="box speak-onclick">carry</div>
+  <div class="box speak-onclick">clean</div>
+  <div class="box speak-onclick">climb</div>
+  <div class="box speak-onclick">come</div>
+  <div class="box speak-onclick">cook</div>
+  <div class="box speak-onclick">crawl</div>
+  <div class="box speak-onclick">cry</div>
+  <div class="box speak-onclick">cut</div>
+  <div class="box speak-onclick">dance</div>
+  <div class="box speak-onclick">dig</div>
+  <div class="box speak-onclick">do</div>
+  <div class="box speak-onclick">draw</div>
+  <div class="box speak-onclick">dress</div>
+  <div class="box speak-onclick">dribble</div>
+  <div class="box speak-onclick">drink</div>
+  <div class="box speak-onclick">drive</div>
+  <div class="box speak-onclick">dry</div>
+  <div class="box speak-onclick">eat</div>
+  <div class="box speak-onclick">feel</div>
+  <div class="box speak-onclick">find</div>
+  <div class="box speak-onclick">fix</div>
+  <div class="box speak-onclick">give</div>
+  <div class="box speak-onclick">go</div>
+  <div class="box speak-onclick">greet</div>
+  <div class="box speak-onclick">have</div>
+  <div class="box speak-onclick">hear</div>
+  <div class="box speak-onclick">help</div>
+  <div class="box speak-onclick">hug</div>
+  <div class="box speak-onclick">jump</div>
+  <div class="box speak-onclick">kick</div>
+  <div class="box speak-onclick">kiss</div>
+  <div class="box speak-onclick">know</div>
+  <div class="box speak-onclick">laugh</div>
+  <div class="box speak-onclick">listen</div>
+  <div class="box speak-onclick">make</div>
+  <div class="box speak-onclick">meet</div>
+  <div class="box speak-onclick">mow</div>
+  <div class="box speak-onclick">need</div>
+  <div class="box speak-onclick">paint</div>
+  <div class="box speak-onclick">pay</div>
+  <div class="box speak-onclick">play</div>
+  <div class="box speak-onclick">push</div>
+  <div class="box speak-onclick">read</div>
+  <div class="box speak-onclick">ride</div>
+  <div class="box speak-onclick">run</div>
+  <div class="box speak-onclick">say</div>
+  <div class="box speak-onclick">see</div>
+  <div class="box speak-onclick">send</div>
+  <div class="box speak-onclick">sing</div>
+  <div class="box speak-onclick">sit</div>
+  <div class="box speak-onclick">skip</div>
+  <div class="box speak-onclick">sleep</div>
+  <div class="box speak-onclick">slide</div>
+  <div class="box speak-onclick">sneeze</div>
+  <div class="box speak-onclick">speak</div>
+  <div class="box speak-onclick">stop</div>
+  <div class="box speak-onclick">sweep</div>
+  <div class="box speak-onclick">swim</div>
+  <div class="box speak-onclick">swing</div>
+  <div class="box speak-onclick">take</div>
+  <div class="box speak-onclick">taste</div>
+  <div class="box speak-onclick">teach</div>
+  <div class="box speak-onclick">tell</div>
+  <div class="box speak-onclick">think</div>
+  <div class="box speak-onclick">throw</div>
+  <div class="box speak-onclick">touch</div>
+  <div class="box speak-onclick">try</div>
+  <div class="box speak-onclick">use</div>
+  <div class="box speak-onclick">wait</div>
+  <div class="box speak-onclick">walk</div>
+  <div class="box speak-onclick">want</div>
+  <div class="box speak-onclick">wash</div>
+  <div class="box speak-onclick">watch</div>
+  <div class="box speak-onclick">wave</div>
+  <div class="box speak-onclick">wear</div>
+  <div class="box speak-onclick">whisper</div>
+  <div class="box speak-onclick">write</div>
+  <div class="box speak-onclick">yawn</div>
+</div>
+
+<h2><a class="navbar-item" id="helpingverbs">Helping Verbs</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">am</div>
+  <div class="box speak-onclick">are</div>
+  <div class="box speak-onclick">is</div>
+  <div class="box speak-onclick">was</div>
+  <div class="box speak-onclick">were</div>
+  <div class="box speak-onclick">be</div>
+  <div class="box speak-onclick">being</div>
+  <div class="box speak-onclick">been</div>
+  <div class="box speak-onclick">have</div>
+  <div class="box speak-onclick">has</div>
+  <div class="box speak-onclick">had</div>
+  <div class="box speak-onclick">do</div>
+  <div class="box speak-onclick">does</div>
+  <div class="box speak-onclick">did</div>
+  <div class="box speak-onclick">could</div>
+  <div class="box speak-onclick">should</div>
+  <div class="box speak-onclick">would</div>
+  <div class="box speak-onclick">can</div>
+  <div class="box speak-onclick">shall</div>
+  <div class="box speak-onclick">will</div>
+  <div class="box speak-onclick">may</div>
+  <div class="box speak-onclick">migh</div>
+  <div class="box speak-onclick">must</div>
+</div>
+
+<h2><a class="navbar-item" id="places">Places</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">home</div>
+  <div class="box speak-onclick">bank</div>
+  <div class="box speak-onclick">college</div>
+  <div class="box speak-onclick">gas station</div>
+  <div class="box speak-onclick">hair salon</div>
+  <div class="box speak-onclick">market</div>
+  <div class="box speak-onclick">school</div>
+  <div class="box speak-onclick">store</div>
+</div>
+
+<h2><a class="navbar-item" id="destinations">Destinations</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">home</div>
+  <div class="box speak-onclick">Berkeley</div>
+  <div class="box speak-onclick">Caltech</div>
+  <div class="box speak-onclick">Deanza College</div>
+  <div class="box speak-onclick">Kay Armstead</div>
+  <div class="box speak-onclick">REACH</div>
+  <div class="box speak-onclick">Safeway</div>
+  <div class="box speak-onclick">Skills Plus</div>
+  <div class="box speak-onclick">Sprouts</div>
+  <div class="box speak-onclick">Starbucks</div>
+  <div class="box speak-onclick">Trader Joes</div>
+  <div class="box speak-onclick">Pasadena</div>
+  <div class="box speak-onclick">Stanford</div>
+  <div class="box speak-onclick">Whole Foods</div>
+</div>
+
+
+<h2><a class="navbar-item" id="family">Family</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">Ronlyn</div>
+  <div class="box speak-onclick">Wen</div>
+  <div class="box speak-onclick">David</div>
+  <div class="box speak-onclick">Robert</div>
+  <div class="box speak-onclick">Mom</div>
+  <div class="box speak-onclick">Dad</div>
+  <div class="box speak-onclick">Jaylynne</div>
+  <div class="box speak-onclick">Mike</div>
+  <div class="box speak-onclick">Brandon</div>
+  <div class="box speak-onclick">Caitlin</div>
+  <div class="box speak-onclick">Stacy</div>
+  <div class="box speak-onclick">Ramon</div>
+  <div class="box speak-onclick">Caden</div>
+  <div class="box speak-onclick">Bett</div>
+  <div class="box speak-onclick">Scott</div>
+  <div class="box speak-onclick">Elan</div>
+  <div class="box speak-onclick">Chen</div>
+  <div class="box speak-onclick">Soo</div>
+  <div class="box speak-onclick">Tony</div>
+  <div class="box speak-onclick">Meilan</div>
+  <div class="box speak-onclick">Jen</div>
+  <div class="box speak-onclick">Jane</div>
+  <div class="box speak-onclick">Michael</div>
+  <div class="box speak-onclick">Melissa</div>
+  <div class="box speak-onclick">Mitchell</div>
+</div>
+
+<h2><a class="navbar-item" id="people">Friends</a></h2>
+<div class="wrapper8">
+  <div class="box speak-onclick">Aruna</div>
+  <div class="box speak-onclick">Berna</div>
+  <div class="box speak-onclick">Boda</div>
+  <div class="box speak-onclick">Wendy</div>
+  <div class="box speak-onclick">Chitra</div>
+  <div class="box speak-onclick">Mrs. Bodapati</div>
+  <div class="box speak-onclick">Will</div>
+  <div class="box speak-onclick">Annalisa</div>
+  <div class="box speak-onclick">Marty</div>
+  <div class="box speak-onclick">Jim</div>
+  <div class="box speak-onclick">Carol</div>
+  <div class="box speak-onclick">Ward</div>
+  <div class="box speak-onclick">Marianna</div>
+  <div class="box speak-onclick">Peter</div>
+  <div class="box speak-onclick">Melisse</div>
+  <div class="box speak-onclick">Charlene</div>
+  <div class="box speak-onclick">Father Bill</div>
+</div>
+
+<h2><a class="navbar-item" id="home">Home Address</a></h2>
+  <div class="wrapper8">
+    <div class="box speak-onclick">20680 Seaton Ave</div>
+    <div class="box speak-onclick">Saratoga</div>
+    <div class="box speak-onclick">California</div>
+    <div class="box speak-onclick">9 5 0 7 0</div>
+    <div class="box speak-onclick">Santa Clara County</div>
+    <div class="box speak-onclick">United States of America</div>
+</div>
+
+
+
+
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
 
@@ -59,15 +560,59 @@ button:active {
    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
 </div>
 
-<h1>Ronlyn's Word Bank</h1>
-<table id="wordTable">
+</main>
+
+<nav>
+  <nav id="nav">
+    <!--div class="innertube"-->
+      Links - generated from h2 anchors
+      <div class="wrapper1">
+        <div id="navbar-item-list">
+      </div>
+    <!--/div>-->
+  </nav>
+</nav>
 </body>
 <script>
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+
+ /*
+  * onclick
+  */
+document.body.onclick = function(e) {   //when the document body is clicked
+    if (window.event) {
+        e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
+    else {
+        e = e.target; }                  //assign the element clicked to e
+
+    if (e.className) {
+      if (e.className.indexOf('speak-onclick') != -1) { //should use switch
+         speak(e.innerHTML); }
+      else if (e.className.indexOf('href-onclick') != -1) {
+//        window.location.href = "#"+e.innerHTML;  //goto anchor
+        window.location.href = "#"+e.id; } //goto anchor
+      else {
+         speak("choose again") }
+      }
+    } //onclick
+    /*
+     * onload
+     */
+
+document.body.onload = function(e) {   //when the document body is clicked
+
+  populateNavbar();
+}
 /***
  *
  * global variables
  *
  ***/
+var gridWidth = 8;
 var button = document.getElementById('speak');
 var speechMsgInput = document.getElementById('speech-msg');
 var volumeInput = document.getElementById('volume');
@@ -90,7 +635,7 @@ function getOS() {
    os = null; // initalize string
 
    if (macosPlatforms.indexOf(platform) !== -1) {
-      os = 'Mac OS'; } 
+      os = 'Mac OS'; }
    else if (iosPlatforms.indexOf(platform) !== -1) {
       os = 'iOS'; }
    else if (windowsPlatforms.indexOf(platform) !== -1) {
@@ -102,16 +647,48 @@ function getOS() {
    return os;
 }
 /*
- * Populate list of voices for voice options.
+ * Populate list of navbar items.
+ */
+function populateNavbar() {
+
+    navbarList = document.getElementById('navbar-item-list');
+
+    //scan main for <h2> to build navbar
+    var navbarItemList = document.getElementsByClassName("navbar-item");
+    for (var i = 0; i < navbarItemList.length; i++) {
+      var div = document.createElement('div'); // var forces creation of new tr
+      div.className = "box href-onclick";
+      div.id = navbarItemList[i].id;
+      div.innerHTML = navbarItemList[i].innerHTML;
+      navbarList.append(div);
+    }
+/*
+    var div = document.createElement('div'); // var forces creation of new tr
+    div.className = "box href-onclick";
+    div.id = "verbs";
+    div.innerHTML = "Verbs";
+    navbarList.append(div);
+    var div = document.createElement('div'); // var forces creation of new tr
+    div.className = "box href-onclick";
+    div.id = "home";
+    div.innerHTML = "Home";
+    navbarList.append(div);
+*/
+
+
+} // populateNavbar
+
+/*
+ * Populate list of voices.
  */
 function populateVoices(defaultVoice) {
    // Fetch the available voices.
    var voices = speechSynthesis.getVoices();
-   var option;  
+   var option;
    // Loop through each of the voices.
    voices.forEach(function(voice, i) {
       // Create a new option element.
-    
+
       // Set the options value and text.
       option = document.createElement('option');
       option.value = voice.name;
@@ -121,11 +698,8 @@ function populateVoices(defaultVoice) {
       voiceSelect.appendChild(option);
    });
 }
-
-wordList = ["antelope", "bear", "cat", "dog", "elephant", "fox","goat", "horse","ibex", "jaguar","kid", "lamb"]; //word list settable via text box
-tableWidth = 6;  
 /*
- * Speak a word
+ * Speak
  */
 
 function wordSpeak(button) {
@@ -138,8 +712,8 @@ function speak(text, callback) {
    var msg = new SpeechSynthesisUtterance('default');
    msg.text = text;
    msg.volume = parseFloat(volumeInput.value);
-   msg.lang = 'en-US'; 
-   msg.rate = 1; 
+   msg.lang = 'en-US';
+   msg.rate = 1;
    msg.pitch = 1;
    if (voiceSelect.value) {
       msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
@@ -149,78 +723,23 @@ function speak(text, callback) {
             callback();
         }
     };
- 
+
     msg.onerror = function (e) {
         if (callback) {
             callback(e);
         }
-    }; 
+    };
     window.speechSynthesis.speak(msg);
 } // function speak
-/*
- * Load words into table
- */
-function loadTable(tableWidth) {
-wordTable = document.getElementById('wordTable');
-lastWordIdx = wordList.length - 1; // zero based array
-
-for (var wordIdx = 0; wordIdx <= lastWordIdx; wordIdx++) {
-   cellIdx = wordIdx % tableWidth;
-   if (cellIdx % tableWidth == 0 ) {  // first word in new row
-      var tr = document.createElement('tr'); // var forces creation of new tr
-   }
-   var td = document.createElement('td'); // var forces creation of new td
-//   td.appendChild(document.createTextNode(wordList[wordIdx]));
-   var btn = document.createElement('button');
-   btn.type = "button";
-   btn.value = wordList[wordIdx];
-   btn.innerHTML = wordList[wordIdx]; // button label
-//   btn.onclick = function() { wordSpeak()};
-   btn.addEventListener('click', function(event) { wordSpeak(this)});
-   td.appendChild(btn);
-   tr.appendChild(td);
-
-   if (cellIdx == tableWidth - 1 || wordIdx == lastWordIdx) { // last word in row or last word in list
-      wordTable.appendChild(tr);
-   }
-} // for
-} // function loadTable
-/*
- * speak
- */
-function speak(text, callback) {
-   var msg = new SpeechSynthesisUtterance('default');
-   msg.text = text;
-   msg.volume = parseFloat(volumeInput.value);
-   msg.lang = 'en-US'; 
-   msg.rate = 1; 
-   msg.pitch = 1;
-   if (voiceSelect.value) {
-      msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-	}
-    msg.onend = function () {
-        if (callback) {
-            callback();
-        }
-    };
-  
-    msg.onerror = function (e) {
-        if (callback) {
-            callback(e);
-        }
-    }; 
-    window.speechSynthesis.speak(msg);
-}
-
 
 /***
  *
  * Initialize page
  *
- ***/ 
+ ***/
 
 /*
- * Check browser support for speech synthesis 
+ * Check browser support for speech synthesis
  */
 var supportMsg = document.getElementById('browser-msg');
 
@@ -232,7 +751,6 @@ if ('speechSynthesis' in window) {
 	supportMsg.classList.add('not-supported');
 	// remove all speak buttons
 }
-
 var osMsg = document.getElementById('os-msg');
 var os = getOS();
 if (os == 'iOS') {
@@ -241,7 +759,6 @@ else {
    defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
 
 osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
-
 
 populateVoices(defaultVoice);
 
