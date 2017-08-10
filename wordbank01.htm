@@ -78,22 +78,27 @@ main {
   font-weight: bold;
   font-family: arial;
   }
-.li
+.navbar-li
 {
   padding: 10px;
 }
-.ul:hover, button:focus {
+.navbar-list:hover, button:focus {
   opacity: 0.75;
   cursor: pointer;
 }
-.li.onclick {
-  background-color: red;
-}
 /*
-.li:nth-child(even) {
-  background: white;
+.navbar-list:active {
+  cursor: pointer;
+}
+.navbar-li:active {
+  background-color: red;
+  cursor: pointer;
 }
 */
+.navbar-li:nth-child(even) {
+  background: white;
+}
+
 #nav{
   position: absolute;
   top: 0;
@@ -612,7 +617,8 @@ document.body.onclick = function(e) {   //when the document body is clicked
     if (e.className) {
       if (e.className.indexOf('speak-onclick') != -1) { //should use switch
          speak(e.innerHTML); }
-      else if (e.className.indexOf('onclick') != -1) { //need an additional conditional here
+      else if (e.className.indexOf('onclick') != -1
+        && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
         window.location.href = "#"+e.id; } //goto anchor
       else if (e.className.indexOf('href-onclick') != -1) {
 //        window.location.href = "#"+e.innerHTML;  //goto anchor
@@ -679,7 +685,7 @@ function populateNavbar() {
     var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h2>
     for (var i = 0; i < navbarItemList.length; i++) {
       var div = document.createElement('div'); // var forces creation of new tr
-      div.className = "navbar-li li href-onclick";
+      div.className = "navbar-li li onclick-href";
       div.id = navbarItemList[i].id;
       div.onclick ="";  //kludge for iOS
       div.innerHTML = navbarItemList[i].innerHTML;
