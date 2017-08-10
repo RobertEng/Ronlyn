@@ -22,7 +22,7 @@ h2 {
   background-color: var(--button-background-color);
   color: black;
   border-radius: 3px;
-  padding: 0.5rem 0.8em;;
+  padding: 0.5rem 0.8em;
   font-family: arial;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
@@ -39,24 +39,27 @@ h2 {
 //  background-color:  var(--button-background-color);
 //  color: #000;
 //}
-.wrapper,  .wrapper1  .wrapper2, .wrapper8 {
+.wrapper,  .wrapper1  .wrapper2, .wrapper3, .wrapper6, .wrapper8 {
   //width: 600px;
   display: grid;
   grid-gap: 5px;
-//  grid-template-columns: repeat(8, auto);
-  //grid-template-columns: var(--grid-column-repeat);
   resize: horizontal;
 }
 .wrapper8 {
   grid-template-columns: repeat(8, auto);
 }
-
+.wrapper6 {
+  grid-template-columns: repeat(6, auto);
+}
+.wrapper3 {
+  grid-template-columns: repeat(3, auto);
+}
 .wrapper2 {
   grid-template-columns: repeat(2, auto);
 }
 .wrapper1 {
   width: 150px;
-//  grid-gap: 15px;
+  grid-row-gap: 15px;
   grid-template-columns: repeat(1,auto);
 }
 main {
@@ -611,6 +614,8 @@ document.body.onclick = function(e) {   //when the document body is clicked
     if (e.className) {
       if (e.className.indexOf('speak-onclick') != -1) { //should use switch
          speak(e.innerHTML); }
+      else if (e.className.indexOf('onclick') != -1) {
+         alert("on click"); } 
       else if (e.className.indexOf('href-onclick') != -1) {
 //        window.location.href = "#"+e.innerHTML;  //goto anchor
         window.location.href = "#"+e.id; } //goto anchor
