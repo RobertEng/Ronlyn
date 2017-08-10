@@ -86,10 +86,8 @@ main {
   opacity: 0.75;
   cursor: pointer;
 }
-.li:hover {
-  opacity: 0.75;
-  background:red;
-  cursor: pointer;
+.li.onclick {
+  background-color: red;
 }
 /*
 .li:nth-child(even) {
@@ -589,7 +587,7 @@ main {
 <!--      <div class="wrapper1"> -->
 <!--        <div class="list-of-anchors-container"> -->
       <div onclick="" class="navbar-list ul">
-        <div onclick="#verbs" id="navbar-items">
+        <div onclick="" id="navbar-items">
       </div>
     </div>
   </nav>
@@ -614,15 +612,15 @@ document.body.onclick = function(e) {   //when the document body is clicked
     if (e.className) {
       if (e.className.indexOf('speak-onclick') != -1) { //should use switch
          speak(e.innerHTML); }
-      else if (e.className.indexOf('onclick') != -1) {
-        alert("on click "+e.innerHTML); }
-        alert("on click "+e.id); }
+      else if (e.className.indexOf('onclick') != -1) { //need an additional conditional here
+        window.location.href = "#"+e.id; } //goto anchor
       else if (e.className.indexOf('href-onclick') != -1) {
 //        window.location.href = "#"+e.innerHTML;  //goto anchor
          alert("href-onclick");
         window.location.href = "#"+e.id; } //goto anchor
       else {
          speak("choose again") }
+       }
     } //onclick
 /*
  * onload
