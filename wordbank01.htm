@@ -9,6 +9,10 @@
 }
 body {
   margin: 40px;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  max-height: 100%;
 }
 h1 {
   font-family: arial;
@@ -62,17 +66,6 @@ h2 {
   grid-row-gap: 15px;
   grid-template-columns: repeat(1,auto);
 }
-main {
-  position: fixed;
-  top: 0;
-  left: 160px; /* Set this to the width of the navigation frame */
-  right: 0;
-  bottom: 0;
-  overflow: auto;
-  height: 100%;
-  background: #fff;
-  margin: 10px;
-}
 .ul
 {
   font-weight: bold;
@@ -98,26 +91,54 @@ main {
 .navbar-li:nth-child(even) {
   background: white;
 }
+/*
+ * page "frame" definitions
+ */
+
+#header {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  background: #eee;
+  Margin: 10px;
+}
 
 #nav{
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
   position: absolute;
-  top: 0;
+  top: 50px;
   bottom: 0;
   left: 0;
   width: 150px; /* Width of navigation frame */
-  height: 100%;
-  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+//  height: 100%;
+  overflow: auto; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
   background: #eee;
+}
+main {
+  position: fixed;
+  top: 55px;
+  left: 160px; /* Set this to the width of the navigation frame */
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  height: 100%;
+  background: #fff;
+//  margin: 10px;
 }
 
 </style>
 </head>
 <title>Ronlyn's Speaking Word Bank (Text-To-Speech example)</title>
 <body>
+  <header id=header>
+    <h1>Ronlyn's Word Bank</h1>
+  </header>
 <main>
-<h1>Ronlyn's Word Bank</h1>
 
 <h2><a class="navbar-item" id="Common Words">Common Words</a></h2>
 <div class="wrapper8">
@@ -601,6 +622,7 @@ main {
 </nav>
 </body>
 <script>
+
 /***
  *
  * Event Listeners
@@ -684,6 +706,7 @@ function populateNavbar() {
     navbarList = document.getElementById('navbar-items');
 
     //scan main for <h2> to build navbar
+    //get main element some day
     var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h2>
     for (var i = 0; i < navbarItemList.length; i++) {
       var div = document.createElement('div'); // var forces creation of new tr
