@@ -103,9 +103,9 @@ h2 {
  * page "frame" definitions
  */
 #header { <!-- single element id="header"-->
--webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
--moz-box-sizing: border-box;    /* Firefox, other Gecko */
-box-sizing: border-box;         /* Opera/IE 8+ */
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
    position: absolute;
    top:0;
    left:0px;
@@ -113,7 +113,7 @@ box-sizing: border-box;         /* Opera/IE 8+ */
    padding-right: 10px;
    grid-gap: 0px;
    width:100%;
-   height: 50px;
+   height: 40px;
    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
    background: #ccc;
  }
@@ -124,7 +124,7 @@ box-sizing: border-box;         /* Opera/IE 8+ */
    font-size:110%;
    height: inherit;
    display: inline-block;
-   line-height:50px;
+   line-height:40px;
  }
  .headertitle:hover, button:focus {
    opacity: 0.75;
@@ -148,7 +148,7 @@ box-sizing: border-box;         /* Opera/IE 8+ */
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
   position: absolute;
-  top: 50px;
+  top: 40px;
   bottom: 0;
   left: 0;
   width: 150px; /* Width of navigation frame */
@@ -157,7 +157,7 @@ box-sizing: border-box;         /* Opera/IE 8+ */
 }
 main {
   position: fixed;
-  top: 60px;
+  top: 40px;
   left: 150px; /* Set this to the width of the navigation frame */
   right: 0;
   bottom: 0;
@@ -725,7 +725,7 @@ main {
   <div class="box speak-onclick">Caitlin</div>
   <div class="box speak-onclick">Stacy</div>
   <div class="box speak-onclick">Ramon</div>
-  <div class="box speak-onclick">Caden</div>
+  <div class="box speak-onclick" XSAMPA="Kayden">Caden</div>
   <div class="box speak-onclick">Bett</div>
   <div class="box speak-onclick">Scott</div>
   <div class="box speak-onclick" XSAMPA="E-lon^">Elan</div>
@@ -743,7 +743,7 @@ main {
 <h1><a class="navbar-item" id="people">Friends</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">Aruna</div>
-  <div class="box speak-onclick">Berna</div>
+  <div class="box speak-onclick" XSAMPA="Burnna">Berna</div>
   <div class="box speak-onclick">Boda</div>
   <div class="box speak-onclick">Wendy</div>
   <div class="box speak-onclick">Chitra</div>
@@ -772,9 +772,6 @@ main {
     <div class="box speak-onclick" XSAMPA="4 0 8. 2 0 6. 5 9 6 3">(408) 206-5963</div>
     <div class="box speak-onclick" XSAMPA="4 0 8, 7 4 1, 8 8 8 3">(408) 741-8883</div>
 </div>
-
-
-
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
@@ -825,6 +822,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
       }
       else if (e.className.indexOf('onclick') != -1
         && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
+        speak(e.innerHTML);
         window.location.href = "#"+e.id; } //goto anchor
 
       else if (e.className.indexOf('href-onclick') != -1) {
