@@ -170,6 +170,15 @@ main {
   cursor:pointer;
   color:green;
 }
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 }
 </style>
 </head>
@@ -196,15 +205,15 @@ main {
 <div class="speak-sentence">
 
   <div class="speak-sentence-onclick">
-    <span class="word-in-sentence speak-onclick" id="the">the</span>
-    <span class="word-in-sentence speak-onclick" id="quick">quick</span>
-     <span class="word-in-sentence speak-onclick" id="brown">brown</span>
-     <span class="word-in-sentence speak-onclick" id="fox">fox</span>
-     <span class="word-in-sentence speak-onclick" id="jumped">jumped</span>
-     <span class="word-in-sentence speak-onclick" id="over">over</span>
-     <span class="word-in-sentence speak-onclick" id="the">the</span>
-     <span class="word-in-sentence speak-onclick" id="lazy">lazy</span>
-     <span class="word-in-sentence speak-onclick" id="dog">dog</span>
+    <span class="noselect word-in-sentence speak-onclick" id="the">the</span>
+    <span class="noselect word-in-sentence speak-onclick" id="quick">quick</span>
+     <span class="noselect word-in-sentence speak-onclick" id="brown">brown</span>
+     <span class="noselect word-in-sentence speak-onclick" id="fox">fox</span>
+     <span class="noselect word-in-sentence speak-onclick" id="jumped">jumped</span>
+     <span class="noselect word-in-sentence speak-onclick" id="over">over</span>
+     <span class="noselect word-in-sentence speak-onclick" id="the">the</span>
+     <span class="noselect word-in-sentence speak-onclick" id="lazy">lazy</span>
+     <span class="noselect word-in-sentence speak-onclick" id="dog">dog</span>
 </div>
 
 
