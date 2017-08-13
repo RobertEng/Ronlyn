@@ -8,7 +8,7 @@
   --button-background-color: #69c773;
 }
 body {
-//  margin: 40px;
+  margin: 0px;
 //  padding: 0;
 //  height: 100%;
   overflow: hidden;
@@ -16,11 +16,11 @@ body {
 }
 h1 {
   font-family: arial;
-  font-size: 120%;
+  font-size: 100%;
 }
 h2 {
   font-family: arial;
-  font-size: 100%;
+  font-size: 90%;
 }
 .box {
   background-color: var(--button-background-color);
@@ -102,25 +102,53 @@ h2 {
 /*
  * page "frame" definitions
  */
+#header { <!-- single element id="header"-->
+-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+box-sizing: border-box;         /* Opera/IE 8+ */
+   position: absolute;
+   top:0;
+   left:0px;
+   padding-left: 10px;
+   padding-right: 10px;
+   grid-gap: 0px;
+   width:100%;
+   height: 50px;
+   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+   background: #ccc;
+ }
 
-#header {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
-  background: #eee;
-  padding:10px;
-  margin-right: 10px;
+ .headertitle {
+   font-family: arial;
+   font-weight:bold;
+   font-size:110%;
+   height: inherit;
+   display: inline-block;
+   line-height:50px;
+ }
+ .headertitle:hover, button:focus {
+   opacity: 0.75;
+   cursor: pointer;
+ }
+ .headertitle.disabled {
+     pointer-events: none;
+     text-decoration: none;
+ }
+.headercontrols {
+  font-family: arial;
+  font-size: 80%;
 }
-
+[class*='col-1'] { /*selector matches every class whose attr contains col-*/
+  float:left;
+  }
+.col-1-2 {
+    width:50%;
+  }
 #nav {
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
   position: absolute;
-  top: 60px;
+  top: 50px;
   bottom: 0;
   left: 0;
   width: 150px; /* Width of navigation frame */
@@ -142,16 +170,22 @@ main {
 </head>
 <title>Ronlyn's Speaking Word Bank (Text-To-Speech example)</title>
 <body>
-  <header id=header>
-    <h1>Ronlyn's Word Bank</h1>
-    <div class="option" align="right">
-       <label for="volume">Volume</label>
-       <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+<header>
+  <div class="grid" id="header">
+    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech word bank">
+       <span>Ronlyn's Text-to-Speech (TTS) Word Bank</span>
     </div>
-  </header>
+    <div class="col-1-2 headercontrols">
+       <div class="option" align="right">
+          <label for="volume">Volume</label>
+          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+       </div>
+     </div>
+  </div>
+</header>
 <main>
-<meta name="format-detection" content="telephone=no">
-<h2><a class="navbar-item" id="Common Words">Common Words</a></h2>
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+<h1><a class="navbar-item" id="Common Words">Common Words</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">a</div>
   <div class="box speak-onclick">about</div>
@@ -217,7 +251,7 @@ main {
   <div class="box speak-onclick">your</div>
 
 </div>
-<h2><a class="navbar-item" id="pronouns">Pronouns</a></h2>
+<h1><a class="navbar-item" id="pronouns">Pronouns</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">I</div>
   <div class="box speak-onclick">she</div>
@@ -242,7 +276,7 @@ main {
   <div class="box speak-onclick">your</div>
   <div class="box speak-onclick">its</div>
 </div>
-<h2><a class="navbar-item" id="nouns">Nouns</a></h2>
+<h1><a class="navbar-item" id="nouns">Nouns</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">baby</div>
   <div class="box speak-onclick" XSAMPA="batheing suit">bathing suit</div>
@@ -319,7 +353,7 @@ main {
   <div class="box speak-onclick"></div>
   <div class="box speak-onclick"></div>
 </div>
-<h2><a class="navbar-item" id="food">Food</a></h2>
+<h1><a class="navbar-item" id="food">Food</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">almond</div>
   <div class="box speak-onclick">apple</div>
@@ -416,7 +450,7 @@ main {
   <div class="box speak-onclick">yogurt</div>
   <div class="box speak-onclick">zucchini</div>
 </div>
-<h2><a class="navbar-item" id="drink">Drinks</a></h2>
+<h1><a class="navbar-item" id="drink">Drinks</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">coffee</div>
   <div class="box speak-onclick">diet pepsi</div>
@@ -432,7 +466,7 @@ main {
   <div class="box speak-onclick">water</div>
 </div>
 
-<h2><a class="navbar-item" id="mood">Moods</a></h2>
+<h1><a class="navbar-item" id="mood">Moods</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">afraid</div>
   <div class="box speak-onclick">amazed</div>
@@ -461,7 +495,7 @@ main {
   <div class="box speak-onclick">wonderful</div>
 </div>
 
-<h2><a class="navbar-item" id="verbs">Verbs</a></h2>
+<h1><a class="navbar-item" id="verbs">Verbs</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">ask</div>
   <div class="box speak-onclick">bounce</div>
@@ -551,7 +585,7 @@ main {
   <div class="box speak-onclick">yawn</div>
 </div>
 
-<h2><a class="navbar-item" id="helpingverbs">Helping Verbs</a></h2>
+<h1><a class="navbar-item" id="helpingverbs">Helping Verbs</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">am</div>
   <div class="box speak-onclick">are</div>
@@ -578,7 +612,7 @@ main {
   <div class="box speak-onclick">must</div>
 </div>
 
-<h2><a class="navbar-item" id="places">Places</a></h2>
+<h1><a class="navbar-item" id="places">Places</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">home</div>
   <div class="box speak-onclick">bank</div>
@@ -589,7 +623,7 @@ main {
   <div class="box speak-onclick">school</div>
   <div class="box speak-onclick">store</div>
 </div>
-<h2><a class="navbar-item" id="numbers">Numbers</a></h2>
+<h1><a class="navbar-item" id="numbers">Numbers</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">0</div>
   <div class="box speak-onclick">1</div>
@@ -657,7 +691,7 @@ main {
   <div class="box speak-onclick">million</div>
 </div>
 
-<h2><a class="navbar-item" id="destinations">Destinations</a></h2>
+<h1><a class="navbar-item" id="destinations">Destinations</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">home</div>
   <div class="box speak-onclick">Berkeley</div>
@@ -676,7 +710,7 @@ main {
 </div>
 
 
-<h2><a class="navbar-item" id="family">Family</a></h2>
+<h1><a class="navbar-item" id="family">Family</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">Ronlyn</div>
   <div class="box speak-onclick">Wen</div>
@@ -706,7 +740,7 @@ main {
   <div class="box speak-onclick">Mitchell</div>
 </div>
 
-<h2><a class="navbar-item" id="people">Friends</a></h2>
+<h1><a class="navbar-item" id="people">Friends</a></h1>
 <div class="wrapper8">
   <div class="box speak-onclick">Aruna</div>
   <div class="box speak-onclick">Berna</div>
@@ -727,7 +761,7 @@ main {
   <div class="box speak-onclick">Father Bill</div>
 </div>
 
-<h2><a class="navbar-item" id="home">Home Address</a></h2>
+<h1><a class="navbar-item" id="home">Home Address</a></h1>
   <div class="wrapper8">
     <div class="box speak-onclick" XSAMPA="2 0 6 8 0 Seaton Avenue">20680 Seaton Ave</div>
     <div class="box speak-onclick">Saratoga</div>
@@ -795,9 +829,16 @@ document.body.onclick = function(e) {   //when the document body is clicked
 
       else if (e.className.indexOf('href-onclick') != -1) {
 //        window.location.href = "#"+e.innerHTML;  //goto anchor
-         alert("href-onclick");
+         alert("oops href-onclick");
         window.location.href = "#"+e.id; } //goto anchor
 
+      else if (e.className.indexOf('headertitle') != -1) {
+        spelling = e.getAttribute("XSAMPA");
+        if (!spelling) {
+          spelling = e.innerHTML;
+        }
+        speak(spelling);
+      }
       else {
          speak("choose again") }
        }
@@ -855,9 +896,9 @@ function populateNavbar() {
 
     navbarList = document.getElementById('navbar-items');
 
-    //scan main for <h2> to build navbar
+    //scan main for <h1> to build navbar
     //get main element some day
-    var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h2>
+    var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h1>
     for (var i = 0; i < navbarItemList.length; i++) {
       var div = document.createElement('div'); // var forces creation of new tr
       div.className = "navbar-li li onclick-href";
