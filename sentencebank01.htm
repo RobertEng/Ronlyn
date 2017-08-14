@@ -260,7 +260,15 @@ document.body.onclick = function(e) {   //when the document body is clicked
         e = e.target; }                  //assign the element clicked to e
 
     if (e.className) {
-      if (e.className.indexOf('speak-onclick') != -1) { //should use switch
+      
+      if (e.className.indexOf('data-speak-onclick') != -1) {
+        spelling = e.getAttribute("XSAMPA");
+        if (!spelling) {
+          spelling = e.getAttribute("data-speak");
+        }
+        speak(spelling);
+      }
+      else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
         spelling = e.getAttribute("XSAMPA");
          if (!spelling) {
            spelling = e.innerHTML
@@ -294,6 +302,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
 document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
+  generateSentences()
 }
 /***
  *
@@ -310,6 +319,36 @@ var voiceSelect = document.getElementById('voice');
  * Function definitions
  *
  ***/
+
+/**
+ * generateSentences
+ *
+ * Generates the clickable sentences from a list of sentences.
+ */
+function generateSentences() {
+  sentences = [
+    'The quick brown fox jumps over the lazy dog.',
+    'a man a plan a canal panama'
+  ];
+  allSentencesHTML = "";
+  for (s in sentences) {
+    words = sentences[s].split(" ");
+    sentenceHTML = "";
+    for (w in words) {
+      wordTag = "<span class='word speak-onclick'>" + words[w] + "</span> ";
+      sentenceHTML += wordTag;
+    }
+    allSentencesHTML += sentenceHTML;
+    allSentencesHTML += "<button class='box data-speak-onclick' data-speak='" + sentences[s] + "'>Listen</button>"
+    allSentencesHTML += "</br></br>";
+  }
+  // console.log(buttons);
+  // console.log(document.getElementsByClassName("wrapper8"));
+  // console.log(document.getElementsByClassName("wrapper8")[0]);
+
+  document.getElementById("sentences").innerHTML = allSentencesHTML;
+
+}
 
 /*
  * getOS
