@@ -239,6 +239,7 @@ main {
   * onclick
   */
 document.body.onclick = function(e) {   //when the document body is clicked
+  alert(e.className);
     if (window.event) {
         e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
     else {
