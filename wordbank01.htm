@@ -33,7 +33,7 @@ h2 {
   font-size: 85%;
   text-align: center;
   resize: horizontal;
-  min-width:50px;
+  min-width:75px;
 }
 
 .box:hover, button:focus {
@@ -44,10 +44,6 @@ h2 {
     pointer-events: none;
     text-decoration: none;
 }
-//.box:nth-child(even) {
-//  background-color:  var(--button-background-color);
-//  color: #000;
-//}
 .wrapper,  .wrapper1  .wrapper2, .wrapper3, .wrapper6, .wrapper8 {
   display: grid;
   grid-gap: 5px;
@@ -173,7 +169,7 @@ main {
 <header>
   <div class="grid" id="header">
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech word bank">
-       <span>Ronlyn's Text-to-Speech (TTS) Word Bank</span>
+       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech word bank">Ronlyn's Text-to-Speech (TTS) Word Bank</span>
     </div>
     <div class="col-1-2 headercontrols">
        <div class="option" align="right">
@@ -450,7 +446,7 @@ main {
   <button class="box speak-onclick">yogurt</button>
   <button class="box speak-onclick">zucchini</button>
 </div>
-<h1><a class="navbar-item" id="drink">Drinks</a></h1>
+<h1><a class="navbar-item" id="drinks">Drinks</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">coffee</button>
   <button class="box speak-onclick">diet pepsi</button>
@@ -466,7 +462,7 @@ main {
   <button class="box speak-onclick">water</button>
 </div>
 
-<h1><a class="navbar-item speak-oncllick" id="mood">Moods</a></h1>
+<h1><a class="navbar-item" id="mood">Moods</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">afraid</button>
   <button class="box speak-onclick">amazed</button>

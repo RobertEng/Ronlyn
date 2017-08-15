@@ -113,7 +113,7 @@ h2 {
    padding-right: 10px;
    grid-gap: 0px;
    width:100%;
-   height: 40px;
+   height: 50px;
    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
    background: #ccc;
  }
@@ -124,7 +124,7 @@ h2 {
    font-size:110%;
    height: inherit;
    display: inline-block;
-   line-height:40px;
+   line-height:50px;
  }
  .headertitle:hover, button:focus {
    opacity: 0.75;
@@ -148,7 +148,7 @@ h2 {
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
   position: absolute;
-  top: 40px;
+  top: 50px;
   bottom: 0;
   left: 0;
   width: 150px; /* Width of navigation frame */
@@ -157,7 +157,7 @@ h2 {
 }
 main {
   position: fixed;
-  top: 40px;
+  top: 50px;
   left: 150px; /* Set this to the width of the navigation frame */
   right: 0;
   bottom: 0;
@@ -178,46 +178,46 @@ main {
 <body>
 <header>
   <div class="grid" id="header">
-    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech word bank">
-       <span>Ronlyn's Text-to-Speech (TTS) Word Bank</span>
+    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
+       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Text-to-Speech (TTS) Sentence Bank</span>
     </div>
     <div class="col-1-2 headercontrols">
        <div class="option" align="right">
           <label for="volume">Volume</label>
           <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
        </div>
+       <div class"option" align="right">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
+         <label for="single word">Speak all words up to selected one</label>
+      </div>
      </div>
   </div>
 </header>
 <main>
 <meta name="google" value="notranslate"> <!-- disable iOS translation -->
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
-<h1><a class="navbar-item" id="Common Words">Common Words</a></h1>
-<div class="wrapper8">
-  <button class="box speak-onclick">a</button>
-  <button class="box speak-onclick">about</button>
+<h1><a class="navbar-item" id="who">Who</a></h1>
+<h1><a class="navbar-item" id="what">What</a></h1>
+<h1><a class="navbar-item" id="where">Where</a></h1>
+<h1><a class="navbar-item" id="when">When</a></h1>
 
+<h1><a class="navbar-item" id="test">Test</a></h1>
+
+<div id="sentences"></div>
+
+<!--div class="sentence">The quick brown fox jumped over the lazy dog.</div-->
+<div>
+  <span class="speak-onclick" word="the" partial="the">the</span>
+  <span class="speak-onclick" word="quick" partial="the quick">quick</span>
+  <span class="speak-onclick" word="brown" partial="the quick brown">brown</span>
+  <span class="speak-onclick" word="fox" partial="the quick brown fox">the</span>
+  <span class="speak-onclick" word="fox" partial="the quick brown fox">the</span>
+  <span class="speak-onclick" word="jumps" partial="the quick brown fox jumps">jumps</span>
+  <span class="speak-onclick" word="over" partial="the quick brown fox jumps over">over</span>
+  <span class="speak-onclick" word="the" partial="the quick brown fox jumps over the">the</span>
+  <span class="speak-onclick" word="lazy" partial="the quick brown fox jumps over the lazy">lazy</span>
+  <span class="speak-onclick" word="dog" partial="the quick brown fox jumps over the lazy dog">dog</span>
 </div>
-<h1><a class="navbar-item" id="pronouns">Pronouns</a></h1>
-<div class="wrapper3">
-  <button class="box speak-onclick">I</button>
-</div>
-
-<div id="sentences">
-  <div class="sentence" style="background-color: red;">
-    <span class="word speak-onclick">The</span>
-    <span class="word speak-onclick">quick</span>
-    <span class="word speak-onclick">brown</span>
-  </div>
-</div>
-
-<p>blah</p>
-<p>blah</p>
-<p>blah</p>
-<p>blah</p>
-<p>blah</p>
-
-
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
@@ -253,14 +253,13 @@ main {
   * onclick
   */
 document.body.onclick = function(e) {   //when the document body is clicked
-  alert(e.className);
     if (window.event) {
         e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
     else {
         e = e.target; }                  //assign the element clicked to e
 
     if (e.className) {
-      
+
       if (e.className.indexOf('data-speak-onclick') != -1) {
         spelling = e.getAttribute("XSAMPA");
         if (!spelling) {
@@ -272,6 +271,13 @@ document.body.onclick = function(e) {   //when the document body is clicked
         spelling = e.getAttribute("XSAMPA");
          if (!spelling) {
            spelling = e.innerHTML
+         }
+         partialSentenceInput = document.getElementById('partialSentence');
+         if (partialSentenceInput.checked) {
+           spelling = e.getAttribute("partial");
+         }
+         else {
+           spelling = e.getAttribute("word");
          }
          speak(spelling);
       }
@@ -303,6 +309,7 @@ document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
   generateSentences()
+//  expandSentenceDivs()
 }
 /***
  *
