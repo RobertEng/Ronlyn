@@ -205,13 +205,14 @@ main {
 
 <div id="sentences"></div>
 
+<div class="sentence">the quick brown fox jumped over the lazy dog</div>
+
 <!--div class="sentence">The quick brown fox jumped over the lazy dog.</div-->
 <div>
   <span class="speak-onclick" word="the" partial="the">the</span>
   <span class="speak-onclick" word="quick" partial="the quick">quick</span>
   <span class="speak-onclick" word="brown" partial="the quick brown">brown</span>
-  <span class="speak-onclick" word="fox" partial="the quick brown fox">the</span>
-  <span class="speak-onclick" word="fox" partial="the quick brown fox">the</span>
+  <span class="speak-onclick" word="fox" partial="the quick brown fox">fox</span>
   <span class="speak-onclick" word="jumps" partial="the quick brown fox jumps">jumps</span>
   <span class="speak-onclick" word="over" partial="the quick brown fox jumps over">over</span>
   <span class="speak-onclick" word="the" partial="the quick brown fox jumps over the">the</span>
@@ -268,10 +269,11 @@ document.body.onclick = function(e) {   //when the document body is clicked
         speak(spelling);
       }
       else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
-        spelling = e.getAttribute("XSAMPA");
+/*        spelling = e.getAttribute("XSAMPA");
          if (!spelling) {
            spelling = e.innerHTML
          }
+*/
          partialSentenceInput = document.getElementById('partialSentence');
          if (partialSentenceInput.checked) {
            spelling = e.getAttribute("partial");
@@ -342,7 +344,7 @@ function generateSentences() {
     words = sentences[s].split(" ");
     sentenceHTML = "";
     for (w in words) {
-      wordTag = "<span class='word speak-onclick'>" + words[w] + "</span> ";
+      wordTag = "<span class='word speak-onclick' word='" + words[w] + "'>" + words[w] + "</span> ";
       sentenceHTML += wordTag;
     }
     allSentencesHTML += sentenceHTML;

@@ -17,7 +17,7 @@
    }
    .journal-entry-items {
    display: table;
-   border-collapse: collapse; 
+   border-collapse: collapse;
    }
    .journal-entry-item {
 
@@ -94,8 +94,8 @@ button:active {
 }
 h1
 {
-   font-family: Arial; 
-   font-size: 24pt; 
+   font-family: Arial;
+   font-size: 24pt;
 }
 img.portrait
 {
@@ -130,32 +130,32 @@ What do you want to say?<input type="text" name="speech-msg" id="speech-msg" val
 <div class="journal">
    <div class="journal-title">Ronlyn's Journal</div>
 
-   <div class="journal-entry">         
+   <div class="journal-entry">
       <div class="journal-entry-title">My first entry</div>
       <div class="journal-entry-date">4/25/2017</div>
       <div class="journal-entry-items"> <!-- includes one image/video and descriptions --> <!-- table -->
-         <div class="journal-entry-item"> 
+         <div class="journal-entry-item">
             <div class="journal-entry-item-image"><img class="portrait" src="ronlyn.jpg" alt="Ronlyn"></div>
 
             <div class="journal-entry-item-descriptions">Who am I?<!-- description wrapper -->
             <div class="journal-entry-item-descriptions-table"><!-- description table wrapper -->
                <div class="journal-entry-item-descriptions-table-row">
-                  <div class="journal-entry-item-description">description 1 blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </div>
+                  <div class="journal-entry-item-description">My name is Ronlyn. </div>
                   <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
                </div>
                <div class="journal-entry-item-descriptions-table-row">
-                  <div class="journal-entry-item-description">description 2</div>
+                  <div class="journal-entry-item-description">I have significant and severe aphasia.</div>
                   <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
                </div>
 
                <div class="journal-entry-item-descriptions-table-row">
-                  <div class="journal-entry-item-description">description 3</div>
+                  <div class="journal-entry-item-description">I live in Saratoga.</div>
                   <div class="journal-entry-item-description-speak"><button id="speak">Speak</button></div>
                </div>
             </div>
             </div>
          </div>
-         <div class="journal-entry-item"> 
+         <div class="journal-entry-item">
             <div class="journal-entry-item-image"><img class="portrait" src="swimming.jpg" alt="Ronlyn"></div>
 
             <div class="journal-entry-item-descriptions">Started swimming<!-- description wrapper -->
@@ -176,7 +176,7 @@ What do you want to say?<input type="text" name="speech-msg" id="speech-msg" val
             </div>
             </div>
          </div>
-         <div class="journal-entry-item"> 
+         <div class="journal-entry-item">
             <div class="journal-entry-item-image"><img class="portrait" src="skills plus eoy.jpg" alt="Ronlyn"></div>
 
             <div class="journal-entry-item-descriptions">Skills Plus End-of-Year Party<!-- description wrapper -->
@@ -234,7 +234,7 @@ function getOS() {
    os = null; // initalize string
 
    if (macosPlatforms.indexOf(platform) !== -1) {
-      os = 'Mac OS'; } 
+      os = 'Mac OS'; }
    else if (iosPlatforms.indexOf(platform) !== -1) {
       os = 'iOS'; }
    else if (windowsPlatforms.indexOf(platform) !== -1) {
@@ -251,11 +251,11 @@ function getOS() {
 function populateVoices(defaultVoice) {
    // Fetch the available voices.
    var voices = speechSynthesis.getVoices();
-   var option;  
+   var option;
    // Loop through each of the voices.
    voices.forEach(function(voice, i) {
       // Create a new option element.
-    
+
       // Set the options value and text.
       option = document.createElement('option');
       option.value = voice.name;
@@ -272,8 +272,8 @@ function speak(text, callback) {
    var msg = new SpeechSynthesisUtterance('default');
    msg.text = text;
    msg.volume = parseFloat(volumeInput.value);
-   msg.lang = 'en-US'; 
-   msg.rate = 1; 
+   msg.lang = 'en-US';
+   msg.rate = 1;
    msg.pitch = 1;
    if (voiceSelect.value) {
       msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
@@ -283,12 +283,12 @@ function speak(text, callback) {
             callback();
         }
     };
- 
+
     msg.onerror = function (e) {
         if (callback) {
             callback(e);
         }
-    }; 
+    };
     window.speechSynthesis.speak(msg);
 }
 /***
@@ -298,7 +298,7 @@ function speak(text, callback) {
  ***/
 
 // click of 'speak' button
-if (!button) 
+if (!button)
     alert("button does not exist");
 else {
    button.addEventListener('click', function(e) {
@@ -310,10 +310,10 @@ else {
  *
  * Initialize page
  *
- ***/ 
+ ***/
 
 /*
- * Check browser support for speech synthesis 
+ * Check browser support for speech synthesis
  */
 var supportMsg = document.getElementById('browser-msg');
 
