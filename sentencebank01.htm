@@ -204,20 +204,39 @@ main {
 <meta name="google" value="notranslate"> <!-- disable iOS translation -->
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
 <h1><a class="navbar-item" id="who">Who</a></h1>
+<p>
+  <div class="sentence">My name is Ronlyn Goo.</div>
+  <p>
+  <div class="sentence">I am 54 years old.</div>
+  <p>
+  <div class="sentence">My husband is named Wen.</div>
+  <p>
+  <div class="sentence">We have been married 25 years.</div>
+  <p>
+  <div class="sentence">We have two boys, David and Robert.</div>
+  <p>
+
+  <div class="sentence">My name is Ronlyn Goo.</div>
+  <div class="sentence">I am 54 years old.</div>
+  <div class="sentence">My husband is named Wen.</div>
+  <div class="sentence">We have been married 25 years.</div>
+  <div class="sentence">We have two boys, David and Robert.</div>
+
 <h1><a class="navbar-item" id="what">What</a></h1>
+<div class="sentence">I had a hemorrhagic stroke two years ago.</div>
+<div class="sentence">As a result, I have aphasia. the lost of language skills.</div>
+
 <h1><a class="navbar-item" id="where">Where</a></h1>
+<div class="sentence">I live in Saratoga.</div>
+<div class="sentence">I was born in San Francisco.</div>
+<div class="sentence">I grew up in Pacifica.</div>
+<div class="sentence">I attended UC Berkeley and Stanford University.</div>
+
 <h1><a class="navbar-item" id="when">When</a></h1>
 
 <h1><a class="navbar-item" id="test">Test</a></h1>
 
 <div id="sentences"></div>
-
-<div class="sentence">the quick brown fox jumped over the lazy dog</div>
-<div class="sentence">Hi.</div>
-<div class="sentence">My name is Ronlyn.</div>
-<div class="sentence">The quick brown fox jumped over the lazy dog.</div>
-<div class="sentence">I have aphasia.</div>
-<br></br>
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
@@ -309,7 +328,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
 document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
-  generateSentences();
+//  generateSentences();
   expandSentences();
 //  expandSentenceDivs()
 }
@@ -346,16 +365,13 @@ var voiceSelect = document.getElementById('voice');
      partialSentence="";
      for (w in words) {
        partialSentence += words[w]+" ";
-       wordTag = "<span class='word speak-onclick' word='" + words[w] + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+       wordTag = "<span class='word speak-onclick' word='" + words[w]
+          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
        sentenceHTML += wordTag;
      }
 //     allSentencesHTML += sentenceHTML;
-console.log("sentence# "+s);
-console.log(sentences[s].outerHTML);
-console.log(sentences[s].innerHTML);
-console.log(sentenceHTML);
      sentences[s].innerHTML = sentenceHTML;
-     console.log(sentences[s].outerHTML);
+//     console.log(sentences[s].outerHTML);
 //     allSentencesHTML += "</br></br>";
 //sentences[s].innerHTML = sentencesHTML;
 //    console.log(sentenceHTML);
@@ -382,7 +398,7 @@ console.log(sentenceHTML);
   // console.log(document.getElementsByClassName("wrapper8"));
   // console.log(document.getElementsByClassName("wrapper8")[0]);
 
-  document.getElementById("sentences").innerHTML = allSentencesHTML;
+ document.getElementById("sentences").innerHTML = allSentencesHTML;
 
 }
 
