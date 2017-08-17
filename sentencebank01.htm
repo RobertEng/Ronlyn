@@ -167,8 +167,15 @@ main {
 }
 
 .word {
-  background-color: yellow;
   cursor: pointer;
+}
+.word:hover {
+  font-weight:bold ;
+  cursor: pointer;
+}
+.sentence {
+  font-family: arial;
+  font-size: 100%;
 }
 
 }
@@ -204,20 +211,13 @@ main {
 <h1><a class="navbar-item" id="test">Test</a></h1>
 
 <div id="sentences"></div>
-<p>
+
 <div class="sentence">the quick brown fox jumped over the lazy dog</div>
 <div class="sentence">Hi.</div>
 <div class="sentence">My name is Ronlyn.</div>
-</p>
 <div class="sentence">The quick brown fox jumped over the lazy dog.</div>
 <div class="sentence">I have aphasia.</div>
 <br></br>
-
-<span> class="sentence">the quick brown fox jumped over the lazy dog</span>>
-<span> class="sentence">Hi.</span>>
-<span> class="sentence">My name is Ronlyn.</span>>
-<span> class="sentence">The quick brown fox jumped over the lazy dog.</span>>
-<span> class="sentence">I have aphasia.</span>>
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
