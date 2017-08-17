@@ -204,21 +204,20 @@ main {
 <h1><a class="navbar-item" id="test">Test</a></h1>
 
 <div id="sentences"></div>
-
+<p>
 <div class="sentence">the quick brown fox jumped over the lazy dog</div>
+<div class="sentence">Hi.</div>
+<div class="sentence">My name is Ronlyn.</div>
+</p>
+<div class="sentence">The quick brown fox jumped over the lazy dog.</div>
+<div class="sentence">I have aphasia.</div>
+<br></br>
 
-<!--div class="sentence">The quick brown fox jumped over the lazy dog.</div-->
-<div>
-  <span class="word speak-onclick" word="the" partial="the">the</span>
-  <span class="word speak-onclick" word="quick" partial="the quick">quick</span>
-  <span class="word speak-onclick" word="brown" partial="the quick brown">brown</span>
-  <span class="word speak-onclick" word="fox" partial="the quick brown fox">fox</span>
-  <span class="word speak-onclick" word="jumps" partial="the quick brown fox jumps">jumps</span>
-  <span class="word speak-onclick" word="over" partial="the quick brown fox jumps over">over</span>
-  <span class="word speak-onclick" word="the" partial="the quick brown fox jumps over the">the</span>
-  <span class="word speak-onclick" word="lazy" partial="the quick brown fox jumps over the lazy">lazy</span>
-  <span class="word speak-onclick" word="dog" partial="the quick brown fox jumps over the lazy dog">dog</span>
-</div>
+<span> class="sentence">the quick brown fox jumped over the lazy dog</span>>
+<span> class="sentence">Hi.</span>>
+<span> class="sentence">My name is Ronlyn.</span>>
+<span> class="sentence">The quick brown fox jumped over the lazy dog.</span>>
+<span> class="sentence">I have aphasia.</span>>
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
@@ -310,7 +309,8 @@ document.body.onclick = function(e) {   //when the document body is clicked
 document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
-  generateSentences()
+  generateSentences();
+  expandSentences();
 //  expandSentenceDivs()
 }
 /***
@@ -334,24 +334,51 @@ var voiceSelect = document.getElementById('voice');
  *
  * Generates the clickable sentences from a list of sentences.
  */
-function generateSentences() {
-  sentences = [
-    'The quick brown fox jumps over the lazy dog.',
-    'a man a plan a canal panama'
-  ];
-  allSentencesHTML = "";
-  for (s in sentences) {
-    words = sentences[s].split(" ");
-    sentenceHTML = "";
-    for (w in words) {
-      wordTag = "<span class='word speak-onclick' word='" + words[w] + "'>" + words[w] + "</span> ";
-      sentenceHTML += wordTag;
-    }
-    allSentencesHTML += sentenceHTML;
-    allSentencesHTML += "<button class='box data-speak-onclick' data-speak='" + sentences[s] + "'>Listen</button>"
-    allSentencesHTML += "</br></br>";
-  }
-  // console.log(buttons);
+ function expandSentences() {
+/* loop on all div class="sentence" */
+
+   var sentences = document.getElementsByClassName("sentence");
+   allSentencesHTML = "";
+   for (s = 0; s < sentences.length; s++) {
+     sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
+     words = sentences[s].innerHTML.split(" ");
+     sentenceHTML = "";
+     partialSentence="";
+     for (w in words) {
+       partialSentence += words[w]+" ";
+       wordTag = "<span class='word speak-onclick' word='" + words[w] + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+       sentenceHTML += wordTag;
+     }
+//     allSentencesHTML += sentenceHTML;
+console.log("sentence# "+s);
+console.log(sentences[s].outerHTML);
+console.log(sentences[s].innerHTML);
+console.log(sentenceHTML);
+     sentences[s].innerHTML = sentenceHTML;
+     console.log(sentences[s].outerHTML);
+//     allSentencesHTML += "</br></br>";
+//sentences[s].innerHTML = sentencesHTML;
+//    console.log(sentenceHTML);
+   }
+}
+   function generateSentences() {
+     sentences = [
+       'The quick brown fox jumps over the lazy dog.',
+       'a man a plan a canal panama'
+     ];
+     allSentencesHTML = "";
+     for (s in sentences) {
+       words = sentences[s].split(" ");
+       sentenceHTML = "";
+       for (w in words) {
+         wordTag = "<span class='word speak-onclick' word='" + words[w] + "'>" + words[w] + "</span> ";
+         sentenceHTML += wordTag;
+       }
+//       console.log(sentenceHTML);
+       allSentencesHTML += sentenceHTML;
+       allSentencesHTML += "<button class='box data-speak-onclick' data-speak='" + sentences[s] + "'>Listen</button>"
+       allSentencesHTML += "</br></br>";
+     }
   // console.log(document.getElementsByClassName("wrapper8"));
   // console.log(document.getElementsByClassName("wrapper8")[0]);
 
