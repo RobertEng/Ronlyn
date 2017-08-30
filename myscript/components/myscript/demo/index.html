@@ -20,7 +20,7 @@
     <script type="text/javascript" src="../dist/myscript.min.js"></script>
 </head>
 <body touch-action="none">
-<h1>MyScriptJS demo 800x300</h1>
+<h1>Ronlyn's Handwriting To Speech 800x400</h1>
 <button id="trash" disabled>Trash</button>
 <button id="undo" disabled>Undo</button>
 <button id="redo" disabled>Redo</button>
@@ -49,7 +49,7 @@
                 type: MyScript.RecognitionType.TEXT, // Recognition type
                 protocol: MyScript.Protocol.WS,
                 width: 800, // InkPaper width
-                height: 300, // InkPaper height
+                height: 400, // InkPaper height
                 timeout: 25, // Recognition timeout
                 textParameters: {
                     language: 'en_US', // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
@@ -84,7 +84,9 @@
                             languages.disabled = false;
                         }
                     } else { // Display the selected text candidate
-                        result.innerHTML = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
+                        var candidate = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
+                        alert('say '+candidate);
+                        result.innerHTML = candidate;
                     }
                 }
             });
