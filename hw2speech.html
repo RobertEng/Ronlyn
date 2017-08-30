@@ -2,26 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>MyScriptJS demo</title>
+    <title>Ronlyn's Handwriting To Speech</title>
     <base href="./myscript/components/">
+
     <!-- CSS import -->
     <link rel="stylesheet" href="myscript/dist/myscript.min.css"/>
 
     <!-- CryptoJS imports -->
-    <!--<script type="text/javascript" src="../../cryptojslib/components/core-min.js"></script>
-      <script type="text/javascript" src="../../cryptojslib/components/x64-core-min.js"></script>
-      <script type="text/javascript" src="../../cryptojslib/components/sha512-min.js"></script>
-      <script type="text/javascript" src="../../cryptojslib/components/hmac-min.js"></script>
-
-      <!-- Q import --~>
-      <script type="text/javascript" src="../../q/q.js"></script>
-      <!-- PEP import --~>
-      <script type="text/javascript" src="../../pepjs/dist/pep.min.js"></script>
-      <!-- MyScriptJS import --~>
-      <script type="text/javascript" src="../dist/myscript.min.js"></script>
-
-    -->
-
     <script type="text/javascript" src="cryptojslib/components/core-min.js"></script>
     <script type="text/javascript" src="cryptojslib/components/x64-core-min.js"></script>
     <script type="text/javascript" src="cryptojslib/components/sha512-min.js"></script>
@@ -96,10 +83,12 @@
                         for (var i in data) {
                             languages.options[languages.options.length] = new Option(data[i], data[i]);
                             languages.disabled = false;
+                            if (options.textParameters.language == data[i]) {
+                              languages.options.selectedIndex = i;
+                            }
                         }
                     } else { // Display the selected text candidate
                         var candidate = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
-                        alert('say '+candidate);
                         result.innerHTML = candidate;
                     }
                 }
