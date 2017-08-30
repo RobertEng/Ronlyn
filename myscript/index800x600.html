@@ -1,0 +1,34 @@
+<!-- <META http-equiv=refresh content="0;URL=components/myscript-text-web/"> -->
+<html>
+  <head>
+  <style>
+
+body {
+  margin: 0;
+  height: 100vh;
+}
+  </style>
+    <script src="components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="components/myscript-text-web/myscript-text-web.html">
+  </head>
+  <body>
+    <myscript-text-web
+      applicationkey="83de3696-23c0-48ae-b870-29a7286bbab4"
+      hmackey="a3b9a27c-e3bc-456e-81dc-a6885101cebb"
+      language="en_US"
+      width=800
+      height=600>
+    </myscript-text-web>
+  </body>
+  <script>
+    window.addEventListener('WebComponentsReady',
+      function () {
+              document.querySelector('myscript-text-web')
+              .addEventListener('myscript-text-web-result',
+              function(evt){
+               document.querySelector('#candidates').innerHTML = document.querySelector('myscript-text-web').firstcandidate;
+               });
+  });
+  </script>
+
+</html>
