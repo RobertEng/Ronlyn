@@ -1,6 +1,11 @@
 <!-- <META http-equiv=refresh content="0;URL=components/myscript-text-web/"> -->
 <html>
   <head>
+  <style>
+  body {
+    overflow: hidden;
+  }
+  </style>
     <script src="components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="components/myscript-text-web/myscript-text-web.html">
   </head>
@@ -13,7 +18,7 @@
   </body>
   <script>
     window.addEventListener('WebComponentsReady',
-   function () {
+      function () {
               document.querySelector('myscript-text-web')
               .addEventListener('myscript-text-web-result',
               function(evt){
