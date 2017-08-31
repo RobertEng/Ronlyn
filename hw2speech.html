@@ -20,6 +20,31 @@
     <!-- MyScriptJS import -->
     <script type="text/javascript" src="myscript/dist/myscript.min.js"></script>
 <style>
+#header { <!-- single element id="header"-->
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+   position: absolute;
+   top:5px;
+   left:0px;
+   padding-left: 10px;
+   padding-right: 10px;
+   grid-gap: 0px;
+   width:100%;
+   height: 50px;
+   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+   background: #ccc;
+ }
+ main {
+  position: fixed;
+  top: 50px;
+  left: 0px; /* Set this to the width of the navigation frame */
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  background: #fff;
+  margin-left: 10px;
+}
 h1 {
   font-family: arial;
   font-weight:bold;
@@ -28,20 +53,88 @@ h1 {
   display: inline-block;
   line-height:50px;
 }
+button {
+  background-color: #4CAF50; /* Green */
+  color: black;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 7px;
+}
+languages {
+  font-family: arial;
+  display: block;
+  position: absolute;
+  right: 5px;
+}
+label {
+  font-family: arial;
+
+}
+.headertitle {
+   font-family: arial;
+   font-weight:bold;
+   font-size:110%;
+   height: inherit;
+   display: inline-block;
+   line-height:40px;
+ }
+ .headertitle:hover, button:focus {
+   opacity: 0.75;
+   cursor: pointer;
+ }
+ .headertitle.disabled {
+     pointer-events: none;
+     text-decoration: none;
+ }
+[class*='col-1'] { /*selector matches every class whose attr contains col-*/
+  float:left;
+  }
+.col-1-2 {
+    width:50%;
+  }
+  .headerControls {
+    font-family: arial;
+    font-size: 80%;
+  text-align:right;
+}
 </style>
 </head>
+<title>Ronlyn's Handwriting to Speech</title>
+
 <body touch-action="none">
+<header>
+  <header>
+  <div class="grid" id="header">
+    <div class="col-1-2 headertitle" XSAMPA="Ronlyns handwriting To Speech App">
+       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS) App</span>
+    </div>
+    <div class="col-1-2 headerControls">
+      <div class="option" id="volumeControl">
+        <label for="volume">Volume</label>
+        <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+      </div>
+      <div>
+      <label for="languages">Language: </label>
+      <select id="languages" disabled></select>
+    </div>
+  </div>
+  </div>
+</header>
+
 <h1>Ronlyn's Handwriting To Speech 960x360</h1>
 <br/>
-<button id="trash" disabled>Trash</button>
+</header>
+<main>
+<button id="trash" disabled>Clear</button>
 <button id="undo" disabled>Undo</button>
 <button id="redo" disabled>Redo</button>
-<label for="languages">Language: </label>
-<select id="languages" disabled></select>
+<button id="speak" disabled>Speak</button>
 <br/>
 <div id="ink-paper"></div>
 <br/>
 <pre id="result" style="font-size: 40px; background-color: powderblue; "></pre>
+</main>
 </body>
 <script>
     (function () {
@@ -60,7 +153,7 @@ h1 {
                 hmacKey: "a1fa759f-b3ce-4091-9fd4-d34bb870c601", // MyScript Cloud HMAC key - change the keys for production use
                 type: MyScript.RecognitionType.TEXT, // Recognition type
                 protocol: MyScript.Protocol.WS,
-                width: 960, // InkPaper width
+                width: 1000, // InkPaper width
                 height: 360, // InkPaper height
                 timeout: 25, // Recognition timeout
                 textParameters: {

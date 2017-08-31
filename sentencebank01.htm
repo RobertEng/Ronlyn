@@ -180,8 +180,12 @@ main {
 li:not(:last-child) {
   margin-bottom: 10px;
 }
-
-
+/*
+#volumeControl, #partialSentenceControl { text-align:right}
+*/
+.headerControls {
+  text-align:right;
+}
 }
 </style>
 </head>
@@ -192,12 +196,12 @@ li:not(:last-child) {
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
        <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Text-to-Speech (TTS) Sentence Bank</span>
     </div>
-    <div class="col-1-2 headercontrols">
-       <div class="option" align="right">
-          <label for="volume">Volume</label>
+    <div class="col-1-2 headerControls">
+       <div class="option" id="volumeControl">
+         <label for="volume">Volume</label>
           <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
        </div>
-       <div class"option" align="right">
+       <div class="option" id="partialSentenceControl">
          <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
          <label for="single word">Speak all words up to selected one</label>
       </div>
