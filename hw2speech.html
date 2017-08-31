@@ -131,10 +131,7 @@ label {
 <button id="undo" disabled>Undo</button>
 <button id="redo" disabled>Redo</button>
 <button id="speak" disabled>Speak</button>
-<br/>
-<h1>Input:</h1>
-<div id="ink-paper"></div>
-<h1>Reconition:</h1>
+<div id="ink-paper" style="border: 2px solid black"></div>
 <pre id="result" style="font-size: 40px; background-color: powderblue; "></pre>
 </main>
 </body>
@@ -171,6 +168,7 @@ label {
              */
             inkPaper.style.height = options.height + 'px';
             inkPaper.style.width = options.width + 'px';
+
             /**
              * Init the ink paper
              * @param {Element} The DOM element to attach the ink paper
