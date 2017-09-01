@@ -174,6 +174,7 @@ label {
             var undo = document.getElementById('undo');
             var redo = document.getElementById('redo');
             var languages = document.getElementById('languages');
+            var volumeInput = document.getElementById('volume');
 
             var options = {
                 host: "webdemoapi.myscript.com", // Handle MyScript Cloud authentication keys (cloud.myscript.com)
@@ -182,7 +183,7 @@ label {
                 type: MyScript.RecognitionType.TEXT, // Recognition type
                 protocol: MyScript.Protocol.WS,
                 width: 960, // InkPaper width
-                height: 450, // InkPaper height
+                height: 500, // InkPaper height
                 timeout: 25, // Recognition timeout
                 textParameters: {
                     language: 'en_US', // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
@@ -231,6 +232,7 @@ label {
                     trash.disabled = (data.canUndo || data.canRedo) ? false : true;
                     undo.disabled = (data.canUndo) ? false : true;
                     redo.disabled = (data.canRedo) ? false : true;
+                    speak.disabled = (data.canUndo) ? false : true;
                 }
             });
             /**
@@ -244,6 +246,32 @@ label {
             }, false);
             redo.addEventListener('click', function () {
                 paper.redo();
+            }, false);
+            speak.addEventListener('click', function () {
+                 var msg = new SpeechSynthesisUtterance('default');
+                 msg.text = result.innerHTML;
+                 msg.volume = parseFloat(volumeInput.value);
+                 msg.lang = 'en-US';
+                 msg.rate = 1;
+                 msg.pitch = 1;
+//                 if (voiceSelect.value) {
+//                    msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+//              	}
+                  msg.onend = function () {
+                      if (callback) {
+                          callback();
+                      }
+                  };
+
+                  msg.onerror = function (e) {
+                      if (callback) {
+                          callback(e);
+                      }
+                  };
+                  window.speechSynthesis.speak(msg);
+//              } // function speak
+
+
             }, false);
             languages.addEventListener('change', function () {
                 var parameters = paper.getTextParameters();
