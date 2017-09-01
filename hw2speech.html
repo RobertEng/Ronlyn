@@ -44,6 +44,7 @@
   overflow: auto;
   background: #fff;
   margin-left: 10px;
+  margin-top:5px;
 }
 h1 {
   font-family: arial;
@@ -96,10 +97,22 @@ label {
 .col-1-2 {
     width:50%;
   }
-  .headerControls {
-    display: inline;
-    font-family: arial;
-    font-size: 80%;
+.col-1-4 {
+  width:265px;
+  height:40px
+  }
+.col-3-4 {
+  width:695px;
+  height:40px;
+  border-bottom-style: solid;
+  border-bottom-color: powderblue;
+  border-top-style: solid;
+  border-top-color: powderblue;
+  }
+.headerControls {
+  display: inline;
+  font-family: arial;
+  font-size: 80%;
   text-align:right;
 }
 </style>
@@ -126,16 +139,29 @@ label {
   </div>
 </header>
 
-<h1>Ronlyn's Handwriting To Speech 960x360</h1>
+
 </header>
 <main>
-  <h1>Input:</h1>
-<button id="trash" disabled>Clear</button>
-<button id="undo" disabled>Undo</button>
-<button id="redo" disabled>Redo</button>
-<div id="ink-paper" style="border: 2px solid black"></div>
-<button id="speak" disabled>Speak</button>
+  <div class="grid">
+  <div class="col-1-4" style="display:inline-block">
+    <button id="trash" disabled>Clear</button>
+    <button id="undo" disabled>Undo</button>
+    <button id="redo" disabled>Redo</button>
+    <button id="speak" disabled>Speak:</button>
+  </div>
+  <div class="col-3-4" style="display:inline-block">
+    <div id="result" style="border-bottom: dashed 1px border-color:powderblue; max-height: 40px; float:left; font-size: 40px;"></div>
+  </div>
+</div>
+<div id="ink-paper" style="display:block; border: 2px solid black"></div>
+<!--<button id="speak" disabled>Speak</button>
 <span id="result" style="font-size: 40px; width: 960px;"></span>
+-->
+
+
+
+
+
 </main>
 </body>
 <script>
