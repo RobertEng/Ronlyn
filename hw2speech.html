@@ -49,8 +49,11 @@ h1 {
   font-family: arial;
   font-weight:bold;
   font-size:110%;
-  height: inherit;
-  display: inline-block;
+  display:block;
+  margin-top: 5px;
+  margin-bottom:0px;
+/*  height: inherit;
+  display: inline-block; */
   line-height:50px;
 }
 button {
@@ -126,13 +129,12 @@ label {
 <h1>Ronlyn's Handwriting To Speech 960x360</h1>
 </header>
 <main>
+  <h1>Input:</h1>
 <button id="trash" disabled>Clear</button>
 <button id="undo" disabled>Undo</button>
 <button id="redo" disabled>Redo</button>
-<button id="speak" disabled>Speak</button>
-<h1>Input:</h1>
 <div id="ink-paper" style="border: 2px solid black"></div>
-<h1>Result:</h1>
+<button id="speak" disabled>Speak</button>
 <span id="result" style="font-size: 40px; width: 960px;"></span>
 </main>
 </body>
