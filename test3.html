@@ -290,6 +290,9 @@ select {
             volume.addEventListener('click', function () {
                 alert('volume clicked')
             }, false);
+            volume.addEventListener('change', function () {
+                alert('volume change')
+            }, false);
             speak.addEventListener('click', function () {
                  var msg = new SpeechSynthesisUtterance('default');
                  msg.text = result.innerHTML;
