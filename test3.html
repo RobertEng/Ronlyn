@@ -235,7 +235,7 @@ select {
              * @param {Object} The recognition options
              * @param {Function} The result callback
              */
-            var paper = new MyScript.InkPaper(inkPaper, options);
+  /*          var paper = new MyScript.InkPaper(inkPaper, options);
             paper.setResultCallback(function (data, error) {
                 // Handle recognition result
                 result.innerHTML = '';
@@ -275,9 +275,12 @@ select {
                     speak.disabled = (data.canUndo) ? false : true;
                 }
             });
+
+            */
             /**
              * Map the buttons
              */
+/*
             trash.addEventListener('click', function () {
                 paper.clear();
             }, false);
@@ -287,11 +290,21 @@ select {
             redo.addEventListener('click', function () {
                 paper.redo();
             }, false);
+            */
             volume.addEventListener('click', function () {
                 alert('volume clicked')
             }, false);
             volume.addEventListener('mousedown', function () {
                 alert('volume mousedown')
+            }, false);
+            volume.addEventListener('drag', function () {
+                alert('volume drag')
+            }, false);
+            volume.addEventListener('dragstart', function () {
+                alert('volume dragstart')
+            }, false);
+            volume.addEventListener('dragend', function () {
+                alert('volume dragend')
             }, false);
             volume.addEventListener('mouseup', function () {
                 alert('volume mouseup')
@@ -327,7 +340,7 @@ select {
 //                  };
                   window.speechSynthesis.speak(msg);
             }, false); //speak
-            languages.addEventListener('change', function () {
+/*            languages.addEventListener('change', function () {
                 var parameters = paper.getTextParameters();
                 var languageSelected = languages.options[languages.selectedIndex].value;
                 parameters.setLanguage(languageSelected);
@@ -340,8 +353,9 @@ select {
             }, false);
 
             paper.getAvailableLanguages();
+            */
         }
-        MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
+  //      MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
     })();
   function populateVoiceList(voiceSelect, language, defaultVoice) {
      // Fetch the available voices.
