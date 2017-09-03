@@ -164,14 +164,6 @@ select {
         <label for="volume">Volume:</label>
         <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
       </span>
-      <span id="languageControl">
-        <label for="languages">Language: </label>
-        <select id="languages" disabled></select>
-      </span>
-      <div class="option" id="voiceControl">
-        <label for="voice">Voice:</label>
-        <select name="voice" id="voice"></select>
-      </div>
   </div>
   </div>
 </header>
@@ -318,6 +310,7 @@ select {
             volume.addEventListener('change', function () {
                 alert('volume change')
             }, false);
+/*
             speak.addEventListener('click', function () {
                  var msg = new SpeechSynthesisUtterance('default');
                  msg.text = result.innerHTML;
@@ -328,6 +321,7 @@ select {
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
               	}
+*/
 //                  msg.onend = function () {
 //                      if (callback) {
 //                          callback();
