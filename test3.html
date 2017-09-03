@@ -6,19 +6,6 @@
     <base href="./myscript/components/">
 
     <!-- CSS import -->
-    <link rel="stylesheet" href="myscript/dist/myscript.min.css"/>
-
-    <!-- CryptoJS imports -->
-    <script type="text/javascript" src="cryptojslib/components/core-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/x64-core-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/sha512-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/hmac-min.js"></script>
-    <!-- Q import -->
-    <script type="text/javascript" src="q/q.js"></script>
-    <!-- PEP import -->
-    <script type="text/javascript" src="pepjs/dist/pep.min.js"></script>
-    <!-- MyScriptJS import -->
-    <script type="text/javascript" src="myscript/dist/myscript.min.js"></script>
 <style>
 #header { <!-- single element id="header"-->
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -45,6 +32,7 @@
   background: #fff;
   margin-left: 10px;
   margin-top:5px;
+-webkit
 }
 h1 {
   font-family: arial;
@@ -149,23 +137,6 @@ select {
 <title>Ronlyn's Handwriting to Speech</title>
 
 <body touch-action="none">
-<header>
-  <header>
-  <div class="grid" id="header">
-    <div class="col-1-2 headertitle" XSAMPA="Ronlyns handwriting To Speech App">
-       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS)</span>
-    </div>
-    <div class="col-1-2 headerControls">
-      <span class="option" id="volumeControl">
-        <label for="volume">Volume:</label>
-        <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-      </span>
-  </div>
-  </div>
-</header>
-
-
-</header>
 <main>
   <label for="volume">Volume:</label>
   <input type="range" min="0" max="1" step="0.1" name="volume1" id="volume1" value="1">
@@ -175,100 +146,11 @@ select {
 <script>
     (function () {
         function initialize() {
-            var result = document.getElementById('result');
-            var inkPaper = document.getElementById('ink-paper');
-            var trash = document.getElementById('trash');
-            var undo = document.getElementById('undo');
-            var redo = document.getElementById('redo');
-            var languages = document.getElementById('languages');
             var volumeInput = document.getElementById('volume');
             var voiceSelect = document.getElementById('voice');
             var defaultVoice = "Microsoft Zira Desktop - English (United States)"; // depends upon platform
             var defaultLanguage = "en_US"
-            var options = {
-                host: "webdemoapi.myscript.com", // Handle MyScript Cloud authentication keys (cloud.myscript.com)
-                applicationKey: "22eda92c-10af-40d8-abea-fd4093c17d81", // MyScript Cloud application key - change the keys for production use
-                hmacKey: "a1fa759f-b3ce-4091-9fd4-d34bb870c601", // MyScript Cloud HMAC key - change the keys for production use
-                type: MyScript.RecognitionType.TEXT, // Recognition type
-                protocol: MyScript.Protocol.WS,
-                width: 960, // InkPaper width
-                height: 500, // InkPaper height
-                timeout: 25, // Recognition timeout
-                textParameters: {
-                    language: defaultLanguage, // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
-                    resultDetail: 'CHARACTER',
-                    textProperties: {
-                        textCandidateListSize: 3
-                    }
-                }
-            };
-            /**
-             * As canvas are positioned absolute to overlay, we have to explicitly set the parent dimensions
-             */
-            inkPaper.style.height = options.height + 'px';
-            inkPaper.style.width = options.width + 'px';
-            /**
-             * Init the ink paper
-             * @param {Element} The DOM element to attach the ink paper
-             * @param {Object} The recognition options
-             * @param {Function} The result callback
-             */
-  /*          var paper = new MyScript.InkPaper(inkPaper, options);
-            paper.setResultCallback(function (data, error) {
-                // Handle recognition result
-                result.innerHTML = '';
-                if (error) {
-                    result.innerHTML = error;
-                }
-                if (data) {
-                    if (data instanceof Array) { // Populate the language options
-                        for (var i in data) {
-                            languages.options[languages.options.length] = new Option(data[i], data[i]);
-                            languages.disabled = false;
-                            if (options.textParameters.language == data[i]) {
-                              languages.options.selectedIndex = i;
-                              populateVoiceList(voiceSelect, languages.options[i].value, defaultVoice)
-                              //maybe a race condition where voices have not loaded yet!!!!
-                            }
-                        }
-                    } else { // Display the selected text candidate
-                        var candidate = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
-                        result.innerHTML = candidate;
-                    }
-                }
-            });
-            paper.setChangeCallback(function (data) {
-                if (data) {
-                    trash.disabled = (data.canUndo || data.canRedo) ? false : true;
-                    undo.disabled = (data.canUndo) ? false : true;
-                    redo.disabled = (data.canRedo) ? false : true;
-                    speak.disabled = (data.canUndo) ? false : true;
-                }
-            });
-            paper.setChangeCallback(function (data) {
-                if (data) {
-                    trash.disabled = (data.canUndo || data.canRedo) ? false : true;
-                    undo.disabled = (data.canUndo) ? false : true;
-                    redo.disabled = (data.canRedo) ? false : true;
-                    speak.disabled = (data.canUndo) ? false : true;
-                }
-            });
 
-            */
-            /**
-             * Map the buttons
-             */
-/*
-            trash.addEventListener('click', function () {
-                paper.clear();
-            }, false);
-            undo.addEventListener('click', function () {
-                paper.undo();
-            }, false);
-            redo.addEventListener('click', function () {
-                paper.redo();
-            }, false);
-            */
             volume.addEventListener('click', function () {
                 alert('volume clicked')
             }, false);
@@ -296,46 +178,7 @@ select {
             volume.addEventListener('change', function () {
                 alert('volume change')
             }, false);
-/*
-            speak.addEventListener('click', function () {
-                 var msg = new SpeechSynthesisUtterance('default');
-                 msg.text = result.innerHTML;
-                 msg.volume = parseFloat(volumeInput.value);
-                 msg.lang = 'en-US';
-                 msg.rate = 1;
-                 msg.pitch = 1;
-                 if (voiceSelect.value) {
-                    msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-              	}
-*/
-//                  msg.onend = function () {
-//                      if (callback) {
-//                          callback();
-//                      }
-//                  };
-//                  msg.onerror = function (e) {
-//                      if (callback) {
-//                          callback(e);
-//                      }
-//                  };
-                  window.speechSynthesis.speak(msg);
-            }, false); //speak
-/*            languages.addEventListener('change', function () {
-                var parameters = paper.getTextParameters();
-                var languageSelected = languages.options[languages.selectedIndex].value;
-                parameters.setLanguage(languageSelected);
-                paper.setTextParameters(parameters);
-                // repopulate voice list based on language selection
-                populateVoiceList(voiceSelect, languageSelected, defaultVoice);
-            }, false);
-            window.speechSynthesis.addEventListener('voicesChanged', function () {
-              populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
-            }, false);
-
-            paper.getAvailableLanguages();
-            */
         }
-  //      MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
     })();
   function populateVoiceList(voiceSelect, language, defaultVoice) {
      // Fetch the available voices.
