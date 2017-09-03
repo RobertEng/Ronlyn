@@ -294,18 +294,20 @@ select {
                  msg.pitch = 1;
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-                    alert(msg.voice.voiceURI);
+                    alert(msg.voice.voiceURI); }
+                else{
+                  alert("no value");
               	}
-//                  msg.onend = function () {
-//                      if (callback) {
-//                          callback();
-//                      }
-//                  };
-//                  msg.onerror = function (e) {
-//                      if (callback) {
-//                          callback(e);
-//                      }
-//                  };
+                  msg.onend = function () {
+                      if (callback) {
+                          callback();
+                      }
+                  };
+                  msg.onerror = function (e) {
+                      if (callback) {
+                          callback(e);
+                      }
+                  };
                   window.speechSynthesis.speak(msg);
             }, false); //speak
             languages.addEventListener('change', function () {
