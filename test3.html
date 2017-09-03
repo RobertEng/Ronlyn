@@ -345,6 +345,7 @@ select {
     })();
   function populateVoiceList(voiceSelect, language, defaultVoice) {
      // Fetch the available voices.
+     alert("popluating voices")
      var voices = speechSynthesis.getVoices();
      var option;
      voiceSelect.options.length = 0; //remove all existing children from option
