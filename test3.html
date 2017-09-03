@@ -152,8 +152,7 @@ select {
 </head>
 <title>Ronlyn's Handwriting to Speech</title>
 
-<!--body touch-action="none"-->
-  <body>
+<body touch-action="none">
 <header>
   <header>
   <div class="grid" id="header">
@@ -287,6 +286,9 @@ select {
             }, false);
             redo.addEventListener('click', function () {
                 paper.redo();
+            }, false);
+            volume.addEventListener('click', function () {
+                alert('volume clicked')
             }, false);
             speak.addEventListener('click', function () {
                  var msg = new SpeechSynthesisUtterance('default');
