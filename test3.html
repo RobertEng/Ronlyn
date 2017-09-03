@@ -294,6 +294,7 @@ select {
                  msg.pitch = 1;
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+                    alert(msg.voice);
               	}
 //                  msg.onend = function () {
 //                      if (callback) {
@@ -316,7 +317,6 @@ select {
                 populateVoiceList(voiceSelect, languageSelected, defaultVoice);
             }, false);
             voiceLabel.addEventListener('click', function () {
-              alert("voiceLabel:click");
               // kludge to populate voices without inkpaper returning list of languages on ios
               populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
             }, false);
@@ -332,7 +332,7 @@ select {
      // Fetch the available voices.
      var voices = speechSynthesis.getVoices();
      var option;
-     voiceSelect.options.length = 0; //remove all existing children from option
+     voiceSelect.options.length = 0; //remove all existing children from option // probably causes a memory leak
      lang = language.replace(/_/g,"-");
      voices.forEach(function(voice, i) {
         if (voice.lang==lang) {
