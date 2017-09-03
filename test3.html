@@ -239,9 +239,11 @@ select {
                 if (error) {
                     result.innerHTML = error;
                 }
+                alert("invoking paper.setResultCallback");
                 if (data) {
                     if (data instanceof Array) { // Populate the language options
                         for (var i in data) {
+                          alert("invoking paper.setResultCallback:"+data[i]);
                             languages.options[languages.options.length] = new Option(data[i], data[i]);
                             languages.disabled = false;
                             if (options.textParameters.language == data[i]) {
