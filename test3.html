@@ -298,7 +298,7 @@ select {
                 else{
                   alert("no value");
               	}
-                  msg.onend = function () {
+/*                  msg.onend = function () {
                       if (callback) {
                           callback();
                       }
@@ -308,6 +308,7 @@ select {
                           callback(e);
                       }
                   };
+*/
                   window.speechSynthesis.speak(msg);
             }, false); //speak
             languages.addEventListener('change', function () {
