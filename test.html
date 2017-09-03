@@ -109,45 +109,11 @@ label {
   border-top-color: powderblue;
   }
 .headerControls {
+  display: inline;
   font-family: arial;
   font-size: 80%;
   text-align:right;
 }
-input[type=range] {
-  width: 100px;
-  height: 10px;
-  /*remove bg color from the track, we'll use ms-fill-lower and ms-fill-upper instead */
-  background: transparent;
-
-  /*leave room for the larger thumb to overflow with a transparent border */
-  border-color: transparent;
-  border-width: 6px 0;
-
-  /*remove default tick marks*/
-  color: black;
-}
-select {
-  width: 150px;
-  height: 20px;
-  /*remove bg color from the track, we'll use ms-fill-lower and ms-fill-upper instead */
-  background: transparent;
-
-  /*remove default tick marks*/
-  color: black;
-}
-.languageControl {
-  display: inline-block;
-  white-space: nowrap;
-}
-.volumeControl {
-  display: inline-block;
-  white-space: nowrap;
-}
-.voiceControl {
-  display: inline-block;
-  white-space: nowrap;
-}
-
 </style>
 </head>
 <title>Ronlyn's Handwriting to Speech</title>
@@ -157,21 +123,21 @@ select {
   <header>
   <div class="grid" id="header">
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns handwriting To Speech App">
-       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS)</span>
+       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS) App</span>
     </div>
     <div class="col-1-2 headerControls">
+      <span class="option" id="voiceControl">
+        <label for="voice">Voice</label>
+        <select name="voice" id="voice"></select>
+      </span>
       <span class="option" id="volumeControl">
-        <label for="volume">Volume:</label>
+        <label for="volume">Volume</label>
         <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
       </span>
-      <span id="languageControl">
-        <label for="languages">Language: </label>
-        <select id="languages" disabled></select>
-      </span>
-      <div class="option" id="voiceControl">
-        <label for="voice">Voice:</label>
-        <select name="voice" id="voice"></select>
-      </div>
+      <span>
+      <label for="languages">Language: </label>
+      <select id="languages" disabled></select>
+    </span>
   </div>
   </div>
 </header>
@@ -191,6 +157,13 @@ select {
   </div>
 </div>
 <div id="ink-paper" style="display:block; border: 2px solid black"></div>
+<!--<button id="speak" disabled>Speak</button>
+<span id="result" style="font-size: 40px; width: 960px;"></span>
+-->
+
+
+
+
 
 </main>
 </body>
@@ -205,8 +178,7 @@ select {
             var languages = document.getElementById('languages');
             var volumeInput = document.getElementById('volume');
             var voiceSelect = document.getElementById('voice');
-            var defaultVoice = "Microsoft Zira Desktop - English (United States)"; // depends upon platform
-            var defaultLanguage = "en_US"
+
             var options = {
                 host: "webdemoapi.myscript.com", // Handle MyScript Cloud authentication keys (cloud.myscript.com)
                 applicationKey: "22eda92c-10af-40d8-abea-fd4093c17d81", // MyScript Cloud application key - change the keys for production use
@@ -217,7 +189,7 @@ select {
                 height: 500, // InkPaper height
                 timeout: 25, // Recognition timeout
                 textParameters: {
-                    language: defaultLanguage, // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
+                    language: 'en_US', // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
                     resultDetail: 'CHARACTER',
                     textProperties: {
                         textCandidateListSize: 3
@@ -249,22 +221,12 @@ select {
                             languages.disabled = false;
                             if (options.textParameters.language == data[i]) {
                               languages.options.selectedIndex = i;
-                              populateVoiceList(voiceSelect, languages.options[i].value, defaultVoice)
-                              //maybe a race condition where voices have not loaded yet!!!!
                             }
                         }
                     } else { // Display the selected text candidate
                         var candidate = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
                         result.innerHTML = candidate;
                     }
-                }
-            });
-            paper.setChangeCallback(function (data) {
-                if (data) {
-                    trash.disabled = (data.canUndo || data.canRedo) ? false : true;
-                    undo.disabled = (data.canUndo) ? false : true;
-                    redo.disabled = (data.canRedo) ? false : true;
-                    speak.disabled = (data.canUndo) ? false : true;
                 }
             });
             paper.setChangeCallback(function (data) {
@@ -288,6 +250,8 @@ select {
                 paper.redo();
             }, false);
             speak.addEventListener('click', function () {
+              function speak(text, callback) {
+
                  var msg = new SpeechSynthesisUtterance('default');
                  msg.text = result.innerHTML;
                  msg.volume = parseFloat(volumeInput.value);
@@ -297,49 +261,53 @@ select {
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
               	}
-//                  msg.onend = function () {
-//                      if (callback) {
-//                          callback();
-//                      }
-//                  };
-//                  msg.onerror = function (e) {
-//                      if (callback) {
-//                          callback(e);
-//                      }
-//                  };
-                  window.speechSynthesis.speak(msg);
-            }, false); //speak
+                  msg.onend = function () {
+                      if (callback) {
+                          callback();
+                      }
+                  };
+                  msg.onerror = function (e) {
+                      if (callback) {
+                          callback(e);
+                      }
+                  };
+              }(); // function speak
+            }, false);
+            window.speechSynthesis.speak(msg);
+
             languages.addEventListener('change', function () {
                 var parameters = paper.getTextParameters();
-                var languageSelected = languages.options[languages.selectedIndex].value;
-                parameters.setLanguage(languageSelected);
+                parameters.setLanguage(languages.options[languages.selectedIndex].value);
                 paper.setTextParameters(parameters);
-                // repopulate voice list based on language selection
-                populateVoiceList(voiceSelect, languageSelected, defaultVoice);
             }, false);
-            window.speechSynthesis.addEventListener('voicesChanged', function () {
-              populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
-            }, false);
-
             paper.getAvailableLanguages();
-        }
+            populateVoices()
+        } // Initialize
+        function populateVoices(defaultVoice) {
+           // Fetch the available voices.
+           var voices = speechSynthesis.getVoices();
+           var option;
+           // Loop through each of the voices.
+           voices.forEach(function(voice, i) {
+              // Create a new option element.
+
+              // Set the options value and text.
+              option = document.createElement('option');
+              option.value = voice.name;
+              option.innerHTML = voice.name;
+              option.selected = (voice.name == defaultVoice);
+              // Add the option to the voice selector.
+              voiceSelect.appendChild(option);
+           } // populateVoices
+         );
+       }
         MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
-    })();
-  function populateVoiceList(voiceSelect, language, defaultVoice) {
-     // Fetch the available voices.
-     var voices = speechSynthesis.getVoices();
-     var option;
-     voiceSelect.options.length = 0; //remove all existing children from option
-     lang = language.replace(/_/g,"-");
-     voices.forEach(function(voice, i) {
-        if (voice.lang==lang) {
-          option = document.createElement('option');
-          option.value = voice.name;
-          option.innerHTML = voice.name;
-          option.selected = (voice.name == defaultVoice);
-          voiceSelect.appendChild(option);
-        }
-    });
-  }
+    populateVoices(14);
+
+    )(); //closure
+    /*
+ * Populate list of voices.
+ */
+}
 </script>
 </html>
