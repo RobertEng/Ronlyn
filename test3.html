@@ -294,7 +294,7 @@ select {
                  msg.pitch = 1;
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-                    alert(msg.voice.name);
+                    alert(msg.voice.voiceURI);
               	}
 //                  msg.onend = function () {
 //                      if (callback) {
