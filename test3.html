@@ -168,7 +168,7 @@ select {
         <select id="languages" disabled></select>
       </span>
       <div class="option" id="voiceControl">
-        <label for="voice">Voice:</label>
+        <label for="voice" id="voiceLabel">Voice:</label>
         <select name="voice" id="voice"></select>
       </div>
   </div>
@@ -202,6 +202,7 @@ select {
             var languages = document.getElementById('languages');
             var volumeInput = document.getElementById('volume');
             var voiceSelect = document.getElementById('voice');
+            var voiceLabel = document.getElementById('voiceLabel');
             var defaultVoice = "Microsoft Zira Desktop - English (United States)"; // depends upon platform
             var defaultLanguage = "en_US"
             var options = {
@@ -235,16 +236,13 @@ select {
             var paper = new MyScript.InkPaper(inkPaper, options);
             paper.setResultCallback(function (data, error) {
                 // Handle recognition result
-                alert("invoking paper.setResultCallback:238");
                 result.innerHTML = '';
                 if (error) {
                     result.innerHTML = error;
                 }
-                alert("invoking paper.setResultCallback:244");
                 if (data) {
                     if (data instanceof Array) { // Populate the language options
                         for (var i in data) {
-                          alert("invoking paper.setResultCallback:248 - "+data[i]);
                             languages.options[languages.options.length] = new Option(data[i], data[i]);
                             languages.disabled = false;
                             if (options.textParameters.language == data[i]) {
@@ -317,10 +315,12 @@ select {
                 // repopulate voice list based on language selection
                 populateVoiceList(voiceSelect, languageSelected, defaultVoice);
             }, false);
-            window.speechSynthesis.addEventListener('voicesChanged', function () {
+            voiceLabel.addEventListener('click', function () {
+              alert("voiceLabel:click");
+              // kludge to populate voices without inkpaper returning list of languages on ios
               populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
             }, false);
-            window.speechSynthesis.addEventListener('click', function () {
+            window.speechSynthesis.addEventListener('voicesChanged', function () {
               populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
             }, false);
 
