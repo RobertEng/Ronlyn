@@ -235,15 +235,17 @@ select {
             var paper = new MyScript.InkPaper(inkPaper, options);
             paper.setResultCallback(function (data, error) {
                 // Handle recognition result
+                alert("invoking paper.setResultCallback:238");
                 result.innerHTML = '';
                 if (error) {
+                  alert("invoking paper.setResultCallback:241");
                     result.innerHTML = error;
                 }
-                alert("invoking paper.setResultCallback");
+                alert("invoking paper.setResultCallback:244");
                 if (data) {
                     if (data instanceof Array) { // Populate the language options
                         for (var i in data) {
-                          alert("invoking paper.setResultCallback:"+data[i]);
+                          alert("invoking paper.setResultCallback:248 - "+data[i]);
                             languages.options[languages.options.length] = new Option(data[i], data[i]);
                             languages.disabled = false;
                             if (options.textParameters.language == data[i]) {
