@@ -318,13 +318,14 @@ select {
                 // repopulate voice list based on language selection
                 populateVoiceList(voiceSelect, languageSelected, defaultVoice);
             }, false);
-            window.speechSynthesis.addEventListener('voicesChanged', function () {
-              populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
-            }, false);
             voiceLabel.addEventListener('click', function () {
               // kludge to populate voices without inkpaper returning list of languages on ios
               populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
             }, false);
+            window.speechSynthesis.addEventListener('voicesChanged', function () {
+              populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
+            }, false);
+
             paper.getAvailableLanguages();
         }
         MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
@@ -333,7 +334,7 @@ select {
      // Fetch the available voices.
      var voices = speechSynthesis.getVoices();
      var option;
-     voiceSelect.options.length = 0; //remove all existing children from option
+     voiceSelect.options.length = 0; //remove all existing children from option probably leaks memory
      lang = language.replace(/_/g,"-");
      voices.forEach(function(voice, i) {
         if (voice.lang==lang) {
