@@ -168,7 +168,7 @@ select {
         <select id="languages" disabled></select>
       </span>
       <div class="option" id="voiceControl">
-        <label for="voice">Voice:</label>
+        <label for="voiceLabel">Voice:</label>
         <select name="voice" id="voice"></select>
       </div>
   </div>
@@ -294,16 +294,19 @@ select {
                  if (voiceSelect.value) {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
               	}
-//                  msg.onend = function () {
-//                      if (callback) {
-//                          callback();
-//                      }
-//                  };
-//                  msg.onerror = function (e) {
-//                      if (callback) {
-//                          callback(e);
-//                      }
-//                  };
+                function callback (e) {
+                  alert("speech keycode: "+e.which);
+                }
+                  msg.onend = function (e) {
+                      if (callback) {
+                          callback();
+                      }
+                  };
+                  msg.onerror = function (e) {
+                      if (callback) {
+                          callback(e);
+                      }
+                  };
                   window.speechSynthesis.speak(msg);
             }, false); //speak
             languages.addEventListener('change', function () {
@@ -317,7 +320,10 @@ select {
             window.speechSynthesis.addEventListener('voicesChanged', function () {
               populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
             }, false);
-
+            voiceLabel.addEventListener('click', function () {
+              // kludge to populate voices without inkpaper returning list of languages on ios
+              populateVoiceList(voiceSelect, defaultLanguage, defaultVoice);
+            }, false);
             paper.getAvailableLanguages();
         }
         MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
