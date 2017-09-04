@@ -296,7 +296,7 @@ select {
                     msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
               	}
                 function callback (e) {
-                  alert("hi");
+                  alert(e.which);
                 }
                   msg.onend = function (e) {
                       if (callback) {
