@@ -281,5 +281,23 @@ label {
 
 
 
+
+    function populateVoices(voiceSelect, defaultVoice) {
+   // Fetch the available voices.
+   var voices = speechSynthesis.getVoices();
+   var option;
+   // Loop through each of the voices.
+   voices.forEach(function(voice, i) {
+      // Create a new option element.
+
+      // Set the options value and text.
+      option = document.createElement('option');
+      option.value = voice.name;
+      option.innerHTML = voice.name;
+      option.selected = (voice.name == defaultVoice);
+      // Add the option to the voice selector.
+      voiceSelect.appendChild(option);
+   });
+} // populateVoices
 </script>
 </html>
