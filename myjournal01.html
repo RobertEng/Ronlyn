@@ -164,6 +164,7 @@ main {
   overflow: auto;
   background: #fff;
   margin-left: 10px;
+  background-color: linen;
 }
 
 .word {
@@ -206,6 +207,8 @@ input[type=range] {
 img {
   max-width:300px;
   max-height:700px;
+  box-shadow: 5px 5px 10px #aaa;
+  border:10px solid white;
 }
 </style>
 </head>
@@ -262,7 +265,7 @@ img {
 </div>
 </div>
 <h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
-<h1><a class="navbar-item" id="Jun2017">Jun2017</a></h1>
+<h1><a class="navbar-item" id="Jun2017">June 2017</a></h1>
 <h1><a class="navbar-item" id="May2017">May 2017</a></h1>
 <h1><a class="navbar-item" id="Apr2017">April 2017</a></h1>
 <div class="photoentry">
@@ -271,16 +274,54 @@ img {
   </div>
   <div class="captions">
     <ul>
-      <li><div class="sentence">I have 8 strategies to help me speak.</div></li>
+      <li><div class="sentence">I have 8 strategies to help me speak as I recover from aphasia.</div></li>
       <li>
         <div class="sentence">Focus on it.</div>
         <div class="sentence">1) Close your eyes.</div>
         <div class="sentence">2) Inhale slowly.</div>
         <div class="sentence">3) Blow slowly through your mouth.</div>
+        <div class="sentence">This strategy is useful to calm yourself.</div>
       </li>
-      <li><div class="sentence">Their aquatics staff is wonderful.</div></li>
-      <li><div class="sentence">Their aquatics staff is wonderful.</div></li>
-</div>
+      <li>
+        <div class="sentence">Say it.</div>
+        <div class="sentence">1) Subvocalize it.</div>
+        <div class="sentence">2) Utter the first phoneme.</div>
+        <div class="sentence">3) Sound it out.</div>
+        <div class="sentence">4) Tap out syllables.</div>
+      </li>
+      <li>
+        <div class="sentence">"Air" Spell it.</b></div>
+        <div class="sentence">Trace out the first letters of the word.</div>
+        <div class="sentence">Utter that phoneme.</div>
+      </li>
+      <li>
+        <div class="sentence">"Gesture it.</div>
+        <div class="sentence">Act out the meaning of the word.</div>
+        <div class="sentence">This strategy is similar to playing charades.</div>
+        <div class="sentence">This is particularly useful for verbs and actions.</div>
+      </li>
+      <li>
+        <div class="sentence">"Visualize it.</div>
+        <div class="sentence">1) Close you eyes.</div>
+        <div class="sentence">2) Visualize the object or action.</div>
+        <div class="sentence">3) See the letters in the word.</div>
+      </li>
+      <li>
+        <div class="sentence">"Draw it.</div>
+      </li>
+      <li>
+        <div class="sentence">"Write it. Write the full word visually.</div>
+      </li>
+      <li>
+        <div class="sentence">Describe it.</div>
+        <div class="sentence">Looks like...</div>
+        <div class="sentence">Feels like...</div>
+        <div class="sentence">Smells like...</div>
+        <div class="sentence">Sounds like...</div>
+        <div class="sentence">Tastes like...</div>
+      </li>
+    </div>
+  </div>
 
 
 <p id="os-msg"></p>
@@ -423,10 +464,8 @@ var voiceSelect = document.getElementById('voice');
    }
 }
    function generateSentences() {
-     sentences = [
-       'The quick brown fox jumps over the lazy dog.',
-       'a man a plan a canal panama'
-     ];
+// need to parse out tags!!!!!
+
      allSentencesHTML = "";
      for (s in sentences) {
        words = sentences[s].split(" ");
