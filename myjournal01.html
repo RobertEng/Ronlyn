@@ -17,6 +17,7 @@ body {
 h1 {
   font-family: arial;
   font-size: 100%;
+  font-weight: bold;
 }
 h2 {
   font-family: arial;
@@ -193,19 +194,20 @@ input[type=range] {
 }
 .photoentry {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: 1fr, 10px, 2fr;
   grid-gap: 10px;
 }
 .photo {
-  grid-column: 1/3;
+  grid-column: 1/1;
   grid-row: 1;
 }
 .captions {
-  grid-column: 2/4;
+  grid-column: 3/3;
   grid-row: 1;
 }
 img {
   width:250px;
+  border-radius: 10px;
   height: auto;
   padding-left: 5px;
   box-shadow: 5px 5px 10px #aaa;
@@ -243,11 +245,15 @@ img {
   <div class="captions">
     <ul>
       <li><div class="sentence">My name is Ronlyn Goo.</div></li>
-      <li><div class="sentence">I am 54 years old.</div></li>
-      <li><div class="sentence">My husband is named Wen.</div></li>
-      <li><div class="sentence">We have been married 25 years.</div></li>
-      <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
-      <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+      <li><div class="sentence">I am 54 years old.</div>
+        <div class="sentence">My husband is named Wen.</div>
+          <div class="sentence">He and I have been married 25 years and we live in Saratoga.</div></li>
+      <li><div class="sentence">I was born in San Francisco.</div>
+      <div class="sentence">My family moved to Pacifica where I grew up and graduated from Terra Nova High School.</div>
+    </li>
+
+      <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div>
+      <div class="sentence">I also have an MBA degree from Stanford.</div></li>
   </ul>
 </div>
 </div>
@@ -262,9 +268,39 @@ img {
       <li><div class="sentence">I enjoy swimming.</div></li>
       <li><div class="sentence">DeAnza College Aquatics program helps me start swimming again.</div></li>
       <li><div class="sentence">Their aquatics staff is wonderful.</div></li>
+      <li><div class="sentence">My swim aide Negin attends UC Davis and intends to be a veterinarian.</div>
+        <div class="sentence">She spent the remainder of her summer observing and caring for elephants in Thailand.</div>
+      </li>
+    </ul>
 </div>
 </div>
 <h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
+<h2>7/27/2017</h1>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
+    <img src="img/20170727_104544.jpg" alt="skill plus party"/>
+    <img src="img/20170727_113526.jpg" alt="skill plus party"/>
+    <img src="img/20170727_113531.jpg" alt="skill plus party"/>
+    <img src="img/20170727_125112.jpg" alt="skill plus party"/>
+    <img src="img/20170727_133237.jpg" alt="skill plus party"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
+      <li><div class="sentence">We attended the end-of-the-year potluck party on July 28,2017.</div>
+        <li><div class="sentence">The students like me played games and participated in activities before eating.</div></li>
+        <li><div class="sentence">I sat with Mary Ann and her daughter Virginia, Armando and his wife Mary along with Terence.</div>
+          <div class="sentence">Wen and I brought pulled pork and beans with cole slaw for the party.</div>
+          <div class="sentence">Other people brought King Eggrolls, fried chicken Popeye's, pizza, salads, side dishes and desserts.</div>
+        </li>
+        <li>
+          <div class="sentence">After lunch, we watched taiko drummers.</div>
+          <div class="sentence">I even got the chance to beat the drum.</div>
+        </li>
+    </ul>
+</div>
+</div>
 <h1><a class="navbar-item" id="Jun2017">June 2017</a></h1>
 <h1><a class="navbar-item" id="May2017">May 2017</a></h1>
 <h1><a class="navbar-item" id="Apr2017">April 2017</a></h1>
