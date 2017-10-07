@@ -397,11 +397,39 @@ var voiceSelect = document.getElementById('voice');
      words = sentences[s].innerHTML.split(" ");
      sentenceHTML = "";
      partialSentence="";
+     var word;
      for (w in words) {
+
+       /*
+         need to remove apostrophes from partial and word because it causes
+         truncation of attribute (because attributes are delimited by
+         apostrophes.
+         ultimately need to fix all embedded apostrophes cases where word
+         without apostrophe no longer sounds like the original contraction
+          - "I'll" sounds like Ill should be "aisle"
+
+         */
+
+         word = words[w].toLowerCase();
+         if (word == "i'll") {
+            wordWithoutAposS = "aisle"; }
+         else if (word=="he'll") {
+           wordWithoutAposS="heel"; }
+         else if (word=="she'll") {
+            wordWithoutAposS="shiel" }
+          else {
+            wordWithoutAposS = word.replace("'",""); }
+
+          partialSentence += wordWithoutAposS+" ";
+          wordTag = "<span class='word speak-onclick' word='" + wordWithoutAposS
+                  + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+          sentenceHTML += wordTag;
+/*
        partialSentence += words[w]+" ";
        wordTag = "<span class='word speak-onclick' word='" + words[w]
           + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
        sentenceHTML += wordTag;
+       */
      }
 //     allSentencesHTML += sentenceHTML;
      sentences[s].innerHTML = sentenceHTML;

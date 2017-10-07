@@ -15,9 +15,12 @@ body {
 //  max-height: 100%;
 }
 h1 {
+  padding-top:5px;
   font-family: arial;
   font-size: 100%;
   font-weight: bold;
+  border-top: solid black 2px;
+  width:100%
 }
 h2 {
   font-family: arial;
@@ -192,24 +195,32 @@ input[type=range] {
   height:20px;
 
 }
+/*
+
+*/
 .photoentry {
   display: grid;
-  grid-template-columns: 1fr, 5px, 2fr;
-  grid-gap: 10px;
+  grid-template-columns: 220px auto;
+  grid-template-areas: "photo captions"
 }
+
 .photo {
-  grid-column: auto;
-  grid-row: 1;
+  display: grid;
+  margin-bottom:10px;
+  padding-left:10px;
+  grid-gap: 10px;
+  grid-template-areas: "image"
+
 }
+
 .captions {
-  grid-column: auto;
-  grid-row: 1;
+/*  grid-column: auto;*/
 }
+
 img {
   width:200px;
-  border-radius: 10px;
+  border-radius: 5px;
   height: auto;
-  padding-left: 5px;
   box-shadow: 5px 5px 10px #aaa;
 }
 
@@ -286,35 +297,46 @@ img:hover{
         <div class="sentence">She will spend the remainder of her summer observing and caring for elephants in Thailand.</div>
       </li>
     </ul>
-</div>
+  </div>
 </div>
 <h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
 <h2>7/27/2017</h1>
-<div class="photoentry">
-  <div class="photo">
-    <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
-    <img src="img/20170727_104544.jpg" alt="skill plus party"/>
-    <img src="img/20170727_113526.jpg" alt="skill plus party"/>
-    <img src="img/20170727_113531.jpg" alt="skill plus party"/>
-    <img src="img/20170727_125112.jpg" alt="skill plus party"/>
-    <img src="img/20170727_133237.jpg" alt="skill plus party"/>
-  </div>
-  <div class="captions">
-    <ul>
-      <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
-      <li><div class="sentence">We attend the end-of-the-year potluck party on July 28,2017.</div>
+  <div class="photoentry">
+    <div class="photo">
+      <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
+      <img src="img/20170727_104544.jpg" alt="skill plus party"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
+        <li><div class="sentence">We attend the end-of-the-year potluck party on July 28, 2017.</div>
         <li><div class="sentence">The students like me play games and participate in fun activities before eating.</div></li>
-        <li><div class="sentence">I sit at a table with Mary Ann and her daughter Virginia, Armando and his wife Mary along with Terence.</div>
-          <div class="sentence">Wen and I bring pulled pork and beans with cole slaw for the party.</div>
-          <div class="sentence">Other people bring King Eggrolls, fried chicken from Popeye&apos;s, pizza, salads, side dishes and desserts.</div>
-        </li>
-        <li>
-          <div class="sentence">After lunch, we watch and listen to taiko drummers.</div>
-          <div class="sentence">I even have the opportunity to beat the drum.</div>
-        </li>
-    </ul>
-</div>
-</div>
+        <li><div class="sentence">I sit at a table with Mary Ann and her daughter Virginia, Armando and his wife Mary along with Terence.</div></li>
+        <li><div class="sentence">Wen and I bring pulled pork and beans with cole slaw for the party.</div></li>
+        <li><div class="sentence">Other people bring King Eggrolls, fried chicken from Popeye&apos;s, pizza, salads, side dishes and desserts.</div></li>
+      </ul>
+     </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_125112.jpg" alt="skill plus party"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">After lunch, we watch and listen to taiko drummers.</div></li>
+      </ul>
+     </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_133237.jpg" alt="skill plus party"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">I even have the opportunity to beat the drum.</div></li>
+      </ul>
+     </div>
+  </div>
 <h2>7/21/2017</h1>
 <div class="photoentry">
   <div class="photo">
@@ -322,10 +344,12 @@ img:hover{
   </div>
   <div class="captions">
     <ul>
-      <li><div class="sentence">I attend Aphasia Talkfest.</div>
-      <div class="sentence">Today, Ken Jordan leads the group.</div>
-      <div class="sentence">Usually, Regina Tipton leads too.</div>
-      <div class="sentence">Dr. Peter Nelson, Armando Botelli and his wife Mary Lee have come to chat.</div>
+      <li><div class="sentence">I attend Aphasia Talkfest.</div></li>
+      <li>
+        <div class="sentence">Today, Ken Jordan leads the group.</div>
+        <div class="sentence">Usually, Regina Tipton leads too.</div>
+      </li>
+      <li><div class="sentence">Dr. Peter Nelson, Armando Botelli and his wife Mary Lee have come to chat.</div></li>
     </ul>
   </div>
 </div>
@@ -337,13 +361,14 @@ img:hover{
   </div>
   <div class="captions">
     <ul>
-      <li><div class="sentence">I start a new speech and language program at the Kay Armstead Center for Communication Disorders.</div>
-      <div class="sentence">The program is a non-profit community clinic located at San Jose State.</div>
-      <div class="sentence">My instructor is a graduate student named Elaine Yau.</div>
-      <div class="sentence">Her supervisor is named Anita Schaack.</div></li>
+      <li><div class="sentence">I start a new speech and language program at the Kay Armstead Center for Communication Disorders.</div></li>
+      <li><div class="sentence">The program is a non-profit community clinic located at San Jose State.</div></li>
       <li>
-        <div class="sentence">I attend one-hour sessions twice a week for the next month.</div>
-        <div class="sentence">On Tuesdays, I have private sessions with Elaine. On Thursdays, a group of students converse with each other.</div>
+        <div class="sentence">My instructor is a graduate student named Elaine Yau.</div>
+        <div class="sentence">Her supervisor is named Anita Schaack.</div>
+      </li>
+      <li><div class="sentence">I attend one-hour sessions twice a week for the next month.</div></li>
+      <li><div class="sentence">On Tuesdays, I have private sessions with Elaine. On Thursdays, a group of students converse with each other.</div></li>
       </li>
     </ul>
 </div>
@@ -355,11 +380,10 @@ img:hover{
   </div>
   <div class="captions">
     <ul>
-      <li>
-        <div class="sentence">This morning we go to the Saratoga Farmers Market.</div>
-        <div class="sentence">I walk by pushing the transport chair instead of using my cane.</div></li>
-        <div class="sentence">I like looking at the different booths and trying their various fresh and unique offerings.</div>
-        <div class="sentence">Wen always buys chinese vegetables and thai bsail when it is available.</div>
+      <li><div class="sentence">This morning we go to the Saratoga Farmers Market.</div></li>
+      <li><div class="sentence">I walk by pushing the transport chair instead of using my cane.</div></li>
+      <li><div class="sentence">I like looking at the different booths and trying their various fresh and unique offerings.</div></li>
+      <li><div class="sentence">Wen always buys chinese vegetables and thai bsail when it is available.</div></li>
     </ul>
 </div>
 </div>
@@ -613,6 +637,7 @@ var voiceSelect = document.getElementById('voice');
 /* loop on all div class="sentence" */
 
    var sentences = document.getElementsByClassName("sentence");
+   var word;
    allSentencesHTML = "";
    for (s = 0; s < sentences.length; s++) {
      sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
@@ -620,18 +645,32 @@ var voiceSelect = document.getElementById('voice');
      sentenceHTML = "";
      partialSentence="";
      for (w in words) {
-       partialSentence += words[w]+" ";
-       wordTag = "<span class='word speak-onclick' word='" + words[w]
-          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+       word = words[w].toLowerCase();
+       if (word == "i'll") {
+          wordWithoutAposS = "aisle"; }
+       else if (word=="he'll") {
+         wordWithoutAposS="heel"; }
+       else if (word=="she'll") {
+          wordWithoutAposS="shiel" }
+        else {
+          wordWithoutAposS = word.replace("'",""); }
+
+        partialSentence += wordWithoutAposS+" ";
+        wordTag = "<span class='word speak-onclick' word='" + wordWithoutAposS
+                + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+
+//       partialSentence += words[w]+" ";
+//       wordTag = "<span class='word speak-onclick' word='" + words[w]
+//          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
        sentenceHTML += wordTag;
      }
 //     allSentencesHTML += sentenceHTML;
      sentences[s].innerHTML = sentenceHTML;
-     console.log(sentenceHTML);
+     //console.log(sentenceHTML);
 //     allSentencesHTML += "</br></br>";
 //sentences[s].innerHTML = sentencesHTML;
 //    console.log(sentenceHTML);
-   }
+  }
 }
    function generateSentences() {
 // need to parse out tags!!!!!
