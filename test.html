@@ -15,12 +15,19 @@ body {
 //  max-height: 100%;
 }
 h1 {
+  padding-top:5px;
   font-family: arial;
   font-size: 100%;
+  font-weight: bold;
+  border-top: solid lightgray 4px;
+  width:100%
 }
 h2 {
   font-family: arial;
   font-size: 90%;
+  padding-top:2px;
+  border-bottom: solid lightgray 2px;
+  width:50%  }
 }
 .box {
   background-color: var(--button-background-color);
@@ -164,13 +171,15 @@ main {
   overflow: auto;
   background: #fff;
   margin-left: 10px;
+  background-color: linen;
 }
 
 .word {
   cursor: pointer;
 }
 .word:hover {
-  font-weight:bold ;
+/*  font-weight:bold ;*/
+  text-decoration: underline;:
   cursor: pointer;
 }
 .sentence {
@@ -186,14 +195,67 @@ li:not(:last-child) {
 .headerControls {
   text-align:right;
 }
+input[type=range] {
+  height:20px;
+
+}
+/*
+
+*/
+.photoentry {
+  display: grid;
+  grid-template-columns:  220px auto ;
+  grid-template-areas: " photos captions";
+}
+
+.photos {
+  display: grid;
+  margin-bottom:10px;
+  padding-left:10px;
+  grid-gap: 10px;
+  grid-template-areas: "images";
+}
+.photo {
+  position:absolute;
+  top left;
+  z-index:1
+}
+
+
+.captions {
+/*  grid-column: auto;*/
+}
+
+img {
+  width:220px;
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+/*  box-shadow: 5px 5px 10px #aaa;*/
+}
+/*
+img:hover{
+    color: #424242;
+  -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -ms-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  opacity: 1;
+  transform-origin:right top;
+  transform: scale(2);
+  -ms-transform: scale(2); /* IE 9 */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  */
+}
 </style>
 </head>
-<title>Test</title>
+<title>Ronlyn's Photo Journal</title>
 <body>
 <header>
   <div class="grid" id="header">
-    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
-       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Text-to-Speech (TTS) Sentence Bank</span>
+    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Photo Journal">
+       <span class="speak-onclick">Ronlyn&apos; Journal</span>
     </div>
     <div class="col-1-2 headerControls">
        <div class="option" id="volumeControl">
@@ -211,12 +273,62 @@ li:not(:last-child) {
 
 <meta name="google" value="notranslate"> <!-- disable iOS translation -->
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
-<h1><a class="navbar-item" id="who">Who</a></h1>
-<ul>
-<li><div class="sentence">Ronlyn's a pungkin.</div></li>
-</ul>
+<h1><a class="navbar-item" id="Aug2017">Who Am I</a></h1>
+<div class="photoentry">
+  <div class="photos">
+    <div class="photo">
+      <img src="img/magnifyingglass.png" class="photooverlay"/>
+      <img src="img/ronlyn.jpg" alt="me!" class="photo"/>
+     </div>
+   </div>
+  <div class="captions">
+  <ul>
+  <li><div class="sentence">My name is Ronlyn Goo.</div></li>
+      <li><div class="sentence">I am 54 years old.</div>
+        <div class="sentence">My husband is named Wen.</div>
+          <div class="sentence">We have been married 25 years and we live in Saratoga.</div></li>
+      <li><div class="sentence">I was born in San Francisco.</div>
+      <div class="sentence">My family moved to Pacifica where I grew up and graduated from Terra Nova High School.</div>
+    </li>
 
-<div id="sentences"></div>
+      <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
+      <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+  </ul>
+</div>
+</div>
+
+
+<h1><a class="navbar-item" id="Sep2017">September 2017</a></h1>
+<h2>9/25/2017 - Baking cookies</h2>
+<div class="photoentry">
+  <div class="photos">
+    <photo src="img/20170925_204718.jpg" alt="me baking cookies"/>
+    <photo src="img/20170925_211139.jpg" alt="me baking cookies"/>
+    <photo src="img/IMG_9839a.jpg" alt="me baking cookies"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I enjoy baking.</div></li>
+      <li><div class="sentence">A student at Skills Plus wants me to bring in oatmeal cookies.</div></li>
+      <li>
+        <div class="sentence">We have several oatmeal cookie recipes.</div>
+        <div class="sentence">I choose the one that has the most butter and brown sugar.</div>
+      </li>
+      <li><div class="sentence">First, I bring out all the necessary ingredients.</div></li>
+      <li><div class="sentence">Next, I bring out mixing bowls along with measuring cups and spoons.</div></li>
+      <li><div class="sentence">The recipe requires the oats be toasted in brown butter.</div></li>
+      <li><div class="sentence">Although I usually mix cookie dough manually, this recipe requires the use of the mixer.</div></li>
+      <li>
+        <div class="sentence">Since I intend to bring these to class, I want the cookies to look nice.</div>
+        <div class="sentence">Using a melon baller, I scoop even amounts of dough on the baking sheets.</div>
+      </li>
+      <li><div class="sentence">Because the dough contains so much butter, the cookies bake up perfectly round.</div></li>
+      <li><div class="sentence">I bring all two dozen cookies to class.</div></li>
+      <br
+      <li><div class="sentence">They are a hit!</div></li>
+    </ul>
+  </div>
+</div>
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
@@ -308,15 +420,18 @@ document.body.onclick = function(e) {   //when the document body is clicked
 document.body.onload = function(e) {   //when the document body is clicked
 
   populateNavbar();
-//  generateSentences();
+//  Expand Sentences divs;
   expandSentences();
-//  expandSentenceDivs()
+//  expandPhotoDiv()
+  expandPhotos();
 }
 /***
  *
  * global variables
  *
  ***/
+//Get rid of these GLOBALS someday
+
 var gridWidth = 8;
 var button = document.getElementById('speak');
 var speechMsgInput = document.getElementById('speech-msg');
@@ -329,7 +444,6 @@ var voiceSelect = document.getElementById('voice');
  ***/
 
 /**
- * generateSentences
  *
  * Generates the clickable sentences from a list of sentences.
  */
@@ -337,7 +451,7 @@ var voiceSelect = document.getElementById('voice');
 /* loop on all div class="sentence" */
 
    var sentences = document.getElementsByClassName("sentence");
-   var wordsWithoutAposS;
+   var word;
    allSentencesHTML = "";
    for (s = 0; s < sentences.length; s++) {
      sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
@@ -345,40 +459,38 @@ var voiceSelect = document.getElementById('voice');
      sentenceHTML = "";
      partialSentence="";
      for (w in words) {
-       /* KLUDGE:
-         need to replace 's with just s for partial and word
-         ultimately need to fix all embedded apostrophes cases like:
-          contractions
-          - can't, couldn't, wouldn't...
-          - I'll, you'll, we'll
-          - I'm, you're, we'll
-          - I've, you've, we've
-         plural possesives
-         */
+       word = words[w].toLowerCase();
+       if (word == "i'll") {
+          wordWithoutAposS = "aisle"; }
+       else if (word=="he'll") {
+         wordWithoutAposS="heel"; }
+       else if (word=="she'll") {
+          wordWithoutAposS="shiel" }
+        else {
+          wordWithoutAposS = word.replace("'",""); }
 
-//         wordsWithoutAposS = words[w].replace(/'s/g,'s');
-         wordsWithoutAposS = words[w];
+        partialSentence += wordWithoutAposS+" ";
+        wordTag = "<span class='word speak-onclick' word='" + wordWithoutAposS
+                + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+
 //       partialSentence += words[w]+" ";
-    partialSentence += wordsWithoutAposS+" ";
-     wordTag = "<span class='word speak-onclick' word='" + wordsWithoutAposS
-          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
+//       wordTag = "<span class='word speak-onclick' word='" + words[w]
+//          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
        sentenceHTML += wordTag;
      }
 //     allSentencesHTML += sentenceHTML;
      sentences[s].innerHTML = sentenceHTML;
-//     console.log(sentences[s].outerHTML);
+     //console.log(sentenceHTML);
 //     allSentencesHTML += "</br></br>";
 //sentences[s].innerHTML = sentencesHTML;
 //    console.log(sentenceHTML);
-   }
+  }
 }
-   function generateSentences() {
-     sentences = [
-       'The quick brown fox jumps over the lazy dog.',
-       'a man a plan a canal panama'
-     ];
-     allSentencesHTML = "";
-     for (s in sentences) {
+function expandPhotos() {
+/* loop on all div class="photos" */
+var photos = document.getElementsByClassName("photos");
+     allPhotosHTML = "";
+     for (p in photos) {
        words = sentences[s].split(" ");
        sentenceHTML = "";
        for (w in words) {

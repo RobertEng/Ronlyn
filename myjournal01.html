@@ -204,8 +204,8 @@ input[type=range] {
 */
 .photoentry {
   display: grid;
-  grid-template-columns: 220px auto;
-  grid-template-areas: "photo captions";
+  grid-template-columns: auto 220px ;
+  grid-template-areas: "captions photo";
 }
 
 .photo {
@@ -213,7 +213,7 @@ input[type=range] {
   margin-bottom:10px;
   padding-left:10px;
   grid-gap: 10px;
-  grid-template-areas: "image";
+  grid-template-areas: "images";
 }
 
 .captions {
@@ -227,7 +227,7 @@ img {
   height: auto;
 /*  box-shadow: 5px 5px 10px #aaa;*/
 }
-
+/*
 img:hover{
     color: #424242;
   -webkit-transition: all .3s ease-in;
@@ -236,11 +236,12 @@ img:hover{
   -o-transition: all .3s ease-in;
   transition: all .3s ease-in;
   opacity: 1;
-  transform-origin:left top;
+  transform-origin:right top;
   transform: scale(2);
   -ms-transform: scale(2); /* IE 9 */
   -webkit-transform: scale(2); /* Safari and Chrome */
 }
+*/
 </style>
 </head>
 <title>Ronlyn's Photo Journal</title>
@@ -268,33 +269,28 @@ img:hover{
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
 <h1><a class="navbar-item" id="Aug2017">Who Am I</a></h1>
 <div class="photoentry">
-  <div class="photo">
-  <img src="img/ronlyn.jpg" alt="me!"/>
-</div>
   <div class="captions">
     <ul>
       <li><div class="sentence">My name is Ronlyn Goo.</div></li>
       <li><div class="sentence">I am 54 years old.</div>
         <div class="sentence">My husband is named Wen.</div>
-          <div class="sentence">He and I have been married 25 years and we live in Saratoga.</div></li>
+          <div class="sentence">We have been married 25 years and we live in Saratoga.</div></li>
       <li><div class="sentence">I was born in San Francisco.</div>
       <div class="sentence">My family moved to Pacifica where I grew up and graduated from Terra Nova High School.</div>
     </li>
 
-      <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div>
-      <div class="sentence">I also have an MBA degree from Stanford.</div></li>
+      <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
+      <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
   </ul>
+</div>
+<div class="photo">
+<img src="img/ronlyn.jpg" alt="me!"/>
 </div>
 </div>
 
 <h1><a class="navbar-item" id="Sep2017">September 2017</a></h1>
 <h2>9/25/2017 - Baking cookies</h2>
 <div class="photoentry">
-  <div class="photo">
-    <img src="img/20170925_204718.jpg" alt="me baking cookies"/>
-    <img src="img/20170925_211139.jpg" alt="me baking cookies"/>
-    <img src="img/IMG_9839a.jpg" alt="me baking cookies"/>
-  </div>
   <div class="captions">
     <ul>
       <li><div class="sentence">I enjoy baking.</div></li>
@@ -308,20 +304,22 @@ img:hover{
       <li><div class="sentence">The recipe requires the oats be toasted in brown butter.</div></li>
       <li><div class="sentence">Although I usually mix cookie dough manually, this recipe requires the use of the mixer.</div></li>
       <li>
-        <div class="sentence">Since I intend to bring these to class, I want the cookies to look presentable.</div>
+        <div class="sentence">Since I intend to bring these to class, I want the cookies to look nice.</div>
         <div class="sentence">Using a melon baller, I scoop even amounts of dough on the baking sheets.</div>
       </li>
       <li><div class="sentence">Because the dough contains so much butter, the cookies bake up perfectly round.</div></li>
       <li><div class="sentence">I bring all two dozen cookies to class.</div></li>
+      <br
       <li><div class="sentence">They are a hit!</div></li>
     </ul>
   </div>
-</div>
+  <div class="photo">
+    <img src="img/20170925_204718.jpg" alt="me baking cookies"/>
+    <img src="img/20170925_211139.jpg" alt="me baking cookies"/>
+    <img src="img/IMG_9839a.jpg" alt="me baking cookies"/>
+  </div></div>
 <h1><a class="navbar-item" id="Aug2017">August 2017</a></h1>
 <div class="photoentry">
-  <div class="photo">
-    <img src="img/swimming.jpg" alt="me swimming"/>
-  </div>
   <div class="captions">
     <ul>
       <li><div class="sentence">I enjoy swimming.</div></li>
@@ -332,14 +330,13 @@ img:hover{
       </li>
     </ul>
   </div>
+  <div class="photo">
+    <img src="img/swimming.jpg" alt="me swimming"/>
+  </div>
 </div>
 <h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
 <h2>7/27/2017 - Skills Plus Party</h2>
   <div class="photoentry">
-    <div class="photo">
-      <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
-      <img src="img/20170727_104544.jpg" alt="skill plus party"/>
-    </div>
     <div class="captions">
       <ul>
         <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
@@ -352,25 +349,30 @@ img:hover{
         <li><div class="sentence">Other people bring King Eggrolls, fried chicken from Popeye&apos;s, pizza, salads, side dishes and desserts.</div></li>
       </ul>
      </div>
-  </div>
-  <div class="photoentry">
-    <div class="photo">
-      <img src="img/20170727_125112.jpg" alt="skill plus party"/>
-    </div>
-    <div class="captions">
-      <ul>
-        <li><div class="sentence">After lunch, we watch and listen to taiko drummers.</div></li>
-      </ul>
+     <div class="photo">
+       <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
+       <img src="img/20170727_104544.jpg" alt="skill plus party"/>
      </div>
   </div>
   <div class="photoentry">
-    <div class="photo">
-      <img src="img/20170727_133237.jpg" alt="skill plus party"/>
-    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">After lunch, we watch and listen to Japanese taiko drummers.</div></li>
+        <li><div class="sentence">The drums were loud.</div></li>
+      </ul>
+     </div>
+     <div class="photo">
+       <img src="img/20170727_125112.jpg" alt="skill plus party"/>
+     </div>
+  </div>
+  <div class="photoentry">
     <div class="captions">
       <ul>
         <li><div class="sentence">I even have the opportunity to beat the drum.</div></li>
       </ul>
+     </div>
+     <div class="photo">
+       <img src="img/20170727_133237.jpg" alt="skill plus party"/>
      </div>
   </div>
 <h2>7/21/2017 - Aphasia Talkfest</h2>
