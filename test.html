@@ -213,14 +213,25 @@ input[type=range] {
   margin-bottom:10px;
   padding-left:10px;
   grid-gap: 10px;
-  grid-template-areas: "images";
+  grid-template-areas: "photowithoverlay";
+}
+.photowithoverlay {
+  position:relative;
 }
 .photo {
-  position:absolute;
-  top left;
-  z-index:1
+  position: relative;
+  top: 0px;
+  left: 0px;
+  z-index:1;
 }
-
+.photooverlay {
+  position: absolute;
+  top: -10px;
+  height: auto;
+  max-width:25px;
+  right:-10px;
+  z-index:2
+}
 
 .captions {
 /*  grid-column: auto;*/
@@ -276,9 +287,9 @@ img:hover{
 <h1><a class="navbar-item" id="Aug2017">Who Am I</a></h1>
 <div class="photoentry">
   <div class="photos">
-    <div class="photo">
-      <img src="img/magnifyingglass.png" class="photooverlay"/>
+    <div class="photowithoverlay">
       <img src="img/ronlyn.jpg" alt="me!" class="photo"/>
+      <img src="img/magnifyingglass.png" class="photooverlay"/>
      </div>
    </div>
   <div class="captions">
@@ -302,10 +313,15 @@ img:hover{
 <h2>9/25/2017 - Baking cookies</h2>
 <div class="photoentry">
   <div class="photos">
-    <photo src="img/20170925_204718.jpg" alt="me baking cookies"/>
-    <photo src="img/20170925_211139.jpg" alt="me baking cookies"/>
-    <photo src="img/IMG_9839a.jpg" alt="me baking cookies"/>
+    <div class="photowithoverlay">
+    <img src="img/20170925_204718.jpg" alt="me baking cookies" class="photo"/>
+    <img src="img/magnifyingglass.png" class="photooverlay"/>
   </div>
+  <div class="photowithoverlay">
+    <img class="photo" src="img/IMG_9839a.jpg" alt="me baking cookies" class="photo"/>
+    <img src="img/magnifyingglass.png" class="photooverlay"/>
+  </div>
+</div>
   <div class="captions">
     <ul>
       <li><div class="sentence">I enjoy baking.</div></li>
@@ -329,6 +345,250 @@ img:hover{
     </ul>
   </div>
 </div>
+
+
+<h1><a class="navbar-item" id="Aug2017">August 2017</a></h1>
+<div class="photoentry">
+  <div class="photos">
+    <div class="photowithoverlay">
+      <img src="img/swimming.jpg" alt="me swimming" class="photo"/>
+      <img src="img/magnifyingglass.png" class="photooverlay"/>
+    </div>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I enjoy swimming.</div></li>
+      <li><div class="sentence">DeAnza College Aquatics program helps me start swimming again.</div></li>
+      <li><div class="sentence">Their aquatics staff is wonderful.</div></li>
+      <li><div class="sentence">My swim aide Negin attends UC Davis and intends to be a veterinarian.</div>
+        <div class="sentence">She will spend the remainder of her summer observing and caring for elephants in Thailand.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
+<h2>7/27/2017 - Skills Plus Party</h2>
+  <div class="photoentry">
+    <div class="photos">
+      <div class="photowithoverlay">
+        <img src="img/skills plus eoy.jpg" alt="skill plus party" class="photo"/>
+        <img src="img/magnifyingglass.png" class="photooverlay" class="photooverlay"/>
+      </div>
+
+      <div class="photowithoverlay">
+        <img src="img/20170727_104544.jpg" alt="skill plus party" class="photo"/>
+        <img src="img/magnifyingglass.png" class="photooverlay" class="photooverlay"/>
+      </div>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
+        <li><div class="sentence">We attend the end-of-the-year potluck party on July 28, 2017.</div>
+        <li><div class="sentence">The students like me play games and participate in fun activities before eating.</div></li>
+        <li><div class="sentence">I sit at a table with Mary Ann and her daughter Virginia, Armando and his wife Mary along with Terence.</div></li>
+        <br/>
+
+        <li><div class="sentence">Wen and I bring pulled pork and beans with cole slaw for the party.</div></li>
+        <li><div class="sentence">Other people bring King Eggrolls, fried chicken from Popeye&apos;s, pizza, salads, side dishes and desserts.</div></li>
+      </ul>
+     </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_125112.jpg" alt="skill plus party"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">After lunch, we watch and listen to Japanese taiko drummers.</div></li>
+        <li><div class="sentence">The drums were loud.</div></li>
+      </ul>
+     </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_133237.jpg" alt="skill plus party"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">I even have the opportunity to beat the drum.</div></li>
+      </ul>
+     </div>
+  </div>
+
+
+<h2>7/21/2017 - Aphasia Talkfest</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20170721_131007a.jpg" alt="KACCD"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I attend Aphasia Talkfest.</div></li>
+      <li>
+        <div class="sentence">Today, Ken Jordan leads the group.</div>
+        <div class="sentence">Usually, Regina Tipton leads too.</div>
+      </li>
+      <li><div class="sentence">Dr. Peter Nelson, Armando Botelli and his wife Mary Lee have come to chat.</div></li>
+    </ul>
+  </div>
+</div>
+
+<h2>7/18/2017</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20170727_155304.jpg" alt="KACCD"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I start a new speech and language program at the Kay Armstead Center for Communication Disorders.</div></li>
+      <li><div class="sentence">The program is a non-profit community clinic located at San Jose State.</div></li>
+      <li>
+        <div class="sentence">My instructor is a graduate student named Elaine Yau.</div>
+        <div class="sentence">Her supervisor is named Anita Schaack.</div>
+      </li>
+      <li><div class="sentence">I attend one-hour sessions twice a week for the next month.</div></li>
+      <li><div class="sentence">On Tuesdays, I have private sessions with Elaine. On Thursdays, a group of students converse with each other.</div></li>
+      </li>
+    </ul>
+</div>
+</div>
+<h2>7/1/2017 - Saratoga Farmers Market</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20170701_121759.jpg" alt="KACCD"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">This morning we go to the Saratoga Farmers Market.</div></li>
+      <li><div class="sentence">I walk by pushing the transport chair instead of using my cane.</div></li>
+      <li><div class="sentence">I like looking at the different booths and trying their various fresh and unique offerings.</div></li>
+      <li><div class="sentence">Wen always buys chinese vegetables and thai bsail when it is available.</div></li>
+    </ul>
+</div>
+</div>
+<h1><a class="navbar-item" id="Jun2017">June 2017</a></h1>
+<h2>6/30/2017 - First fb Visit With Robert</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/fblogo.png" alt="facebook logo"/>
+    <img src="img/mpk20.jpg" alt="facebook mpk20"/>
+    <img src="img/20170630_133953.jpg" alt="Robert at facebook"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">We visit Robert and have dinner at Facebook for the first time this summer.</div></li>
+      <li><div class="sentence">I order BBQ ribs and brisket from the Lightning Bolt shack.</div></li>
+      <li><div class="sentence">The corn on the cob, potato salad and cole slaw taste great too.</div></li>
+      <li><div class="sentence">We visit the Sweet Shop for dessert where I get a chocolate chip cookie and an ice cream cone.</div></li>
+      <br/>
+
+      <li><div class="sentence">He tells us the group to which he was assigned disbands four hours after his arrival.</div></li>
+      <li><div class="sentence">He scrambles for the first two days to find another internship position.</div></li>
+      <li><div class="sentence">Robert meets and speaks to over thirty people he knows at Facebook.</div></li>
+      <br/>
+
+      <li><div class="sentence">His Caltech advisor puts him in contact with a former student who is managing a Facebook AI research team.</div></li>
+      <li><div class="sentence">Every member of the group has or is earning a PhD.</div></li>
+      <li><div class="sentence">His interview seems very familiar to Robert because he had setup the same environment at Caltech for his advisor.</div></li>
+      <li><div class="sentence">He becomes the first intern ever in the group.</div></li>
+      <li><div class="sentence">His desk is located in MPK Building 20.</div></li>
+      <li><div class="sentence">We are so proud of him.</div></li>
+
+    </ul>
+</div>
+</div>
+
+
+<h2>6/25/2017 - Meilan Graduation Party</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20170625_112857a.jpg" alt="Meilan graduation"/>
+    <img src="img/20170625_112500a.jpg" alt="Meilan graduation"/>
+    <img src="img/20170625_130231a.jpg" alt="Meilan graduation"/>
+    <img src="img/20170625_132132a.jpg" alt="Meilan graduation"/>
+    <img src="img/20170625_132210a.jpg" alt="Meilan graduation"/>
+    <img src="img/20170625_140453a.jpg" alt="Meilan graduation"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">Aunt Bett and I host a high school graduation party for Wen's niece Meilan.</div></li>
+      <li><div class="sentence">She graduated from The Harker School a week earlier.</div></li>
+
+        <li><div class="sentence">We prepare and buy a variety of foods.</div></li>
+        <li><div class="sentence">Wen prepares pulled pork and beans with cole slaw.</div></li>
+        <li><div class="sentence">The pork is smoked for 16 hours.</div></li>
+        <li><div class="sentence">Aunt Bett prepares Popo's favorite chicken penne pasta salad.</div></li>
+        <li><div class="sentence">We also grill teriyaki steak and serve it with oriental noodles.</div></li>
+        <br/>
+
+        <li><div class="sentence">We bought in eggrolls and chicken wings from the new King Eggroll that opened up 3 miles away.</div></li>
+        <li><div class="sentence">For dessert, we have chocolate cake from the bakery.</div></li>
+
+        <br/>
+        <li><div class="sentence">Meilan will be attending Stanford University in the fall.</div></li>
+        <li><div class="sentence">David should still be teaching and working in his Bioengineering lab by then.</div></li>
+    </ul>
+</div>
+</div>
+
+<h1><a class="navbar-item" id="May2017">May 2017</a></h1>
+<h1><a class="navbar-item" id="Apr2017">April 2017</a></h1>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/multimodal2.jpg" alt="me swimming"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li><div class="sentence">I have 8 strategies to help me speak as I recover from aphasia.</div></li>
+      <li>
+        <div class="sentence">Focus on it.</div>
+        <div class="sentence">1) Close your eyes.</div>
+        <div class="sentence">2) Inhale slowly.</div>
+        <div class="sentence">3) Blow slowly through your mouth.</div>
+        <div class="sentence">This strategy is useful to calm yourself.</div>
+      </li>
+      <li>
+        <div class="sentence">Say it.</div>
+        <div class="sentence">1) Subvocalize it.</div>
+        <div class="sentence">2) Utter the first phoneme.</div>
+        <div class="sentence">3) Sound it out.</div>
+        <div class="sentence">4) Tap out syllables.</div>
+      </li>
+      <li>
+        <div class="sentence">"Air" Spell it.</b></div>
+        <div class="sentence">Trace out the first letters of the word.</div>
+        <div class="sentence">Utter that phoneme.</div>
+      </li>
+      <li>
+        <div class="sentence">"Gesture it.</div>
+        <div class="sentence">Act out the meaning of the word.</div>
+        <div class="sentence">This strategy is similar to playing charades.</div>
+        <div class="sentence">This is particularly useful for verbs and actions.</div>
+      </li>
+      <li>
+        <div class="sentence">"Visualize it.</div>
+        <div class="sentence">1) Close you eyes.</div>
+        <div class="sentence">2) Visualize the object or action.</div>
+        <div class="sentence">3) See the letters in the word.</div>
+      </li>
+      <li>
+        <div class="sentence">"Draw it.</div>
+      </li>
+      <li>
+        <div class="sentence">"Write it. Write the full word visually.</div>
+      </li>
+      <li>
+        <div class="sentence">Describe it.</div>
+        <div class="sentence">Looks like...</div>
+        <div class="sentence">Feels like...</div>
+        <div class="sentence">Smells like...</div>
+        <div class="sentence">Sounds like...</div>
+        <div class="sentence">Tastes like...</div>
+      </li>
+    </div>
+  </div>
 
 <p id="os-msg"></p>
 <p id="browser-msg"></p>

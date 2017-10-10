@@ -204,8 +204,8 @@ input[type=range] {
 */
 .photoentry {
   display: grid;
-  grid-template-columns: auto 220px ;
-  grid-template-areas: "captions photo";
+  grid-template-columns: 220px auto  ;
+  grid-template-areas: "photo captions ";
 }
 
 .photo {
@@ -269,6 +269,9 @@ img:hover{
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
 <h1><a class="navbar-item" id="Aug2017">Who Am I</a></h1>
 <div class="photoentry">
+  <div class="photo">
+  <img src="img/ronlyn.jpg" alt="me!"/>
+  </div>
   <div class="captions">
     <ul>
       <li><div class="sentence">My name is Ronlyn Goo.</div></li>
@@ -283,15 +286,16 @@ img:hover{
       <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
   </ul>
 </div>
-<div class="photo">
-<img src="img/ronlyn.jpg" alt="me!"/>
-</div>
 </div>
 
 <h1><a class="navbar-item" id="Sep2017">September 2017</a></h1>
 <h2>9/25/2017 - Baking cookies</h2>
 <div class="photoentry">
-  <div class="captions">
+  <div class="photo">
+    <img src="img/20170925_204718.jpg" alt="me baking cookies"/>
+    <img src="img/20170925_211139.jpg" alt="me baking cookies"/>
+    <img src="img/IMG_9839a.jpg" alt="me baking cookies"/>
+  </div>  <div class="captions">
     <ul>
       <li><div class="sentence">I enjoy baking.</div></li>
       <li><div class="sentence">A student at Skills Plus wants me to bring in oatmeal cookies.</div></li>
@@ -313,13 +317,12 @@ img:hover{
       <li><div class="sentence">They are a hit!</div></li>
     </ul>
   </div>
-  <div class="photo">
-    <img src="img/20170925_204718.jpg" alt="me baking cookies"/>
-    <img src="img/20170925_211139.jpg" alt="me baking cookies"/>
-    <img src="img/IMG_9839a.jpg" alt="me baking cookies"/>
-  </div></div>
+</div>
 <h1><a class="navbar-item" id="Aug2017">August 2017</a></h1>
 <div class="photoentry">
+  <div class="photo">
+    <img src="img/swimming.jpg" alt="me swimming"/>
+  </div>
   <div class="captions">
     <ul>
       <li><div class="sentence">I enjoy swimming.</div></li>
@@ -330,13 +333,14 @@ img:hover{
       </li>
     </ul>
   </div>
-  <div class="photo">
-    <img src="img/swimming.jpg" alt="me swimming"/>
-  </div>
 </div>
 <h1><a class="navbar-item" id="Jul2017">July 2017</a></h1>
 <h2>7/27/2017 - Skills Plus Party</h2>
   <div class="photoentry">
+    <div class="photo">
+      <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
+      <img src="img/20170727_104544.jpg" alt="skill plus party"/>
+    </div>
     <div class="captions">
       <ul>
         <li><div class="sentence">I have been attending Skills Plus for the past year.</div></li>
@@ -349,30 +353,26 @@ img:hover{
         <li><div class="sentence">Other people bring King Eggrolls, fried chicken from Popeye&apos;s, pizza, salads, side dishes and desserts.</div></li>
       </ul>
      </div>
-     <div class="photo">
-       <img src="img/skills plus eoy.jpg" alt="skill plus party"/>
-       <img src="img/20170727_104544.jpg" alt="skill plus party"/>
-     </div>
   </div>
   <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_125112.jpg" alt="skill plus party"/>
+    </div>
     <div class="captions">
       <ul>
         <li><div class="sentence">After lunch, we watch and listen to Japanese taiko drummers.</div></li>
         <li><div class="sentence">The drums were loud.</div></li>
       </ul>
      </div>
-     <div class="photo">
-       <img src="img/20170727_125112.jpg" alt="skill plus party"/>
-     </div>
   </div>
   <div class="photoentry">
+    <div class="photo">
+      <img src="img/20170727_133237.jpg" alt="skill plus party"/>
+    </div>
     <div class="captions">
       <ul>
         <li><div class="sentence">I even have the opportunity to beat the drum.</div></li>
       </ul>
-     </div>
-     <div class="photo">
-       <img src="img/20170727_133237.jpg" alt="skill plus party"/>
      </div>
   </div>
 <h2>7/21/2017 - Aphasia Talkfest</h2>
