@@ -1,303 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <title>Ronlyn's Handwriting To Speech</title>
-    <base href="./myscript/components/">
-
-    <!-- CSS import -->
-    <link rel="stylesheet" href="myscript/dist/myscript.min.css"/>
-
-    <!-- CryptoJS imports -->
-    <script type="text/javascript" src="cryptojslib/components/core-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/x64-core-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/sha512-min.js"></script>
-    <script type="text/javascript" src="cryptojslib/components/hmac-min.js"></script>
-    <!-- Q import -->
-    <script type="text/javascript" src="q/q.js"></script>
-    <!-- PEP import -->
-    <script type="text/javascript" src="pepjs/dist/pep.min.js"></script>
-    <!-- MyScriptJS import -->
-    <script type="text/javascript" src="myscript/dist/myscript.min.js"></script>
 <style>
-#header { <!-- single element id="header"-->
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;         /* Opera/IE 8+ */
-   position: absolute;
-   top:0px;
-   left:0px;
-   padding-left: 10px;
-   padding-right: 10px;
-   grid-gap: 0px;
-   width:100%;
-   height: 40px;
-   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
-   background: #ccc;
- }
- main {
-  position: fixed;
-  top: 40px;
-  left: 0px; /* Set this to the width of the navigation frame */
-  right: 0;
-  bottom: 0;
+body, html {
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  overflow: hidden;
+}
+
+h1, p {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+div {
+  height: 100px;
   overflow: auto;
-  background: #fff;
-  margin-left: 10px;
-  margin-top:5px;
-}
-h1 {
-  font-family: arial;
-  font-weight:bold;
-  font-size:110%;
-  display:block;
-  margin-top: 5px;
-  margin-bottom:0px;
-/*  height: inherit;
-  display: inline-block; */
-  line-height:50px;
-}
-button {
-  background-color: #4CAF50; /* Green */
-  color: black;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 7px;
-}
-languages {
-  font-family: arial;
-  display: block;
   position: absolute;
-  right: 5px;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  background-color: rgba(255,255,255,0.2);
 }
-label {
-  font-family: arial;
+
+ul {
+  margin: 0;
 }
-.headertitle {
-   font-family: arial;
-   font-weight:bold;
-   font-size:110%;
-   height: inherit;
-   display: inline-block;
-   line-height:40px;
- }
- .headertitle:hover, button:focus {
-   opacity: 0.75;
-   cursor: pointer;
- }
- .headertitle.disabled {
-     pointer-events: none;
-     text-decoration: none;
- }
-[class*='col-1'] { /*selector matches every class whose attr contains col-*/
-  float:left;
-  }
-.col-1-2 {
-    width:50%;
-  }
-.col-1-4 {
-  width:270px;
-  height:40px
-  }
-.col-3-4 {
-  width:690px;
-  height:40px;
-  border-bottom-style: solid;
-  border-bottom-color: powderblue;
-  border-top-style: solid;
-  border-top-color: powderblue;
-  }
-.headerControls {
-  display: inline;
-  font-family: arial;
-  font-size: 80%;
-  text-align:right;
+
+.hints span {
+  text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
 }
 </style>
-</head>
-<title>Ronlyn's Handwriting to Speech</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
 
-<body touch-action="none">
-<header>
-  <header>
-  <div class="grid" id="header">
-    <div class="col-1-2 headertitle" XSAMPA="Ronlyns handwriting To Speech App">
-       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS) App</span>
+    <title>Speech color changer</title>
+
+    <link rel="stylesheet" href="style.css">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <h1>Speech color changer</h1>
+
+    <p class="hints"></p>
+    <div>
+        <p class="output"><em>...diagnostic messages</em></p>
     </div>
-    <div class="col-1-2 headerControls">
-      <span class="option" id="volumeControl">
-        <label for="volume">Volume</label>
-        <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-      </span>
-      <span class="option">
-        <label for="voice">Voice</label>
-        <select name="voice" id="voice"></select>
-      </span>
-      <span>
-      <label for="languages">Language: </label>
-      <select id="languages" disabled></select>
-    </span>
-  </div>
-  </div>
-</header>
 
-
-</header>
-<main>
-  <div class="grid">
-  <div class="col-1-4" style="display:inline-block">
-    <button id="trash" disabled>Clear</button>
-    <button id="undo" disabled>Undo</button>
-    <button id="redo" disabled>Redo</button>
-    <button id="speak" disabled>Speak:</button>
-  </div>
-  <div class="col-3-4" style="display:inline-block">
-    <div id="result" style="border-bottom: dashed 1px border-color:powderblue; max-height: 40px; float:left; font-size: 40px;"></div>
-  </div>
-</div>
-<div id="ink-paper" style="display:block; border: 2px solid black"></div>
-
-</main>
-</body>
-<script>
-    (function () {
-        function initialize() {
-            var result = document.getElementById('result');
-            var inkPaper = document.getElementById('ink-paper');
-            var trash = document.getElementById('trash');
-            var undo = document.getElementById('undo');
-            var redo = document.getElementById('redo');
-            var languages = document.getElementById('languages');
-            var volumeInput = document.getElementById('volume');
-            var voiceSelect = document.getElementById('voice');
-            var options = {
-                host: "webdemoapi.myscript.com", // Handle MyScript Cloud authentication keys (cloud.myscript.com)
-                applicationKey: "22eda92c-10af-40d8-abea-fd4093c17d81", // MyScript Cloud application key - change the keys for production use
-                hmacKey: "a1fa759f-b3ce-4091-9fd4-d34bb870c601", // MyScript Cloud HMAC key - change the keys for production use
-                type: MyScript.RecognitionType.TEXT, // Recognition type
-                protocol: MyScript.Protocol.WS,
-                width: 960, // InkPaper width
-                height: 500, // InkPaper height
-                timeout: 25, // Recognition timeout
-                textParameters: {
-                    language: 'en_US', // Set the recognition language (i.e.: 'en_US', 'fr_FR', ...)
-                    resultDetail: 'CHARACTER',
-                    textProperties: {
-                        textCandidateListSize: 3
-                    }
-                }
-            }; //options
-            /**
-             * As canvas are positioned absolute to overlay, we have to explicitly set the parent dimensions
-             */
-            inkPaper.style.height = options.height + 'px';
-            inkPaper.style.width = options.width + 'px';
-            /**
-             * Init the ink paper
-             * @param {Element} The DOM element to attach the ink paper
-             * @param {Object} The recognition options
-             * @param {Function} The result callback
-             */
-            var paper = new MyScript.InkPaper(inkPaper, options);
-            paper.setResultCallback(function (data, error) {
-                // Handle recognition result
-                result.innerHTML = '';
-                if (error) {
-                    result.innerHTML = error;
-                }
-                if (data) {
-                    if (data instanceof Array) { // Populate the language options
-                        for (var i in data) {
-                            languages.options[languages.options.length] = new Option(data[i], data[i]);
-                            languages.disabled = false;
-                            if (options.textParameters.language == data[i]) {
-                              languages.options.selectedIndex = i;
-                            }
-                        }
-                    } else { // Display the selected text candidate
-                        var candidate = data.getDocument().getTextSegment().getSelectedCandidate().getLabel();
-                        result.innerHTML = candidate;
-                    }
-                }
-            }); //setResultCallback
-
-            paper.setChangeCallback(function (data) {
-                if (data) {
-                    trash.disabled = (data.canUndo || data.canRedo) ? false : true;
-                    undo.disabled = (data.canUndo) ? false : true;
-                    redo.disabled = (data.canRedo) ? false : true;
-                    speak.disabled = (data.canUndo) ? false : true;
-                }
-            }); // setChangeCallback
-
-            /*
-             * Map the button behavior
-             */
-            trash.addEventListener('click', function () {
-                paper.clear();
-            }, false);
-            undo.addEventListener('click', function () {
-                paper.undo();
-            }, false);
-            redo.addEventListener('click', function () {
-                paper.redo();
-            }, false);
-            speak.addEventListener('click', function () {
-                 var msg = new SpeechSynthesisUtterance('default');
-                 msg.text = result.innerHTML;
-                 msg.volume = parseFloat(volumeInput.value);
-                 msg.lang = 'en-US';
-                 msg.rate = 1;
-                 msg.pitch = 1;
-                 if (voiceSelect.value) {
-                    msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-              	}
-//                  msg.onend = function () {
-//                      if (callback) {
-//                          callback();
-//                      }
-//                  };
-//                  msg.onerror = function (e) {
-//                      if (callback) {
-//                          callback(e);
-//                      }
-//                };
-                  window.speechSynthesis.speak(msg);
-            }, false); // speak.addEventListener
-
-            languages.addEventListener('change', function () {
-                var parameters = paper.getTextParameters();
-                parameters.setLanguage(languages.options[languages.selectedIndex].value);
-                paper.setTextParameters(parameters);
-            }, false);
-
-            paper.getAvailableLanguages();
-//            populateVoices(voiceSelect, "Microsoft Zira Desktop - English (United States)");
-
-        MyScript.InkPaper.event.addDomListener(window, 'load', initialize);
-    };
-  })(); // IIFE closure
-
-
-
-
-    function populateVoices(voiceSelect, defaultVoice) {
-   // Fetch the available voices.
-   var voices = speechSynthesis.getVoices();
-   var option;
-   // Loop through each of the voices.
-   voices.forEach(function(voice, i) {
-      // Create a new option element.
-
-      // Set the options value and text.
-      option = document.createElement('option');
-      option.value = voice.name;
-      option.innerHTML = voice.name;
-      option.selected = (voice.name == defaultVoice);
-      // Add the option to the voice selector.
-      voiceSelect.appendChild(option);
-   });
-} // populateVoices
-</script>
+    <script src="script.js"></script>
+  </body>
 </html>

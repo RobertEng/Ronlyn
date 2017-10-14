@@ -289,7 +289,7 @@ img:hover{
   <div class="photos">
     <div class="photowithoverlay">
       <img src="img/ronlyn.jpg" alt="me!" class="photo"/>
-      <img src="img/magnifyingglass.png" class="photooverlay"/>
+      <img src="img/magnifyingglass.png" class="photooverlay" onclick="onclick-readall" />
      </div>
    </div>
   <div class="captions">
@@ -670,6 +670,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
         }
         speak(spelling);
       }
+      else if (e.className.indexOf('onclick-readall') != -1) {
       else {
          speak("choose again") }
        }
