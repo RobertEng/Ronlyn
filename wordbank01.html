@@ -21,6 +21,7 @@ h1 {
 h2 {
   font-family: arial;
   font-size: 90%;
+  font-weight: normal;
 }
 .box {
   background-color: var(--button-background-color);
@@ -186,22 +187,26 @@ input[type=range] {
 <main>
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
 <h1><a class="navbar-item" id="Daily Living">Daily Living</a></h1>
-<h2>When I am hungry or thirsty, I:</h2>
+<h2>When I am hungry or thirsty, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">pour my coffee</button>
+  <button class="box speak-onclick">pour my drink</button>
   <button class="box speak-onclick">prepare my meal</button>
   <button class="box speak-onclick">eat my breakfast</button>
   <button class="box speak-onclick">eat my lunch</button>
   <button class="box speak-onclick">eat a snack</button>
   <button class="box speak-onclick">eat my dinner</button>
   <button class="box speak-onclick">eat my dessert</button>
-  <button class="box speak-onclick">eat off a plate</button>
+  <button class="box speak-onclick">eat from a bowl</button>
+  <button class="box speak-onclick">eat from a plate</button>
   <button class="box speak-onclick">eat with a fork</button>
+  <button class="box speak-onclick">eat with a spoon</button>
   <button class="box speak-onclick">drink from a cup</button>
+  <button class="box speak-onclick">drink from a glass</button>
   <button class="box speak-onclick">wipe my mouth with a napkin</button>
 </div>
 
-<h2>In the morning, I:</h2>
+<h2>In the morning, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">wake up from sleep</button>
   <button class="box speak-onclick">go to the bathroom</button>
@@ -209,23 +214,29 @@ input[type=range] {
   <button class="box speak-onclick">pull up my socks</button>
   <button class="box speak-onclick">strap into my brace</button>
   <button class="box speak-onclick">slip on my shoes</button>
+  <button class="box speak-onclick">put on my eyeglasses</button>
   <button class="box speak-onclick">brush my hair</button>
   <button class="box speak-onclick">brush my teeth</button>
   <button class="box speak-onclick">put on earrings</button>
   <button class="box speak-onclick">put on my watch</button>
 </div>
 
-<h2>To maintain hygiene and proper appearance, I:</h2>
+<h2>To maintain hygiene and proper appearance, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">go to the bathroom</button>
   <button class="box speak-onclick">wash my hands</button>
   <button class="box speak-onclick">brush my hair</button>
   <button class="box speak-onclick">brush my teeth</button>
   <button class="box speak-onclick">floss my teeth</button>
+  <button class="box speak-onclick">rinse with mouthwash</button>
   <button class="box speak-onclick">take a shower</button>
+  <button class="box speak-onclick">wash my hair</button>
+  <button class="box speak-onclick">blow dry my hair</button>
+  <button class="box speak-onclick">clip my nails</button>
+  <button class="box speak-onclick">blow my nose into a tissue</button>
 </div>
 
-<h2>During the daytime, I:</h2>
+<h2>During the daytime, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">go to the bathroom</button>
   <button class="box speak-onclick">go to the bonus room</button>
@@ -263,7 +274,7 @@ input[type=range] {
   <button class="box speak-onclick">stand up</button>
   <button class="box speak-onclick">stretch</button>
 </div>
-<h2>For Skills Plus, I:</h2>
+<h2>When I am at Skills Plus, I...</h2>
 <div class="wrapper6">
 <button class="box speak-onclick">ride in the car</button>
 <button class="box speak-onclick">wait for VTA to pick me up</button>
@@ -280,20 +291,26 @@ input[type=range] {
 <button class="box speak-onclick">make new friends</button>
 <button class="box speak-onclick">try to improve everyday</button>
 </div>
-<h2>Before going to sleep, I:</h2>
+<h2>Before going to sleep, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">go to the bathroom</button>
   <button class="box speak-onclick">wash my hands</button>
+  <button class="box speak-onclick">wash my face</button>
   <button class="box speak-onclick">brush my teeth</button>
   <button class="box speak-onclick">floss my teeth</button>
+  <button class="box speak-onclick">rinse with mouthwash</button>
+  <button class="box speak-onclick">insert my mouth guard</button>
   <button class="box speak-onclick">remove my brace</button>
   <button class="box speak-onclick">change into my pajamas</button>
 
   <button class="box speak-onclick">climb into bed</button>
+  <button class="box speak-onclick">take off my eyeglasses</button>
   <button class="box speak-onclick">read a kindle book</button>
   <button class="box speak-onclick">listen to a podcast</button>
   <button class="box speak-onclick">assemble a jigsaw puzzle</button>
   <button class="box speak-onclick">watch streaming video</button>
+  <button class="box speak-onclick">wish my husband a goodnight</button>
+  <button class="box speak-onclick">turn off the light</button>
   <button class="box speak-onclick">fall asleep</button>
 </div>
 
@@ -442,6 +459,7 @@ input[type=range] {
   <button class="box speak-onclick">fox</button>
   <button class="box speak-onclick">four</button>
 
+  <button class="box speak-onclick">laundry</button>
   <button class="box speak-onclick">magnet</button>
   <button class="box speak-onclick">map</button>
   <button class="box speak-onclick">meat</button>
@@ -459,6 +477,7 @@ input[type=range] {
 
   <button class="box speak-onclick">napkin</button>
 
+  <button class="box speak-onclick"></button>
   <button class="box speak-onclick"></button>
   <button class="box speak-onclick"></button>
   <button class="box speak-onclick"></button>
@@ -496,22 +515,28 @@ input[type=range] {
   <button class="box speak-onclick">cherry</button>
   <button class="box speak-onclick">chicken</button>
   <button class="box speak-onclick">chocolate</button>
+  <button class="box speak-onclick">chow fun</button>
+  <button class="box speak-onclick">chow mein</button>
   <button class="box speak-onclick">chowder</button>
   <button class="box speak-onclick">coffee</button>
   <button class="box speak-onclick">cookie</button>
   <button class="box speak-onclick">corn</button>
   <button class="box speak-onclick">crab</button>
+  <button class="box speak-onclick">croissant</button>
   <button class="box speak-onclick">cupcake</button>
+  <button class="box speak-onclick">curry chicken</button>
   <button class="box speak-onclick">date</button>
   <button class="box speak-onclick">dip</button>
   <button class="box speak-onclick">duck</button>
   <button class="box speak-onclick">donut</button>
   <button class="box speak-onclick">egg</button>
+  <button class="box speak-onclick">eggplant</button>
   <button class="box speak-onclick">enchilada</button>
   <button class="box speak-onclick">eggroll</button>
   <button class="box speak-onclick">fajita</button>
   <button class="box speak-onclick">falafel</button>
   <button class="box speak-onclick">fish</button>
+  <button class="box speak-onclick">flautas</button>
   <button class="box speak-onclick">frappo</button>
   <button class="box speak-onclick">fries</button>
   <button class="box speak-onclick">garlic</button>
@@ -525,6 +550,7 @@ input[type=range] {
   <button class="box speak-onclick">honey</button>
   <button class="box speak-onclick">hash brown</button>
   <button class="box speak-onclick">hot dog</button>
+  <button class="box speak-onclick">jam</button>
   <button class="box speak-onclick">jambalaya</button>
   <button class="box speak-onclick">jelly</button>
   <button class="box speak-onclick">ketchup</button>
@@ -538,14 +564,17 @@ input[type=range] {
   <button class="box speak-onclick">noodle</button>
   <button class="box speak-onclick">oatmeal</button>
   <button class="box speak-onclick">onion</button>
+  <button class="box speak-onclick">omelet</button>
   <button class="box speak-onclick">orange</button>
   <button class="box speak-onclick">pancake</button>
+  <button class="box speak-onclick">pasta</button>
   <button class="box speak-onclick">peanut</button>
   <button class="box speak-onclick">peanut butter</button>
   <button class="box speak-onclick">pepper</button>
   <button class="box speak-onclick">pizza</button>
   <button class="box speak-onclick">pork</button>
   <button class="box speak-onclick">potato</button>
+  <button class="box speak-onclick">rasberry</button>
   <button class="box speak-onclick">rice</button>
   <button class="box speak-onclick">rolls</button>
   <button class="box speak-onclick">quesadilla</button>
@@ -554,19 +583,45 @@ input[type=range] {
   <button class="box speak-onclick">salmon</button>
   <button class="box speak-onclick">salt</button>
   <button class="box speak-onclick">sandwich</button>
+  <button class="box speak-onclick">sashimi</button>
+  <button class="box speak-onclick">sausage</button>
   <button class="box speak-onclick">soup</button>
   <button class="box speak-onclick">spaghetti</button>
   <button class="box speak-onclick">spinach</button>
   <button class="box speak-onclick">strawberry</button>
+  <button class="box speak-onclick">stir fry</button>
+  <button class="box speak-onclick">steak</button>
   <button class="box speak-onclick">sushi</button>
+  <button class="box speak-onclick">taco</button>
   <button class="box speak-onclick">tea</button>
   <button class="box speak-onclick">toast</button>
   <button class="box speak-onclick">tomato</button>
+  <button class="box speak-onclick">tuna</button>
   <button class="box speak-onclick">waffle</button>
   <button class="box speak-onclick">wine</button>
   <button class="box speak-onclick">walnut</button>
   <button class="box speak-onclick">yogurt</button>
   <button class="box speak-onclick">zucchini</button>
+</div>
+<h2>Types of Cuisine</h2>
+<div class="wrapper8">
+  <button class="box speak-onclick">American</button>
+  <button class="box speak-onclick">BBQ</button>
+  <button class="box speak-onclick">Cajun</button>
+  <button class="box speak-onclick">California</button>
+  <button class="box speak-onclick">Chinese</button>
+  <button class="box speak-onclick">French</button>
+  <button class="box speak-onclick">Indian</button>
+  <button class="box speak-onclick">Italian</button>
+
+  <button class="box speak-onclick">Japanese</button>
+  <button class="box speak-onclick">Korean</button>
+  <button class="box speak-onclick">Mediterranean</button>
+  <button class="box speak-onclick">Mexican</button>
+  <button class="box speak-onclick">Middle Eastern</button>
+  <button class="box speak-onclick">seafood</button>
+  <button class="box speak-onclick">Thai</button>
+  <button class="box speak-onclick">vegetarian</button>
 </div>
 <h1><a class="navbar-item" id="drinks">Drinks</a></h1>
 <div class="wrapper8">
@@ -588,34 +643,58 @@ input[type=range] {
 <div class="wrapper8">
   <button class="box speak-onclick">afraid</button>
   <button class="box speak-onclick">amazed</button>
+  <button class="box speak-onclick">amused</button>
   <button class="box speak-onclick">angry</button>
+  <button class="box speak-onclick">annoyed</button>
+  <button class="box speak-onclick">ashamed</button>
+  <button class="box speak-onclick">anxious</button>
   <button class="box speak-onclick">blessed</button>
+  <button class="box speak-onclick">bored</button>
   <button class="box speak-onclick">calm</button>
+  <button class="box speak-onclick">cheerful</button>
+  <button class="box speak-onclick">cold</button>
   <button class="box speak-onclick">comfortable</button>
   <button class="box speak-onclick">concerned</button>
+  <button class="box speak-onclick">confused</button>
   <button class="box speak-onclick">curious</button>
+  <button class="box speak-onclick">disappointed</button>
   <button class="box speak-onclick">depressed</button>
   <button class="box speak-onclick">disgusted</button>
+  <button class="box speak-onclick">energetic</button>
+  <button class="box speak-onclick">exhausted</button>
   <button class="box speak-onclick">fortunate</button>
+  <button class="box speak-onclick">frustrated</button>
   <button class="box speak-onclick">glad</button>
   <button class="box speak-onclick">grateful</button>
+  <button class="box speak-onclick">happy</button>
+  <button class="box speak-onclick">hopeful</button>
   <button class="box speak-onclick">inspired</button>
   <button class="box speak-onclick">interested</button>
+  <button class="box speak-onclick">joyful</button>
+  <button class="box speak-onclick">lonely</button>
+  <button class="box speak-onclick">loved</button>
+  <button class="box speak-onclick">merry</button>
+  <button class="box speak-onclick">optimistic</button>
   <button class="box speak-onclick">pity</button>
   <button class="box speak-onclick">pleased</button>
   <button class="box speak-onclick">relaxed</button>
   <button class="box speak-onclick">sad</button>
   <button class="box speak-onclick">satisfied</button>
+  <button class="box speak-onclick">sick</button>
   <button class="box speak-onclick">surprised</button>
+  <button class="box speak-onclick">sympathic</button>
   <button class="box speak-onclick">thankful</button>
   <button class="box speak-onclick">thrilled</button>
+  <button class="box speak-onclick">tired</button>
   <button class="box speak-onclick">uncomfortable</button>
+  <button class="box speak-onclick">weird</button>
   <button class="box speak-onclick">wonderful</button>
 </div>
 
 <h1><a class="navbar-item" id="verbs">Verbs</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">ask</button>
+  <button class="box speak-onclick">bake</button>
   <button class="box speak-onclick">bounce</button>
   <button class="box speak-onclick">build</button>
   <button class="box speak-onclick">buy</button>
@@ -639,21 +718,28 @@ input[type=range] {
   <button class="box speak-onclick">drive</button>
   <button class="box speak-onclick">dry</button>
   <button class="box speak-onclick">eat</button>
+  <button class="box speak-onclick">erase</button>
+  <button class="box speak-onclick">exercise</button>
   <button class="box speak-onclick">feel</button>
   <button class="box speak-onclick">find</button>
   <button class="box speak-onclick">fix</button>
+  <button class="box speak-onclick">fold</button>
   <button class="box speak-onclick">give</button>
   <button class="box speak-onclick">go</button>
   <button class="box speak-onclick">greet</button>
+  <button class="box speak-onclick">hang</button>
   <button class="box speak-onclick">have</button>
   <button class="box speak-onclick">hear</button>
   <button class="box speak-onclick">help</button>
+  <button class="box speak-onclick">hope</button>
   <button class="box speak-onclick">hug</button>
   <button class="box speak-onclick">jump</button>
   <button class="box speak-onclick">kick</button>
   <button class="box speak-onclick">kiss</button>
   <button class="box speak-onclick">know</button>
   <button class="box speak-onclick">laugh</button>
+  <button class="box speak-onclick">lay</button>
+  <button class="box speak-onclick">lie</button>
   <button class="box speak-onclick">listen</button>
   <button class="box speak-onclick">love</button>
   <button class="box speak-onclick">make</button>
@@ -664,7 +750,9 @@ input[type=range] {
   <button class="box speak-onclick">paint</button>
   <button class="box speak-onclick">pay</button>
   <button class="box speak-onclick">play</button>
+  <button class="box speak-onclick">pray</button>
   <button class="box speak-onclick">push</button>
+  <button class="box speak-onclick">put away</button>
   <button class="box speak-onclick">read</button>
   <button class="box speak-onclick">ride</button>
   <button class="box speak-onclick">run</button>
@@ -678,6 +766,7 @@ input[type=range] {
   <button class="box speak-onclick">slide</button>
   <button class="box speak-onclick">sneeze</button>
   <button class="box speak-onclick">speak</button>
+  <button class="box speak-onclick">stand</button>
   <button class="box speak-onclick">stop</button>
   <button class="box speak-onclick">sweep</button>
   <button class="box speak-onclick">swim</button>
@@ -700,11 +789,13 @@ input[type=range] {
   <button class="box speak-onclick">wave</button>
   <button class="box speak-onclick">wear</button>
   <button class="box speak-onclick">whisper</button>
+  <button class="box speak-onclick">wish</button>
   <button class="box speak-onclick">write</button>
-  <button class="box speak-onclick">yawn</button>
+  <button class="box speak-onclick">wonder</button>
+<button class="box speak-onclick">yawn</button>
 </div>
 
-<h1><a class="navbar-item" id="helpingverbs">Helping Verbs</a></h1>
+<h2>Helping Verbs</h2>
 <div class="wrapper8">
   <button class="box speak-onclick">am</button>
   <button class="box speak-onclick">are</button>
@@ -733,16 +824,23 @@ input[type=range] {
 <h1><a class="navbar-item" id="clothing">Clothing</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">aquasocks</button>
+  <button class="box speak-onclick">belt</button>
+  <button class="box speak-onclick">blazer</button>
   <button class="box speak-onclick">blouse</button>
   <button class="box speak-onclick">bra</button>
   <button class="box speak-onclick">bracelet</button>
+  <button class="box speak-onclick">cap</button>
   <button class="box speak-onclick">coat</button>
   <button class="box speak-onclick">camisole</button>
   <button class="box speak-onclick">dress</button>
   <button class="box speak-onclick">earrings</button>
-  <button class="box speak-onclick">hat</button>
   <button class="box speak-onclick">goggles</button>
+  <button class="box speak-onclick">hair band</button>
+  <button class="box speak-onclick">hat</button>
   <button class="box speak-onclick">jacket</button>
+  <button class="box speak-onclick">necklace</button>
+  <button class="box speak-onclick">pajamas</button>
+  <button class="box speak-onclick">panties</button>
   <button class="box speak-onclick">pants</button>
   <button class="box speak-onclick">ring</button>
   <button class="box speak-onclick">scarf</button>
@@ -750,8 +848,10 @@ input[type=range] {
   <button class="box speak-onclick">shirt</button>
   <button class="box speak-onclick">shoes</button>
   <button class="box speak-onclick">shorts</button>
+  <button class="box speak-onclick">slacks</button>
   <button class="box speak-onclick">slip</button>
   <button class="box speak-onclick">socks</button>
+  <button class="box speak-onclick">stockings</button>
   <button class="box speak-onclick">sweater</button>
   <button class="box speak-onclick">sweatshirt</button>
   <button class="box speak-onclick">sweatpants</button>
@@ -762,12 +862,53 @@ input[type=range] {
   <button class="box speak-onclick">watch</button>
 </div>
 
-<h1><a class="navbar-item" id="places">Places</a></h1>
+<h1><a class="navbar-item" id="colors">Colors</a></h1>
 <div class="wrapper8">
-  <button class="box speak-onclick">home</button>
+  <button class="box speak-onclick">black</button>
+  <button class="box speak-onclick">blue</button>
+  <button class="box speak-onclick">brown</button>
+  <button class="box speak-onclick">cyan</button>
+  <button class="box speak-onclick">fuchsia</button>
+  <button class="box speak-onclick">gray</button>
+  <button class="box speak-onclick">green</button>
+  <button class="box speak-onclick">magenta</button>
+  <button class="box speak-onclick">orange</button>
+  <button class="box speak-onclick">pink</button>
+  <button class="box speak-onclick">purple</button>
+  <button class="box speak-onclick">red</button>
+  <button class="box speak-onclick">scarlet</button>
+  <button class="box speak-onclick">teal</button>
+  <button class="box speak-onclick">white</button>
+  <button class="box speak-onclick">yellow</button>
+</div>
+
+<h1><a class="navbar-item" id="places">Places</a></h1>
+<h2>At home</h2>
+<div class="wrapper8">
+  <button class="box speak-onclick">attic</button>
+  <button class="box speak-onclick">backyard</button>
+  <button class="box speak-onclick">bathroom</button>
+  <button class="box speak-onclick">bedroom</button>
+  <button class="box speak-onclick">bonus room</button>
+  <button class="box speak-onclick">dinette</button>
+  <button class="box speak-onclick">dining room</button>
+  <button class="box speak-onclick">family room</button>
+
+  <button class="box speak-onclick">front yard</button>
+  <button class="box speak-onclick">garage</button>
+  <button class="box speak-onclick">great room</button>
+  <button class="box speak-onclick">guest room</button>
+  <button class="box speak-onclick">kitchen</button>
+  <button class="box speak-onclick">living room</button>
+  <button class="box speak-onclick">office</button>
+  <button class="box speak-onclick">side yard</button>
+</div>
+<h2>Outside the home</h2>
+<div class="wrapper8">
   <button class="box speak-onclick">bakery</button>
   <button class="box speak-onclick">bank</button>
   <button class="box speak-onclick">college</button>
+  <button class="box speak-onclick">concert</button>
   <button class="box speak-onclick">gas station</button>
   <button class="box speak-onclick">gym</button>
   <button class="box speak-onclick">hair salon</button>
@@ -776,36 +917,48 @@ input[type=range] {
   <button class="box speak-onclick" XSAMPA="occupational therapy">OT</button>
   <button class="box speak-onclick">outside</button>
   <button class="box speak-onclick" XSAMPA="physical therapy">PT</button>
+  <button class="box speak-onclick">restaurant</button>
   <button class="box speak-onclick">school</button>
   <button class="box speak-onclick">speech therapy</button>
   <button class="box speak-onclick">store</button>
-  <button class="box speak-onclick">stroke support group</button>
+  <button class="box speak-onclick">support group</button>
   <button class="box speak-onclick">work</button>
 </div>
 
-<h1><a class="navbar-item" id="destinations">Destinations</a></h1>
+<h2>Locations outside the home</h2>
 <div class="wrapper8">
   <button class="box speak-onclick">home</button>
   <button class="box speak-onclick">UC Berkeley</button>
+  <button class="box speak-onclick "XSAMPA="Cal State East Bay">CSUEB</button>
   <button class="box speak-onclick">Caltech</button>
+  <button class="box speak-onclick">China Stix</button>
+  <button class="box speak-onclick">Cityfish</button>
   <button class="box speak-onclick">Deanza College</button>
+  <button class="box speak-onclick">Facebook</button>
+  <button class="box speak-onclick">Golden Garlic</button>
   <button class="box speak-onclick" XSAMPA="Kay Arm^stead">Kay Armstead</button>
+  <button class="box speak-onclick">Lazy Dog</button>
+  <button class="box speak-onclick">Millbrae</button>
   <button class="box speak-onclick">Mission Oaks</button>
+  <button class="box speak-onclick">Pacifica</button>
+  <button class="box speak-onclick">Panda Express</button>
+  <button class="box speak-onclick">Pasadena</button>
   <button class="box speak-onclick">REACH</button>
-  <button class="box speak-onclick">San Francisco</button>
-  <button class="box speak-onclick" XSAMPA="Santa Clara Valley Medical Center">SCVMC</button>
   <button class="box speak-onclick">Safeway</button>
+  <button class="box speak-onclick">San Francisco</button>
+  <button class="box speak-onclick">San Jose State</button>
+  <button class="box speak-onclick" XSAMPA="Santa Clara Valley Medical Center">SCVMC</button>
+  <button class="box speak-onclick">Saratoga Farmers Market</button>
   <button class="box speak-onclick">Skills Plus</button>
   <button class="box speak-onclick">Sprouts</button>
   <button class="box speak-onclick">Starbucks</button>
-  <button class="box speak-onclick">Target</button>
-  <button class="box speak-onclick">Trader Joes</button>
-  <button class="box speak-onclick">Pacifica</button>
-  <button class="box speak-onclick">Pasadena</button>
-  <button class="box speak-onclick">San Jose State</button>
   <button class="box speak-onclick">Stanford</button>
+  <button class="box speak-onclick">Target</button>
+  <button class="box speak-onclick">Terrace Cafe</button>
+  <button class="box speak-onclick">Trader Joes</button>
   <button class="box speak-onclick">Walmart</button>
   <button class="box speak-onclick">Whole Foods</button>
+  <button class="box speak-onclick">Yogurtland</button>
 </div>
 
 <h1><a class="navbar-item" id="numbers">Numbers</a></h1>
@@ -875,6 +1028,39 @@ input[type=range] {
   <button class="box speak-onclick">thousand</button>
   <button class="box speak-onclick">million</button>
 </div>
+<h2>Ordinal</h2>
+<div class="wrapper8">
+  <button class="box speak-onclick" XSAMPA="first">first (1st)</button>
+  <button class="box speak-onclick" XSAMPA="second">second (2nd)</button>
+  <button class="box speak-onclick" XSAMPA="third">third (3rd)</button>
+  <button class="box speak-onclick">fourth</button>
+  <button class="box speak-onclick">fifth</button>
+  <button class="box speak-onclick">sixth</button>
+  <button class="box speak-onclick">seventh</button>
+  <button class="box speak-onclick">eighth</button>
+  <button class="box speak-onclick">ninth</button>
+  <button class="box speak-onclick">tenth</button>
+  <button class="box speak-onclick">eleventh</button>
+  <button class="box speak-onclick">twelth</button>
+  <button class="box speak-onclick">thirteenth</button>
+  <button class="box speak-onclick">fourteenth</button>
+  <button class="box speak-onclick">fifteenth</button>
+  <button class="box speak-onclick">sixteenth</button>
+  <button class="box speak-onclick">seventeenth</button>
+  <button class="box speak-onclick">eighteenth</button>
+  <button class="box speak-onclick">nineteenth</button>
+  <button class="box speak-onclick">twentieth</button>
+  <button class="box speak-onclick">thirtieth</button>
+  <button class="box speak-onclick">fortieth</button>
+  <button class="box speak-onclick">fiftieth</button>
+  <button class="box speak-onclick">sixtieth</button>
+  <button class="box speak-onclick">seventieth</button>
+  <button class="box speak-onclick">eightieth</button>
+  <button class="box speak-onclick">ninetieth</button>
+  <button class="box speak-onclick">hundredth</button>
+  <button class="box speak-onclick">thousandth</button>
+  <button class="box speak-onclick">millionth</button>
+</div>
 
 <h1><a class="navbar-item" id="family">Family</a></h1>
 <div class="wrapper8">
@@ -904,6 +1090,18 @@ input[type=range] {
   <button class="box speak-onclick">Michael</button>
   <button class="box speak-onclick">Melissa</button>
   <button class="box speak-onclick">Mitchell</button>
+  <button class="box speak-onclick" XSAMPA="anty agg">Aunty Ag</button>
+  <button class="box speak-onclick" XSAMPA="uncle sud">Uncle Sad</button>
+  <button class="box speak-onclick" XSAMPA="anty catherine">Aunty Catherine</button>
+  <button class="box speak-onclick" XSAMPA="uncle manual">Uncle Manuel</button>
+  <button class="box speak-onclick">Dori</button>
+  <button class="box speak-onclick">Jack</button>
+  <button class="box speak-onclick">Eric</button>
+  <button class="box speak-onclick">Aaron</button>
+  <button class="box speak-onclick">Avis</button>
+  <button class="box speak-onclick">Dwayne</button>
+  <button class="box speak-onclick">Micah</button>
+  <button class="box speak-onclick">Bryce</button>
 </div>
 
 <h1><a class="navbar-item" id="relationships">Family Relationships</a></h1>
@@ -950,15 +1148,20 @@ input[type=range] {
   <button class="box speak-onclick">Carol</button>
   <button class="box speak-onclick">Ward</button>
   <button class="box speak-onclick">Marianna</button>
+
   <button class="box speak-onclick">Boda</button>
   <button class="box speak-onclick">Wendy</button>
   <button class="box speak-onclick">Peter</button>
+  <button class="box speak-onclick">Lisa</button>
+  <button class="box speak-onclick">Louise</button>
   <button class="box speak-onclick" XSAMPA="Meh-lease!">Melisse</button>
   <button class="box speak-onclick">Charlene</button>
+  <button class="box speak-onclick">Barb</button>
+  <button class="box speak-onclick">Pete</button>
   <button class="box speak-onclick">Father Bill</button>
 </div>
 
-<h1><a class="navbar-item" id="home">Home Address</a></h1>
+<h1><a class="navbar-item" id="home" XSAMPA="contact information">Contact Info</a></h1>
   <div class="wrapper8">
     <button class="box speak-onclick" XSAMPA="2 0 6 8 0 Seaton Avenue">20680 Seaton Ave</button>
     <button class="box speak-onclick">Saratoga</button>
@@ -978,6 +1181,9 @@ input[type=range] {
     <button class="box speak-onclick">Thursday</button>
     <button class="box speak-onclick">Friday</button>
     <button class="box speak-onclick">Saturday</button>
+    <button class="box speak-onclick">today</button>
+    <button class="box speak-onclick">tomorrow</button>
+    <button class="box speak-onclick">yesterday</button>
 </div>
 
 <h1><a class="navbar-item" id="months">Months of year</a></h1>
@@ -1069,7 +1275,12 @@ document.body.onclick = function(e) {   //when the document body is clicked
       }
       else if (e.className.indexOf('onclick') != -1
         && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
-        speak(e.innerHTML);
+          spelling = e.getAttribute("XSAMPA");
+          if (!spelling) {
+            spelling = e.innerHTML;
+          }
+
+        speak(spelling);
         window.location.href = "#"+e.id; } //goto anchor
 
       else if (e.className.indexOf('href-onclick') != -1) {
