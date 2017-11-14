@@ -219,11 +219,24 @@ var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
 var start_timestamp;
+// added
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+var grammar = '#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;'
+var speechRecognitionList = new SpeechGrammarList();
+console.log(grammar);
+speechRecognitionList.addFromString(grammar, 1);
+// added
 if (!('webkitSpeechRecognition' in window)) {
   upgrade();
 } else {
   start_button.style.display = 'inline-block';
-  var recognition = new webkitSpeechRecognition();
+  var recognition = new SpeechRecognition();
+
+  recognition.grammars = speechRecognitionList; //added
+
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.onstart = function() {
