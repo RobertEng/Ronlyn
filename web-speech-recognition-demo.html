@@ -32,13 +32,8 @@
     }
 
     div {
-      height: 100px;
       overflow: auto;
-      position: absolute;
-      bottom: 0px;
-      right: 0;
-      left: 0;
-      background-color: rgba(255,255,255,0.2);
+      position: relative;
     }
 
     ul {
@@ -58,48 +53,52 @@
   <h1>Speech recognition tester</h1>
   <input type="button" name="listen" value="start listening to me">
   <br>
-
-<span class="cue" id=1>The</span>
-<span class="cue" id=2>quick</span>
-<span class="cue" id=3>brown</span>
-<span class="cue" id=4>fox</span>
-<span class="cue" id=5>jumped</span>
-<span class="cue" id=6>over</span>
-<span class="cue" id=7>lazy</span>
-<span class="cue" id=8>dog</span>
-<span class="cue">.</span>
+<div class="sentence" id=0>
+  <span class="word" id=0>The</span>
+  <span class="word" id=1>quick</span>
+  <span class="word" id=2>brown</span>
+  <span class="word" id=3>fox</span>
+  <span class="word" id=4>jumped</span>
+  <span class="word" id=5>over</span>
+  <span class="word" id=6>the</span>
+  <span class="word" id=7>lazy</span>
+  <span class="word" id=8>dog</span><span class="word" id=9>.</span>
+</div>
 <br>
-<span class="cue" id=10>Now</span>
-<span class="cue" id=11>is</span>
-<span class="cue" id=12>the</span>
-<span class="cue" id=13>time</span>
-<span class="cue" id=14>for</span>
-<span class="cue" id=15>all</span>
-<span class="cue" id=16>good</span>
-<span class="cue" id=17>men</span>
-<span class="cue" id=18>to</span>
-<span class="cue" id=19>come</span>
-<span class="cue" id=20>to</span>
-<span class="cue" id=21>the</span>
-<span class="cue" id=22>aid</span>
-<span class="cue" id=23>of</span>
-<span class="cue" id=24>the</span>
-<span class="cue" id=25>party</span>
-<span class="cue">.</span>
+<div class="sentence" id=1>
+  <span class="word" id=0>Now</span>
+  <span class="word" id=1>is</span>
+  <span class="word" id=2>the</span>
+  <span class="word" id=3>time</span>
+  <span class="word" id=4>for</span>
+  <span class="word" id=5>all</span>
+  <span class="word" id=6>good</span>
+  <span class="word" id=7>men</span>
+  <span class="word" id=8>to</span>
+  <span class="word" id=9>come</span>
+  <span class="word" id=10>to</span>
+  <span class="word" id=11>the</span>
+  <span class="word" id=12>aid</span>
+  <span class="word" id=13>of</span>
+  <span class="word" id=14>the</span>
+  <span class="word" id=15>party</span>
+  <span class="word" id=16>.</span>
+</div>
 <br>
-<p><span>sentence:</span><span id="sentenceId">1</span></p>
-<p><span>word:</span><span id="wordIdx">1</span></p>
+<p><span>sentence:</span><span id="sentenceId">0</span></p>
+<p><span>word:</span><span id="wordId">0</span></p>
 <p id="diagnostic">no error</p>
 
 <script>
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 //  var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
-
+    var currentSentenceIdx = Number(document.getElementById("sentenceId").innerText);
+    var currentWordIdx = Number(document.getElementById("wordId").innerHTML);
 
     var recognition = new SpeechRecognition();
-    var diagnostic = document.getElementById("diagnostic");
-    var word = document.getElementById(1);
+    var diagnostic =document.getElementById("diagnostic");
+    var word = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx];
     word.style.textDecoration = "underline";
     //recognition.continuous = false;
     recognition.lang = 'en-US';
@@ -132,18 +131,78 @@
       // The [0] returns the SpeechRecognitionAlternative at position 0.
       // We then return the transcript property of the SpeechRecognitionAlternative object
 
-      var last = event.results.length - 1;
-      var words = event.results[last][0].transcript;
-//scan through the results array and look up values against sentence
-      diagnostic.textContent = 'Result received: ' + words;
-//      bg.style.backgroundColor = color;
-      console.log('Confidence: ' + event.results[0][0].confidence);
-      console.log('last: ' +last);
-      console.log("result[last]:"+words);
-      if (last >= 1)
-        console.log('result[0]: ' + event.results[0][0].transcript);
+// are any of the results matching the sentence?
+      var currentword;
+      var currentSentenceIdx;
+      var currentWordIdx;
+      var lastWordIdx;
+      var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
+//      var lastToken = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")
+      var punctuationPattern = new RegExp(/[.,\/#!$%\^&\*;:{}=\-_`~()]/);
+      if (spokenWords.length > 0) { // words were spoen
+        // get current location within page
+         currentSentenceIdx = Number(document.getElementById("sentenceId").innerText);
+         currentWordIdx = Number(document.getElementById("wordId").innerHTML);
+         lastWordIdx = document.getElementsByClassName("sentence")[currentSentenceIdx].childElementCount - 1;
+         if (currentWordIdx <= lastWordIdx) { // written sentence has not been completely read aloud
+           currentword = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].innerHTML;
+          // find the first match of current word with spoken word results
+          for (w = 0; w < spokenWords.length; w++) {
+            currentword = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].innerHTML;
+            console.log("spoken word["+ w.toString()+"]:"+spokenWords[w]);
+            console.log("current wrtitten word:"+currentword);
+            if (spokenWords[w].toLowerCase() == currentword.toLowerCase() ) { //should strip blans too
+              // advance word indicator forward;
+              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
+              currentWordIdx++;
+              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
+              document.getElementById("wordId").innerHTML = currentWordIdx.toString();
+              }
+            else {
+              // otherwise advance the results pointer
+              }
+
+            console.log("word["+ w.toString()+"]:"+spokenWords[w]);
+          }
+          //  sentence punctuation encountered
+          if (punctuationPattern.test(currentword)) {
+            if (currentWordIdx < lastWordIdx) { // interim punctation
+                document.getElementById("wordId").innerHTML = currentWordIdx.toString();
+                console.log("interim punctuation encountered (and skipped)");
+                document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
+              currentWordIdx++; //skip punctuations
+            }
+            else {
+              console.log("End punctuation encountered (and skipped)");
+              console.log ("go to next sentence");
+              currentSentenceIdx++;
+              currentWordIdx = 0;
+              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
+              document.getElementById("sentenceId").innerText = currentSentenceIdx.toString();
+              document.getElementById("wordId").innerHTML = currentWordIdx.toString();
+              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
+            }
+          }
+      else {
+        console.log ("no spoken words detected");
+      }
     }
 
+
+      // parse each word from words
+
+//scan through the results array and look up values against sentence
+      diagnostic.textContent = 'Result received: ' + spokenWords;
+//      bg.style.backgroundColor = color;
+      console.log('Confidence: ' + event.results[0][0].confidence);
+//      console.log('last: ' + event.results.length - 1);
+      console.log("result[last]:"+spokenWords);
+      if ( event.results.length - 1 >= 1)
+        console.log('result[0]: ' + event.results[0][0].transcript);
+
+
+    }
+}
     recognition.onspeechend = function() {
       var time = new Date();
       console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
