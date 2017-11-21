@@ -126,7 +126,7 @@
           e = e.target; }                  //assign the element clicked to e
       if (e.getAttribute("name") == "listen") { //listen button
         var time = new Date();
-        diagnostic.textContent = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
+        diagnostic.textContent = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
         console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
         document.getElementsByName("listen")[0].value = "stop listening";
         recognition.start();
