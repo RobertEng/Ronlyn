@@ -52,7 +52,7 @@
 
 <body>
   <h1>Speech recognition tester</h1>
-  <input type="button" name="listen" value="listen to me read">
+  <input type="button" id="listenBtn" value="listen to me read">
   <br>
 <div class="sentence" id=0>
   <span class="word" id=0>The</span>
@@ -109,6 +109,7 @@
 
     var recognition = new SpeechRecognition();
     var diagnostic =document.getElementById("diagnostic");
+    var listenBtn =document.getElementById("listenBtn");
     var word = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx];
     word.style.textDecoration = "underline";
     //recognition.continuous = false;
@@ -119,12 +120,19 @@
 /*
  * User devents
  */
+
+     listenBtn.onclick = function(e) {
+       var time = new Date();
+       diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
+    }
     document.body.onclick = function(e) {
+      var time = new Date();
+      diagnostic.textContent = 'onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
       if (window.event) {
           e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
       else {
           e = e.target; }                  //assign the element clicked to e
-      if (e.getAttribute("name") == "listen") { //listen button
+      if (e.getAttribute("name") == "listenBtn") { //listen button
         var time = new Date();
         diagnostic.textContent = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
         console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
