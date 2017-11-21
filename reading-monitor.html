@@ -118,29 +118,30 @@
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
 /*
- * User devents
+ * User events
  */
 
      listenBtn.onclick = function(e) {
        var time = new Date();
-       diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-    }
-    document.body.onclick = function(e) {
-      var time = new Date();
-      diagnostic.textContent = 'onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-      if (window.event) {
-          e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
-      else {
-          e = e.target; }                  //assign the element clicked to e
-      if (e.getAttribute("name") == "listenBtn") { //listen button
-        var time = new Date();
+//       diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
+//    }
+//    document.body.onclick = function(e) {
+//      var time = new Date();
+      diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
+//      if (window.event) {
+//          e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
+//      else {
+//          e = e.target; }                  //assign the element clicked to e
+//      if (e.getAttribute("name") == "listenBtn") { //listen button
+//        var time = new Date();
         diagnostic.textContent = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
         console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-        document.getElementsByName("listen")[0].value = "stop listening";
+        //document.getElementById("listenBtn")[0].defaultValue = "stop listening";
+        listenBtn.defaultValue = "stop listening";
         recognition.start();
       }
       // insert code to change current word and sentence
-    }
+
 /*
  * speech recognition events
  */
@@ -207,12 +208,12 @@
               document.getElementById("sentenceIdx").innerText = currentSentenceIdx.toString();
               wordIdxField.textContent = currentWordIdx.toString();
               document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
-              document.getElementsByName("listen")[0].value = "listen to me read";
+              listenBtn.defaultValue = "listen to me read";
             }
           }
           else {
             console.log ("no spoken words detected");
-            document.getElementsByName("listen")[0].value = "listen to me read";
+            listenBtn.defaultValue = "listen to me read";
           }
         }
       diagnostic.textContent = 'Result received: ' + spokenWords;
@@ -228,14 +229,14 @@
     var time = new Date();
     console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
     recognition.stop();
-    document.getElementsByName("listen")[0].value = "listen to me read";
+    listenBtn.defaultValue.defaultValue = "listen to me read";
   }
 
   recognition.onsoundend = function() {
     var time = new Date();
     console.log('onsoundend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
     recognition.stop();
-    document.getElementsByName("listen")[0].value = "listen to me read";
+    listenBtn.defaultValue.defaultValue = "listen to me read";
   }
 
     recognition.onnomatch = function(event) {
