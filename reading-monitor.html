@@ -126,8 +126,7 @@
           e = e.target; }                  //assign the element clicked to e
       if (e.getAttribute("name") == "listen") { //listen button
         recognition.start();
-        var btn = document.getElementsByName("listen");
-        document.getElementsByName("listen").value = "listening";
+        document.getElementsByName("listen")[0].value = "stop listening";
         var time = new Date();
         console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
       }
@@ -199,10 +198,12 @@
               document.getElementById("sentenceIdx").innerText = currentSentenceIdx.toString();
               wordIdxField.textContent = currentWordIdx.toString();
               document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
+              document.getElementsByName("listen")[0].value = "listen to me read";
             }
           }
           else {
             console.log ("no spoken words detected");
+            document.getElementsByName("listen")[0].value = "listen to me read";
           }
         }
       diagnostic.textContent = 'Result received: ' + spokenWords;
@@ -218,14 +219,14 @@
     var time = new Date();
     console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
     recognition.stop();
-    document.getElementsByName("listen").value = "listen to me read";
+    document.getElementsByName("listen")[0].value = "listen to me read";
   }
 
   recognition.onsoundend = function() {
     var time = new Date();
     console.log('onsoundend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
     recognition.stop();
-    document.getElementsByName("listen").value = "listen to me read";
+    document.getElementsByName("listen")[0].value = "listen to me read";
   }
 
     recognition.onnomatch = function(event) {
