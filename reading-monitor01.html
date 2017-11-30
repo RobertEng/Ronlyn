@@ -114,6 +114,12 @@ class ReadingMonitor {
     set name(newName) {
         this._name = newName;
     }
+    set timeout(seconds) {
+      this._timeout = seconds;
+    }
+    set retries(retries) {
+      this._retries = retries;
+    }
     set sentenceIdxElementId(id) {
         //check typeof
         this._sentenceIdxElement = document.getElementById(id);
@@ -178,18 +184,30 @@ class ReadingMonitor {
       return this._wordIdx == this._lastWorkdIdx;
     }
     parseSentences() {
-          // can the existing html support the prescribed format?
+          // can the existing html support parsing into the prescribed format?
+    }
+    thisSentence() {
+      this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
+      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+    }
+    firstSentence() {
+      // check for last sentence
+      this.currentSentenceIdx = 0;
+      this._wordIdx = 0;
+      this.thisSentence();
     }
     nextSentence() {
       // check for last sentence
-      this._sentenceIdx++;
+      this.currentSentenceIdx += 1;
       this._wordIdx = 0;
-      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+      this.thisSentence();
     }
     nextWord() {
       // positions to the next valid word. Skips interim punctuations and positions to the first word of a new sentence when terminal punctation is encountered
       var interimPunctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()]\"/);
       var terminalPunctuationPattern = new RegExp(/.!?/);
+      //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
+      //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "none";
       this._wordIdx++;
       if (this._wordIdx == this._lastWordIdx) { // last word in sentence encountered
@@ -215,16 +233,20 @@ class ReadingMonitor {
     }
     initialize() {
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-      //  var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
-      var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
       // can the existing html support the prescribed format?
 
-      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+
+//      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
       this._recognition = new SpeechRecognition();
+      this._recognition.lang = 'en-US';
+      this._recognition.interimResults = true;
+      this._recognition.maxAlternatives = 1;
       var recognition = this._recognition;
       var thisMonitor = this; // listener context will reference MyReadingMonitor as self
-
+      //
+      // Define event handling
+      //
       this._listenButtonElement.onclick = function(event) {
         var time = new Date();
         myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
@@ -234,31 +256,22 @@ class ReadingMonitor {
         myReadingMonitor.listenButtonLabel = "stop listening";
         recognition.start();
       }
-      recognition.onresult = function(event) {
-        var time = new Date();
-        console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-        var time = new Date();
-        console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-         // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-         // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-         // It has a getter so it can be accessed like an array
-         // The [last] returns the SpeechRecognitionResult at the last position.
-         // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-         // These also have getters so they can be accessed like arrays.
-         // The [0] returns the SpeechRecognitionAlternative at position 0.
-         // We then return the transcript property of the SpeechRecognitionAlternative object
 
-         // are any of the results matching the sentence?
-  //       var currentword;
-  //       var currentSentenceIdx;
-  //       var currentWordIdx;
+      recognition.onresult = function(event) {
+//      ////////////
+//      implement these interfaces someday when the following references are available. Until then, just split the transcript
+//        var spokenEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+//        var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
+//        var spokenResults = speechRecognitionResultList;
+//      Perhaps the grammar object will be available by then too.
+//      ////////////
+        var time = new Date();
+        console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
          var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
          var w;
          for (w = 0; w < spokenWords.length; w++) {
-//               currentword = thisMonitor.currentWord;
            console.log("spoken word["+ w.toString()+"]:"+spokenWords[w]);
            console.log("current written word:"+thisMonitor.currentWord);
-//           if (spokenWords[w].toLowerCase() == thisMonitor.currentWord.toLowerCase() ) { //should strip blanks too
            if (thisMonitor.matchWord(spokenWords[w])) { //should strip blanks too
                thisMonitor.nextWord();
            }
@@ -268,10 +281,9 @@ class ReadingMonitor {
          thisMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
          console.log('Confidence: ' + event.results[0][0].confidence);
          console.log("result[last]:"+spokenWords);
-         if ( event.results.length - 1 >= 1)
+         if ((event.results.length - 1) >= 1)
            console.log('result[0]: ' + event.results[0][0].transcript);
-       } // onresult
-
+      } // onresult
 
        recognition.onspeechend = function() {
          var time = new Date();
@@ -281,6 +293,7 @@ class ReadingMonitor {
        }
 
        recognition.onsoundend = function() {
+         // event fires immediately after onspeechend
          var time = new Date();
          console.log('onsoundend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
          recognition.stop();
@@ -298,177 +311,18 @@ class ReadingMonitor {
              // insert code to change current word and sentence
     } // initialize()
 } // MyReadingMonitor
-     /****
-(function () {  // IIFE
-  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-//  var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
-  var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
-  var currentSentenceIdx = Number(document.getElementById("sentenceIdx").innerText);
-  var currentWordIdx = Number(document.getElementById("wordIdx").innerHTML);
 
-  //instance variables
-  var sentenceIdxElement;
-  var wordIdxElement;
-  var diagnosticElement;
-  var listenButtonElement;
-
-    var recognition = new SpeechRecognition();
-    var listenBtn =document.getElementById("listenBtn");
-    var word = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx];
-    var sentenceIdxField;
-    word.style.textDecoration = "underline";
-    //recognition.continuous = false;
-    recognition.lang = 'en-US';
-//    recognition.interimResults = false;
-    recognition.interimResults = true;
-    recognition.maxAlternatives = 1;
-//*
-// * event listeners
-//
-
-
-     listenBtn.onclick = function(e) {
-       var time = new Date();
-//       diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-//    }
-//    document.body.onclick = function(e) {
-//      var time = new Date();
-      diagnostic.textContent = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-//      if (window.event) {
-//          e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
-//      else {
-//          e = e.target; }                  //assign the element clicked to e
-//      if (e.getAttribute("name") == "listenBtn") { //listen button
-//        var time = new Date();
-        diagnostic.textContent = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-        console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-        //document.getElementById("listenBtn")[0].defaultValue = "stop listening";
-        listenBtn.defaultValue = "stop listening";
-        recognition.start();
-      }
-      // insert code to change current word and sentence
-
-
-//
-//  speech recognition events
-//
-
-  recognition.onresult = function(event) {
-   var wordIdxField = document.getElementById("wordIdx");
-   var time = new Date();
-      console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-      // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-      // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-      // It has a getter so it can be accessed like an array
-      // The [last] returns the SpeechRecognitionResult at the last position.
-      // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-      // These also have getters so they can be accessed like arrays.
-      // The [0] returns the SpeechRecognitionAlternative at position 0.
-      // We then return the transcript property of the SpeechRecognitionAlternative object
-
-// are any of the results matching the sentence?
-      var currentword;
-      var currentSentenceIdx;
-      var currentWordIdx;
-      var lastWordIdx;
-      var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
-      var w;
-//      var lastToken = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")
-      var punctuationPattern = new RegExp(/[.,\/#!$%\^&\*;:{}=\-_`~()]/);
-      if (spokenWords.length > 0) { // words were spoken
-        // get current location within page
-         currentSentenceIdx = Number(document.getElementById("sentenceIdx").innerText);
-         currentWordIdx = Number(document.getElementById("wordIdx").innerHTML);
-         lastWordIdx = document.getElementsByClassName("sentence")[currentSentenceIdx].childElementCount - 1;
-         if (currentWordIdx <= lastWordIdx) { // written sentence has not been completely read aloud
-           currentword = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].innerHTML;
-          // find the first match of current word with spoken word results
-          for (w = 0; w < spokenWords.length; w++) {
-            currentword = document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].innerHTML;
-            console.log("spoken word["+ w.toString()+"]:"+spokenWords[w]);
-            console.log("current written word:"+currentword);
-            if (spokenWords[w].toLowerCase() == currentword.toLowerCase() ) { //should strip blanks too
-              // advance word indicator forward;
-              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
-              currentWordIdx++;
-              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
-               wordIdxField.textContent = currentWordIdx.toString();
-              }
-            else {
-              // otherwise advance the results pointer
-              }
-
-            console.log("word["+ w.toString()+"]:"+spokenWords[w]);
-          }
-          //  sentence punctuation encountered
-          if (punctuationPattern.test(currentword)) {
-            if (currentWordIdx < lastWordIdx) { // interim punctation
-                wordIdxField.textContent = currentWordIdx.toString();
-                console.log("interim punctuation encountered (and skipped)");
-                document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
-              currentWordIdx++; //skip punctuations
-            }
-            else {
-              console.log("End punctuation encountered (and skipped)");
-              console.log ("go to next sentence");
-              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "none";
-              currentSentenceIdx++;
-              currentWordIdx = 0;
-              document.getElementById("sentenceIdx").innerText = currentSentenceIdx.toString();
-              wordIdxField.textContent = currentWordIdx.toString();
-              document.getElementsByClassName("sentence")[currentSentenceIdx].getElementsByClassName("word")[currentWordIdx].style.textDecoration = "underline";
-              listenBtn.defaultValue = "listen to me read";
-            }
-          }
-          else {
-            console.log ("no spoken words detected");
-            listenBtn.defaultValue = "listen to me read";
-          }
-        }
-      diagnostic.textContent = 'Result received: ' + spokenWords;
-      console.log('Confidence: ' + event.results[0][0].confidence);
-      console.log("result[last]:"+spokenWords);
-      if ( event.results.length - 1 >= 1)
-        console.log('result[0]: ' + event.results[0][0].transcript);
-
-
-    }
-  } // onresult
-  recognition.onspeechend = function() {
-    var time = new Date();
-    console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-    recognition.stop();
-    listenBtn.defaultValue = "listen to me read";
-  }
-
-  recognition.onsoundend = function() {
-    var time = new Date();
-    console.log('onsoundend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-    recognition.stop();
-    listenBtn.defaultValue = "listen to me read";
-  }
-
-    recognition.onnomatch = function(event) {
-      diagnostic.textContent = "I didn't recognise that.";
-    }
-
-    recognition.onerror = function(event) {
-      diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
-    }
-//    return ReadingMonitor;
-  })();
-***/
   var myReadingMonitor = new ReadingMonitor("Speech recognition tester");
+
+  // register html field names
   myReadingMonitor.diagnosticElementId ="diagnostic";
-  myReadingMonitor.diagnosticMsg = "hi";
   myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
   myReadingMonitor.wordIdxElementId = "wordIdx";
   myReadingMonitor.listenButtonElementId = "listenBtn";
+
   myReadingMonitor.parseSentences();
-  myReadingMonitor.currentSentenceIdx = 0;
-  myReadingMonitor.currentWordIdx = 0;
+  myReadingMonitor.firstSentence();
   myReadingMonitor.initialize();
-//  myReadingMonitor.start();
 
 </script>
   </body>
