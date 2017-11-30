@@ -115,9 +115,11 @@ class ReadingMonitor {
         this._name = newName;
     }
     set timeout(seconds) {
+      // period of time of silences
       this._timeout = seconds;
     }
     set retries(retries) {
+      // how many (re)tries before hint
       this._retries = retries;
     }
     set sentenceIdxElementId(id) {
@@ -141,12 +143,12 @@ class ReadingMonitor {
         };
     }
     set diagnosticElementId(id) {
-        //check typeof parameter
         this._diagnosticElement = document.getElementById(id);
     }
     set diagnosticMsg(msg) {
         //check typeof parameter
-        this._diagnosticElement.textContent = msg;
+        if (typeof(this._diagnosticElement) != 'undefined')
+          this._diagnosticElement.textContent = msg;
       }
     set listenButtonElementId(buttonId) {
         //check typeof parameter
@@ -162,7 +164,7 @@ class ReadingMonitor {
     set currentSentenceIdx(sentenceIdx) {
         // check if Idx is valid based on DOM
         this._sentenceIdx = sentenceIdx;
-        this._sentenceIdxElement.innerText = sentenceIdx.toString();
+        if (typeof this._sentenceIdxElement != 'undefined') this._sentenceIdxElement.innerText = sentenceIdx.toString();
         this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
     }
     get currentWordIdx() {
@@ -171,7 +173,7 @@ class ReadingMonitor {
     set currentWordIdx(wordIdx) {
       // check if Idx is valid based on DOM
         this._wordIdx = wordIdx;
-        this._wordIdxElement.innerText = wordIdx.toString();
+        if (typeof this._wordIdxElement != 'undefined') this._wordIdxElement.innerText = wordIdx.toString();
     }
     get currentWord() { // should be assigned only when sentence or word idx changed is set or changed
       return document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].innerHTML;
@@ -181,10 +183,14 @@ class ReadingMonitor {
       return this._lastWordIdx;
     }
     isLastWord() {
-      return this._wordIdx == this._lastWorkdIdx;
+      return this._wordIdx >= this._lastWordIdx;
+    }
+    isLastSentence() {
+      return this._sentenceIdx >= this._lastSentenceIdx;
     }
     parseSentences() {
           // can the existing html support parsing into the prescribed format?
+          this._lastSentenceIdx = 999;
     }
     thisSentence() {
       this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
@@ -193,14 +199,19 @@ class ReadingMonitor {
     firstSentence() {
       // check for last sentence
       this.currentSentenceIdx = 0;
-      this._wordIdx = 0;
+      this.currentWordIdx = 0;
       this.thisSentence();
     }
     nextSentence() {
       // check for last sentence
-      this.currentSentenceIdx += 1;
-      this._wordIdx = 0;
-      this.thisSentence();
+      if (this.isLastSentence()) {
+        console.log("no more sentences")
+      }
+      else {
+        this.currentSentenceIdx += 1;
+        this.currentWordIdx = 0;
+        this.thisSentence();
+      }
     }
     nextWord() {
       // positions to the next valid word. Skips interim punctuations and positions to the first word of a new sentence when terminal punctation is encountered
@@ -209,8 +220,8 @@ class ReadingMonitor {
       //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "none";
-      this._wordIdx++;
-      if (this._wordIdx == this._lastWordIdx) { // last word in sentence encountered
+      this.currentWordIdx += 1;
+      if (this.isLastWord()) { // last word in sentence encountered
         if (terminalPunctuationPattern.test(this._wordIdx)) {
           this.nextSentence();
         }
@@ -288,7 +299,7 @@ class ReadingMonitor {
        recognition.onspeechend = function() {
          var time = new Date();
          console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
-         recognition.stop();
+//         recognition.stop();
          listenBtn.defaultValue = "listen to me read";
        }
 
@@ -306,6 +317,7 @@ class ReadingMonitor {
 
        recognition.onerror = function(event) {
          diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+         // timeout with no sound triggers this event
        }
 
              // insert code to change current word and sentence
