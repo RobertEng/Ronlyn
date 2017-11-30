@@ -235,7 +235,6 @@ class ReadingMonitor {
         recognition.start();
       }
       recognition.onresult = function(event) {
-        var wordIdxField = document.getElementById("wordIdx");
         var time = new Date();
         console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
         var time = new Date();
