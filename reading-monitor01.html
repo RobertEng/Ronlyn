@@ -123,32 +123,42 @@ class ReadingMonitor {
       this._retries = retries;
     }
     set sentenceIdxElementId(id) {
-        //check typeof
-        this._sentenceIdxElement = document.getElementById(id);
-        if(Number(this._sentenceIdxElement.innerText)==Number.NaN) {
-            console.log("SentenceIdxByElementId("+id+") = NaN")
-        }
-        else {
-          this._sentenceIdx  = Number(this._sentenceIdxElement.innerText);
-        };
+      try {
+        this._sentenceIdxElement  = document.getElementById(id);
+        this._sentenceIdxElement.innerText = "0"; // touch test
+      }
+      catch(e) {
+        this.diagnosticMsg = "sentenceIdxElementId setter: invalid Element id "+id;
+      };
     }
     set wordIdxElementId(id) {
         //check typeof parameter
-        this._wordIdxElement  = document.getElementById(id);
-        if(Number(this._wordIdxElement.innerText)==Number.NaN) {
-            console.log("WordIdxByElementId("+id+") = NaN")
+        try {
+          this._wordIdxElement  = document.getElementById(id);
+          this._wordIdxElement.innerText = "0"; // touch test
         }
-        else {
-        this._wordIdx = Number(this._wordIdxElement.innerText);
+        catch(e) {
+          this._diagnosticMsg = "wordIdxElementId setter: invalid Element id "+id;
         };
-    }
+      }
     set diagnosticElementId(id) {
         this._diagnosticElement = document.getElementById(id);
     }
     set diagnosticMsg(msg) {
         //check typeof parameter
-        if (typeof(this._diagnosticElement) != 'undefined')
-          this._diagnosticElement.textContent = msg;
+        try {
+          var time = new Date();
+          var timestamp = time.toLocaleTimeString();
+//          header = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds()+"."+time.getMilliseconds();
+          this._diagnosticElement.textContent = timestamp + ":" + msg;
+        }
+        catch(e) {
+          console.log("diagnosticMsg: cannot access diagnostic field");
+        }
+        finally {
+          console.log("diag-"+timestamp + ":" + msg);
+        };
+
       }
     set listenButtonElementId(buttonId) {
         //check typeof parameter
@@ -164,7 +174,8 @@ class ReadingMonitor {
     set currentSentenceIdx(sentenceIdx) {
         // check if Idx is valid based on DOM
         this._sentenceIdx = sentenceIdx;
-        if (typeof this._sentenceIdxElement != 'undefined') this._sentenceIdxElement.innerText = sentenceIdx.toString();
+        if (typeof this._sentenceIdxElement != 'undefined' && this._sentenceIdxElement != null)
+          this._sentenceIdxElement.innerText = sentenceIdx.toString();
         this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
     }
     get currentWordIdx() {
@@ -173,7 +184,8 @@ class ReadingMonitor {
     set currentWordIdx(wordIdx) {
       // check if Idx is valid based on DOM
         this._wordIdx = wordIdx;
-        if (typeof this._wordIdxElement != 'undefined') this._wordIdxElement.innerText = wordIdx.toString();
+        if (typeof this._wordIdxElement != 'undefined' & this._wordIdxElement != null)
+          this._wordIdxElement.innerText = wordIdx.toString();
     }
     get currentWord() { // should be assigned only when sentence or word idx changed is set or changed
       return document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].innerHTML;
@@ -194,7 +206,8 @@ class ReadingMonitor {
     }
     thisSentence() {
       this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
-      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+      this.currentWordIndicator("underline");
+//      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
     firstSentence() {
       // check for last sentence
@@ -213,13 +226,17 @@ class ReadingMonitor {
         this.thisSentence();
       }
     }
+    currentWordIndicator(state) {
+      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = state;
+    }
     nextWord() {
       // positions to the next valid word. Skips interim punctuations and positions to the first word of a new sentence when terminal punctation is encountered
       var interimPunctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()]\"/);
       var terminalPunctuationPattern = new RegExp(/.!?/);
       //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
-      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "none";
+      this.currentWordIndicator("none");
+//      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "none";
       this.currentWordIdx += 1;
       if (this.isLastWord()) { // last word in sentence encountered
         if (terminalPunctuationPattern.test(this._wordIdx)) {
@@ -235,11 +252,13 @@ class ReadingMonitor {
           this.nextWord(); // skip recursively
         }
         else {
-          document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+//          document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+          this.currentWordIndicator("underline");
         }
       }
     }
     matchWord(spokenWord) {
+      // need code to manage special cases: proper names not already recognized
       return spokenWord.toLowerCase() == this.currentWord.toLowerCase()
     }
     initialize() {
@@ -259,11 +278,7 @@ class ReadingMonitor {
       // Define event handling
       //
       this._listenButtonElement.onclick = function(event) {
-        var time = new Date();
-        myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-        var time = new Date();
-        myReadingMonitor.diagnosticMsg = 'start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-        console.log('start(): '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
+        myReadingMonitor.diagnosticMsg = 'listenBtn::onclick()';
         myReadingMonitor.listenButtonLabel = "stop listening";
         recognition.start();
       }
@@ -276,37 +291,34 @@ class ReadingMonitor {
 //        var spokenResults = speechRecognitionResultList;
 //      Perhaps the grammar object will be available by then too.
 //      ////////////
-        var time = new Date();
-        console.log('onresult: '+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
+        this.diagnosticMsg = "recognition.onresult";
          var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
          var w;
          for (w = 0; w < spokenWords.length; w++) {
-           console.log("spoken word["+ w.toString()+"]:"+spokenWords[w]);
-           console.log("current written word:"+thisMonitor.currentWord);
+           this.diagnosticMsg = "recognition.onresult: written word: "+thisMonitor.currentWord;
+           this.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
            if (thisMonitor.matchWord(spokenWords[w])) { //should strip blanks too
                thisMonitor.nextWord();
            }
          }
-         console.log("word["+ w.toString()+"]:"+spokenWords[w]);
+//         console.log("word["+ w.toString()+"]:"+spokenWords[w]);
          thisMonitor.listenButtonLabel = "listen to me read";
          thisMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
-         console.log('Confidence: ' + event.results[0][0].confidence);
+         console.log('confidence: ' + event.results[0][0].confidence);
          console.log("result[last]:"+spokenWords);
          if ((event.results.length - 1) >= 1)
-           console.log('result[0]: ' + event.results[0][0].transcript);
+         console.log('result[0]: ' + event.results[0][0].transcript);
       } // onresult
 
        recognition.onspeechend = function() {
-         var time = new Date();
-         console.log('onspeechend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
+         this.diagnosticMsg = "recognition.onspeechend";
 //         recognition.stop();
          listenBtn.defaultValue = "listen to me read";
        }
 
        recognition.onsoundend = function() {
          // event fires immediately after onspeechend
-         var time = new Date();
-         console.log('onsoundend:'+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds());
+         this.diagnosticMsg = "recognition.onsoundend";
          recognition.stop();
          listenBtn.defaultValue = "listen to me read";
        }
