@@ -44,6 +44,14 @@
     .hints span {
       text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
     }
+    #listenBtn {
+      border: 0;
+      background-color:transparent;
+      padding: 0;
+      outline: none;
+      border: none;
+}
+    }
 </style>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -51,69 +59,17 @@
 </head>
 
 <body>
-  <h1>Speech recognition tester</h1>
-  <input type="button" id="listenBtn" value="listen to me read">
-  <br>
-  <div class="sentence" id=0>
-    <span class="word" id=0>We</span>
-    <span class="word" id=1>celebrate</span>
-    <span class="word" id=2>my</span>
-    <span class="word" id=3>birthday</span>
-    <span class="word" id=4>with</span>
-    <span class="word" id=5>my</span>
-    <span class="word" id=6>parents</span>
-    <span class="word" id=7>one</span>
-    <span class="word" id=8>day</span>
-    <span class="word" id=9>late</span><span class="word" id=10>.</span>
-  </div>
-  <br>
-  <div class="sentence" id=1>
-    <span class="word" id=0>David</span>
-    <span class="word" id=1>is</span>
-    <span class="word" id=2>still</span>
-    <span class="word" id=3>home</span>
-    <span class="word" id=4>from</span>
-    <span class="word" id=5>school</span><span class="word" id=6>.</span>
-  </div>
-<div class="sentence" id=2>
-  <span class="word" id=0>The</span>
-  <span class="word" id=1>quick</span>
-  <span class="word" id=2>brown</span>
-  <span class="word" id=3>fox</span>
-  <span class="word" id=4>jumped</span>
-  <span class="word" id=5>over</span>
-  <span class="word" id=6>the</span>
-  <span class="word" id=7>lazy</span>
-  <span class="word" id=8>dog</span><span class="word" id=9>.</span>
-</div>
+<h1>Speech recognition tester</h1>
+<button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
 <br>
-<div class="sentence" id=3>
-  <span class="word" id=0>Now</span>
-  <span class="word" id=1>is</span>
-  <span class="word" id=2>the</span>
-  <span class="word" id=3>time</span>
-  <span class="word" id=4>for</span>
-  <span class="word" id=5>all</span>
-  <span class="word" id=6>good</span>
-  <span class="word" id=7>men</span>
-  <span class="word" id=8>to</span>
-  <span class="word" id=9>come</span>
-  <span class="word" id=10>to</span>
-  <span class="word" id=11>the</span>
-  <span class="word" id=12>aid</span>
-  <span class="word" id=13>of</span>
-  <span class="word" id=14>the</span>
-  <span class="word" id=15>party</span>
-  <span class="word" id=16>.</span>
-</div>
+<div class="sentence">We celebrate my birthday with my parents one day late.</div>
 <br>
-<div class="sentence" id=4>
-  <span class="word" id=0>Is</span>
-  <span class="word" id=1>Ronlyn</span>
-  <span class="word" id=2>a</span>
-  <span class="word" id=3>pumpkin</span>
-  <span class="word" id=4>.</span>
-</div>
+<div class="sentence">David is still home from school</div>
+<div class="sentence">The quick brown fox jumped over the lazy dog.</div>
+<br>
+<div class="sentence">Now is the time for all good men to come to the aid of the party.</div>
+<br>
+<div class="sentence">Is Ronlyn a pumpkin?</div>
 <br>
 <p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
 <p><span>word idx:</span><span id="wordIdx">0</span></p>
@@ -148,13 +104,20 @@ class ReadingMonitor {
     }
     setTimerStart() {
       this._startTime = new Date();
-      this.diagnosticMsg = "timerStartTime: started at " + this._startTime;
+      this._timerOn = true;
+      this.diagnosticMsg = "timerStart: " + this._startTime;
+    }
+    timerCancel() {
+      this._timerOn = false;
+      this._startTime = new Date();
+      this.diagnosticMsg = "timerCancel: " + this._startTime;
     }
     timerIsActive() {
       var current  = new Date();
       // period of time of silences
-      this.diagnosticMsg = "timerIsActive(): " + this.timerElapsedTime < this._timeout;
-      return (this.timerElapsedTime < this._timeout);
+//      this.diagnosticMsg = "timerIsActive(): " + this.timerElapsedTime < this._timeout;
+      this._timerOn = ((this.timerElapsedTime < this._timeout) && this._timerOn) ;
+      return (this._timerOn);
     }
     get timerElapsedTime() {
       var current  = new Date();
@@ -202,22 +165,62 @@ class ReadingMonitor {
         };
 
       }
-    set listenButtonElementId(buttonId) {
-      try {
-        this._listenButtonElement = document.getElementById(buttonId);
+      set listenButtonElementId(buttonId) {
+        try {
+          this._listenButtonElement = document.getElementById(buttonId);
+        }
+        catch(e) {
+          this.diagnosticMsg = "listenButtonElementId setter: Invalid element id "+buttonId;
+        }
       }
-      catch(e) {
-        this.diagnosticMsg = "listenButtonElementId setter: Invalid element id "+buttonId;
+      set listenButtonImgElementId(buttonImgId) {
+        try {
+          this._listenButtonImgElement = document.getElementById(buttonImgId);
+        }
+        catch(e) {
+          this.diagnosticMsg = "listenButtonImgElementId setter: Invalid element id "+buttonId;
+        }
       }
-    }
     set listenButtonLabel(label) {
       try {
         this._listenButtonElement.defaultValue = label;
       }
       catch(e) {
-        this.diagnosticMsg = "listenButtonLabel setter: Error setting listentButtonLabel with"+label;
+        this.diagnosticMsg = "listenButtonLabel setter: Error setting listentButtonLabel with "+imgName;
       }
     }
+      set listenButtonImgActive(imgName) {
+        try {
+          this._listenButtonImgActive = imgName;
+        }
+        catch(e) {
+          this.diagnosticMsg = "listenButtonLabel setter: Error setting listentButtonImgActive with "+imgName;
+        }
+    }
+    set listenButtonImgInactive(imgName) {
+      try {
+        this._listenButtonImgInactive = imgName;
+      }
+      catch(e) {
+        this.diagnosticMsg = "listenButtonImgInactive setter: Error setting listentButtonImgInactive with "+imgName;
+      }
+  }
+    listenButtonActivate() {
+      try {
+        this._listenButtonImgElement.src = this._listenButtonImgActive;
+      }
+      catch(e) {
+        this.diagnosticMsg = "listentButtonActivate(): unexpected error";
+      }
+    }
+    listenButtonDeactivate() {
+      try {
+        this._listenButtonImgElement.src = this._listenButtonImgInactive;
+      }
+      catch(e) {
+        this.diagnosticMsg = "listentButtonDeactivate(): unexpected error";
+      }
+  }
     get currentSentenceIdx() {
         return this._sentenceIdx;
     }
@@ -226,7 +229,7 @@ class ReadingMonitor {
         this._sentenceIdx = sentenceIdx;
         if (typeof this._sentenceIdxElement != 'undefined' && this._sentenceIdxElement != null)
           this._sentenceIdxElement.innerText = sentenceIdx.toString();
-        this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
+        this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
     }
     get currentWordIdx() {
         return this._wordIdx;
@@ -238,7 +241,7 @@ class ReadingMonitor {
           this._wordIdxElement.innerText = wordIdx.toString();
     }
     get currentWord() { // should be assigned only when sentence or word idx changed is set or changed
-      return document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].innerHTML;
+      return document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].innerHTML;
       // converts source html sentence <div>s into sentence containers <div>s/word <span>s
     }
     get lastWordIdx() {
@@ -255,10 +258,45 @@ class ReadingMonitor {
     }
     parseSentences() {
           // can the existing html support parsing into the prescribed format?
-          this._lastSentenceIdx = 999;
+        var sentences = document.getElementsByClassName("sentence");
+        var s, w;
+        var sentenceHTML;
+        var words;
+        var terminalPunctuationPattern = new RegExp(/[.!?]$/);
+     //   var tokenSeparators = new RegExp(/\s*\b\s*/);
+     //  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
+
+         // With \s pattern, terminal punctuation is included with word token and is handled as a special case
+         var tokenSeparators = new RegExp(/\s/);
+     //   var leftDelimiters = new RegExp(/\(\[\{/);
+     //   var rightDelimiters = new RegExp(/\)\]\}/);
+        for (s = 0; s < sentences.length; s++) {
+          sentenceHTML = '<div class="rm_sentence" id=' + s + ">";
+       //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
+          words = sentences[s].innerText.split(tokenSeparators); // not preserving space count
+          for (w = 0; w < words.length; w++) {
+               // not on the first word
+               if (w == words.length-1  && terminalPunctuationPattern.test(words[w])) {
+                 // remove terminal punctuation off end of current sentence and add separate span for terminal punctuation
+               sentenceHTML = sentenceHTML
+               + '<span class="rm_word onclick-word" id=' + w + ">" + words[w].substring(0,words[w].length-1) +"</span>"
+               + '<span class="rm_word rm_punctuation" id=' + (w+1) + ">" + words[w].substring(words[w].length-1,words[w].length)+"</span>";
+               }
+               // else if  all other special characters: no onclick-word or specially formatted rm_word
+                 // phone Numbers
+                 // proper nouns requiring XSAMPA hints
+               else {
+                 sentenceHTML = sentenceHTML+'<span class="rm_word onclick-word" id='+w+">"+words[w]+"</span>"+ "&nbsp";
+               }
+               //manage spacing especially for terminal punctuation
+          }
+           sentenceHTML = sentenceHTML + "</div>";
+           sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
+        }
+        this._lastSentenceIdx = sentences.length - 1;
     }
     thisSentence() {
-      this._lastWordIdx = document.getElementsByClassName("sentence")[this._sentenceIdx].childElementCount - 1;
+      this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
       this.currentWordIndicator("underline");
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
@@ -271,7 +309,7 @@ class ReadingMonitor {
     nextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
-        console.log("no more sentences")
+        this.diagnosticMsg = "nextSentence(): last sentence encountered"
       }
       else {
         this.currentSentenceIdx += 1;
@@ -280,7 +318,7 @@ class ReadingMonitor {
       }
     }
     currentWordIndicator(state) {
-      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = state;
+      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].style.textDecoration = state;
     }
     nextToken() {
       // consider this a lexical analyzer
@@ -311,6 +349,7 @@ class ReadingMonitor {
       else {  // not last word in sentence
         if (interimPunctuationPattern.test(this._wordIdx)) {
           this.nextToken(); // skip recursively
+          // handle contractions
           returnVal = TOKEN_INTERIMPUNCTUATION;
 
         }
@@ -344,14 +383,25 @@ class ReadingMonitor {
       this._recognition.maxAlternatives = 1;
       var recognition = this._recognition;
       var thisMonitor = this; // listener context will reference MyReadingMonitor as self
+
+      myReadingMonitor.listenButtonDeactivate();  // starting state
+
       //
       // Define event handling
       //
       this._listenButtonElement.onclick = function(event) {
-        myReadingMonitor.setTimerStart();
-        myReadingMonitor.diagnosticMsg = 'listenBtn::onclick()';
-        myReadingMonitor.listenButtonLabel = "stop listening";
-        recognition.start();
+        if (!thisMonitor.timerIsActive()) {
+          myReadingMonitor.setTimerStart();
+          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
+          myReadingMonitor.listenButtonActivate();
+          recognition.start();
+        }
+        else {
+          myReadingMonitor.timerCancel();
+          recognition.stop();
+          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
+          myReadingMonitor.listenButtonDeactivate();
+        }
       }
 
       recognition.onresult = function(event) {
@@ -376,7 +426,7 @@ class ReadingMonitor {
               if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
                   thisMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
                   recognition.abort();
-                  thisMonitor.diagnosticMsg = "recognition.onresult: aborted";
+                  thisMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
                   thisMonitor.listenButtonLabel = "listen to me read";
               }
            }
@@ -391,30 +441,30 @@ class ReadingMonitor {
       } // onresult
 
       recognition.onspeechend = function() {
-         thisMonitor.diagnosticMsg = "recognition.onspeechend";
+//         thisMonitor.diagnosticMsg = "recognition.onspeechend";
 
          if (thisMonitor.timerIsActive()) {
-//           listenBtn.defaultValue = "stop listening";
            thisMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
 //           recognition.start();
          }
          else {
 //            listenBtn.defaultValue = "listen to me read";
-            thisMonitor.diagnosticMsg = "recognition.onspeechend: timer expired";
+            thisMonitor.diagnosticMsg = "recognition.onspeechend: timer expired or cancelled";
           }
        }
 
        recognition.onend = function() {
-          thisMonitor.diagnosticMsg = "recognition.onend";
-          thisMonitor.diagnosticMsg = "timer ElapsedTime: "+ thisMonitor.timerElapsedTime;
+//          thisMonitor.diagnosticMsg = "recognition.onend";
+//          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
           if (thisMonitor.timerIsActive()) {
             listenBtn.defaultValue = "stop listening";
-            thisMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
+            thisMonitor.diagnosticMsg = "recognition.onend: keep listening";
             recognition.start();
           }
           else {
              listenBtn.defaultValue = "listen to me read";
-             thisMonitor.diagnosticMsg = "recognition.onspeechend: timer expired";
+             thisMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
+             myReadingMonitor.listenButtonDeactivate();
            }
         }
 
@@ -441,10 +491,13 @@ class ReadingMonitor {
   var myReadingMonitor = new ReadingMonitor("Speech recognition tester");
 
   // register html field names
+  myReadingMonitor.listenButtonElementId = "listenBtn";
+  myReadingMonitor.listenButtonImgElementId = "listenBtnImg";
+  myReadingMonitor.listenButtonImgInactive = "img/mic1 inactive.gif";
+  myReadingMonitor.listenButtonImgActive ="img/mic1.gif";
   myReadingMonitor.diagnosticElementId ="diagnostic";
   myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
   myReadingMonitor.wordIdxElementId = "wordIdx";
-  myReadingMonitor.listenButtonElementId = "listenBtn";
   myReadingMonitor.timeout = 10000;
 
   myReadingMonitor.parseSentences();
