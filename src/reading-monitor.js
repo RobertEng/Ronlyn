@@ -329,6 +329,7 @@ class ReadingMonitor {
       this._listenButtonElement.onclick = function(event) {
         if (!thisMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
+alert ("onclick");
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           myReadingMonitor.listenButtonActivate();
           recognition.start();
@@ -422,7 +423,7 @@ class ReadingMonitor {
        }
 
        // insert code to change current word and sentence
-       
+
        this.diagnosticMsg = "Initialized reading monitor.";
     } // initialize()
 } // MyReadingMonitor
