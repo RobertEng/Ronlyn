@@ -304,16 +304,15 @@ class ReadingMonitor {
     }
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor...";
-      this.diagnosticMsg = "Initializing reading monitor 0...";
-      alert ("init 0");
-      this.diagnosticMsg = "Initializing reading monitor 00...";
-//      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-      this.diagnosticMsg = "Initializing reading monitor 000...";
-      alert ("init 000");
 
-      // can the existing html support the prescribed format?
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
       if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
+
+      this.diagnosticMsg = "Initializing reading monitor 00...";
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      this.diagnosticMsg = "Initializing reading monitor 000...";
+
+      // can the existing html support the prescribed format?
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
 alert ("init 1");
 
