@@ -307,6 +307,7 @@ class ReadingMonitor {
 
     }
     initialize() {
+      this.diagnosticMsg = "Initializing reading monitor...";
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 
       // can the existing html support the prescribed format?
@@ -423,4 +424,5 @@ class ReadingMonitor {
 
              // insert code to change current word and sentence
     } // initialize()
+    this.diagnosticMsg = "Initialized reading monitor.";
 } // MyReadingMonitor
