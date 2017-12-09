@@ -298,11 +298,11 @@ class ReadingMonitor {
     }
     SpeechRecognitionIsSupported() {
 
-      return ((SpeechRecognition || webkitSpeechRecognition) in window);
+      return (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
 
     }
-    SpeechSynthesIsSupported() {
-      return (speechSynthesis in window)
+    SpeechSynthesisIsSupported() {
+      return ('SpeechSynthesisUtterance' in window);
 
     }
     initialize() {
@@ -310,8 +310,8 @@ class ReadingMonitor {
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 
       // can the existing html support the prescribed format?
-      if (!this.SpeechRecognitionIsSupport) alert("Speech Recognition is not supported on this browser");
-      if (!this.SpeechRecognitionIsSupport) alert("Speech synthesis is not supported on this browser");
+      if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
+      if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
@@ -421,7 +421,8 @@ class ReadingMonitor {
          // timeout with no sound triggers this event
        }
 
-             // insert code to change current word and sentence
+       // insert code to change current word and sentence
+       
+       this.diagnosticMsg = "Initialized reading monitor.";
     } // initialize()
-    this.diagnosticMsg = "Initialized reading monitor.";
 } // MyReadingMonitor
