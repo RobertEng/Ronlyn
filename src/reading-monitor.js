@@ -303,17 +303,14 @@ class ReadingMonitor {
       return ('SpeechSynthesisUtterance' in window);
     }
     initialize() {
-      this.diagnosticMsg = "Initializing reading monitor...";
+      this.diagnosticMsg = "Initializing reading monitor.";
 
-      this.diagnosticMsg = "Initializing reading monitor 00...";
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-      this.diagnosticMsg = "Initializing reading monitor 000...";
+      this.diagnosticMsg = "Initializing reading monitor..";
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition || null;
+      this.diagnosticMsg = "Initializing reading monitor...";
 
       // can the existing html support the prescribed format?
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
-alert ("init 1");
-
-this.diagnosticMsg = "Initializing reading monitor 0...";
 
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
@@ -326,7 +323,7 @@ this.diagnosticMsg = "Initializing reading monitor 0...";
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
       if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
 
-alert ("init 2");
+      this.diagnosticMsg = "Initializing reading monitor....";
 
       myReadingMonitor.listenButtonDeactivate();  // starting state
 
