@@ -303,12 +303,13 @@ class ReadingMonitor {
       return ('SpeechSynthesisUtterance' in window);
     }
     initialize() {
+      if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
+      if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
       this.diagnosticMsg = "Initializing reading monitor.";
 
       this.diagnosticMsg = "Initializing reading monitor..";
       try {
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition || null;
-
       }
       catch (e) {
           alert(e)
