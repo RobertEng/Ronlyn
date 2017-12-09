@@ -2,7 +2,6 @@
  * Reading Monitor v0.1.0
  * (c) 2017 by Wen Eng. All rights reserved.
  ********************************************/
-*/
 'use strict';
 // ECMASCript6 class syntax only
 
