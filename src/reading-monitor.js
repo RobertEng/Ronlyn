@@ -306,7 +306,13 @@ class ReadingMonitor {
       this.diagnosticMsg = "Initializing reading monitor.";
 
       this.diagnosticMsg = "Initializing reading monitor..";
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition || null;
+      try {
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition || null;
+
+      }
+      catch (e) {
+          alert(e)
+      }
       this.diagnosticMsg = "Initializing reading monitor...";
 
       // can the existing html support the prescribed format?
@@ -333,9 +339,6 @@ class ReadingMonitor {
       this._listenButtonElement.onclick = function(event) {
         if (!thisMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
-
-          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
-alert ("onclick");
 
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           myReadingMonitor.listenButtonActivate();
