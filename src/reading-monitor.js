@@ -313,6 +313,9 @@ class ReadingMonitor {
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
       if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+
+alert ("init 0");
+
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
       this._recognition.interimResults = true;
@@ -320,6 +323,8 @@ class ReadingMonitor {
       this._recognition.maxAlternatives = 1;
       var recognition = this._recognition;
       var thisMonitor = this; // listener context will reference MyReadingMonitor as self
+
+alert ("init 1");
 
       myReadingMonitor.listenButtonDeactivate();  // starting state
 
@@ -329,7 +334,9 @@ class ReadingMonitor {
       this._listenButtonElement.onclick = function(event) {
         if (!thisMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
+
 alert ("onclick");
+
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           myReadingMonitor.listenButtonActivate();
           recognition.start();
@@ -423,6 +430,7 @@ alert ("onclick");
        }
 
        // insert code to change current word and sentence
+       alert ("init 2");
 
        this.diagnosticMsg = "Initialized reading monitor.";
     } // initialize()
