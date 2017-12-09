@@ -305,9 +305,6 @@ class ReadingMonitor {
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor...";
 
-      if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
-      if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
-
       this.diagnosticMsg = "Initializing reading monitor 00...";
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       this.diagnosticMsg = "Initializing reading monitor 000...";
@@ -326,6 +323,9 @@ this.diagnosticMsg = "Initializing reading monitor 0...";
       var recognition = this._recognition;
       var thisMonitor = this; // listener context will reference MyReadingMonitor as self
 
+      if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
+      if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
+
 alert ("init 2");
 
       myReadingMonitor.listenButtonDeactivate();  // starting state
@@ -337,7 +337,7 @@ alert ("init 2");
         if (!thisMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
 
-          myReadMonitor.diagnosticMsg = "recognition.onend: keep listening";
+          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
 alert ("onclick");
 
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
