@@ -306,6 +306,7 @@ class ReadingMonitor {
       this.diagnosticMsg = "Initializing reading monitor...";
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       alert ("init 0");
+      this.diagnosticMsg = "Initializing reading monitor 000...";
 
       // can the existing html support the prescribed format?
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
