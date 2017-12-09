@@ -304,8 +304,10 @@ class ReadingMonitor {
     }
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor...";
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      this.diagnosticMsg = "Initializing reading monitor 0...";
       alert ("init 0");
+      this.diagnosticMsg = "Initializing reading monitor 00...";
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       this.diagnosticMsg = "Initializing reading monitor 000...";
 
       // can the existing html support the prescribed format?
