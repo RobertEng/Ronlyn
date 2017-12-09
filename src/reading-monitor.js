@@ -297,24 +297,23 @@ class ReadingMonitor {
       }
     }
     SpeechRecognitionIsSupported() {
-
       return (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
-
     }
     SpeechSynthesisIsSupported() {
       return ('SpeechSynthesisUtterance' in window);
-
     }
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor...";
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      alert ("init 0");
 
       // can the existing html support the prescribed format?
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
       if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
+alert ("init 1");
 
-alert ("init 0");
+this.diagnosticMsg = "Initializing reading monitor 0...";
 
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
@@ -324,7 +323,7 @@ alert ("init 0");
       var recognition = this._recognition;
       var thisMonitor = this; // listener context will reference MyReadingMonitor as self
 
-alert ("init 1");
+alert ("init 2");
 
       myReadingMonitor.listenButtonDeactivate();  // starting state
 
@@ -335,6 +334,7 @@ alert ("init 1");
         if (!thisMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
 
+          myReadMonitor.diagnosticMsg = "recognition.onend: keep listening";
 alert ("onclick");
 
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
@@ -430,7 +430,7 @@ alert ("onclick");
        }
 
        // insert code to change current word and sentence
-       alert ("init 2");
+       alert ("init 3");
 
        this.diagnosticMsg = "Initialized reading monitor.";
     } // initialize()
