@@ -430,7 +430,6 @@ alert ("onclick");
        }
 
        // insert code to change current word and sentence
-       alert ("init 3");
 
        this.diagnosticMsg = "Initialized reading monitor.";
     } // initialize()
