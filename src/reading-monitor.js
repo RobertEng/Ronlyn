@@ -1,7 +1,12 @@
+/*******************************************
+ * Reading Monitor v0.1.0
+ * (c) 2017 by Wen Eng. All rights reserved.
+ ********************************************/
+*/
 'use strict';
 // ECMASCript6 class syntax only
 
-// types of tokens
+// types of tokens // kludge because ES6 does not allow encapsulation
 const  TOKEN_WORD = 0;
 const  TOKEN_TERMINALPUNCTUATION = 1;
 const  TOKEN_INTERIMPUNCTUATION = 2;
@@ -111,6 +116,8 @@ class ReadingMonitor {
     }
       set listenButtonImgActive(imgName) {
         try {
+          // does file exist?
+
           this._listenButtonImgActive = imgName;
         }
         catch(e) {
@@ -120,6 +127,7 @@ class ReadingMonitor {
     set listenButtonImgInactive(imgName) {
       try {
         this._listenButtonImgInactive = imgName;
+        this._listenButtonImgElement.src = this._listenButtonImgInactive;
       }
       catch(e) {
         this.diagnosticMsg = "listenButtonImgInactive setter: Error setting listentButtonImgInactive with "+imgName;
@@ -289,12 +297,21 @@ class ReadingMonitor {
         this.diagnosticMsg = "possible proper noun encountered "+this.currentWord;
       }
     }
+    SpeechRecognitionIsSupported() {
+
+      return ((SpeechRecognition || webkitSpeechRecognition) in window);
+
+    }
+    SpeechSynthesIsSupported() {
+      return (speechSynthesis in window)
+
+    }
     initialize() {
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 
       // can the existing html support the prescribed format?
-
-
+      if (!this.SpeechRecognitionIsSupport) alert("Speech Recognition is not supported on this browser");
+      if (!this.SpeechRecognitionIsSupport) alert("Speech synthesis is not supported on this browser");
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
