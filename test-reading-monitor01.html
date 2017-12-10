@@ -113,15 +113,15 @@ function diagMsg(text) {
         diagMsg("SpeechSynthesis supported.");
       }
       else {
-        diagMsg("SpeechSynthesis not supported on "+ windows.navigator.UserAgent);
+        diagMsg("SpeechSynthesis not supported on "+ window.navigator.UserAgent);
       }
 
       if (SpeechRecognitionIsSupported()) {
         diagMsg("SpeechRecognition supported.");
       }
       else {
-        diagMsg("userAgent: "+window.hasOwnProperty('navigator.userAgent'));
-        diagMsg("platform: "+window.hasOwnProperty('navigator.platform'));
+        diagMsg("userAgent: "+window.hasOwnProperty('window.navigator.userAgent'));
+        diagMsg("platform: "+window.hasOwnProperty('window.navigator.platform'));
         diagMsg("SpeechRecognition not supported");
       }
       diagMsg("Initialized reading monitor...");
@@ -129,7 +129,7 @@ function diagMsg(text) {
 
   // register html field names
   //parseSentences();
-  diagMsg("test 9.");
+  diagMsg("test 10.");
   initialize();
 
 </script>
