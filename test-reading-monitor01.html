@@ -83,7 +83,6 @@
 var diag = 0;
 function diagMsg(text) {
 
-    alert(text);
     document.getElementById("diagnostic"+diag++).textContent = text;
   }
     function SpeechRecognitionIsSupported() {
@@ -115,7 +114,6 @@ function diagMsg(text) {
       }
       else {
         diagMsg("SpeechSynthesis not supported on "+ windows.navigator.UserAgent);
-        alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
       }
 
       if (SpeechRecognitionIsSupported()) {
@@ -124,7 +122,6 @@ function diagMsg(text) {
       else {
         diagMsg("userAgent: "+window.hasOwnProperty('navigator.userAgent'));
         diagMsg("SpeechRecognition not supported on " + windows.navigator.UserAgent);
-        alert("Speech recognition utterance is not supported on " + windows.navigator.UserAgent);
       }
       diagMsg("Initialized reading monitor...");
 }
