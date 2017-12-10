@@ -313,8 +313,22 @@ class ReadingMonitor {
       return ('SpeechSynthesisUtterance' in window);
     }
     initialize() {
+      this.diagnosticMsg = "Initializing reading monitor.";
+      if (this.SpeechSynthesisIsSupported()) {
+        this.diagnosticMsg = "SpeechSynthesis supported.";
+      }
+      else {
+        this.diagnosticMsg = "SpeechSynthesis not supported on "+ windows.navigator.UserAgent;
+        alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
+      }
+      if (this.SpeechRecognitionIsSupported()) {
+        this.diagnosticMsg = "SpeechRecognition supported.";
+      }
+      else {
+        this.diagnosticMsg = "SpeechRecognition not supported on " + windows.navigator.UserAgent;
+        alert("Speech recognition utterance is not supported on " + windows.navigator.UserAgent);
+      }
       if (!this.SpeechRecognitionIsSupported()) alert("Speech Recognition is not supported on " + windows.navigator.UserAgent);
-      if (!this.SpeechSynthesisIsSupported()) alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
       this.diagnosticMsg = "Initializing reading monitor.";
 
       this.diagnosticMsg = "Initializing reading monitor..";
