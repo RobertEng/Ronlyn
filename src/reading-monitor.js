@@ -297,7 +297,17 @@ class ReadingMonitor {
       }
     }
     SpeechRecognitionIsSupported() {
-      return (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
+      var retVal;
+      try {
+        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
+
+      }
+      catch(e) {
+        retVal = false;
+      }
+      finally {
+          return retVal;
+      }
     }
     SpeechSynthesisIsSupported() {
       return ('SpeechSynthesisUtterance' in window);
