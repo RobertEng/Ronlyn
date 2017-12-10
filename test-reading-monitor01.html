@@ -121,6 +121,7 @@ function diagMsg(text) {
       }
       else {
         diagMsg("userAgent: "+window.hasOwnProperty('navigator.userAgent'));
+        diagMsg("platform: "+window.hasOwnProperty('navigator.platform'));
         diagMsg("SpeechRecognition not supported");
       }
       diagMsg("Initialized reading monitor...");
@@ -128,7 +129,7 @@ function diagMsg(text) {
 
   // register html field names
   //parseSentences();
-  diagMsg("test 8.");
+  diagMsg("test 9.");
   initialize();
 
 </script>
