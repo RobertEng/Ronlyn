@@ -59,42 +59,72 @@
 </head>
 
 <body>
-<h1>Speech recognition tester</h1>
-<button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
-<br>
-<div class="sentence">We celebrate my birthday with my parents one day late.</div>
-<br>
-<div class="sentence">David is still home from school</div>
-<div class="sentence">The quick brown fox jumped over the lazy dog.</div>
-<br>
-<div class="sentence">Now is the time for all good men to come to the aid of the party.</div>
-<br>
-<div class="sentence">Is Ronlyn a pumpkin?</div>
-<br>
-<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
-<p><span>word idx:</span><span id="wordIdx">0</span></p>
-<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
-<p id="confidence">no error</p>
-<p id="diagnostic">no error</p>
+<h1>Speech recognition platform tester</h1>
+<p id="diagnostic0">no error 0</p>
+<p id="diagnostic1">no error 1</p>
+<p id="diagnostic2">no error 2</p>
+<p id="diagnostic3">no error 3</p>
+<p id="diagnostic4">no error 4</p>
+<p id="diagnostic5">no error 5</p>
+<p id="diagnostic6">no error 6</p>
+<p id="diagnostic7">no error 7</p>
+<p id="diagnostic8">no error 8</p>
 
-<script type="text/javascript" src="src/reading-monitor.js"></script>
 <script>
 //import ReadingMonitor from 'reading-monitor.js';
-  var myReadingMonitor = new ReadingMonitor("Speech recognition tester");
+/*******************************************
+ * Reading Monitor v0.1.0
+ * (c) 2017 by Wen Eng. All rights reserved.
+ ********************************************/
+'use strict';
+// ECMASCript6 class syntax only
+
+// types of tokens // kludge because ES6 does not allow encapsulation
+var diag = 0;
+function diagMsg(text) {
+
+    alert(text);
+    document.getElementById("diagnostic"+diag++).textContent = text;
+  }
+    function SpeechRecognitionIsSupported() {
+      var retVal;
+      try {
+        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
+
+      }
+      catch(e) {
+        retVal = false;
+      }
+      finally {
+          return retVal;
+      }
+    }
+    function SpeechSynthesisIsSupported() {
+      return ('SpeechSynthesisUtterance' in window);
+    }
+
+    function initialize() {
+      diagMsg("Initializing reading monitor.");
+      if (SpeechSynthesisIsSupported()) {
+        diagMsg("SpeechSynthesis supported.");
+      }
+      else {
+        diagMsg("SpeechSynthesis not supported on "+ windows.navigator.UserAgent);
+        alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
+      }
+      if (SpeechRecognitionIsSupported()) {
+        diagMsg("SpeechRecognition supported.");
+      }
+      else {
+        diagMsg("SpeechRecognition not supported on " + windows.navigator.UserAgent);
+        alert("Speech recognition utterance is not supported on " + windows.navigator.UserAgent);
+      }
+      diagMsg("Initialized reading monitor...");
+}
 
   // register html field names
-  myReadingMonitor.listenButtonElementId = "listenBtn";
-  myReadingMonitor.listenButtonImgElementId = "listenBtnImg";
-  myReadingMonitor.listenButtonImgInactive = "img/mic1 inactive.gif";
-  myReadingMonitor.listenButtonImgActive ="img/mic1.gif";
-  myReadingMonitor.diagnosticElementId ="diagnostic";
-  myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
-  myReadingMonitor.wordIdxElementId = "wordIdx";
-  myReadingMonitor.timeout = 10000;
-
-  myReadingMonitor.parseSentences();
-  myReadingMonitor.firstSentence();
-  myReadingMonitor.initialize();
+  //parseSentences();
+  initialize();
 
 </script>
   </body>
