@@ -89,8 +89,9 @@ function diagMsg(text) {
     function SpeechRecognitionIsSupported() {
       var retVal;
       try {
-        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
 
+//        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
+        retVal = window.hasOwnProperty('webkitSpeechRecognition');
       }
       catch(e) {
         retVal = false;
@@ -112,6 +113,7 @@ function diagMsg(text) {
         diagMsg("SpeechSynthesis not supported on "+ windows.navigator.UserAgent);
         alert("Speech synthesis utterance is not supported on " + windows.navigator.UserAgent);
       }
+
       if (SpeechRecognitionIsSupported()) {
         diagMsg("SpeechRecognition supported.");
       }
