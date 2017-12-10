@@ -88,6 +88,7 @@ function diagMsg(text) {
   }
     function SpeechRecognitionIsSupported() {
       var retVal;
+      diagMsg("hasOwnProperty: "+window.hasOwnProperty('webkitSpeechRecognition'));
       try {
 
 //        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
@@ -105,7 +106,6 @@ function diagMsg(text) {
     }
 
     function initialize() {
-      diagMsg("hasOwnProperty: "+window.hasOwnProperty('webkitSpeechRecognition'));
       diagMsg("Initializing reading monitor.");
       if (SpeechSynthesisIsSupported()) {
         diagMsg("SpeechSynthesis supported.");
@@ -127,7 +127,7 @@ function diagMsg(text) {
 
   // register html field names
   //parseSentences();
-  diagMsg("test 3.");
+  diagMsg("test 4.");
   initialize();
 
 </script>
