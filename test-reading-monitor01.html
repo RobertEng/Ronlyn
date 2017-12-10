@@ -92,12 +92,15 @@ function diagMsg(text) {
       try {
 
 //        retVal = (('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window));
+    diagMsg("inside try SpeechRecognitionIsSupported");
         retVal = window.hasOwnProperty('webkitSpeechRecognition');
       }
       catch(e) {
+        diagMsg("inside catch SpeechRecognitionIsSupported");
         retVal = false;
       }
       finally {
+        diagMsg("inside finally SpeechRecognitionIsSupported");
           return retVal;
       }
     }
@@ -127,7 +130,7 @@ function diagMsg(text) {
 
   // register html field names
   //parseSentences();
-  diagMsg("test 4.");
+  diagMsg("test 5.");
   initialize();
 
 </script>
