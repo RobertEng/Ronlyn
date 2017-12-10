@@ -122,6 +122,7 @@ function diagMsg(text) {
         diagMsg("SpeechRecognition supported.");
       }
       else {
+        diagMsg("userAgent: "+window.hasOwnProperty('windows.navigator.UserAgent'));
         diagMsg("SpeechRecognition not supported on " + windows.navigator.UserAgent);
         alert("Speech recognition utterance is not supported on " + windows.navigator.UserAgent);
       }
