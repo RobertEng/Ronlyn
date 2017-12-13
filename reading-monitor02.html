@@ -60,6 +60,23 @@
 
 <body>
 <h1>Speech recognition tester</h1>
+<div class="col-1-2 headerControls">
+   <div class="option" id="volumeControl">
+     <label for="volume">Volume</label>
+      <input type="range" min="0" max="1" step="0.1" name="volume" id="volumeInput" value="1">
+  </div>
+  <div class="option" id="partialSentenceControl">
+    <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
+    <label for="single word">Speak all words up to selected one</label>
+ </div>
+
+  <div class="option">
+     <label for="voice">Voice</label>
+     <select name="voice" id="voiceSelector"></select>
+  </div>
+
+</div>
+
 <button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
 <br>
 <div class="sentence">We celebrate my birthday with my parents one day late.</div>
@@ -77,17 +94,21 @@
 <p id="confidence">no error</p>
 <p id="diagnostic">no error</p>
 
-<script type="text/javascript" src="src/reading-monitor.js"></script>
+<script type="text/javascript" src="src/reading-monitor02.js"></script>
 <script>
 //import ReadingMonitor from 'reading-monitor.js';
   var myReadingMonitor = new ReadingMonitor("Speech recognition tester");
 
   // register html field names
-  myReadingMonitor.listenButtonElementId = "listenBtn";
-  myReadingMonitor.listenButtonImgElementId = "listenBtnImg";
-  myReadingMonitor.listenButtonImgInactive = "img/mic1 inactive.gif";
-  myReadingMonitor.listenButtonImgActive ="img/mic1.gif";
   myReadingMonitor.diagnosticElementId ="diagnostic";
+  myReadingMonitor.listening.buttonElementId = "listenBtn";
+  myReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+  myReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
+  myReadingMonitor.listening.buttonImgActive ="img/mic1.gif";
+
+  myReadingMonitor.speaking.voiceSelectorElementId ="voiceSelector";
+  myReadingMonitor.speaking.volumeControlElementId ="volumeInput";
+
   myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
   myReadingMonitor.wordIdxElementId = "wordIdx";
   myReadingMonitor.timeout = 10000;

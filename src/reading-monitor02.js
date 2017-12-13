@@ -41,69 +41,69 @@ class SpeechRecognition {
   get isSupported() {
     return (window.hasOwnProperty('SpeechRecognition') || window.hasOwnProperty('webkitSpeechRecognition'));
   }
-  set listenButtonElementId(buttonId) {
+  set buttonElementId(buttonId) {
     try {
-      this._listenButtonElement = document.getElementById(buttonId);
+      this._buttonElement = document.getElementById(buttonId);
     }
     catch(e) {
-      this.diagnosticMsg = "listenButtonElementId setter: Invalid element id "+buttonId;
+      this.diagnosticMsg = "listening.buttonElementId setter: Invalid element id "+buttonId;
     }
   }
-  get listenButtonElement() {
-    return this._listenButtonElement
+  get buttonElement() {
+    return this._buttonElement
   }
-  set listenButtonImgElementId(buttonImgId) {
+  set buttonImgElementId(buttonImgId) {
     try {
-      this._listenButtonImgElement = document.getElementById(buttonImgId);
+      this._buttonImgElement = document.getElementById(buttonImgId);
     }
     catch(e) {
-      this.diagnosticMsg = "listenButtonImgElementId setter: Invalid element id "+buttonId;
+      this.diagnosticMsg = "listening.buttonImgElementId setter: Invalid element id "+buttonId;
     }
   }
-  get listenButtonImgElement() {
-    return this._listenButtonImgElement
+  get buttonImgElement() {
+    return this._buttonImgElement
   }
-  set listenButtonLabel(label) {
+  set buttonLabel(label) {
     try {
-      this._listenButtonElement.defaultValue = label;
+      this._buttonElement.defaultValue = label;
     }
     catch(e) {
-      this.diagnosticMsg = "listenButtonLabel setter: Error setting listentButtonLabel with "+imgName;
+      this.diagnosticMsg = "listening.buttonLabel setter: Error setting listening.buttonLabel with "+imgName;
     }
   }
-  set listenButtonImgActive(imgName) {
+  set buttonImgActive(imgName) {
     try {
       // does file exist?
 
-      this._listenButtonImgActive = imgName;
+      this._buttonImgActive = imgName;
     }
     catch(e) {
-      this.diagnosticMsg = "listenButtonLabel setter: Error setting listentButtonImgActive with "+imgName;
+      this.diagnosticMsg = "listening.buttonLabel setter: Error setting listening.buttonImgActive with "+imgName;
     }
   }
-  set listenButtonImgInactive(imgName) {
+  set buttonImgInactive(imgName) {
     try {
-      this._listenButtonImgInactive = imgName;
-      this._listenButtonImgElement.src = this._listenButtonImgInactive;
+      this._buttonImgInactive = imgName;
+      this._buttonImgElement.src = this._buttonImgInactive;
     }
     catch(e) {
-      this.diagnosticMsg = "listenButtonImgInactive setter: Error setting listentButtonImgInactive with "+imgName;
+      this.diagnosticMsg = "listening.buttonImgInactive setter: Error setting listening.buttonImgInactive with "+imgName;
     }
   }
-  listenButtonActivate() {
+  buttonActivate() {
     try {
-      this._listenButtonImgElement.src = this._listenButtonImgActive;
+      this._buttonImgElement.src = this._buttonImgActive;
     }
     catch(e) {
-      this.diagnosticMsg = "listentButtonActivate(): unexpected error";
+      this.diagnosticMsg = "listening.buttonActivate(): unexpected error";
     }
   }
-  listenButtonDeactivate() {
+  buttonDeactivate() {
     try {
-      this._listenButtonImgElement.src = this._listenButtonImgInactive;
+      this._buttonImgElement.src = this._buttonImgInactive;
     }
     catch(e) {
-      this.diagnosticMsg = "listentButtonDeactivate(): unexpected error";
+      this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
     }
   }
 
@@ -119,24 +119,23 @@ class SpeechRecognition {
       this._recognition.maxAlternatives = 1;
       var recognition = this._recognition;
       var myReadingMonitor = this.parent; // listener context will indirectly reference global var MyReadingMonitor
-      var myRecognition = this;
       //
       // Define event handling
       //
 
-      this._listenButtonElement.onclick = function(event) {
+      this._buttonElement.onclick = function(event) {
         if (!myReadingMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
 
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
-          myReadingMonitor.SpeechRecognition.listenButtonActivate();
+          myReadingMonitor.listening.buttonActivate();
           recognition.start();
         }
         else {
           myReadingMonitor.timerCancel();
           recognition.stop();
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
-          myReadingMonitor.SpeechRecognition.listenButtonDeactivate();
+          myReadingMonitor.listening.buttonDeactivate();
         }
       }
       recognition.onresult = function(event) {
@@ -154,15 +153,15 @@ class SpeechRecognition {
        var w;
        var nextTokenType;
        for (w = 0; w < spokenWords.length; w++) {
-         myReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+thisMonitor.currentWord;
+         myReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+myReadingMonitor.currentWord;
          myReadingMonitor.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
          if (myReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-            nextTokenType = thisMonitor.nextToken();
+            nextTokenType = myReadingMonitor.nextToken();
             if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
                 myReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
                 recognition.abort();
                 myReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
-                myReadingMonitor.SpeechRecognition.listenButtonLabel = "listen to me read";
+                myReadingMonitor.listening.buttonDeactivate();
             }
          }
        }
@@ -189,25 +188,24 @@ class SpeechRecognition {
        recognition.onend = function() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (thisMonitor.timerIsActive()) {
-            this.listenBtn.defaultValue = "stop listening";
+          if (myReadingMonitor.timerIsActive()) {
+            myReadingMonitor.listening.buttonActivate();
             myReadingMonitor.diagnosticMsg = "recognition.onend: keep listening";
             recognition.start();
           }
           else {
-             this.listenBtn.defaultValue = "listen to me read";
              myReadingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
-             myReadingMonitor.SpeechRecognition.listenButtonDeactivate();
+             myReadingMonitor.listening.buttonDeactivate();
            }
         }
        recognition.onsoundend = function() {
          // event fires immediately after onspeechend
          myReadingMonitor.diagnosticMsg = "recognition.onsoundend";
          recognition.stop();
-         this.listenBtn.defaultValue = "listen to me read";
+         myReadingMonitor.listening.buttonDeactivate();
        }
        recognition.onnomatch = function(event) {
-         thisReadingMonitor.diagnosticMsg = "recognition.onnomatch:";
+         myReadingMonitor.diagnosticMsg = "recognition.onnomatch:";
        }
        recognition.onerror = function(event) {
          myReadingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
@@ -216,7 +214,7 @@ class SpeechRecognition {
 
        // can the existing html support the prescribed format?
   //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
-       this.listenButtonDeactivate();  // starting state
+       this.buttonDeactivate();  // starting state
 
         // insert code to change current word and sentence
     }
@@ -233,29 +231,87 @@ class SpeechSynthesis {
       return this._parent;
   }
   get isSupported() {
-    return (window.hasOwnProperty('SpeechSynthesisUtterance'));
+    return (window.hasOwnProperty('SpeechSynthesisUtterance') && 'speechSynthesis' in window);
   }
-  set volumeInputElementId(id) {
+  set volumeControlElementId(id) {
     try {
-      this._volumeControlElement = window.getElementById(id);
+      this._volumeControlElement = document.getElementById(id);
     }
     catch(e) {
-      _parent.diagnosticMsg = "volumeControlElementId setter: invalid Element id "+id;
+      this._parent.diagnosticMsg = "volumeControlElementId setter: invalid Element id "+id;
     }
   }
+  get volumeControlElement() {
+      return this._volumeControlElement;
+  }
+  set voiceSelectorElementId(id) {
+    try {
+      this._voiceSelectorElement = document.getElementById(id);
+      if (getOS() == 'iOS') {
+         this._defaultVoice = "Fred"; }
+      else {
+         this._defaultVoice = "Microsoft Zira Desktop - English (United States)"
+       }
+    }
+    catch(e) {
+      this._parent.diagnosticMsg = "voiceSelectorElementId setter: invalid Element id "+id;
+    }
+  }
+  get voiceSelectorElement() {
+      return this._voiceSelectorElement;
+  }
+  voiceSelectorPopulate(defaultVoice) {
+     var  v,voice,voices, option;
+     try {
+       // Iterate through each of the voices.
+       voices = speechSynthesis.getVoices();
+       voices.forEach(function(voice, v) {
+          // Create a new option element.
 
+          // Set the options value and text.
+          option = document.createElement('option');
+          option.value = voice.name;
+          option.innerHTML = voice.name;
+          option.selected = (voice.name == defaultVoice);
+          // Add the option to the voice selector.
+          myReadingMonitor.speaking.voiceSelectorElement.appendChild(option);
+       });
+     }
+     catch(e) {
+       this._parent.diagnosticMsg = "voiceSelectorPopulate: could not populate voices";
+     }
+  }
   initialize() {
+
     this._synthesis = new SpeechSynthesisUtterance();
 //      this._synthesis.volume = parseFloat(_volumeControlElement.value);
     this._synthesis.lang = 'en-US';
     this._synthesis.rate = 1;
     this._synthesis.pitch = 1;
-    var mySynthesis = this; // for listenter context
+    var mySpeechSynthesis = this._synthesis; // for listenter context
     var myReadingMonitor = this.parent; // listener context will reference  as self
-//
-// define event handlersm here
-//
 
+    // define event handlers here
+    //
+    window.speechSynthesis.onvoiceschanged = function(e) {
+      myReadingMonitor.speaking.voiceSelectorPopulate('Microsoft Zira Desktop - English (United States)');
+    };
+
+  }
+  say(words) {
+    //    this._synthesis.speak(words);
+      var voices = speechSynthesis.getVoices();
+      var myvoice = voices.filter(
+        function(voice) {
+          return voice.name == myReadingMonitor.speaking.voiceSelectorElement.value;
+        });
+      var currentVoice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == myReadingMonitor.speaking.voiceSelectorElement.value; })[0];
+      this._synthesis.voice = currentVoice;
+      this._synthesis.volume = parseFloat(myReadingMonitor.speaking.volumeControlElement.value);
+      this._synthesis.text = words;
+      window.speechSynthesis.speak(this._synthesis);
+  }
+  sayPartialSentence() {
   }
 }
 class ReadingMonitor {
@@ -271,10 +327,10 @@ class ReadingMonitor {
     set name(newName) {
         this._name = newName;
     }
-    get SpeechRecognition() {
+    get listening() {
       return this._speechRecognition;
     }
-    get SpeechSynthesis() {
+    get speaking() {
         return this._speechSynthesis;
     }
     set name(newName) {
@@ -442,6 +498,17 @@ class ReadingMonitor {
         this.thisSentence();
       }
     }
+    changeCurrentWordPosition(sentenceId, wordId) {
+      try {
+        this.currentWordIndicator("none");
+        this.currentSentenceIdx =sentenceId;
+        this.currentWordIdx = wordId;
+        this.currentWordIndicator("underline");
+      }
+      catch(e) {
+        this.diagnosticMsg = "changeCurrentWordPosition(): could not change word";
+      }
+    }
     currentWordIndicator(state) {
       document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].style.textDecoration = state;
     }
@@ -494,140 +561,94 @@ class ReadingMonitor {
         this.diagnosticMsg = "possible proper noun encountered "+this.currentWord;
       }
     }
-    SpeechRecognitionIsSupported() {
-      return (window.hasOwnProperty('SpeechRecognition') || window.hasOwnProperty('webkitSpeechRecognition'));
-    }
-    SpeechSynthesisIsSupported() {
-      return (window.hasOwnProperty('SpeechSynthesisUtterance'));
-    }
-    initializeSpeechRecognition() {
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-
-      this._recognition = new SpeechRecognition();
-      this._recognition.lang = 'en-US';
-      this._recognition.interimResults = true;
-      this._recognition.continuous = true;
-      this._recognition.maxAlternatives = 1;
-      var recognition = this._recognition;
-      var thisMonitor = this; // listener context will reference MyReadingMonitor as self
-      //
-      // Define event handling
-      //
-      this._listenButtonElement.onclick = function(event) {
-        if (!thisMonitor.timerIsActive()) {
-          myReadingMonitor.setTimerStart();
-
-          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
-          myReadingMonitor.listenButtonActivate();
-          recognition.start();
-        }
-        else {
-          myReadingMonitor.timerCancel();
-          recognition.stop();
-          myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
-          myReadingMonitor.listenButtonDeactivate();
-        }
-      }
-
-      recognition.onresult = function(event) {
-  //      ////////////
-  //      implement these interfaces someday when the following references are available. Until then, just split the transcript
-  //        var spokenEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
-  //        var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
-  //      Perhaps the grammar object will be available by then too.
-  //      ////////////
-      thisMonitor.diagnosticMsg = "recognition.onresult: triggered";
-      var spokenResults = event.results[0].isFinal;
-      var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
-      var isFinalResult = event.results[0].isFinal;
-       thisMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
-       var w;
-       var nextTokenType;
-       for (w = 0; w < spokenWords.length; w++) {
-         thisMonitor.diagnosticMsg = "recognition.onresult: written word: "+thisMonitor.currentWord;
-         thisMonitor.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
-         if (thisMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-            nextTokenType = thisMonitor.nextToken();
-            if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
-                thisMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
-                recognition.abort();
-                thisMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
-                thisMonitor.listenButtonLabel = "listen to me read";
-            }
-         }
-       }
-//         thisMonitor.listenButtonLabel = "listen to me read";
-       thisMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
-  //         console.log('confidence: ' + event.results[0][0].confidence);
-  //         console.log("result[last]:"+spokenWords);
-  //         if ((event.results.length - 1) >= 1)
-  //         console.log('result[0]: ' + event.results[0][0].transcript);
-      } // onresult
-
-      recognition.onspeechend = function() {
-  //         thisMonitor.diagnosticMsg = "recognition.onspeechend";
-
-         if (thisMonitor.timerIsActive()) {
-           thisMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
-  //           recognition.start();
-         }
-         else {
-  //            listenBtn.defaultValue = "listen to me read";
-            thisMonitor.diagnosticMsg = "recognition.onspeechend: timer expired or cancelled";
-          }
-       }
-       recognition.onend = function() {
-  //          thisMonitor.diagnosticMsg = "recognition.onend";
-  //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (thisMonitor.timerIsActive()) {
-            listenBtn.defaultValue = "stop listening";
-            thisMonitor.diagnosticMsg = "recognition.onend: keep listening";
-            recognition.start();
-          }
-          else {
-             listenBtn.defaultValue = "listen to me read";
-             thisMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
-             myReadingMonitor.listenButtonDeactivate();
-           }
-        }
-       recognition.onsoundend = function() {
-         // event fires immediately after onspeechend
-         thisMonitor.diagnosticMsg = "recognition.onsoundend";
-         recognition.stop();
-         listenBtn.defaultValue = "listen to me read";
-       }
-       recognition.onnomatch = function(event) {
-         thisMonitor.diagnosticMsg = "recognition.onnomatch:";
-       }
-       recognition.onerror = function(event) {
-         thisMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
-         // timeout with no sound triggers this event
-       }
-
-       // can the existing html support the prescribed format?
- //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
-       myReadingMonitor.listenButtonDeactivate();  // starting state
-
-        // insert code to change current word and sentence
-
-     }
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor.";
 //      if (this.SpeechSynthesisIsSupported()) {
-      if (this.SpeechSynthesis.isSupported) {
-        this.SpeechSynthesis.initialize();
+      if (this.speaking.isSupported) {
+        this.speaking.initialize();
       }
       else {
         this.diagnosticMsg = "Speech Synthesis is not supported on "+ getOS();
         alert("Speech Synthesis is not supported on "+ getOS());
       }
-      if (this.SpeechRecognition.isSupported) {
-        this.SpeechRecognition.initialize();
+      if (this.listening.isSupported) {
+        this.listening.initialize();
       }
       else {
         this.diagnosticMsg = "SpeechRecognition is not supported on " + getOS();
         alert("Speech Recognition is not supported on "+ getOS());
       }
        this.diagnosticMsg = "Initialized reading monitor.";
+       var myReadingMonitor = this;
+     // event handlers
+     //onclick rm_word changes currentword
+     //and potentially triggers events in listening and speaking object
+     document.body.onclick = function(e) {   //when the document body is clicked
+         if (window.event) {
+             e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
+         else {
+             e = e.target; }                  //assign the element clicked to e
+         if (e.className) {
+           if (e.className.indexOf('rm_word') != -1) {
+             //get rm_sentence and rm_word ids
+             var sentenceId = e.parentElement.getAttribute("id");
+             var wordId = e.getAttribute("id");
+             myReadingMonitor.changeCurrentWordPosition(sentenceId, wordId);
+             var partialSentenceInput = document.getElementById('partialSentence');
+             if (partialSentenceInput.checked) {
+               var w,  wordsToBeSpoken = "";
+               parent = e.parentElement;
+               for (w = 0; w <= wordId && w < parent.childElementCount; w++)
+                 wordsToBeSpoken = wordsToBeSpoken  + " " +parent.children[w].innerText;
+             }
+             else {
+               wordsToBeSpoken = myReadingMonitor.currentWord;
+             }
+            myReadingMonitor.speaking.say(wordsToBeSpoken);
+          }
+          else if (e.className.indexOf('data-speak-onclick') != -1) {
+             spelling = e.getAttribute("XSAMPA");
+             if (!spelling) {
+               spelling = e.getAttribute("data-speak");
+             }
+             speak(spelling);
+           }
+           else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
+     /*        spelling = e.getAttribute("XSAMPA");
+              if (!spelling) {
+                spelling = e.innerHTML
+              }
+     */
+              partialSentenceInput = document.getElementById('partialSentence');
+              if (partialSentenceInput.checked) {
+                spelling = e.getAttribute("partial");
+              }
+              else {
+                spelling = e.getAttribute("word");
+              }
+              speak(spelling);
+           }
+           else if (e.className.indexOf('onclick') != -1
+             && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
+             speak(e.innerHTML);
+             window.location.href = "#"+e.id; } //goto anchor
+
+           else if (e.className.indexOf('href-onclick') != -1) {
+     //        window.location.href = "#"+e.innerHTML;  //goto anchor
+              alert("oops href-onclick");
+             window.location.href = "#"+e.id; } //goto anchor
+
+           else if (e.className.indexOf('headertitle') != -1) {
+             spelling = e.getAttribute("XSAMPA");
+             if (!spelling) {
+               spelling = e.innerHTML;
+             }
+             speak(spelling);
+           }
+           else {
+             myReadingMonitor.speaking.say("choose again");
+           }
+          }
+         } //onclick
     } // initialize()
 } // MyReadingMonitor
