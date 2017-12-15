@@ -7,9 +7,10 @@
 
 // types of tokens // kludge because ES6 does not allow encapsulation
 const  TOKEN_WORD = 0;
-const  TOKEN_TERMINALPUNCTUATION = 1;
-const  TOKEN_INTERIMPUNCTUATION = 2;
-const  TOKEN_PROPERNOUN = 3;
+const  TOKEN_NEWSENTENCE = 1;
+const  TOKEN_TERMINALPUNCTUATION = 2;
+const  TOKEN_INTERIMPUNCTUATION = 3;
+const  TOKEN_PROPERNOUN = 4;
 
 function getOS() {
    var userAgent = window.navigator.userAgent,
@@ -118,11 +119,10 @@ class SpeechRecognition {
       this._recognition.continuous = true;
       this._recognition.maxAlternatives = 1;
       var recognition = this._recognition;
-      var myReadingMonitor = this.parent; // listener context will indirectly reference global var MyReadingMonitor
       //
       // Define event handling
       //
-
+      //event handlers
       this._buttonElement.onclick = function(event) {
         if (!myReadingMonitor.timerIsActive()) {
           myReadingMonitor.setTimerStart();
@@ -145,32 +145,42 @@ class SpeechRecognition {
   //        var SpeechRecognition = SpeechRecognitionAlternative || webkitSpeechRecognitionAlternative
   //      Perhaps the grammar object will be available by then too.
   //      ////////////
-      myReadingMonitor.diagnosticMsg = "recognition.onresult: triggered";
-      var spokenResults = event.results[0].isFinal;
-      var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
-      var isFinalResult = event.results[0].isFinal;
-       myReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
-       var w;
-       var nextTokenType;
-       for (w = 0; w < spokenWords.length; w++) {
-         myReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+myReadingMonitor.currentWord;
-         myReadingMonitor.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
-         if (myReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-            nextTokenType = myReadingMonitor.nextToken();
-            if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
-                myReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
-                recognition.abort();
-                myReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
-                myReadingMonitor.listening.buttonDeactivate();
-            }
-         }
-       }
-  //         thisMonitor.listenButtonLabel = "listen to me read";
-       myReadingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
-  //         console.log('confidence: ' + event.results[0][0].confidence);
-  //         console.log("result[last]:"+spokenWords);
-  //         if ((event.results.length - 1) >= 1)
-  //         console.log('result[0]: ' + event.results[0][0].transcript);
+        try {
+//          myReadingMonitor.diagnosticMsg = "recognition.onresult: triggered";
+          var spokenResults = event.results[0].isFinal;
+          var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
+          var isFinalResult = event.results[0].isFinal;
+//           myReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
+           var w;
+           var nextTokenType;
+           for (w = 0; w < spokenWords.length; w++) {
+//             myReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+myReadingMonitor.currentWord;
+             myReadingMonitor.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
+             if (myReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
+                nextTokenType = myReadingMonitor.nextToken();
+                if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
+                    myReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
+                    recognition.abort();
+                    myReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
+                    myReadingMonitor.listening.buttonDeactivate();
+                }
+             }
+           }
+           myReadingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
+          //         console.log('confidence: ' + event.results[0][0].confidence);
+          //         console.log("result[last]:"+spokenWords);
+          //         if ((event.results.length - 1) >= 1)
+          //         console.log('result[0]: ' + event.results[0][0].transcript);
+        }
+        catch(e) {
+          if (typeof myReadingMonitor == "undefined") {
+            alert("recognition:onresult: myReadingMonitor does not exist in global scope")
+          }
+          else {
+            myReadingMonitor.diagnosticMsg = 'recognition:onresult: failed';
+
+          }
+        }
       } // onresult
 
       recognition.onspeechend = function() {
@@ -226,9 +236,13 @@ class SpeechRecognition {
 class SpeechSynthesis {
   constructor(parent) {
     this._parent = parent;
+    this._defaultVoice = 'Microsoft Zira Desktop - English (United States)';
   }
   get parent() {
-      return this._parent;
+    return this._parent;
+  }
+  get defaultVoice() {
+    return this._defaultVoice;
   }
   get isSupported() {
     return (window.hasOwnProperty('SpeechSynthesisUtterance') && 'speechSynthesis' in window);
@@ -260,25 +274,34 @@ class SpeechSynthesis {
   get voiceSelectorElement() {
       return this._voiceSelectorElement;
   }
-  voiceSelectorPopulate(defaultVoice) {
+  voiceSelectorPopulate() {
      var  v,voice,voices, option;
      try {
-       // Iterate through each of the voices.
-       voices = speechSynthesis.getVoices();
-       voices.forEach(function(voice, v) {
-          // Create a new option element.
-
-          // Set the options value and text.
-          option = document.createElement('option');
-          option.value = voice.name;
-          option.innerHTML = voice.name;
-          option.selected = (voice.name == defaultVoice);
-          // Add the option to the voice selector.
-          myReadingMonitor.speaking.voiceSelectorElement.appendChild(option);
-       });
+        if (speechSynthesis.onvoiceschanged == null) {
+          // wait for speechRecognition to be available -- chrome kludge
+           speechSynthesis.onvoiceschanged = myReadingMonitor.speaking.voiceSelectorPopulate;
+         }
+        else {
+         // Iterate through each of the voices.
+         voices = speechSynthesis.getVoices();
+         voices.forEach(function(voice, v) {
+            // Create a new option element.
+            // Set the options value and text.
+            option = document.createElement('option');
+            option.value = voice.name;
+            option.innerHTML = voice.name;
+            option.selected = (voice.name == myReadingMonitor.speaking.defaultVoice);
+            myReadingMonitor.speaking.voiceSelectorElement.appendChild(option);
+         }); // foreach
+       }
      }
      catch(e) {
-       this._parent.diagnosticMsg = "voiceSelectorPopulate: could not populate voices";
+       if (typeof myReadingMonitor == "undefined") {
+         alert("voiceSelectorPopulate(): myReadingMonitor does not exist in global scope")
+       }
+       else {
+          myReadingMonitor.diagnosticMsg = "voiceSelectorPopulate: could not populate voices";
+       }
      }
   }
   initialize() {
@@ -288,15 +311,12 @@ class SpeechSynthesis {
     this._synthesis.lang = 'en-US';
     this._synthesis.rate = 1;
     this._synthesis.pitch = 1;
-    var mySpeechSynthesis = this._synthesis; // for listenter context
-    var myReadingMonitor = this.parent; // listener context will reference  as self
-
+  //  var myReadingMonitor = this.parent; // listener context will reference  as self
+    this.voiceSelectorPopulate();
+    //this.voiceSelectorPopulate();
     // define event handlers here
     //
-    window.speechSynthesis.onvoiceschanged = function(e) {
-      myReadingMonitor.speaking.voiceSelectorPopulate('Microsoft Zira Desktop - English (United States)');
-    };
-
+//    window.speechSynthesis.addEventListener('voiceschanged', this.voiceSelectorPopulate.bind(this));
   }
   say(words) {
     //    this._synthesis.speak(words);
@@ -421,15 +441,29 @@ class ReadingMonitor {
         if (typeof this._wordIdxElement != 'undefined' & this._wordIdxElement != null)
           this._wordIdxElement.innerText = wordIdx.toString();
     }
-    get currentWord() { // should be assigned only when sentence or word idx changed is set or changed
+    get currentWord() {
       return document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].innerHTML;
+      // converts source html sentence <div>s into sentence containers <div>s/word <span>s
+    }
+    get nextWord() {
+      // does not change current word position
+      try {
+        return document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx+1].innerHTML;
+      }
+      catch(e) {
+        return null;
+      }
+
       // converts source html sentence <div>s into sentence containers <div>s/word <span>s
     }
     get lastWordIdx() {
       return this._lastWordIdx;
     }
-    isLastWord() {
+    isLastToken() {
       return this._wordIdx >= this._lastWordIdx;
+    }
+    isNextToLastToken() {
+      return (this._wordIdx+1) >= this._lastWordIdx;
     }
     endOfSentence() {
       return this._wordIdx >= this._lastWordIdx;
@@ -476,18 +510,19 @@ class ReadingMonitor {
         }
         this._lastSentenceIdx = sentences.length - 1;
     }
-    thisSentence() {
-      this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-      this.currentWordIndicator("underline");
+    moveToNextWord() {
+      this.currentWordIdx++;
+      this.currentWordIndicatorOn();
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
-    firstSentence() {
+    moveToFirstSentence() {
       // check for last sentence
       this.currentSentenceIdx = 0;
       this.currentWordIdx = 0;
-      this.thisSentence();
+      this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+      this.currentWordIndicatorOn();
     }
-    nextSentence() {
+    moveToNextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
         this.diagnosticMsg = "nextSentence(): last sentence encountered"
@@ -495,22 +530,29 @@ class ReadingMonitor {
       else {
         this.currentSentenceIdx += 1;
         this.currentWordIdx = 0;
-        this.thisSentence();
+        this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+        this.currentWordIndicatorOn();
       }
     }
-    changeCurrentWordPosition(sentenceId, wordId) {
+    moveToThisWordPosition(sentenceId, wordId) {
       try {
-        this.currentWordIndicator("none");
-        this.currentSentenceIdx =sentenceId;
-        this.currentWordIdx = wordId;
-        this.currentWordIndicator("underline");
+        this.currentWordIndicatorOff();
+        this.currentSentenceIdx = Number(sentenceId);
+        this.currentWordIdx = Number(wordId);
+        this.currentWordIndicatorOn();
       }
       catch(e) {
-        this.diagnosticMsg = "changeCurrentWordPosition(): could not change word";
+        this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
       }
     }
-    currentWordIndicator(state) {
+    set currentWordIndicator(state) {
       document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].style.textDecoration = state;
+    }
+    currentWordIndicatorOff() {
+      this.currentWordIndicator = "none";
+    }
+    currentWordIndicatorOn() {
+      this.currentWordIndicator = "underline";
     }
     nextToken() {
       // consider this a lexical analyzer
@@ -518,36 +560,36 @@ class ReadingMonitor {
       // this method skips punctuations marks and also positions to the first word of a new sentence when
       // terminal punctation is encountered. The method will return the type of token it encountered though.
       var interimPunctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()]\"/);
-      var terminalPunctuationPattern = new RegExp(/.!?/);
+      var terminalPunctuationPattern = new RegExp(/[\.!\?]/);
       var returnVal = TOKEN_WORD; // assume the token is a word
       //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
-      this.currentWordIndicator("none");
-//      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "none";
-      this.currentWordIdx += 1; // lookahead to the next token to be read
-      if (this.isLastWord()) { // last word in sentence encountered
-//        if (terminalPunctuationPattern.test(this._wordIdx)) {
-      if (terminalPunctuationPattern.test(this.currentWord)) {
-          this.nextSentence();
-          returnVal = TOKEN_TERMINALPUNCTUATION;
-        }
-        else {
-          // corner case where last word/token is not a terminal punctuation and must be a word
-          this.diagnosticMsg = "warning: last token in sentence is not a terminal punctuation"
-        }
-        // else if proper noun
-        // else if possessive noun
-      }
-      else {  // not last word in sentence
-        if (interimPunctuationPattern.test(this._wordIdx)) {
-          this.nextToken(); // skip recursively
-          // handle contractions
-          returnVal = TOKEN_INTERIMPUNCTUATION;
+      this.currentWordIndicatorOff();
 
-        }
-        else {
-          this.currentWordIndicator("underline");
-        }
+      if (this.isLastToken()) {
+        // state: last token that is not a terminal punctuation
+        // action: goto the next sentence.
+        this.diagnosticMsg = "warning: last token in sentence is not a terminal punctuation"
+        this.moveToNextSentence();
+        returnVal = TOKEN_NEWSENTENCE;
+      }
+      else if (this.isNextToLastToken() && terminalPunctuationPattern.test(this.nextWord)) {
+        // state: next to last token followed by terminal punctuation
+        // action: goto the next sentence.
+        this.moveToNextSentence();
+        returnVal = TOKEN_NEWSENTENCE;
+      }
+      else if (interimPunctuationPattern.test(this.nextWord)) {
+        // state: next token is a interim punctuation
+        //action: goto the next word.
+        this.moveToNextWord();  //skip but assumes only a single punctuation
+        returnVal = TOKEN_NEXTWORD;
+      }
+      else {
+        // state: next token is a word
+        //action: goto the next word.
+        this.moveToNextWord();
+        returnVal = TOKEN_NEXTWORD;
       }
       return returnVal;
     }
@@ -593,7 +635,7 @@ class ReadingMonitor {
              //get rm_sentence and rm_word ids
              var sentenceId = e.parentElement.getAttribute("id");
              var wordId = e.getAttribute("id");
-             myReadingMonitor.changeCurrentWordPosition(sentenceId, wordId);
+             myReadingMonitor.moveToThisWordPosition(sentenceId, wordId);
              var partialSentenceInput = document.getElementById('partialSentence');
              if (partialSentenceInput.checked) {
                var w,  wordsToBeSpoken = "";
@@ -613,6 +655,8 @@ class ReadingMonitor {
              }
              speak(spelling);
            }
+
+//////////////////////////////
            else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
      /*        spelling = e.getAttribute("XSAMPA");
               if (!spelling) {
@@ -645,6 +689,7 @@ class ReadingMonitor {
              }
              speak(spelling);
            }
+/////////////////////////////////////////////////////
            else {
              myReadingMonitor.speaking.say("choose again");
            }
