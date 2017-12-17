@@ -307,16 +307,10 @@ class SpeechSynthesis {
   initialize() {
 
     this._synthesis = new SpeechSynthesisUtterance();
-//      this._synthesis.volume = parseFloat(_volumeControlElement.value);
     this._synthesis.lang = 'en-US';
     this._synthesis.rate = 1;
     this._synthesis.pitch = 1;
-  //  var myReadingMonitor = this.parent; // listener context will reference  as self
     this.voiceSelectorPopulate();
-    //this.voiceSelectorPopulate();
-    // define event handlers here
-    //
-//    window.speechSynthesis.addEventListener('voiceschanged', this.voiceSelectorPopulate.bind(this));
   }
   say(words) {
     //    this._synthesis.speak(words);
@@ -330,8 +324,6 @@ class SpeechSynthesis {
       this._synthesis.volume = parseFloat(myReadingMonitor.speaking.volumeControlElement.value);
       this._synthesis.text = words;
       window.speechSynthesis.speak(this._synthesis);
-  }
-  sayPartialSentence() {
   }
 }
 class ReadingMonitor {
@@ -471,9 +463,9 @@ class ReadingMonitor {
     isLastSentence() {
       return this._sentenceIdx >= this._lastSentenceIdx;
     }
-    parseSentences() {
+    parseSentences(sentenceTag) {
           // can the existing html support parsing into the prescribed format?
-        var sentences = document.getElementsByClassName("sentence");
+        var sentences = document.getElementsByClassName(sentenceTag);
         var s, w;
         var sentenceHTML;
         var words;
@@ -619,13 +611,13 @@ class ReadingMonitor {
       else {
         this.diagnosticMsg = "SpeechRecognition is not supported on " + getOS();
         alert("Speech Recognition is not supported on "+ getOS());
-      }
-       this.diagnosticMsg = "Initialized reading monitor.";
-       var myReadingMonitor = this;
+    }
+      this.diagnosticMsg = "Initialized reading monitor.";
+
      // event handlers
      //onclick rm_word changes currentword
      //and potentially triggers events in listening and speaking object
-     document.body.onclick = function(e) {   //when the document body is clicked
+       document.body.onclick = function(e) {   //when the document body is clicked
          if (window.event) {
              e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
          else {
