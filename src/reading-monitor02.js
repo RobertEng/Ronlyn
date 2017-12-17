@@ -2,7 +2,7 @@
  * Reading Monitor v0.1.0
  * (c) 2017 by Wen Eng. All rights reserved.
  ********************************************/
-'use strict';
+"use strict";
 // ECMASCript6 class syntax only
 
 // types of tokens // kludge because ES6 does not allow encapsulation
@@ -32,12 +32,52 @@ function getOS() {
       os = 'Linux'; }
    return os;
 }
+class Timer {
+  constructor(parent) {
+    this._parent = parent;
+  }
+  set timeout(secs) {
+    // period of time from start() to onspeechend
+    this._timeout = secs * 1000; //msecs
+  }
+  start() {
+    this._startTime = new Date();
+    this._timerOn = true;
+    this.diagnosticMsg = "timer.start: " + this._startTime;
+  }
+  cancel() {
+    this._timerOn = false;
+    this._startTime = new Date();
+    this.diagnosticMsg = "cancel: " + this._startTime;
+  }
+  get isActive() {
+    var current  = new Date();
+    // period of time of silences
+//      this.diagnosticMsg = "timerIsActive(): " + this.timerElapsedTime < this._timeout;
+    this._timerOn = ((this.elapsedTime < this._timeout) && this._timerOn) ;
+    return (this._timerOn);
+  }
+  get elapsedTime() {
+    var current  = new Date();
+    return current - this._startTime;
+  }
+  set retries(retries) {
+    // how many (re)tries before hint
+    this._retries = retries;
+  }
+}
 class SpeechRecognition {
   constructor(parent) {
     this._parent = parent;
   }
   get parent() {
       return this._parent;
+  }
+  get isActive() {
+    return (this._isActive);  // CAREFUL...set asynchronously
+  }
+  set isActive(active) {
+    this._isActive - active;  // CAREFUL...set asynchronously
   }
   get isSupported() {
     return (window.hasOwnProperty('SpeechRecognition') || window.hasOwnProperty('webkitSpeechRecognition'));
@@ -94,6 +134,7 @@ class SpeechRecognition {
   buttonActivate() {
     try {
       this._buttonImgElement.src = this._buttonImgActive;
+      this._isActive = true;
     }
     catch(e) {
       this.diagnosticMsg = "listening.buttonActivate(): unexpected error";
@@ -102,6 +143,7 @@ class SpeechRecognition {
   buttonDeactivate() {
     try {
       this._buttonImgElement.src = this._buttonImgInactive;
+      this._isActive = false;
     }
     catch(e) {
       this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
@@ -118,21 +160,27 @@ class SpeechRecognition {
       this._recognition.interimResults = true;
       this._recognition.continuous = true;
       this._recognition.maxAlternatives = 1;
+      this.isActive = false;
       var recognition = this._recognition;
       //
       // Define event handling
       //
       //event handlers
       this._buttonElement.onclick = function(event) {
-        if (!myReadingMonitor.timerIsActive()) {
-          myReadingMonitor.setTimerStart();
-
+        // listening && timer active: STOP LISTENING
+        // listening && timer inactive STOP LISTENING
+        // not listening && timer isActive START LISTENING
+        // not listening && timer active: START LISTENING
+        if (!myReadingMonitor.listening.isActive) {
+          myReadingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
+          myReadingMonitor.timer.start();
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           myReadingMonitor.listening.buttonActivate();
           recognition.start();
         }
         else {
-          myReadingMonitor.timerCancel();
+          myReadingMonitor.diagnosticMsg = "listenBtn:onclick(): listening";
+          myReadingMonitor.timer.cancel();
           recognition.stop();
           myReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
           myReadingMonitor.listening.buttonDeactivate();
@@ -158,7 +206,7 @@ class SpeechRecognition {
              myReadingMonitor.diagnosticMsg = "recognition.onresult: spoken word["+ w.toString()+"]:"+spokenWords[w];
              if (myReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
                 nextTokenType = myReadingMonitor.nextToken();
-                if (nextTokenType == TOKEN_TERMINALPUNCTUATION) {
+                if (nextTokenType == TOKEN_NEWSENTENCE) {
                     myReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
                     recognition.abort();
                     myReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
@@ -186,7 +234,7 @@ class SpeechRecognition {
       recognition.onspeechend = function() {
   //         thisMonitor.diagnosticMsg = "recognition.onspeechend";
 
-         if (myReadingMonitor.timerIsActive()) {
+         if (myReadingMonitor.timer.isActive) {
            myReadingMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
   //           recognition.start();
          }
@@ -198,12 +246,13 @@ class SpeechRecognition {
        recognition.onend = function() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (myReadingMonitor.timerIsActive()) {
+          if (myReadingMonitor.timer.isActive) {
             myReadingMonitor.listening.buttonActivate();
-            myReadingMonitor.diagnosticMsg = "recognition.onend: keep listening";
+            myReadingMonitor.diagnosticMsg = "recognition.onend: continue listening";
             recognition.start();
           }
           else {
+            if (myReadingMonitor.timer.isActive)
              myReadingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
              myReadingMonitor.listening.buttonDeactivate();
            }
@@ -330,6 +379,7 @@ class ReadingMonitor {
     // class variables
     constructor(name) {
       this._name = name;
+      this._timer = new Timer (this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
     }
@@ -345,37 +395,11 @@ class ReadingMonitor {
     get speaking() {
         return this._speechSynthesis;
     }
+    get timer() {
+      return this._timer;
+    }
     set name(newName) {
         this._name = newName;
-    }
-    set timeout(msecs) {
-      // period of time from start() to onspeechend
-      this._timeout = msecs;
-    }
-    setTimerStart() {
-      this._startTime = new Date();
-      this._timerOn = true;
-      this.diagnosticMsg = "timerStart: " + this._startTime;
-    }
-    timerCancel() {
-      this._timerOn = false;
-      this._startTime = new Date();
-      this.diagnosticMsg = "timerCancel: " + this._startTime;
-    }
-    timerIsActive() {
-      var current  = new Date();
-      // period of time of silences
-//      this.diagnosticMsg = "timerIsActive(): " + this.timerElapsedTime < this._timeout;
-      this._timerOn = ((this.timerElapsedTime < this._timeout) && this._timerOn) ;
-      return (this._timerOn);
-    }
-    get timerElapsedTime() {
-      var current  = new Date();
-      return current - this._startTime;
-    }
-    set retries(retries) {
-      // how many (re)tries before hint
-      this._retries = retries;
     }
     set sentenceIdxElementId(id) {
       try {
@@ -445,8 +469,6 @@ class ReadingMonitor {
       catch(e) {
         return null;
       }
-
-      // converts source html sentence <div>s into sentence containers <div>s/word <span>s
     }
     get lastWordIdx() {
       return this._lastWordIdx;

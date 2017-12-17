@@ -103,6 +103,7 @@
 
   // register html field names
   myReadingMonitor.diagnosticElementId ="diagnostic";
+
   myReadingMonitor.listening.buttonElementId = "listenBtn";
   myReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
   myReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
@@ -113,7 +114,7 @@
 
   myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
   myReadingMonitor.wordIdxElementId = "wordIdx";
-  myReadingMonitor.timeout = 10000;
+  myReadingMonitor.timer.timeout = 10; // ms
 
   myReadingMonitor.parseSentences("sentence");
   myReadingMonitor.moveToFirstSentence();
