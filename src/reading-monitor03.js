@@ -208,21 +208,22 @@ class SpeechRecognition {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              MyReadingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
              if (MyReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-                nextTokenType = MyReadingMonitor.nextToken();
-                if (nextTokenType == TOKEN_NEWSENTENCE) {
-                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
-                    recognition.abort();
-                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
-                    MyReadingMonitor.listening.buttonDeactivate();
-                }
-             }
-           }
+               MyReadingMonitor.moveToNextWord();
+//               nextTokenType = MyReadingMonitor.nextToken();
+//                if (nextTokenType == TOKEN_NEWSENTENCE) {
+//                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
+//                    recognition.abort();
+//                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
+//                    MyReadingMonitor.listening.buttonDeactivate();
+//                }
+             } //
+           } // for
            MyReadingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
           //         console.log('confidence: ' + event.results[0][0].confidence);
           //         console.log("result[last]:"+spokenWords);
           //         if ((event.results.length - 1) >= 1)
           //         console.log('result[0]: ' + event.results[0][0].transcript);
-        }
+        } //try
         catch(e) {
           if (typeof MyReadingMonitor == "undefined") {
             alert("recognition:onresult: MyReadingMonitor does not exist in global scope")
@@ -390,7 +391,7 @@ class ReadingMonitor {
       this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
       }
-      get eosPunctuationPattern() {
+      get eosPunctuationPattern() {currentSentenceId
         return this._eosPunctuationPattern;
      }
      get interimPunctuationPattern() {
@@ -423,16 +424,35 @@ class ReadingMonitor {
         this.diagnosticMsg = "sentenceIdxElementId setter: invalid Element id "+id;
       };
     }
+    set sentenceIdElementId(id) {
+      try {
+        this._sentenceIdElement  = document.getElementById(id);
+        this._sentenceIdElement.innerText = "0"; // touch test
+      }
+      catch(e) {
+        this.diagnosticMsg = "sentenceIdElementId setter: invalid Element id "+id;
+      };
+    }
     set wordIdxElementId(id) {
         //check typeof parameter
         try {
-          this._wordIdxElement  = document.getElementById(id);
-          this._wordIdxElement.innerText = "0"; // touch test
+          this._tokenIdxElement  = document.getElementById(id);
+          this._tokenIdxElement.innerText = "0"; // touch test
         }
         catch(e) {
           this.diagnosticMsg = "wordIdxElementId setter: invalid Element id "+id;
         };
       }
+      set wordIdElementId(id) {
+          //check typeof parameter
+          try {
+            this._wordIdElement  = document.getElementById(id);
+            this._wordIdElement.innerText = "0"; // touch test
+          }
+          catch(e) {
+            this.diagnosticMsg = "wordIdElementId setter: invalid Element id "+id;
+          };
+        }
     set diagnosticElementId(id) {
         this._diagnosticElement = document.getElementById(id);
     }
@@ -461,23 +481,33 @@ class ReadingMonitor {
           this._sentenceIdxElement.innerText = sentenceIdx.toString();
         this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
     }
-    get currentWordIdx() {
-        return this._wordIdx;
+    get currentTokenIdx() {
+        return this._tokenIdx;
     }
-    set currentWordIdx(wordIdx) {
+    get currentWordId() {
+        return this._wordId;
+    }
+    set currentTokenIdx(wordIdx) {
       // check if Idx is valid based on DOM
-        this._wordIdx = wordIdx;
-        if (typeof this._wordIdxElement != 'undefined' & this._wordIdxElement != null)
-          this._wordIdxElement.innerText = wordIdx.toString();
+        this._tokenIdx = wordIdx;
+        if (typeof this._tokenIdxElement != 'undefined' & this._tokenIdxElement != null)
+          this._tokenIdxElement.innerText = wordIdx.toString();
+    }
+    set currentWordId(wordId) {
+      // check if Idx is valid based on DOM
+        this._wordId = wordId;
+        if (typeof this._wordIdElement != 'undefined' & this._wordIdElement != null)
+          this._wordIdElement.innerText = wordId.toString();
     }
     get currentWord() {
-      return document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].innerText;
+      return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
       // converts source html sentence <div>s into sentence containers <div>s/word <span>s
     }
     get nextWord() {
       // does not change current word position
       try {
-        return document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx+1].innerText;
+        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId+1].innerText;
+        // need to add nextSentence transition
       }
       catch(e) {
         return null;
@@ -486,14 +516,20 @@ class ReadingMonitor {
     get lastWordIdx() {
       return this._lastWordIdx;
     }
+    get lastWordId() {
+      return this._lastWordId;
+    }
     isLastToken() {
-      return this._wordIdx >= this._lastWordIdx;
+      return this._tokenIdx >= this._lastWordIdx;
+    }
+    isLastWord() {
+      return this._wordId >= this._lastWordId;
     }
     isNextToLastToken() {
-      return (this._wordIdx+1) >= this._lastWordIdx;
+      return (this._tokenIdx+1) >= this._lastWordIdx;
     }
     endOfSentence() {
-      return this._wordIdx >= this._lastWordIdx;
+      return this._tokenIdx >= this._lastWordIdx;
     }
     isLastSentence() {
       return this._sentenceIdx >= this._lastSentenceIdx;
@@ -549,7 +585,7 @@ class ReadingMonitor {
                // phone Numbers
                // proper nouns requiring XSAMPA hints
             else if (hasPunctuation) {
-              MyReadingMonitor.diagnosticMsg = "parseSentences(): interim punctuation "+token+" encountered at sentenceid ="+s+", token="+t;
+              MyReadingMonitor.diagnosticMsg = "parseSentences(): interim punctuation "+token+" encountered at sentenceidx ="+s+", token="+t;
               sentenceHTML = sentenceHTML
               + '<span class="rm_word onclick-word" id=' + t + ">" + tokenWithoutLastCharacter +"</span>"
               + '<span class="rm_punctuation">' + lastCharacterOfToken+"</span>"+"&nbsp";
@@ -588,6 +624,7 @@ class ReadingMonitor {
        var span;
        var previousWordIdx = -1;
       sentences = document.getElementsByClassName(sentenceTag)
+      this._lastSentenceIdx = sentences.length -1;
       for (s = sentences.length - 1; s >= 0; s--) {  // replaceWith bug prevents iteration
           dstSentence = document.createElement("span");
            dstSentence.setAttribute("class", "rm_sentence");
@@ -650,28 +687,40 @@ class ReadingMonitor {
           sentences[s].replaceWith(dstSentence);
 //          sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
         }
-        this._lastSentenceIdx = sentences.length - 1;
 
     } // parseSentences
     moveToNextWord() {
+      // position to the next word as opposed to token (word, punctuation or whitespace)
       // getElementsByClassName returns a HTMLCollection of matching elements.
-      // According to w3.org 2015, The collection then represents a view of the
+      // According to w3.org 2015, "[t]he collection then represents a view of the
       // subtree rooted at the collection's root, containing only nodes that match
       // the given filter. The view is linear. In the absence of specific
       // requirements to the contrary, the nodes within the collection must be
-      //  sorted in tree order.
-      var el = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word");
-      var id = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].getAttribute("id");
+      // sorted in tree order:" top-down, depth first OR HTML WYSIWYG.
+
+      // get current id
+//      var id = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute("id");
       // if nextIdx is null then no more words
-      this.currentWordIdx++;
-      this.currentWordIndicatorOn();
+      this.currentWordIndicatorOff();
+      if (this.isLastWord()) {
+        this.moveToNextSentence();
+      }
+      else {
+        this.currentWordId++; // check for EOS
+        this.currentWordIndicatorOn();
+      }
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
     moveToFirstSentence() {
       // check for last sentence
       this.currentSentenceIdx = 0;
-      this.currentWordIdx = 0;
+      this.currentToken = 0;
       this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+      var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
+      this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+
+      this.currentWordId = 0;
+  //    this.currentSentenceId = 0;
       this.currentWordIndicatorOn();
     }
     moveToNextSentence() {
@@ -681,16 +730,26 @@ class ReadingMonitor {
       }
       else {
         this.currentSentenceIdx += 1;
-        this.currentWordIdx = 0;
+        this.currentToken = 0;
+        this.currentWordId = 0;
         this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+        var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
+        this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
         this.currentWordIndicatorOn();
       }
     }
-    moveToThisWordPosition(sentenceIdx, wordIdx) {
+    moveToThisWordPosition(sentenceIdx, wordId) {
       try {
         this.currentWordIndicatorOff();
-        this.currentSentenceIdx = Number(sentenceIdx);
-        this.currentWordIdx = Number(wordIdx);
+//        this.currentSentenceId = Number(sentenceId);
+        if (this.currentSentenceIdx != sentenceIdx) {
+          this.currentSentenceIdx = Number(sentenceIdx);
+          this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+          var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
+          this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+        }
+//        this.currentToken = Number(wordIdx);
+        this.currentWordId = Number(wordId);
         this.currentWordIndicatorOn();
       }
       catch(e) {
@@ -698,7 +757,8 @@ class ReadingMonitor {
       }
     }
     set currentWordIndicator(state) {
-      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordIdx].style.textDecoration = state;
+//      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._tokenIdx].style.textDecoration = state;
+      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.textDecoration = state;
     }
     currentWordIndicatorOff() {
       this.currentWordIndicator = "none";
@@ -716,7 +776,7 @@ class ReadingMonitor {
       var returnVal = TOKEN_WORD; // assume the token is a word
       //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
       //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
-      this.currentWordIndicatorOff();
+  //    this.currentWordIndicatorOff();
 
       if (this.isLastToken()) {
         // state: last token that is not a trailing punctuation
@@ -748,6 +808,8 @@ class ReadingMonitor {
     matchWord(spokenWord) {
       // matches spoken word to written word
       // need code to manage special cases: proper noun not already recognized
+      // inn parsing phase, embed possible surrogates for matching proper names:
+      // Ronlyn = { Rollin | Rowland | ronlin | ron lin }
       var properNamePattern = new RegExp(/^[A-Z]/); //first letter uppercase... less conficent if at beginning of sentence
       if (spokenWord.toLowerCase() == this.currentWord.toLowerCase()) {
         return true;
@@ -788,8 +850,8 @@ class ReadingMonitor {
            if (e.className.indexOf('rm_word') != -1) {
              //get rm_sentence and rm_word ids
              var sentenceIdx = e.parentElement.getAttribute("id");
-             var wordIdx = e.getAttribute("idx");
-             MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordIdx);
+             var wordId = e.getAttribute("id");
+             MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
              var partialSentenceInput = document.getElementById('partialSentence');
              if (partialSentenceInput.checked) {
                var w, hasFoundWordId = false;

@@ -33,7 +33,6 @@
     }
 
     div {
-      overflow: auto;
       position: relative;
     }
 
@@ -81,6 +80,28 @@
 
 <button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
 <br>
+<ul>
+  <li><div class="sentence">My..."help!".</div></li>
+  <li><div class="sentence">My name is Ronlyn Goo.</div></li>
+<li><div class="sentence">I am 54 years old!</div></li>
+<li><div class="sentence">My husband is named Wen?</div></li>
+<li><div class="sentence">We have been married 25 years.</div></li>
+<li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
+<li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+
+<li><div class="sentence">We have two children, David and Robert.</div></li>
+<li><div class="sentence">David is 23 years old.</div></li>
+<li><div class="sentence">He recently graduated from Stanford with a Bachelors and Masters degrees in Computer Science.</div></li>
+<li><div class="sentence">He is lecturing at Stanford and considering a PhD in Bioengineering.</div></li>
+<li><div class="sentence">Robert is 21 years old.</div></li>
+<li><div class="sentence">He was working at facebook over the summer and returns to complete his senior year at Caltech.</div></li>
+<li><div class="sentence">I am so proud of them.</div></li>
+
+<li><div class="sentence">My current occupation is stroke recovery.</div></li>
+<li><div class="sentence">My hobbies include reading, surfing the web, and baking.</div></li>
+<li><div class="sentence">My cellphone number is (408) 206-5963.</div></li>
+<li><div class="sentence">In case of emergency, please call Wen at (408) 267-6076.</div></li>
+</ul>
 <div class="sentence">We celebrate my birthday with my parents one day late.</div>
 <br>
 <div class="sentence">David is still home from school</div>
@@ -92,33 +113,37 @@
 <br>
 <p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
 <p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
 <p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
 <p id="confidence">no error</p>
 <p id="diagnostic">no error</p>
 
-<script type="text/javascript" src="src/reading-monitor02.js"></script>
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
 <script>
 //import ReadingMonitor from 'reading-monitor.js';
-  var myReadingMonitor = new ReadingMonitor("Speech recognition tester");
+  var MyReadingMonitor = new ReadingMonitor("Speech recognition tester");
 
   // register html field names
-  myReadingMonitor.diagnosticElementId ="diagnostic";
+  MyReadingMonitor.diagnosticElementId ="diagnostic";
 
-  myReadingMonitor.listening.buttonElementId = "listenBtn";
-  myReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
-  myReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
-  myReadingMonitor.listening.buttonImgActive ="img/mic1.gif";
+  MyReadingMonitor.listening.buttonElementId = "listenBtn";
+  MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+  MyReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
+  MyReadingMonitor.listening.buttonImgActive ="img/mic1.gif";
 
-  myReadingMonitor.speaking.voiceSelectorElementId ="voiceSelector";
-  myReadingMonitor.speaking.volumeControlElementId ="volumeInput";
+  MyReadingMonitor.speaking.voiceSelectorElementId ="voiceSelector";
+  MyReadingMonitor.speaking.volumeControlElementId ="volumeInput";
 
-  myReadingMonitor.sentenceIdxElementId = "sentenceIdx";
-  myReadingMonitor.wordIdxElementId = "wordIdx";
-  myReadingMonitor.timer.timeout = 10; // ms
+  MyReadingMonitor.sentenceIdElementId = "sentenceId";
+  MyReadingMonitor.wordIdElementId = "wordId";
+  MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+  MyReadingMonitor.wordIdxElementId = "wordIdx";
+  MyReadingMonitor.timer.timeout = 10; // ms
 
-  myReadingMonitor.parseSentences("sentence");
-  myReadingMonitor.moveToFirstSentence();
-  myReadingMonitor.initialize();
+  MyReadingMonitor.parseSentences1("sentence");
+  MyReadingMonitor.moveToFirstSentence();
+  MyReadingMonitor.initialize();
 
 </script>
   </body>
