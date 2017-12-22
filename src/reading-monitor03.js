@@ -199,23 +199,11 @@ class SpeechRecognition {
           var isFinalResult = event.results[0].isFinal;
 //           MyReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
            var w;
-           var nextTokenType;
-           if (spokenWords[w] == "reading") {
-              alert("reading");
-            }
-
            for (w = 0; w < spokenWords.length; w++) {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              MyReadingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
              if (MyReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
                MyReadingMonitor.moveToNextWord();
-//               nextTokenType = MyReadingMonitor.nextToken();
-//                if (nextTokenType == TOKEN_NEWSENTENCE) {
-//                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: end of sentence";
-//                    recognition.abort();
-//                    MyReadingMonitor.diagnosticMsg = "recognition.onresult: aborted at end of sentence";
-//                    MyReadingMonitor.listening.buttonDeactivate();
-//                }
              } //
            } // for
            MyReadingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
@@ -229,7 +217,7 @@ class SpeechRecognition {
             alert("recognition:onresult: MyReadingMonitor does not exist in global scope")
           }
           else {
-            MyReadingMonitor.diagnosticMsg = 'recognition:onresult: failed';
+            MyReadingMonitor.diagnosticMsg = 'recognition:onresult: '+e.message;
 
           }
         }
@@ -472,15 +460,23 @@ class ReadingMonitor {
         };
       }
     get currentSentenceIdx() {
-        return this._sentenceIdx;
+        return Number(this._sentenceIdx);
     }
     set currentSentenceIdx(sentenceIdx) {
         // check if Idx is valid based on DOM
-        this._sentenceIdx = sentenceIdx;
-        if (typeof this._sentenceIdxElement != 'undefined' && this._sentenceIdxElement != null)
-          this._sentenceIdxElement.innerText = sentenceIdx.toString();
-        this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-    }
+        try {
+          this._sentenceIdx = Number(sentenceIdx);
+          if (typeof this._sentenceIdxElement != 'undefined' && this._sentenceIdxElement != null)
+            this._sentenceIdxElement.innerText = sentenceIdx.toString();
+
+            this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+            var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
+            this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+        }
+        catch(e) {
+          this.diagnosticMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
+        }
+      }
     get currentTokenIdx() {
         return this._tokenIdx;
     }
@@ -536,76 +532,6 @@ class ReadingMonitor {
     }
     parseSentences(sentenceTag) {
           // can the existing html support parsing into the prescribed format?
-        var sentences = document.getElementsByClassName(sentenceTag);
-        var s, t;
-        var sentenceHTML;
-
-     //   var tokenSeparators = new RegExp(/\s*\b\s*/);
-     //  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
-
-         // With \s pattern, trailing punctuation is included with word token and is handled as a special case
-         var tokenSeparators = new RegExp(/[\s]/);
-         var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/)
-//         var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
-         var hasPunctuation;
-         var hasEosPunctuation;
-         var nextToLastToken;
-         var tokens, words;
-         var token;
-         var lastCharacterOfToken;
-         var tokenWithoutLastCharacter;
-         var isLastToken;
-         var hasPunctuation;
-         var hasTrailingEosPunctuation;
-
-
-     //   var leftDelimiters = new RegExp(/\(\[\{/);
-     //   var rightDelimiters = new RegExp(/\)\]\}/);
-        for (s = 0; s < sentences.length; s++) {
-          sentenceHTML = '<span class="rm_sentence" id=' + s + ">";
-       //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-          tokens = sentences[s].innerText.split(tokenSeparators); // not preserving space count
-//          words = sentences[s].innerText.split(wordSeparators); // not preserving space count
-          for (t = 0; t < tokens.length; t++) {
-             // not on the first word
-            token = tokens[t];
-            lastCharacterOfToken = token.substring(token.length-1,token.length);
-            tokenWithoutLastCharacter= token.substring(0,token.length-1)
-            isLastToken =  (t == tokens.length-1);
-            hasPunctuation = MyReadingMonitor.punctuationPattern.test(token);
-            hasTrailingEosPunctuation = MyReadingMonitor.eosPunctuationPattern.test(lastCharacterOfToken);
-
-            if (isLastToken  && hasTrailingEosPunctuation) {
-                 // remove trailing punctuation off last word of current sentence and add separate span for trailing punctuation
-               sentenceHTML = sentenceHTML
-                 + '<span class="rm_word onclick-word" id=' + t + ">" + tokenWithoutLastCharacter +"</span>"
-                 + '<span class="rm_punctuation">' + lastCharacterOfToken+"</span>"+"&nbsp";
-            }
-             // else if  all other special characters: no onclick-word or specially formatted rm_word
-               // phone Numbers
-               // proper nouns requiring XSAMPA hints
-            else if (hasPunctuation) {
-              MyReadingMonitor.diagnosticMsg = "parseSentences(): interim punctuation "+token+" encountered at sentenceidx ="+s+", token="+t;
-              sentenceHTML = sentenceHTML
-              + '<span class="rm_word onclick-word" id=' + t + ">" + tokenWithoutLastCharacter +"</span>"
-              + '<span class="rm_punctuation">' + lastCharacterOfToken+"</span>"+"&nbsp";
-            }
-            else {
-               sentenceHTML = sentenceHTML+'<span class="rm_word onclick-word" id='+t+">"+token+"</span>"+ "&nbsp";
-            }
-               //mana    ge spacing especially for trailing punctuation
-          }
-           sentenceHTML = sentenceHTML + "</span>";
-//           var newSentence = document.createElement("div");
-//           newSentence.innerHTML = sentenceHTML;
-//           sentences[s].replaceWith(newSentence);
-           sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
-
-        }
-        this._lastSentenceIdx = sentences.length - 1;
-    }
-    parseSentences1(sentenceTag) {
-          // can the existing html support parsing into the prescribed format?
       var sentences;
       var srcSentence, srcNonword, classLabel, dstSentence;
       var c, s, w;
@@ -626,7 +552,7 @@ class ReadingMonitor {
       sentences = document.getElementsByClassName(sentenceTag)
       this._lastSentenceIdx = sentences.length -1;
       for (s = sentences.length - 1; s >= 0; s--) {  // replaceWith bug prevents iteration
-          dstSentence = document.createElement("span");
+          dstSentence = document.createElement("div");
            dstSentence.setAttribute("class", "rm_sentence");
            dstSentence.setAttribute("id", s);
           srcSentence = sentences[s].innerText;
@@ -689,6 +615,98 @@ class ReadingMonitor {
         }
 
     } // parseSentences
+    parseSentences1(sentenceTag) {
+          // can the existing html support parsing into the prescribed format?
+      var sentences;
+      var srcSentence, srcNonword, classLabel, dstSentence;
+      var c, s, w;
+
+   //   var tokenSeparators = new RegExp(/\s*\b\s*/);
+   //  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
+
+       // With \s pattern, trailing punctuation is included with word token and is handled as a special case
+       var tokenSeparators = new RegExp(/[\s]/);
+       var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
+       var whitespaceSeparators = new RegExp(/[\s]/);
+       var words;
+       var currentPos, wordPos, wordLength;
+       var srcSentence, srcNonword, classLabel, dstSentence;
+       var wordIdx = 0;
+       var span;
+       var previousWordIdx = -1;
+      sentences = document.getElementsByClassName(sentenceTag)[0];
+      this._lastSentenceIdx = sentences.length -1;
+      s = 0;
+      while (typeof sentences != 'undefined') {
+//      for (s = 0; s <= sentences.length - 1; s++) {  // replaceWith bug prevents iteration
+          dstSentence = document.createElement("div");
+           dstSentence.setAttribute("class", "rm_sentence");
+           dstSentence.setAttribute("id", s);
+          srcSentence = sentences.innerText;
+       //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
+          words = srcSentence.split(wordSeparators).filter(item => item.length > 0); // remove null
+          currentPos = 0; // beginning of sentence
+          wordIdx = 0;
+          previousWordIdx = -1;
+          for (w = 0; w < words.length; w++) {
+            wordPos  = srcSentence.indexOf(words[w], currentPos);
+            wordLength = words[w].length;
+            if (wordPos > currentPos) { // punctuation or whitespace before word
+              srcNonword = srcSentence.substring(currentPos, wordPos);
+              if (whitespaceSeparators.test(srcNonword)) {
+                classLabel = "rm_whitespace";
+              }
+              else {
+                classLabel = "rm_punctuation";
+              }
+  //              sentenceHTML = sentenceHTML + '<span class="'+classLabel+'">'+srcNonword+"</span>";
+              currentPos = wordPos; // advance passed current word
+              span = document.createElement("span");
+              span.setAttribute("class", classLabel);
+              span.setAttribute("idx", wordIdx++);
+              span.innerText = srcNonword;
+              dstSentence.appendChild(span);
+            }
+            if (wordPos == currentPos) { // positioned at beginning of word
+  //            sentenceHTML = sentenceHTML + '<span class="rm_word" id='+w+">"+words[w]+"</span>";
+              currentPos = currentPos + wordLength; // advance passed current word
+              span = document.createElement("span");
+              span.setAttribute("class", "rm_word");
+              span.setAttribute("idx", wordIdx);
+              if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
+              previousWordIdx = wordIdx;
+              span.setAttribute("id", w);
+              span.innerText = words[w];
+              dstSentence.appendChild(span);
+              wordIdx++;
+            }
+          } // for
+          if (currentPos < srcSentence.length) { // no more words just punctuations?
+  //            sentenceHTML = sentenceHTML + '<span class="rm_punctuation">'+srcSentence.substring(currentPos, srcSentence.length)+"</span>";
+            span = document.createElement("span");
+            span.innerText = srcSentence.substring(currentPos, srcSentence.length);
+            span.setAttribute("class", "rm_punctuation");
+            span.setAttribute("idx", wordIdx);
+            dstSentence.appendChild(span);
+          }
+          // set nextWordIdx from prevWordIdx
+          for (c = dstSentence.childElementCount - 1; c >=0; c--) {
+             var prevIdx = dstSentence.children[c].getAttribute("prevWordIdx");
+            if (prevIdx !== null && prevIdx != -1) { // rm_word
+              dstSentence.children[prevIdx].setAttribute("nextWordIdx", c);
+              sentences = document.getElementsByClassName(sentenceTag)
+            }
+          }
+  //          sentenceHTML = sentenceHTML + "</span>";
+          var parentNode = sentences[0].parentNode;
+          var child = parentNode.appendChild(dstSentence);
+          parentNode.removeChild(sentences[0]);
+          sentences = document.getElementsByClassName(sentenceTag)[0];
+          s++;
+  //          sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
+        }
+
+    } // parseSentences1
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation or whitespace)
       // getElementsByClassName returns a HTMLCollection of matching elements.
@@ -698,55 +716,49 @@ class ReadingMonitor {
       // requirements to the contrary, the nodes within the collection must be
       // sorted in tree order:" top-down, depth first OR HTML WYSIWYG.
 
-      // get current id
-//      var id = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute("id");
-      // if nextIdx is null then no more words
       this.currentWordIndicatorOff();
+
       if (this.isLastWord()) {
         this.moveToNextSentence();
       }
       else {
-        this.currentWordId++; // check for EOS
-        this.currentWordIndicatorOn();
+        this.currentWordId++;
       }
+      this.currentWordIndicatorOn();
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
     moveToFirstSentence() {
       // check for last sentence
-      this.currentSentenceIdx = 0;
-      this.currentToken = 0;
-      this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-      var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
-      this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
-
-      this.currentWordId = 0;
-  //    this.currentSentenceId = 0;
-      this.currentWordIndicatorOn();
+      this.moveToSentence(0);
     }
     moveToNextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
-        this.diagnosticMsg = "nextSentence(): last sentence encountered"
       }
       else {
-        this.currentSentenceIdx += 1;
-        this.currentToken = 0;
-        this.currentWordId = 0;
-        this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-        var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
-        this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
-        this.currentWordIndicatorOn();
+        var idx = Number(this.currentSentenceIdx) + 1;
+        this.moveToSentence(idx);
       }
     }
+    moveToSentence(sentenceIdx) {
+      // check for last sentence
+      this.diagnosticMsg = "moveToSentence(): sentenceIdx ="+sentenceIdx;
+      this.diagnosticMsg = "moveToSentence(): currentsentenceIdx ="+this.currentSentenceIdx;
+      this.currentSentenceIdx = sentenceIdx;
+      this.currentToken = 0;
+      this.currentWordId = 0;
+      this.diagnosticMsg = "moveToSentence(): sentenceIdx ="+sentenceIdx;
+      this.diagnosticMsg = "moveToSentence(): currentsentenceIdx ="+this.currentSentenceIdx;
+
+      this.currentWordIndicatorOn();
+    }
+
     moveToThisWordPosition(sentenceIdx, wordId) {
       try {
         this.currentWordIndicatorOff();
 //        this.currentSentenceId = Number(sentenceId);
         if (this.currentSentenceIdx != sentenceIdx) {
-          this.currentSentenceIdx = Number(sentenceIdx);
-          this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-          var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
-          this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+          this.moveToSentence(sentenceIdx)
         }
 //        this.currentToken = Number(wordIdx);
         this.currentWordId = Number(wordId);
