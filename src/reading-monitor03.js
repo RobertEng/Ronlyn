@@ -465,13 +465,13 @@ class ReadingMonitor {
     set currentSentenceIdx(sentenceIdx) {
         // check if Idx is valid based on DOM
         try {
+          this.currentWordIndicatorOff();
           this._sentenceIdx = Number(sentenceIdx);
-          if (typeof this._sentenceIdxElement != 'undefined' && this._sentenceIdxElement != null)
-            this._sentenceIdxElement.innerText = sentenceIdx.toString();
+          this._sentenceIdxElement.innerText = sentenceIdx.toString();
 
-            this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-            var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
-            this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+          this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
+          var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
+          this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
         }
         catch(e) {
           this.diagnosticMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
@@ -491,13 +491,25 @@ class ReadingMonitor {
     }
     set currentWordId(wordId) {
       // check if Idx is valid based on DOM
+      try {
+        this.currentWordIndicatorOff();
         this._wordId = wordId;
-        if (typeof this._wordIdElement != 'undefined' & this._wordIdElement != null)
-          this._wordIdElement.innerText = wordId.toString();
+        this.currentWordIndicatorOn();
+        this._wordIdElement.innerText = wordId.toString();
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
+      }
     }
     get currentWord() {
-      return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
+      try {
+        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
       // converts source html sentence <div>s into sentence containers <div>s/word <span>s
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordId getter: failed to get value to "+wordId+ " because "+e.message;
+        return null;
+      }
     }
     get nextWord() {
       // does not change current word position
@@ -530,7 +542,7 @@ class ReadingMonitor {
     isLastSentence() {
       return this._sentenceIdx >= this._lastSentenceIdx;
     }
-    parseSentences(sentenceTag) {
+    parseSentences_Deprecated(sentenceTag) {
           // can the existing html support parsing into the prescribed format?
       var sentences;
       var srcSentence, srcNonword, classLabel, dstSentence;
@@ -551,7 +563,8 @@ class ReadingMonitor {
        var previousWordIdx = -1;
       sentences = document.getElementsByClassName(sentenceTag)
       this._lastSentenceIdx = sentences.length -1;
-      for (s = sentences.length - 1; s >= 0; s--) {  // replaceWith bug prevents iteration
+      for (s = 0; s < sentences.length; s++) {  // replaceWith bug prevents iteration
+//        for (s = sentences.length - 1; s >= 0; s--) {  // replaceWith bug prevents iteration
           dstSentence = document.createElement("div");
            dstSentence.setAttribute("class", "rm_sentence");
            dstSentence.setAttribute("id", s);
@@ -610,40 +623,37 @@ class ReadingMonitor {
             }
           }
 //          sentenceHTML = sentenceHTML + "</span>";
-          sentences[s].replaceWith(dstSentence);
+          sentences[s].outerHTML = dstSentence.innerHTML;
+//          sentences[s].replaceWith(dstSentence);
 //          sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
         }
 
     } // parseSentences
-    parseSentences1(sentenceTag) {
-          // can the existing html support parsing into the prescribed format?
-      var sentences;
-      var srcSentence, srcNonword, classLabel, dstSentence;
+    parseSentences(sentenceTag) {
+      // should be in global object space
+      var tokenSeparators = new RegExp(/[\s]/);
+      var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
+      var whitespaceSeparators = new RegExp(/[\s]/);
+
+      var srcSentence, srcNonword, classLabel;
+      var dstSentenceElement, srcSentenceElement;
       var c, s, w;
+      var words;
+      var currentPos, wordPos, wordLength;
+      var wordIdx = 0;
+      var span;
+      var previousWordIdx = -1;
 
-   //   var tokenSeparators = new RegExp(/\s*\b\s*/);
-   //  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
+      for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
+          typeof srcSentenceElement != 'undefined';
+          srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
+          srcSentence = srcSentenceElement.innerText;
 
-       // With \s pattern, trailing punctuation is included with word token and is handled as a special case
-       var tokenSeparators = new RegExp(/[\s]/);
-       var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
-       var whitespaceSeparators = new RegExp(/[\s]/);
-       var words;
-       var currentPos, wordPos, wordLength;
-       var srcSentence, srcNonword, classLabel, dstSentence;
-       var wordIdx = 0;
-       var span;
-       var previousWordIdx = -1;
-      sentences = document.getElementsByClassName(sentenceTag)[0];
-      this._lastSentenceIdx = sentences.length -1;
-      s = 0;
-      while (typeof sentences != 'undefined') {
-//      for (s = 0; s <= sentences.length - 1; s++) {  // replaceWith bug prevents iteration
-          dstSentence = document.createElement("div");
-           dstSentence.setAttribute("class", "rm_sentence");
-           dstSentence.setAttribute("id", s);
-          srcSentence = sentences.innerText;
-       //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
+          dstSentenceElement = document.createElement(srcSentenceElement.tagName);
+          dstSentenceElement.setAttribute("class", "rm_sentence");
+          dstSentenceElement.setAttribute("id", s);
+
+//        sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
           words = srcSentence.split(wordSeparators).filter(item => item.length > 0); // remove null
           currentPos = 0; // beginning of sentence
           wordIdx = 0;
@@ -655,20 +665,18 @@ class ReadingMonitor {
               srcNonword = srcSentence.substring(currentPos, wordPos);
               if (whitespaceSeparators.test(srcNonword)) {
                 classLabel = "rm_whitespace";
-              }
+              } // must add other tests when other rm_* types are added
               else {
                 classLabel = "rm_punctuation";
               }
-  //              sentenceHTML = sentenceHTML + '<span class="'+classLabel+'">'+srcNonword+"</span>";
               currentPos = wordPos; // advance passed current word
               span = document.createElement("span");
               span.setAttribute("class", classLabel);
               span.setAttribute("idx", wordIdx++);
               span.innerText = srcNonword;
-              dstSentence.appendChild(span);
+              dstSentenceElement.appendChild(span);
             }
             if (wordPos == currentPos) { // positioned at beginning of word
-  //            sentenceHTML = sentenceHTML + '<span class="rm_word" id='+w+">"+words[w]+"</span>";
               currentPos = currentPos + wordLength; // advance passed current word
               span = document.createElement("span");
               span.setAttribute("class", "rm_word");
@@ -677,35 +685,28 @@ class ReadingMonitor {
               previousWordIdx = wordIdx;
               span.setAttribute("id", w);
               span.innerText = words[w];
-              dstSentence.appendChild(span);
+              dstSentenceElement.appendChild(span);
               wordIdx++;
             }
-          } // for
+          } // for loop of words
           if (currentPos < srcSentence.length) { // no more words just punctuations?
-  //            sentenceHTML = sentenceHTML + '<span class="rm_punctuation">'+srcSentence.substring(currentPos, srcSentence.length)+"</span>";
             span = document.createElement("span");
             span.innerText = srcSentence.substring(currentPos, srcSentence.length);
             span.setAttribute("class", "rm_punctuation");
             span.setAttribute("idx", wordIdx);
-            dstSentence.appendChild(span);
+            dstSentenceElement.appendChild(span);
           }
           // set nextWordIdx from prevWordIdx
-          for (c = dstSentence.childElementCount - 1; c >=0; c--) {
-             var prevIdx = dstSentence.children[c].getAttribute("prevWordIdx");
+          for (c = dstSentenceElement.childElementCount - 1; c >= 0; c--) {
+             var prevIdx = dstSentenceElement.children[c].getAttribute("prevWordIdx");
             if (prevIdx !== null && prevIdx != -1) { // rm_word
-              dstSentence.children[prevIdx].setAttribute("nextWordIdx", c);
-              sentences = document.getElementsByClassName(sentenceTag)
+              dstSentenceElement.children[prevIdx].setAttribute("nextWordIdx", c);
+              srcSentence = document.getElementsByClassName(sentenceTag)
             }
           }
-  //          sentenceHTML = sentenceHTML + "</span>";
-          var parentNode = sentences[0].parentNode;
-          var child = parentNode.appendChild(dstSentence);
-          parentNode.removeChild(sentences[0]);
-          sentences = document.getElementsByClassName(sentenceTag)[0];
-          s++;
-  //          sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
-        }
-
+          srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
+        } // for loop of sentences
+        this._lastSentenceIdx = document.getElementsByClassName("rm_sentence").length -1;
     } // parseSentences1
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation or whitespace)
@@ -715,62 +716,52 @@ class ReadingMonitor {
       // the given filter. The view is linear. In the absence of specific
       // requirements to the contrary, the nodes within the collection must be
       // sorted in tree order:" top-down, depth first OR HTML WYSIWYG.
-
-      this.currentWordIndicatorOff();
-
-      if (this.isLastWord()) {
+  if (this.isLastWord()) {
         this.moveToNextSentence();
       }
       else {
         this.currentWordId++;
       }
-      this.currentWordIndicatorOn();
 //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
     moveToFirstSentence() {
       // check for last sentence
       this.moveToSentence(0);
+      this.currentWordId = 0;
     }
     moveToNextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
       }
       else {
-        var idx = Number(this.currentSentenceIdx) + 1;
-        this.moveToSentence(idx);
+        this.moveToSentence(Number(this.currentSentenceIdx) + 1);
       }
     }
     moveToSentence(sentenceIdx) {
       // check for last sentence
-      this.diagnosticMsg = "moveToSentence(): sentenceIdx ="+sentenceIdx;
-      this.diagnosticMsg = "moveToSentence(): currentsentenceIdx ="+this.currentSentenceIdx;
-      this.currentSentenceIdx = sentenceIdx;
-      this.currentToken = 0;
-      this.currentWordId = 0;
-      this.diagnosticMsg = "moveToSentence(): sentenceIdx ="+sentenceIdx;
-      this.diagnosticMsg = "moveToSentence(): currentsentenceIdx ="+this.currentSentenceIdx;
-
-      this.currentWordIndicatorOn();
+      if (sentenceIdx != this.currentSentenceIdx) {
+        this.currentSentenceIdx = Number(sentenceIdx);
+        this.currentToken = 0;
+        this.currentWordId = 0;
+      }
     }
-
     moveToThisWordPosition(sentenceIdx, wordId) {
       try {
-        this.currentWordIndicatorOff();
-//        this.currentSentenceId = Number(sentenceId);
-        if (this.currentSentenceIdx != sentenceIdx) {
-          this.moveToSentence(sentenceIdx)
-        }
-//        this.currentToken = Number(wordIdx);
+        this.moveToSentence(sentenceIdx)
         this.currentWordId = Number(wordId);
-        this.currentWordIndicatorOn();
       }
       catch(e) {
         this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
       }
     }
     set currentWordIndicator(state) {
+      try {
+        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.textDecoration = state;
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordIndicator(): could not change word indicator";
+      }
 //      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._tokenIdx].style.textDecoration = state;
-      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.textDecoration = state;
     }
     currentWordIndicatorOff() {
       this.currentWordIndicator = "none";
