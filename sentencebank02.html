@@ -177,6 +177,10 @@ main {
   font-family: arial;
   font-size: 110%;
 }
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
 li:not(:last-child) {
   margin-bottom: 10px;
 }
@@ -194,7 +198,8 @@ li:not(:last-child) {
 <header>
   <div class="grid" id="header">
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
-       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Text-to-Speech (TTS) Sentence Bank</span>
+      <button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=50 height=50 alt="Listen"></button>
+       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Sentence Bank</span>
     </div>
     <div class="col-1-2 headerControls">
        <div class="option" id="volumeControl">
@@ -271,7 +276,12 @@ li:not(:last-child) {
 <h1><a class="navbar-item" id="test">Test</a></h1>
 
 <div id="sentences"></div>
-
+<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
+<p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
+<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
+<p id="diagnostic">no error</p>
 <p id="os-msg"></p>
 <p id="browser-msg"></p>
 
@@ -294,6 +304,7 @@ li:not(:last-child) {
   </nav>
 </nav>
 </body>
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
 <script>
 
 /***
@@ -314,28 +325,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
 
     if (e.className) {
 
-      if (e.className.indexOf('rm_word') != -1) {
-        if (e.className.indexOf('speak')) {
-          partialSentenceInput = document.getElementById('partialSentence');
-          if (partialSentenceInput.checked) {
-            //get rm_sentence and rm_word ids
-            sentenceId = e.parentElement.getAttribute("id");
-            wordId = e.getAttribute("id");
-//            speakPartialSentence(sentenceId, wordId);
-            //build partial sentences
-            partialSentence ="";
-            parent = e.parentElement;
-            for (w = 0; w <= wordId && w < parent.childElementCount; w++)
-              partialSentence = partialSentence  + " " +parent.children[w].innerText;
-            speak(partialSentence);
-          }
-          else {
-            speak(e.innerText);
-          }
-        }
-
-      }
-      else if (e.className.indexOf('data-speak-onclick') != -1) {
+      if (e.className.indexOf('data-speak-onclick') != -1) {
         spelling = e.getAttribute("XSAMPA");
         if (!spelling) {
           spelling = e.getAttribute("data-speak");
@@ -355,11 +345,11 @@ document.body.onclick = function(e) {   //when the document body is clicked
          else {
            spelling = e.getAttribute("word");
          }
-         speak(spelling);
+         MyReadingMonitor.speaking.say(spelling);
       }
       else if (e.className.indexOf('onclick') != -1
         && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
-        speak(e.innerHTML);
+        MyReadingMonitor.speaking.say(e.innerHTML);
         window.location.href = "#"+e.id; } //goto anchor
 
       else if (e.className.indexOf('href-onclick') != -1) {
@@ -382,23 +372,20 @@ document.body.onclick = function(e) {   //when the document body is clicked
  * onload
  */
 document.body.onload = function(e) {   //when the document body is clicked
-
   populateNavbar();
-  parseSentences();
-//  generateSentences();
-//  expandSentences();
-//  expandSentenceDivs()
 }
 /***
  *
  * global variables
  *
  ***/
+/*
 var gridWidth = 8;
 var button = document.getElementById('speak');
 var speechMsgInput = document.getElementById('speech-msg');
 var volumeInput = document.getElementById('volume');
 var voiceSelect = document.getElementById('voice');
+*/
 /***
  *
  * Function definitions
@@ -409,122 +396,11 @@ var voiceSelect = document.getElementById('voice');
  * generateSentences
  *
  * Generates the clickable sentences from a list of sentences.
- */
- function parseSentences() {
-   var sentences = document.getElementsByClassName("sentence");
-   var s, w;
-   var word;
-   var terminalPunctuationPattern = new RegExp(/[.!?]$/);
-//   var tokenSeparators = new RegExp(/\s*\b\s*/);
-//  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
-
-    // With \s pattern, terminal punctuation is included with word token and is handled as a special case
-    var tokenSeparators = new RegExp(/\s/);
-//   var leftDelimiters = new RegExp(/\(\[\{/);
-//   var rightDelimiters = new RegExp(/\)\]\}/);
-   for (s = 0; s < sentences.length; s++) {
-     sentenceHTML = '<div class="rm_sentence" id=' + s + ">";
-  //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-     words = sentences[s].innerText.split(tokenSeparators); // not preserving space count
-     for (w = 0; w < words.length; w++) {
-          // not on the first word
-          if (w == words.length-1  && terminalPunctuationPattern.test(words[w])) {
-            // remove terminal punctuation off end of current sentence and add separate span for terminal punctuation
-          sentenceHTML = sentenceHTML
-          + '<span class="rm_word onclick-word" id=' + w + ">" + words[w].substring(0,words[w].length-1) +"</span>"
-          + '<span class="rm_word rm_punctuation" id=' + (w+1) + ">" + words[w].substring(words[w].length-1,words[w].length)+"</span>";
-          }
-          // else if  all other special characters: no onclick-word or specially formatted rm_word
-            // phone Numbers
-            // proper nouns requiring XSAMPA hints
-          else {
-            sentenceHTML = sentenceHTML+'<span class="rm_word onclick-word" id='+w+">"+words[w]+"</span>"+ "&nbsp";
-          }
-          //manage spacing especially for terminal punctuation
-     }
-      sentenceHTML = sentenceHTML + "</div>";
-      sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
-   }
- }
-  function expandSentences() {
-/* loop on all div class="sentence" */
-   var sentences = document.getElementsByClassName("sentence");
-   allSentencesHTML = "";
-   for (s = 0; s < sentences.length; s++) {
-     sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-     words = sentences[s].innerHTML.split(" ", );
-     sentenceHTML = "";
-     partialSentence="";
-     var word;
-     for (w in words) {
-
-       /*
-         need to remove apostrophes from partial and word because it causes
-         truncation of attribute (because attributes are delimited by
-         apostrophes.
-         ultimately need to fix all embedded apostrophes cases where word
-         without apostrophe no longer sounds like the original contraction
-          - "I'll" sounds like Ill should be "aisle"
-
-         */
-
-         word = words[w].toLowerCase();
-         if (word == "i'll") {
-            wordWithoutAposS = "aisle"; }
-         else if (word=="he'll") {
-           wordWithoutAposS="heel"; }
-         else if (word=="she'll") {
-            wordWithoutAposS="shiel" }
-          else {
-            wordWithoutAposS = word.replace("'",""); }
-
-          partialSentence += wordWithoutAposS+" ";
-          wordTag = "<span class='word speak-onclick' word='" + wordWithoutAposS
-                  + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
-          sentenceHTML += wordTag;
-/*
-       partialSentence += words[w]+" ";
-       wordTag = "<span class='word speak-onclick' word='" + words[w]
-          + "' partial='"+partialSentence+"'>" + words[w] + "</span> ";
-       sentenceHTML += wordTag;
-       */
-     }
-//     allSentencesHTML += sentenceHTML;
-     sentences[s].innerHTML = sentenceHTML;
-//     console.log(sentences[s].outerHTML);
-//     allSentencesHTML += "</br></br>";
-//sentences[s].innerHTML = sentencesHTML;
-//    console.log(sentenceHTML);
-   }
-}
-   function generateSentences() {
-     sentences = [
-       'The quick brown fox jumps over the lazy dog.',
-       'a man a plan a canal panama'
-     ];
-     allSentencesHTML = "";
-     for (s in sentences) {
-       words = sentences[s].split(" ");
-       sentenceHTML = "";
-       for (w in words) {
-         wordTag = "<span class='word speak-onclick' word='" + words[w] + "'>" + words[w] + "</span> ";
-         sentenceHTML += wordTag;
-       }
-//       console.log(sentenceHTML);
-       allSentencesHTML += sentenceHTML;
-       allSentencesHTML += "<button class='box data-speak-onclick' data-speak='" + sentences[s] + "'>Listen</button>"
-       allSentencesHTML += "</br></br>";
-     }
-  // console.log(document.getElementsByClassName("wrapper8"));
-  // console.log(document.getElementsByClassName("wrapper8")[0]);
-
- document.getElementById("sentences").innerHTML = allSentencesHTML;
 
 }
+*/
 
 /*
- * getOS
- */
 function getOS() {
    var userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
@@ -545,6 +421,8 @@ function getOS() {
       os = 'Linux'; }
    return os;
 }
+*/
+
 /*
  * Populate list of navbar items.
  */
@@ -566,9 +444,7 @@ function populateNavbar() {
 } // populateNavbar
 
 /*
- * Populate list of voices.
- */
-function populateVoices(defaultVoice) {
+ function populateVoices(defaultVoice) {
    // Fetch the available voices.
    var voices = speechSynthesis.getVoices();
    var option;
@@ -585,16 +461,11 @@ function populateVoices(defaultVoice) {
       voiceSelect.appendChild(option);
    });
 }
-/*
- * Speak
- */
 
 function wordSpeak(button) {
    speak(button.value);
 } // function wordSpeak
-/*
- * Speak
- */
+
 function speak(text, callback) {
    var msg = new SpeechSynthesisUtterance('default');
    msg.text = text;
@@ -618,7 +489,7 @@ function speak(text, callback) {
     };
     window.speechSynthesis.speak(msg);
 } // function speak
-
+*/
 /***
  *
  * Initialize page
@@ -628,16 +499,32 @@ function speak(text, callback) {
 /*
  * Check browser support for speech synthesis
  */
-var supportMsg = document.getElementById('browser-msg');
 
-if ('speechSynthesis' in window) {
-	supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
-} else {
-	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
-        + 'Try again with another browser.';
-	supportMsg.classList.add('not-supported');
-	// remove all speak buttons
-}
+ var MyReadingMonitor = new ReadingMonitor("Speech recognition tester");
+
+ // register html field names
+ MyReadingMonitor.diagnosticElementId ="diagnostic";
+
+ MyReadingMonitor.listening.buttonElementId = "listenBtn";
+ MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+ MyReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
+ MyReadingMonitor.listening.buttonImgActive ="img/mic1.gif";
+
+ MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+ MyReadingMonitor.speaking.volumeControlElementId ="volume";
+
+ MyReadingMonitor.sentenceIdElementId = "sentenceId";
+ MyReadingMonitor.wordIdElementId = "wordId";
+ MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+ MyReadingMonitor.wordIdxElementId = "wordIdx";
+ MyReadingMonitor.timer.timeout = 10; // ms
+
+ MyReadingMonitor.parseSentences("sentence");
+ MyReadingMonitor.moveToFirstSentence();
+ MyReadingMonitor.initialize();
+
+
+var supportMsg = document.getElementById('browser-msg');
 var osMsg = document.getElementById('os-msg');
 var os = getOS();
 if (os == 'iOS') {
@@ -646,13 +533,13 @@ else {
    defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
 
 osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+/*
 
 populateVoices(defaultVoice);
-
 // Chrome loads voices asynchronously.
 window.speechSynthesis.onvoiceschanged = function(e) {
   populateVoices('Microsoft Zira Desktop - English (United States)');
 };
-
+*/
 </script>
 </html>

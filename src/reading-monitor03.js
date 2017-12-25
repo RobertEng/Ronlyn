@@ -6,10 +6,7 @@
 // ECMASCript6 class syntax only
 
 // types of tokens // kludge because ES6 does not allow encapsulation
-const  TOKEN_WORD = 0;
-const  TOKEN_NEWSENTENCE = 1;
-const  TOKEN_INTERIMPUNCTUATION = 2;
-const  TOKEN_PROPERNOUN = 3;
+
 
 function getOS() {
    var userAgent = window.navigator.userAgent,
@@ -270,7 +267,12 @@ class SpeechRecognition {
         // insert code to change current word and sentence
     }
     catch(e) {
-      MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
+      if (typeof MyReadingMonitor == 'undefined') {
+        alert("No global variable MyReadingMonitor found.");
+      }
+      else {
+        MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
+      }
     }
   }
 }
@@ -291,9 +293,13 @@ class SpeechSynthesis {
   set volumeControlElementId(id) {
     try {
       this._volumeControlElement = document.getElementById(id);
+      //try touching it and testing for the proper range
+      var vol = parseFloat(MyReadingMonitor.speaking.volumeControlElement.value);
+      if (isNaN(vol) || vol > 1 || vol < 0)
+        this._parent.diagnosticMsg = "volumeControlElementId setter: invalid element type or range for "+id;
     }
     catch(e) {
-      this._parent.diagnosticMsg = "volumeControlElementId setter: invalid Element id "+id;
+      this._parent.diagnosticMsg = "volumeControlElementId setter: invalid element id "+id;
     }
   }
   get volumeControlElement() {
@@ -346,12 +352,21 @@ class SpeechSynthesis {
      }
   }
   initialize() {
-
-    this._synthesis = new SpeechSynthesisUtterance();
-    this._synthesis.lang = 'en-US';
-    this._synthesis.rate = 1;
-    this._synthesis.pitch = 1;
-    this.voiceSelectorPopulate();
+    try {
+      this._synthesis = new SpeechSynthesisUtterance();
+      this._synthesis.lang = 'en-US';
+      this._synthesis.rate = 1;
+      this._synthesis.pitch = 1;
+      this.voiceSelectorPopulate();
+    }
+    catch(e) {
+      if (typeof MyReadingMonitor == 'undefined') {
+        alert("No global variable MyReadingMonitor found.");
+      }
+      else {
+        MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
+      }
+    }
   }
   say(words) {
     //    this._synthesis.speak(words);
@@ -374,16 +389,24 @@ class ReadingMonitor {
       this._timer = new Timer (this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
-//      this._eosPunctuationPattern = new RegExp(/[\.!\?]/);
-//      this._interimPunctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"]/);
+
       this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
+      this._tokenSeparatorPattern = new RegExp(/[\s]/);
+      this._whitespacePattern = new RegExp(/[\s]/);
+      this._wordSeparatorPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
-      }
-      get eosPunctuationPattern() {currentSentenceId
-        return this._eosPunctuationPattern;
-     }
-     get interimPunctuationPattern() {
-      return this._interimPunctuationPattern;
+    }
+    get punctuationPattern() {
+      return this._punctuationPattern;
+    }
+    get tokenSeparatorPattern() {
+      return this._tokenSeparatorPattern;
+    }
+    get whitespacePattern() {
+      return this._whitespacePattern;
+    }
+    get wordSeparatorPattern() {
+      return this._wordSeparatorPattern;
     }
      get name() {
         return this._name;
@@ -476,18 +499,9 @@ class ReadingMonitor {
         catch(e) {
           this.diagnosticMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
         }
-      }
-    get currentTokenIdx() {
-        return this._tokenIdx;
     }
     get currentWordId() {
         return this._wordId;
-    }
-    set currentTokenIdx(wordIdx) {
-      // check if Idx is valid based on DOM
-        this._tokenIdx = wordIdx;
-        if (typeof this._tokenIdxElement != 'undefined' & this._tokenIdxElement != null)
-          this._tokenIdxElement.innerText = wordIdx.toString();
     }
     set currentWordId(wordId) {
       // check if Idx is valid based on DOM
@@ -501,6 +515,21 @@ class ReadingMonitor {
         this.diagnosticMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
       }
     }
+    get lastWordIdx() {
+      return this._lastWordIdx;
+    }
+    get lastWordId() {
+      return this._lastWordId;
+    }
+    isLastWord() {
+      return this._wordId >= this._lastWordId;
+    }
+    endOfSentence() {
+      return this._tokenIdx >= this._lastWordIdx;
+    }
+    isLastSentence() {
+      return this._sentenceIdx >= this._lastSentenceIdx;
+    }
     get currentWord() {
       try {
         return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
@@ -511,6 +540,7 @@ class ReadingMonitor {
         return null;
       }
     }
+    /***
     get nextWord() {
       // does not change current word position
       try {
@@ -521,35 +551,28 @@ class ReadingMonitor {
         return null;
       }
     }
-    get lastWordIdx() {
-      return this._lastWordIdx;
+    get currentTokenIdx() {
+        return this._tokenIdx;
     }
-    get lastWordId() {
-      return this._lastWordId;
+    set currentTokenIdx(wordIdx) {
+      // check if Idx is valid based on DOM
+        this._tokenIdx = wordIdx;
+        if (typeof this._tokenIdxElement != 'undefined' & this._tokenIdxElement != null)
+          this._tokenIdxElement.innerText = wordIdx.toString();
     }
     isLastToken() {
       return this._tokenIdx >= this._lastWordIdx;
     }
-    isLastWord() {
-      return this._wordId >= this._lastWordId;
-    }
     isNextToLastToken() {
       return (this._tokenIdx+1) >= this._lastWordIdx;
     }
-    endOfSentence() {
-      return this._tokenIdx >= this._lastWordIdx;
-    }
-    isLastSentence() {
-      return this._sentenceIdx >= this._lastSentenceIdx;
-    }
+    */
+/*
     parseSentences_Deprecated(sentenceTag) {
           // can the existing html support parsing into the prescribed format?
       var sentences;
       var srcSentence, srcNonword, classLabel, dstSentence;
       var c, s, w;
-
-   //   var tokenSeparators = new RegExp(/\s*\b\s*/);
-   //  var tokenSeparators = new RegExp(/\s*\b/); // too aggressive: tokenizes all punctuation and special characters
 
        // With \s pattern, trailing punctuation is included with word token and is handled as a special case
        var tokenSeparators = new RegExp(/[\s]/);
@@ -629,12 +652,35 @@ class ReadingMonitor {
         }
 
     } // parseSentences
+***/
+    rm_wordSpanOnClick(e) {
+      try {
+        var sentenceElement = e.target.parentElement;
+        var sentenceIdx = sentenceElement.getAttribute("id");
+        var wordId = e.target.getAttribute("id");
+        var wordsToBeSpoken = "";
+        MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
+        var partialSentenceInput = document.getElementById('partialSentence');
+        if (partialSentenceInput.checked) {
+          var w, hasFoundWordId = false;
+          for (w = 0; !hasFoundWordId && w < sentenceElement.childElementCount; w++) {
+            if (sentenceElement.children[w].getAttribute("class").indexOf("rm_word") != -1) {
+              hasFoundWordId = sentenceElement.children[w].getAttribute("id").indexOf(wordId) != -1;
+              wordsToBeSpoken = wordsToBeSpoken  + " " +sentenceElement.children[w].innerText;
+            }
+          }
+        }
+        else {
+          wordsToBeSpoken = MyReadingMonitor.currentWord;
+        }
+       MyReadingMonitor.speaking.say(wordsToBeSpoken);
+       e.stopPropagation(); // stop bubbling
+      }
+      catch(e) {
+        MyReadingMonitor.diagnosticMsg = "rm_word_spanOnClick: Unexpected error: "+e.message;
+      }
+    }
     parseSentences(sentenceTag) {
-      // should be in global object space
-      var tokenSeparators = new RegExp(/[\s]/);
-      var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
-      var whitespaceSeparators = new RegExp(/[\s]/);
-
       var srcSentence, srcNonword, classLabel;
       var dstSentenceElement, srcSentenceElement;
       var c, s, w;
@@ -654,7 +700,7 @@ class ReadingMonitor {
           dstSentenceElement.setAttribute("id", s);
 
 //        sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-          words = srcSentence.split(wordSeparators).filter(item => item.length > 0); // remove null
+          words = srcSentence.split(MyReadingMonitor.wordSeparatorPattern).filter(item => item.length > 0); // remove null
           currentPos = 0; // beginning of sentence
           wordIdx = 0;
           previousWordIdx = -1;
@@ -663,13 +709,13 @@ class ReadingMonitor {
             wordLength = words[w].length;
             if (wordPos > currentPos) { // punctuation or whitespace before word
               srcNonword = srcSentence.substring(currentPos, wordPos);
-              if (whitespaceSeparators.test(srcNonword)) {
+              if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
                 classLabel = "rm_whitespace";
               } // must add other tests when other rm_* types are added
               else {
                 classLabel = "rm_punctuation";
               }
-              currentPos = wordPos; // advance passed current word
+              currentPos = wordPos; // advance to current word
               span = document.createElement("span");
               span.setAttribute("class", classLabel);
               span.setAttribute("idx", wordIdx++);
@@ -684,6 +730,7 @@ class ReadingMonitor {
               if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
               previousWordIdx = wordIdx;
               span.setAttribute("id", w);
+              span.onclick = function() {MyReadingMonitor.rm_wordSpanOnClick(event) };
               span.innerText = words[w];
               dstSentenceElement.appendChild(span);
               wordIdx++;
@@ -769,8 +816,12 @@ class ReadingMonitor {
     currentWordIndicatorOn() {
       this.currentWordIndicator = "underline";
     }
-    nextToken() {
-      // consider this a lexical analyzer
+/****
+    nextToken_deprecated() {
+      const  TOKEN_WORD = 0;
+      const  TOKEN_NEWSENTENCE = 1;
+      const  TOKEN_INTERIMPUNCTUATION = 2;
+      const  TOKEN_PROPERNOUN = 3;      // consider this a lexical analyzer
       // positions to the next valid word. Because the speech recognitionengine does not recognize punctuations
       // this method skips punctuations marks and also positions to the first word of a new sentence when
       // trailing punctation is encountered. The method will return the type of token it encountered though.
@@ -808,6 +859,7 @@ class ReadingMonitor {
       }
       return returnVal;
     }
+***/
     matchWord(spokenWord) {
       // matches spoken word to written word
       // need code to manage special cases: proper noun not already recognized
@@ -837,86 +889,89 @@ class ReadingMonitor {
       else {
         this.diagnosticMsg = "SpeechRecognition is not supported on " + getOS();
         alert("Speech Recognition is not supported on "+ getOS());
-    }
+      }
       this.diagnosticMsg = "Initialized reading monitor.";
 
-     // event handlers
-     //onclick rm_word changes currentword
-     //and potentially triggers events in listening and speaking object
-       document.body.onclick = function(e) {   //when the document body is clicked
-         var wordsToBeSpoken = "";
-         if (window.event) {
-             e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
-         else {
-             e = e.target; }                  //assign the element clicked to e
-         if (e.className) {
-           if (e.className.indexOf('rm_word') != -1) {
-             //get rm_sentence and rm_word ids
-             var sentenceIdx = e.parentElement.getAttribute("id");
-             var wordId = e.getAttribute("id");
-             MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
-             var partialSentenceInput = document.getElementById('partialSentence');
-             if (partialSentenceInput.checked) {
-               var w, hasFoundWordId = false;
-               parent = e.parentElement;
-               for (w = 0; !hasFoundWordId && w < parent.childElementCount; w++) {
-                 if (parent.children[w].getAttribute("class").indexOf("rm_word") != -1) {
-                   hasFoundWordId = parent.children[w].getAttribute("id").indexOf(wordId) != -1;
-                   wordsToBeSpoken = wordsToBeSpoken  + " " +parent.children[w].innerText;
-                 }
+    // event handlers
+    //onclick rm_word changes currentword
+    //and potentially triggers events in listening and speaking object
+    /*
+    document.body.onclick = function(e) {   //when the document body is clicked
+      var wordsToBeSpoken = "";
+      if (window.event) {
+        e = event.srcElement;
+      }          //assign the element clicked to e (IE 6-8)
+      else {
+        e = e.target;
+      }                  //assign the element clicked to e
+      if (e.className) {
+        if (e.className.indexOf('rm_word') != -1) {
+           var sentenceIdx = e.parentElement.getAttribute("id");
+           var wordId = e.getAttribute("id");
+           MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
+           var partialSentenceInput = document.getElementById('partialSentence');
+           if (partialSentenceInput.checked) {
+             var w, hasFoundWordId = false;
+             parent = e.parentElement;
+             for (w = 0; !hasFoundWordId && w < parent.childElementCount; w++) {
+               if (parent.children[w].getAttribute("class").indexOf("rm_word") != -1) {
+                 hasFoundWordId = parent.children[w].getAttribute("id").indexOf(wordId) != -1;
+                 wordsToBeSpoken = wordsToBeSpoken  + " " +parent.children[w].innerText;
                }
              }
-             else {
-               wordsToBeSpoken = MyReadingMonitor.currentWord;
-             }
-            MyReadingMonitor.speaking.say(wordsToBeSpoken);
-          }
-          else if (e.className.indexOf('data-speak-onclick') != -1) {
-             spelling = e.getAttribute("XSAMPA");
-             if (!spelling) {
-               spelling = e.getAttribute("data-speak");
-             }
-             speak(spelling);
            }
+           else {
+             wordsToBeSpoken = MyReadingMonitor.currentWord;
+           }
+          MyReadingMonitor.speaking.say(wordsToBeSpoken);
+        } //rm_word encountered
+
+        if (e.className.indexOf('data-speak-onclick') != -1) {
+           wordsToBeSpoken = e.getAttribute("XSAMPA");
+           if (!wordsToBeSpoken) {
+             wordsToBeSpoken = e.getAttribute("data-speak");
+           }
+         }
 
 //////////////////////////////
-           else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
-     /*        spelling = e.getAttribute("XSAMPA");
-              if (!spelling) {
-                spelling = e.innerHTML
-              }
-     */
-              partialSentenceInput = document.getElementById('partialSentence');
-              if (partialSentenceInput.checked) {
-                spelling = e.getAttribute("partial");
-              }
-              else {
-                spelling = e.getAttribute("word");
-              }
-              speak(spelling);
-           }
-           else if (e.className.indexOf('onclick') != -1
-             && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
-             speak(e.innerHTML);
-             window.location.href = "#"+e.id; } //goto anchor
+         else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
+          spelling = e.getAttribute("XSAMPA");
+            if (!spelling) {
+              spelling = e.innerHTML
+            }
+            partialSentenceInput = document.getElementById('partialSentence');
+            if (partialSentenceInput.checked) {
+              spelling = e.getAttribute("partial");
+            }
+            else {
+              spelling = e.getAttribute("word");
+            }
+            speak(spelling);
+         }
+         else if (e.className.indexOf('onclick') != -1
+           && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
+           speak(e.innerHTML);
+           window.location.href = "#"+e.id; } //goto anchor
 
-           else if (e.className.indexOf('href-onclick') != -1) {
-     //        window.location.href = "#"+e.innerHTML;  //goto anchor
-              alert("oops href-onclick");
-             window.location.href = "#"+e.id; } //goto anchor
+         else if (e.className.indexOf('href-onclick') != -1) {
+   //        window.location.href = "#"+e.innerHTML;  //goto anchor
+            alert("oops href-onclick");
+           window.location.href = "#"+e.id; } //goto anchor
 
-           else if (e.className.indexOf('headertitle') != -1) {
-             spelling = e.getAttribute("XSAMPA");
-             if (!spelling) {
-               spelling = e.innerHTML;
-             }
-             speak(spelling);
+         else if (e.className.indexOf('headertitle') != -1) {
+           spelling = e.getAttribute("XSAMPA");
+           if (!spelling) {
+             spelling = e.innerHTML;
            }
+           speak(spelling);
+         }
 /////////////////////////////////////////////////////
-           else {
-             MyReadingMonitor.speaking.say("choose again");
-           }
-          }
-         } //onclick
+
+         else {
+           MyReadingMonitor.speaking.say("choose again");
+         }
+        }
+       } //onclick
+       */
     } // initialize()
 } // MyReadingMonitor
