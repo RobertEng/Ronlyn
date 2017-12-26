@@ -190,6 +190,18 @@ li:not(:last-child) {
 .headerControls {
   text-align:right;
 }
+#listenBtn {
+  background-color: transparent;
+  color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  overflow: hidden;
+  padding: 0px 0px 0px 0px;
+  margin: none;
+  outline:none;
+  height: 40px;
+  width:40px;
+}
 }
 </style>
 </head>
@@ -198,7 +210,7 @@ li:not(:last-child) {
 <header>
   <div class="grid" id="header">
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
-      <button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=50 height=50 alt="Listen"></button>
+      <button id="listenBtn" value="listen"><img id="listenBtnImg" width=40px height=40px alt="Listen"></button>
        <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Sentence Bank</span>
     </div>
     <div class="col-1-2 headerControls">
@@ -507,9 +519,8 @@ function speak(text, callback) {
 
  MyReadingMonitor.listening.buttonElementId = "listenBtn";
  MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
- MyReadingMonitor.listening.buttonImgInactive = "img/mic1 inactive.gif";
- MyReadingMonitor.listening.buttonImgActive ="img/mic1.gif";
-
+ MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+ MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
  MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
  MyReadingMonitor.speaking.volumeControlElementId ="volume";
 
