@@ -62,9 +62,49 @@ class Timer {
     this._retries = retries;
   }
 }
+class PronunciationMap {
+  constructor(parent) {
+    this._parent = parent;
+    this._pronunicationMap = new Map();
+  }
+  set(key, value) {
+    this._pronunicationMap.set(key, value);
+  };
+  alternative(key) { // returns parameter if no match
+    var value = this._pronunicationMap.value(key);
+    if (typeof alternative == "undefined") {
+      return key;
+    }
+    else {
+      return value;
+    }
+  }
+  value(key) { // returns undefined  if no match
+    return  this._pronunicationMap.get(key);
+  }
+}
 class SpeechRecognition {
   constructor(parent) {
     this._parent = parent;
+    this._recognitionPattern = new PronunciationMap(this);
+    // should be stored externally in a xml/html file
+    this._recognitionPattern.set("Ronlyn", "^(rona{0,1}l[aiye]nd{0,1})$");
+    this._recognitionPattern.set("Goo", "^(g[ou])");
+    this._recognitionPattern.set("Wen", "^(wh{0,1}en)$");
+    this._recognitionPattern.set("Aruna", "^([ai]runa)$");
+    this._recognitionPattern.set("Gambhir", "^(gamb[ie]e{0,1}r)$");
+    this._recognitionPattern.set("shao", "^(sh[ae]ll)$");
+    this._recognitionPattern.set("mai", "^(my)");
+    this._recognitionPattern.set("cheung", "^(ch[euo]ng)$");
+    this._recognitionPattern.set("gaw", "^(g[ao]{lw])$");
+    this._recognitionPattern.set("negin", "^(n[ei]ge{1,2}ne{0,1})$");
+    this._recognitionPattern.set("Jaylynne", "^(ja[yi]l[ey]n{1,2}e{0,1})$");
+    this._recognitionPattern.set("Lynda", "^(l[iy]nda)$");
+    this._recognitionPattern.set("Melisse", "^(m[ei]lis{1,2}e{0,1})$");
+    this._recognitionPattern.set("Meilan", "^(m[aei]y{0,1}land{0,1})$");
+  }
+  wordRecognitionPattern(writtenWord) {
+      return this._recognitionPattern.value(writtenWord);
   }
   get parent() {
       return this._parent;
@@ -145,8 +185,7 @@ class SpeechRecognition {
       this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
     }
   }
-
-  initialize(){
+  initialize() {
     try {
 
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
@@ -279,7 +318,40 @@ class SpeechRecognition {
 class SpeechSynthesis {
   constructor(parent) {
     this._parent = parent;
+    this._alternatePronunication = new PronunciationMap(this);
+    this._alternatePronunication.set("Caden", "Kayden")
+    this._alternatePronunication.set("Elan", "Elon")
+    this._alternatePronunication.set("Melisse", "Meh-leese")
+    this._alternatePronunication.set("Bodapati", "Boda-potti")
+    this._alternatePronunication.set("Meilan", "May-lon")
+    this._alternatePronunication.set("Jaylynne", "Jayleen")
+    this._alternatePronunication.set("Gambhir", "gambeer")
+    this._alternatePronunication.set("SCVMC", "santa clara valley medical center")
+    this._alternatePronunication.set("CSUEB", "cal state east bay")
+    this._alternatePronunication.set("frappocino", "frappachino")
+    this._alternatePronunication.set("quiche", "keesch")
+    this._alternatePronunication.set("bathing", "batheing")
+    this._alternatePronunication.set("Auntie", "anty")
+    this._alternatePronunication.set("Ag", "agg")
+    this._alternatePronunication.set("Manuel", "manual")
+    this._alternatePronunication.set("Berna", "burrna")
+    this._alternatePronunication.set("Giovanola", "geo-ven-nola")
+    this._alternatePronunication.set("Giovanolas", "geo-ven-nolas")
+    this._alternatePronunication.set("Lagos", "loggos")
+    this._alternatePronunication.set("PE", "P.E.")
+    this._alternatePronunication.set("Negin", "negeen")
+    this._alternatePronunication.set("408", "4 0 8")
+    this._alternatePronunication.set("206", "2 0 6")
+    this._alternatePronunication.set("5963", "5 9 6 3")
+    this._alternatePronunication.set("267", "2 6 7")
+    this._alternatePronunication.set("6076", "6 0 7 6")
+    this._alternatePronunication.set("20680", "2 0 6 8 0")
+    this._alternatePronunication.set("95070", "9 5 0 7 0")
+
     this._defaultVoice = 'Microsoft Zira Desktop - English (United States)';
+  }
+  betterAlternative(spokenWord) {
+      return this._alternatePronunication.value(spokenWord);
   }
   get parent() {
     return this._parent;
@@ -320,6 +392,10 @@ class SpeechSynthesis {
   }
   get voiceSelectorElement() {
       return this._voiceSelectorElement;
+  }
+  respelledWord(word) {
+  // returns phonetic word for "word" and speaking
+    return word;
   }
   voiceSelectorPopulate() {
      var  v,voice,voices, option;
@@ -386,7 +462,7 @@ class ReadingMonitor {
     // class variables
     constructor(name) {
       this._name = name;
-      this._timer = new Timer (this);
+      this._timer = new Timer(this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
 
@@ -416,6 +492,9 @@ class ReadingMonitor {
     }
     get listening() {
       return this._speechRecognition;
+    }
+    get respelling() {
+      return this._alternatePronunication;
     }
     get speaking() {
         return this._speechSynthesis;
@@ -468,7 +547,6 @@ class ReadingMonitor {
         this._diagnosticElement = document.getElementById(id);
     }
     set diagnosticMsg(msg) {
-        //check typeof parameter
         try {
           var time = new Date();
           var timestamp = time.toLocaleTimeString();
@@ -533,10 +611,28 @@ class ReadingMonitor {
     get currentWord() {
       try {
         return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWord getter: failed to get value to "+wordId+ " because "+e.message;
+        return null;
+      }
+    }
+     currentWordByTag(tag) {
+      try {
+        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute(tag);
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWord getter: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
+        return null;
+      }
+    }
+    currentRespelledWord(wordTag) {
+      try {
+        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute(wordTag);
       // converts source html sentence <div>s into sentence containers <div>s/word <span>s
       }
       catch(e) {
-        this.diagnosticMsg = "currentWordId getter: failed to get value to "+wordId+ " because "+e.message;
+        this.diagnosticMsg = "currentRespelledWord getter: failed to get value to "+wordId+ " because "+e.message;
         return null;
       }
     }
@@ -663,15 +759,26 @@ class ReadingMonitor {
         var partialSentenceInput = document.getElementById('partialSentence');
         if (partialSentenceInput.checked) {
           var w, hasFoundWordId = false;
+          //could be simplified by iterating through sentenceElement.getElementsByClass("rm_word")
+          //should hide rm_word_speaking in loop
           for (w = 0; !hasFoundWordId && w < sentenceElement.childElementCount; w++) {
             if (sentenceElement.children[w].getAttribute("class").indexOf("rm_word") != -1) {
               hasFoundWordId = sentenceElement.children[w].getAttribute("id").indexOf(wordId) != -1;
-              wordsToBeSpoken = wordsToBeSpoken  + " " +sentenceElement.children[w].innerText;
+//              wordsToBeSpoken = wordsToBeSpoken  + " " +sentenceElement.children[w].innerText;
+              var nextWord = sentenceElement.children[w].getAttribute("rm_word_betterPronunciation")
+              if (nextWord == null) nextWord = sentenceElement.children[w].innerText;
+              wordsToBeSpoken = wordsToBeSpoken  + " " + nextWord;
             }
           }
         }
         else {
-          wordsToBeSpoken = MyReadingMonitor.currentWord;
+          var betterAlternative = MyReadingMonitor.currentWordByTag("rm_word_betterPronunciation");
+          if (betterAlternative != null) {
+            wordsToBeSpoken = betterAlternative;
+          }
+          else {
+            wordsToBeSpoken = MyReadingMonitor.currentWord;
+          }
         }
        MyReadingMonitor.speaking.say(wordsToBeSpoken);
        e.stopPropagation(); // stop bubbling
@@ -689,6 +796,8 @@ class ReadingMonitor {
       var wordIdx = 0;
       var span;
       var previousWordIdx = -1;
+      var alternateRecognitionAttribute;
+      var alternateSynthesisAttribute;
 
       for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
           typeof srcSentenceElement != 'undefined';
@@ -730,7 +839,13 @@ class ReadingMonitor {
               if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
               previousWordIdx = wordIdx;
               span.setAttribute("id", w);
-              span.onclick = function() {MyReadingMonitor.rm_wordSpanOnClick(event) };
+              span.onclick = function() { MyReadingMonitor.rm_wordSpanOnClick(event) };
+
+              var pattern = this.listening.wordRecognitionPattern(words[w]);
+              if (typeof pattern != "undefined") span.setAttribute("rm_word_recognitionPattern", pattern);
+              var alternative = this.speaking.betterAlternative(words[w]);
+              if (typeof alternative != "undefined") span.setAttribute("rm_word_betterPronunciation", alternative);
+
               span.innerText = words[w];
               dstSentenceElement.appendChild(span);
               wordIdx++;
@@ -866,11 +981,21 @@ class ReadingMonitor {
       // inn parsing phase, embed possible surrogates for matching proper names:
       // Ronlyn = { Rollin | Rowland | ronlin | ron lin }
       var properNamePattern = new RegExp(/^[A-Z]/); //first letter uppercase... less conficent if at beginning of sentence
+      // try lexical match
       if (spokenWord.toLowerCase() == this.currentWord.toLowerCase()) {
         return true;
       }
-      else if (properNamePattern.test(this.currentWord)) {
-        this.diagnosticMsg = "possible proper noun encountered "+this.currentWord;
+      else {
+        // try pattern match
+        var pattern = this.currentWordByTag("rm_word_recognitionPattern");
+        if (pattern != null) {
+          var recognitionPattern = new RegExp(pattern);
+          return recognitionPattern.test(spokenWord.toLowerCase());
+        }
+        else {
+          //add to list of words to be added to pronunciationPattern
+          this.diagnosticMsg = "matchWord() cannot match " + spokenWord.toLowerCase();
+        }
       }
     }
     initialize() {
@@ -895,83 +1020,9 @@ class ReadingMonitor {
     // event handlers
     //onclick rm_word changes currentword
     //and potentially triggers events in listening and speaking object
-    /*
+
     document.body.onclick = function(e) {   //when the document body is clicked
-      var wordsToBeSpoken = "";
-      if (window.event) {
-        e = event.srcElement;
-      }          //assign the element clicked to e (IE 6-8)
-      else {
-        e = e.target;
-      }                  //assign the element clicked to e
-      if (e.className) {
-        if (e.className.indexOf('rm_word') != -1) {
-           var sentenceIdx = e.parentElement.getAttribute("id");
-           var wordId = e.getAttribute("id");
-           MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
-           var partialSentenceInput = document.getElementById('partialSentence');
-           if (partialSentenceInput.checked) {
-             var w, hasFoundWordId = false;
-             parent = e.parentElement;
-             for (w = 0; !hasFoundWordId && w < parent.childElementCount; w++) {
-               if (parent.children[w].getAttribute("class").indexOf("rm_word") != -1) {
-                 hasFoundWordId = parent.children[w].getAttribute("id").indexOf(wordId) != -1;
-                 wordsToBeSpoken = wordsToBeSpoken  + " " +parent.children[w].innerText;
-               }
-             }
-           }
-           else {
-             wordsToBeSpoken = MyReadingMonitor.currentWord;
-           }
-          MyReadingMonitor.speaking.say(wordsToBeSpoken);
-        } //rm_word encountered
-
-        if (e.className.indexOf('data-speak-onclick') != -1) {
-           wordsToBeSpoken = e.getAttribute("XSAMPA");
-           if (!wordsToBeSpoken) {
-             wordsToBeSpoken = e.getAttribute("data-speak");
-           }
-         }
-
-//////////////////////////////
-         else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
-          spelling = e.getAttribute("XSAMPA");
-            if (!spelling) {
-              spelling = e.innerHTML
-            }
-            partialSentenceInput = document.getElementById('partialSentence');
-            if (partialSentenceInput.checked) {
-              spelling = e.getAttribute("partial");
-            }
-            else {
-              spelling = e.getAttribute("word");
-            }
-            speak(spelling);
-         }
-         else if (e.className.indexOf('onclick') != -1
-           && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
-           speak(e.innerHTML);
-           window.location.href = "#"+e.id; } //goto anchor
-
-         else if (e.className.indexOf('href-onclick') != -1) {
-   //        window.location.href = "#"+e.innerHTML;  //goto anchor
-            alert("oops href-onclick");
-           window.location.href = "#"+e.id; } //goto anchor
-
-         else if (e.className.indexOf('headertitle') != -1) {
-           spelling = e.getAttribute("XSAMPA");
-           if (!spelling) {
-             spelling = e.innerHTML;
-           }
-           speak(spelling);
-         }
-/////////////////////////////////////////////////////
-
-         else {
-           MyReadingMonitor.speaking.say("choose again");
-         }
-        }
-       } //onclick
-       */
+       MyReadingMonitor.speaking.say("try again");
+     }
     } // initialize()
 } // MyReadingMonitor
