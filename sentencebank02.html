@@ -165,14 +165,6 @@ main {
   background: #fff;
   margin-left: 10px;
 }
-
-.rm_word:hover {
-  cursor: pointer;
-}
-.rm_word:hover {
-  text-decoration:underline;
-  cursor: pointer;
-}
 .sentence {
   font-family: arial;
   font-size: 110%;
@@ -184,26 +176,15 @@ main {
 li:not(:last-child) {
   margin-bottom: 10px;
 }
+
 /*
 #volumeControl, #partialSentenceControl { text-align:right}
 */
 .headerControls {
   text-align:right;
 }
-#listenBtn {
-  background-color: transparent;
-  color: transparent;
-  background-repeat:no-repeat;
-  border: none;
-  overflow: hidden;
-  padding: 0px 0px 0px 0px;
-  margin: none;
-  outline:none;
-  height: 40px;
-  width:40px;
-}
-}
 </style>
+<link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
 </head>
 <title>Sentence Bank (Text-To-Speech)</title>
 <body>
@@ -535,14 +516,14 @@ function speak(text, callback) {
  MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
  MyReadingMonitor.speaking.volumeControlElementId ="volume";
 
+ MyReadingMonitor.currentWordIndicatorDecoration = "underline";
+ MyReadingMonitor.currentWordIndicatorFontWeight = "bold";
  MyReadingMonitor.sentenceIdElementId = "sentenceId";
  MyReadingMonitor.wordIdElementId = "wordId";
  MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
  MyReadingMonitor.wordIdxElementId = "wordIdx";
  MyReadingMonitor.timer.timeout = 10; // ms
 
- MyReadingMonitor.parseSentences("sentence");
- MyReadingMonitor.moveToFirstSentence();
  MyReadingMonitor.initialize();
 
 

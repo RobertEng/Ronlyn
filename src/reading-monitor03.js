@@ -102,6 +102,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Lynda", "^(l[iy]nda)$");
     this._recognitionPattern.set("Melisse", "^(m[ei]lis{1,2}e{0,1})$");
     this._recognitionPattern.set("Meilan", "^(m[aei]y{0,1}land{0,1})$");
+    this._recognitionPattern.set("Auntie", "^([ant{1,2}[iy])$");
     this._recognitionPattern.set("Ag", "^([ae]g{1,2})$");
     this._recognitionPattern.set("Seaton", "^(sea{0,1}ton)$");
     this._recognitionPattern.set("Ave", "^(avenue)$");
@@ -307,12 +308,7 @@ class SpeechRecognition {
          MyReadingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
          // timeout with no sound triggers this event
        }
-
-       // can the existing html support the prescribed format?
-  //      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
        this.buttonDeactivate();  // starting state
-
-        // insert code to change current word and sentence
     }
     catch(e) {
       if (typeof MyReadingMonitor == 'undefined') {
@@ -474,11 +470,11 @@ class ReadingMonitor {
       this._timer = new Timer(this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
-
       this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
       this._tokenSeparatorPattern = new RegExp(/[\s]/);
       this._whitespacePattern = new RegExp(/[\s]/);
       this._wordSeparatorPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
+      this._wordId = 0; // manages the initial condition where sentence idx is set without wordId
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
     }
     get punctuationPattern() {
@@ -501,9 +497,6 @@ class ReadingMonitor {
     }
     get listening() {
       return this._speechRecognition;
-    }
-    get respelling() {
-      return this._alternatePronunication;
     }
     get speaking() {
         return this._speechSynthesis;
@@ -588,6 +581,9 @@ class ReadingMonitor {
         }
     }
     get currentWordId() {
+      if (typeof this._wordId == "undefined") {
+        return 0;
+      }
         return this._wordId;
     }
     set currentWordId(wordId) {
@@ -599,6 +595,7 @@ class ReadingMonitor {
         this._wordIdElement.innerText = wordId.toString();
       }
       catch(e) {
+        this._wordId = wordId;
         this.diagnosticMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
       }
     }
@@ -635,129 +632,6 @@ class ReadingMonitor {
         return null;
       }
     }
-    currentRespelledWord(wordTag) {
-      try {
-        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute(wordTag);
-      // converts source html sentence <div>s into sentence containers <div>s/word <span>s
-      }
-      catch(e) {
-        this.diagnosticMsg = "currentRespelledWord getter: failed to get value to "+wordId+ " because "+e.message;
-        return null;
-      }
-    }
-    /***
-    get nextWord() {
-      // does not change current word position
-      try {
-        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId+1].innerText;
-        // need to add nextSentence transition
-      }
-      catch(e) {
-        return null;
-      }
-    }
-    get currentTokenIdx() {
-        return this._tokenIdx;
-    }
-    set currentTokenIdx(wordIdx) {
-      // check if Idx is valid based on DOM
-        this._tokenIdx = wordIdx;
-        if (typeof this._tokenIdxElement != 'undefined' & this._tokenIdxElement != null)
-          this._tokenIdxElement.innerText = wordIdx.toString();
-    }
-    isLastToken() {
-      return this._tokenIdx >= this._lastWordIdx;
-    }
-    isNextToLastToken() {
-      return (this._tokenIdx+1) >= this._lastWordIdx;
-    }
-    */
-/*
-    parseSentences_Deprecated(sentenceTag) {
-          // can the existing html support parsing into the prescribed format?
-      var sentences;
-      var srcSentence, srcNonword, classLabel, dstSentence;
-      var c, s, w;
-
-       // With \s pattern, trailing punctuation is included with word token and is handled as a special case
-       var tokenSeparators = new RegExp(/[\s]/);
-       var wordSeparators = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
-       var whitespaceSeparators = new RegExp(/[\s]/);
-       var words;
-       var currentPos, wordPos, wordLength;
-       var srcSentence, srcNonword, classLabel, dstSentence;
-       var wordIdx = 0;
-       var span;
-       var previousWordIdx = -1;
-      sentences = document.getElementsByClassName(sentenceTag)
-      this._lastSentenceIdx = sentences.length -1;
-      for (s = 0; s < sentences.length; s++) {  // replaceWith bug prevents iteration
-//        for (s = sentences.length - 1; s >= 0; s--) {  // replaceWith bug prevents iteration
-          dstSentence = document.createElement("div");
-           dstSentence.setAttribute("class", "rm_sentence");
-           dstSentence.setAttribute("id", s);
-          srcSentence = sentences[s].innerText;
-       //   sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-          words = srcSentence.split(wordSeparators).filter(item => item.length > 0); // remove null
-          currentPos = 0; // beginning of sentence
-          wordIdx = 0;
-          previousWordIdx = -1;
-          for (w = 0; w < words.length; w++) {
-            wordPos  = srcSentence.indexOf(words[w], currentPos);
-            wordLength = words[w].length;
-            if (wordPos > currentPos) { // punctuation or whitespace before word
-              srcNonword = srcSentence.substring(currentPos, wordPos);
-              if (whitespaceSeparators.test(srcNonword)) {
-                classLabel = "rm_whitespace";
-              }
-              else {
-                classLabel = "rm_punctuation";
-              }
-//              sentenceHTML = sentenceHTML + '<span class="'+classLabel+'">'+srcNonword+"</span>";
-              currentPos = wordPos; // advance passed current word
-              span = document.createElement("span");
-              span.setAttribute("class", classLabel);
-              span.setAttribute("idx", wordIdx++);
-              span.innerText = srcNonword;
-              dstSentence.appendChild(span);
-            }
-            if (wordPos == currentPos) { // positioned at beginning of word
-  //            sentenceHTML = sentenceHTML + '<span class="rm_word" id='+w+">"+words[w]+"</span>";
-              currentPos = currentPos + wordLength; // advance passed current word
-              span = document.createElement("span");
-              span.setAttribute("class", "rm_word");
-              span.setAttribute("idx", wordIdx);
-              if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
-              previousWordIdx = wordIdx;
-              span.setAttribute("id", w);
-              span.innerText = words[w];
-              dstSentence.appendChild(span);
-              wordIdx++;
-            }
-          } // for
-          if (currentPos < srcSentence.length) { // no more words just punctuations?
-//            sentenceHTML = sentenceHTML + '<span class="rm_punctuation">'+srcSentence.substring(currentPos, srcSentence.length)+"</span>";
-            span = document.createElement("span");
-            span.innerText = srcSentence.substring(currentPos, srcSentence.length);
-            span.setAttribute("class", "rm_punctuation");
-            span.setAttribute("idx", wordIdx);
-            dstSentence.appendChild(span);
-          }
-          // set nextWordIdx from prevWordIdx
-          for (c = dstSentence.childElementCount - 1; c >=0; c--) {
-             var prevIdx = dstSentence.children[c].getAttribute("prevWordIdx");
-            if (prevIdx !== null && prevIdx != -1) { // rm_word
-              dstSentence.children[prevIdx].setAttribute("nextWordIdx", c);
-            }
-          }
-//          sentenceHTML = sentenceHTML + "</span>";
-          sentences[s].outerHTML = dstSentence.innerHTML;
-//          sentences[s].replaceWith(dstSentence);
-//          sentences[s].innerHTML = sentenceHTML;  // replace existing sentence with new one
-        }
-
-    } // parseSentences
-***/
     rm_wordSpanOnClick(e) {
       try {
         var sentenceElement = e.target.parentElement;
@@ -887,13 +761,12 @@ class ReadingMonitor {
       // the given filter. The view is linear. In the absence of specific
       // requirements to the contrary, the nodes within the collection must be
       // sorted in tree order:" top-down, depth first OR HTML WYSIWYG.
-  if (this.isLastWord()) {
+      if (this.isLastWord()) {
         this.moveToNextSentence();
       }
       else {
         this.currentWordId++;
       }
-//      document.getElementsByClassName("sentence")[this._sentenceIdx].getElementsByClassName("word")[this._wordIdx].style.textDecoration = "underline";
     }
     moveToFirstSentence() {
       // check for last sentence
@@ -910,6 +783,7 @@ class ReadingMonitor {
     }
     moveToSentence(sentenceIdx) {
       // check for last sentence
+      //reset rm_word_current
       if (sentenceIdx != this.currentSentenceIdx) {
         this.currentSentenceIdx = Number(sentenceIdx);
         this.currentToken = 0;
@@ -925,65 +799,38 @@ class ReadingMonitor {
         this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
       }
     }
-    set currentWordIndicator(state) {
+    set currentWordFontWeight(state) {
+      try {
+        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.fontWeight = state;
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordFontWeight(): could not change word indicator";
+      }
+    }
+    set currentWordDecoration(state) {
       try {
         document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.textDecoration = state;
       }
       catch(e) {
-        this.diagnosticMsg = "currentWordIndicator(): could not change word indicator";
+        this.diagnosticMsg = "currentWordDecoration(): could not change word indicator";
       }
-//      document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._tokenIdx].style.textDecoration = state;
     }
     currentWordIndicatorOff() {
-      this.currentWordIndicator = "none";
+      try {
+        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].classList.remove("rm_word_current");
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordIndicatorOff(): could not remove rm_word_current";
+      }
     }
     currentWordIndicatorOn() {
-      this.currentWordIndicator = "underline";
+      try {
+        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].classList.add("rm_word_current");
+      }
+      catch(e) {
+        this.diagnosticMsg = "currentWordIndicatorOn(): could not add rm_word_current";
+      }
     }
-/****
-    nextToken_deprecated() {
-      const  TOKEN_WORD = 0;
-      const  TOKEN_NEWSENTENCE = 1;
-      const  TOKEN_INTERIMPUNCTUATION = 2;
-      const  TOKEN_PROPERNOUN = 3;      // consider this a lexical analyzer
-      // positions to the next valid word. Because the speech recognitionengine does not recognize punctuations
-      // this method skips punctuations marks and also positions to the first word of a new sentence when
-      // trailing punctation is encountered. The method will return the type of token it encountered though.
-      var interimPunctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()]\"/);
-//      var eosPunctuationPattern = new RegExp(/[\.!\?]/);
-      var returnVal = TOKEN_WORD; // assume the token is a word
-      //      var properNamePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
-      //      var possessivePattern = new RegExp(/^[A-Z]/); first letter uppercase... less conficent if at beginning of sentence
-  //    this.currentWordIndicatorOff();
-
-      if (this.isLastToken()) {
-        // state: last token that is not a trailing punctuation
-        // action: goto the next sentence.
-        this.diagnosticMsg = "warning: last token in sentence is not a end-of-sentence punctuation"
-        this.moveToNextSentence();
-        returnVal = TOKEN_NEWSENTENCE;
-      }
-      else if (this.isNextToLastToken() && MyReadingMonitor.eosPunctuationPattern.test(this.nextWord)) {
-        // state: next to last token followed by trailing punctuation
-        // action: goto the next sentence.
-        this.moveToNextSentence();
-        returnVal = TOKEN_NEWSENTENCE;
-      }
-      else if (interimPunctuationPattern.test(this.nextWord)) {
-        // state: next token is a interim punctuation
-        //action: goto the next word.
-        this.moveToNextWord();  //skip but assumes only a single punctuation
-        returnVal = TOKEN_INTERIMPUNCTUATION;
-      }
-      else {
-        // state: next token is a word
-        //action: goto the next word.
-        this.moveToNextWord();
-        returnVal = TOKEN_NEXTWORD;
-      }
-      return returnVal;
-    }
-***/
     matchWord(spokenWord) {
       // matches spoken word to written word
       // need code to manage special cases: proper noun not already recognized
@@ -1026,12 +873,13 @@ class ReadingMonitor {
       }
       this.diagnosticMsg = "Initialized reading monitor.";
 
-    // event handlers
-    //onclick rm_word changes currentword
-    //and potentially triggers events in listening and speaking object
+      this.parseSentences("sentence");
+      this.moveToFirstSentence();
+
+    // ReadingMonitor event handlers
 
     document.body.onclick = function(e) {   //when the document body is clicked
 //       MyReadingMonitor.speaking.say("try again");
      }
-    } // initialize()
+   } // initialize()
 } // MyReadingMonitor

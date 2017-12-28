@@ -1,0 +1,19 @@
+.rm_word:hover {
+  cursor: pointer;
+}
+#listenBtn { /* needed by ReadingMonitor  */
+  background-color: transparent;
+  color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  overflow: hidden;
+  padding: 0px 0px 0px 0px;
+  margin: none;
+  outline:none;
+  height: 40px;
+  width:40px;
+}
+.rm_word_current {
+  text-decoration: underline;
+/*  font-weight: bold; */
+}
