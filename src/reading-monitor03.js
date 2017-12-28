@@ -88,7 +88,7 @@ class SpeechRecognition {
     this._parent = parent;
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
-    this._recognitionPattern.set("Ronlyn", "^(rona{0,1}l[aiye]nd{0,1})$");
+    this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
     this._recognitionPattern.set("Goo", "^(g[ou])");
     this._recognitionPattern.set("Wen", "^(wh{0,1}en)$");
     this._recognitionPattern.set("Aruna", "^([ai]runa)$");
@@ -102,6 +102,10 @@ class SpeechRecognition {
     this._recognitionPattern.set("Lynda", "^(l[iy]nda)$");
     this._recognitionPattern.set("Melisse", "^(m[ei]lis{1,2}e{0,1})$");
     this._recognitionPattern.set("Meilan", "^(m[aei]y{0,1}land{0,1})$");
+    this._recognitionPattern.set("Ag", "^([ae]g{1,2})$");
+    this._recognitionPattern.set("Seaton", "^(sea{0,1}ton)$");
+    this._recognitionPattern.set("Ave", "^(avenue)$");
+    this._recognitionPattern.set("St", "^(street)$");
   }
   wordRecognitionPattern(writtenWord) {
       return this._recognitionPattern.value(writtenWord);
@@ -211,6 +215,7 @@ class SpeechRecognition {
           MyReadingMonitor.timer.start();
           MyReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           MyReadingMonitor.listening.buttonActivate();
+          MyReadingMonitor.speaking.say("listening");
           recognition.start();
         }
         else {
@@ -219,7 +224,9 @@ class SpeechRecognition {
           recognition.stop();
           MyReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
           MyReadingMonitor.listening.buttonDeactivate();
+//          MyReadingMonitor.speaking.say("no longer listening");
         }
+        event.stopPropagation();
       }
       recognition.onresult = function(event) {
   //      ////////////
@@ -280,15 +287,17 @@ class SpeechRecognition {
             recognition.start();
           }
           else {
-            if (MyReadingMonitor.timer.isActive)
+            if (!MyReadingMonitor.timer.isActive)
              MyReadingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
              MyReadingMonitor.listening.buttonDeactivate();
+             MyReadingMonitor.speaking.say("no longer listening");
            }
         }
        recognition.onsoundend = function() {
          // event fires immediately after onspeechend
          MyReadingMonitor.diagnosticMsg = "recognition.onsoundend";
          recognition.stop();
+//         MyReadingMonitor.speaking.say("no longer listening");
          MyReadingMonitor.listening.buttonDeactivate();
        }
        recognition.onnomatch = function(event) {
@@ -617,7 +626,7 @@ class ReadingMonitor {
         return null;
       }
     }
-     currentWordByTag(tag) {
+     currentWordAttribute(tag) {
       try {
         return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute(tag);
       }
@@ -772,7 +781,7 @@ class ReadingMonitor {
           }
         }
         else {
-          var betterAlternative = MyReadingMonitor.currentWordByTag("rm_word_betterPronunciation");
+          var betterAlternative = MyReadingMonitor.currentWordAttribute("rm_word_betterPronunciation");
           if (betterAlternative != null) {
             wordsToBeSpoken = betterAlternative;
           }
@@ -987,7 +996,7 @@ class ReadingMonitor {
       }
       else {
         // try pattern match
-        var pattern = this.currentWordByTag("rm_word_recognitionPattern");
+        var pattern = this.currentWordAttribute("rm_word_recognitionPattern");
         if (pattern != null) {
           var recognitionPattern = new RegExp(pattern);
           return recognitionPattern.test(spokenWord.toLowerCase());
@@ -1022,7 +1031,7 @@ class ReadingMonitor {
     //and potentially triggers events in listening and speaking object
 
     document.body.onclick = function(e) {   //when the document body is clicked
-       MyReadingMonitor.speaking.say("try again");
+//       MyReadingMonitor.speaking.say("try again");
      }
     } // initialize()
 } // MyReadingMonitor
