@@ -86,7 +86,6 @@ class SpeechRecognition {
     this._buttonImgInactive = "img/mic1-inactive-xparent.gif"
     this._buttonImgActive = "img/mic1-250ms.gif"
     this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif"
-    this.buttonImgInactive = this._buttonImgGhosted;
 
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
@@ -186,6 +185,15 @@ class SpeechRecognition {
   buttonDeactivate() {
     try {
       this._buttonImgElement.src = this._buttonImgInactive;
+      this._isActive = false;
+    }
+    catch(e) {
+      this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
+    }
+  }
+  buttonDisabled() {
+    try {
+      this._buttonImgElement.src = this._buttonImgGhosted;
       this._isActive = false;
     }
     catch(e) {
@@ -356,7 +364,12 @@ class SpeechSynthesis {
     this._alternatePronunication.set("20680", "2 0 6 8 0")
     this._alternatePronunication.set("95070", "9 5 0 7 0")
 
-    this._defaultVoice = 'Microsoft Zira Desktop - English (United States)';
+    if (getOS() == "iOS") {
+      this._defaultVoice = 'Fred';
+    }
+    else {
+      this._defaultVoice = 'Microsoft Zira Desktop - English (United States)';
+    }
   }
   betterAlternative(spokenWord) {
       return this._alternatePronunication.value(spokenWord);
@@ -872,6 +885,7 @@ class ReadingMonitor {
         this.listening.initialize();
       }
       else {
+        this.listening.buttonDisabled();
         this.diagnosticMsg = "SpeechRecognition is not supported on " + getOS();
         alert("Speech Recognition is not supported on "+ getOS());
       }

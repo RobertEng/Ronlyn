@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+h1 {
+  font-family: arial;
+  font-size: 100%;
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+}
+.ul
+{
+  font-weight: bold;
+  font-family: arial;
+  }
+/*
+ * page "frame" definitions
+ */
+ [class*='col-1'] { /*selector matches every class whose attr contains col-*/
+  float:left;
+  }
+.col-1-2 {
+    width:50%;
+  }
+
+}
+.sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+/*
+#volumeControl, #partialSentenceControl { text-align:right}
+*/
+</style>
+<link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+</head>
+<title>Sentence Bank (Text-To-Speech)</title>
+<body>
+<header>
+  <div class="grid" id="header">
+    <div class="col-1-2 headertitle" XSAMPA="Ronlyns Text To Speech sentence bank">
+      <button id="listenBtn" value="listen"><img id="listenBtnImg" width=40px height=40px alt="Listen"></button>
+       <span class="speak-onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Sentence Bank</span>
+    </div>
+    <div class="col-1-2 headerControls">
+       <div class="option" id="volumeControl">
+         <label for="volume">Volume</label>
+          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+       </div>
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
+         <label for="single word">Speak all words up to selected one</label>
+      </div>
+     </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+<h1><a class="navbar-itemByHeadingLevel" id="who">Who</a></h1>
+<ul>
+<li><div class="sentence">My name is Ronlyn Goo.</div></li>
+<li><div class="sentence">I am 54 years old!</div></li>
+<li><div class="sentence">My husband is named Wen?</div></li>
+<li><div class="sentence">We have been married 25 years.</div></li>
+<li><div class="sentence">I have a Bachelor degree in Chemical Engineering from UC Berkeley.</div></li>
+<li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+
+<li><div class="sentence">We have two children, David and Robert.</div></li>
+<li><div class="sentence">David is 23 years old.</div></li>
+<li><div class="sentence">He recently graduated from Stanford with a Bachelor and Master of Sciences degrees in Computer Science.</div></li>
+<li><div class="sentence">He is lecturing at Stanford and considering a PhD in Bioengineering.</div></li>
+<li><div class="sentence">Robert is 21 years old.</div></li>
+<li><div class="sentence">He was working at facebook over the summer and returns to complete his senior year at Caltech.</div></li>
+<li><div class="sentence">I am so proud of them.</div></li>
+
+<li><div class="sentence">My current occupation is stroke recovery.</div></li>
+<li><div class="sentence">My hobbies include reading, surfing the web, and baking.</div></li>
+<li><div class="sentence">My cell phone number is (408) 206-5963.</div></li>
+<li><div class="sentence">In case of emergency, please call Wen at (408) 267-6076.</div></li>
+
+<li><div class="sentence">Aruna Gambhir is my best friend.</div></li>
+<li><div class="sentence">Jaylynne is my sister.</div></li>
+<li><div class="sentence">She's my relative.</div></li>
+<li><div class="sentence">Caden is my nephew.</div></li>
+<li><div class="sentence">Berna, Melisse, Elan, Meilan are difficult names to synthesize and recognize.</div></li>
+<li><div class="sentence">Giovanola, Auntie Ag, Uncle Sad, Uncle Manuel, are difficult names to synthesize.</div></li>
+<li><div class="sentence">I go to PE at Los Lagos.</div></li>
+<li><div class="sentence">Lynda spelled with a y.</div></li>
+<li><div class="sentence">I live at 20680 Seaton Ave.</div></li>
+<li><div class="sentence">She's my relative.</div></li>
+</ul>
+
+<div class="sentence">My name is Ronlyn Goo.</div>
+<div class="sentence">I am 54 years old.</div>
+<div class="sentence">My husband is named Wen.</div>
+<div class="sentence">We have been married 25 years.</div>
+<div class="sentence">I have a Bachelor degree in Chemical Engineering from UC Berkeley.</div>
+<div class="sentence">I also have an MBA degree from Stanford.</div>
+<p>
+<div class="sentence">We have two children, David and Robert.</div>
+<div class="sentence">David is 23 years old.</div>
+<div class="sentence">He recently graduated from Stanford with a Bachelor and Master of Sciences degrees in computer science.</div>
+<div class="sentence">He is lecturing at Stanford and considering a PhD in Bioengineering.</div>
+<div class="sentence">Robert is 21 years old.</div>
+<div class="sentence">He is working at facebook over the summer before his senior year at Caltech.</div>
+<div class="sentence">I am so proud of them.</div>
+<p>
+<div class="sentence">My current occupation is stroke recovery.</div>
+<div class="sentence">My hobbies include reading, surfing the web, and baking.</div>
+<div class="sentence">My cellphone number is (408) 206-5963.</div>
+<div class="sentence">In case of emergency, please call Wen at (408) 267-6076.</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="what">What</a></h1>
+<div class="sentence">I had a severe hemorrhagic stroke two years ago in 2015.</div>
+<div class="sentence">As a result, I have right side impairment and aphasia.</div>
+<div class="sentence">Aphasia is the loss of language skills.</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="where">Where</a></h1>
+<div class="sentence">I live in Saratoga.</div>
+<div class="sentence">I was born in San Francisco.</div>
+<div class="sentence">I grew up in Pacifica.</div>
+<div class="sentence">I attended UC Berkeley and Stanford University.</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="when">When</a></h1>
+
+<h1><a class="navbar-itemByHeadingLevel" id="test">Test</a></h1>
+
+<div id="sentences"></div>
+<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
+<p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
+<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
+<p id="diagnostic">no error</p>
+<p id="os-msg"></p>
+<p id="browser-msg"></p>
+
+<div class="option">
+   <label for="voice">Voice</label>
+   <select name="voice" id="voice"></select>
+</div>
+
+</main>
+
+<nav>
+  <nav id="nav">
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+      <div onclick="" class="navbar-list ol">
+        <div onclick="" id="navbar-items">
+      </div>
+    </div>
+  </nav>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+
+ /*
+  * onclick
+  */
+/*
+document.body.onclick = function(e) {   //when the document body is clicked
+    if (window.event) {
+        e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
+    else {
+        e = e.target; }                  //assign the element clicked to e
+
+    if (e.className) {
+
+      if (e.className.indexOf('data-speak-onclick') != -1) {
+        spelling = e.getAttribute("XSAMPA");
+        if (!spelling) {
+          spelling = e.getAttribute("data-speak");
+        }
+        speak(spelling);
+      }
+      else if (e.className.indexOf('speak-onclick') != -1) { //should use switch
+         partialSentenceInput = document.getElementById('partialSentence');
+         if (partialSentenceInput.checked) {
+           spelling = e.getAttribute("partial");
+         }
+         else {
+           spelling = e.getAttribute("word");
+         }
+         MyReadingMonitor.speaking.say(spelling);
+      }
+      else if (e.className.indexOf('onclick') != -1
+        && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
+        MyReadingMonitor.speaking.say(e.innerHTML);
+        window.location.href = "#"+e.id; } //goto anchor
+
+      else if (e.className.indexOf('href-onclick') != -1) {
+//        window.location.href = "#"+e.innerHTML;  //goto anchor
+         alert("oops href-onclick");
+        window.location.href = "#"+e.id; } //goto anchor
+
+      else if (e.className.indexOf('headertitle') != -1) {
+        spelling = e.getAttribute("XSAMPA");
+        if (!spelling) {
+          spelling = e.innerHTML;
+        }
+        speak(spelling);
+      }
+      else {
+         speak("choose again") }
+       }
+    } //onclick
+    */
+/*
+ * onload
+ */
+document.body.onload = function(e) {   //when the document body is clicked
+//  populateNavbar();
+}
+ var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyPageNav = new navbar ();
+ MyPageNav.populate();
+
+ // register html field names
+ MyReadingMonitor.diagnosticElementId ="diagnostic";
+
+ MyReadingMonitor.listening.buttonElementId = "listenBtn";
+ MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+ MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+ MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+ MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+ MyReadingMonitor.speaking.volumeControlElementId ="volume";
+
+ MyReadingMonitor.currentWordIndicatorDecoration = "underline";
+ MyReadingMonitor.currentWordIndicatorFontWeight = "bold";
+ MyReadingMonitor.sentenceIdElementId = "sentenceId";
+ MyReadingMonitor.wordIdElementId = "wordId";
+ MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+ MyReadingMonitor.wordIdxElementId = "wordIdx";
+ MyReadingMonitor.timer.timeout = 10; // ms
+
+ MyReadingMonitor.initialize();
+
+
+var supportMsg = document.getElementById('browser-msg');
+var osMsg = document.getElementById('os-msg');
+var os = getOS();
+if (os == 'iOS') {
+   defaultVoice = "Fred"; }
+else {
+   defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+</script>
+</html>
