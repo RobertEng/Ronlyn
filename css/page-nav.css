@@ -1,0 +1,79 @@
+#nav {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 150px; /* Width of navigation frame */
+  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  background: #eee;
+}
+main {
+  position: fixed;
+  top: 50px;
+  left: 150px; /* Set this to the width of the navigation frame */
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  background: #fff;
+  margin-left: 10px;
+}
+#header { <!-- single element id="header"-->
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+   position: absolute;
+   top:0;
+   left:0px;
+   padding-left: 10px;
+   padding-right: 10px;
+   grid-gap: 0px;
+   width:100%;
+   height: 50px;
+   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+   background: #ccc;
+ }
+ .navbar-li
+ {
+   font-family: arial;
+   font-weight:bold;
+   padding: 10px;
+ }
+ .navbar-list:hover, button:focus {
+   opacity: 0.75;
+   cursor: pointer;
+ }
+ /*
+ .navbar-list:active {
+   cursor: pointer;
+ }
+ .navbar-li:active {
+   background-color: red;
+   cursor: pointer;
+ }
+ */
+ .navbar-li:nth-child(even) {
+   background: white;
+ }
+ .headertitle {
+   font-family: arial;
+   font-weight:bold;
+   font-size:110%;
+   height: inherit;
+   display: inline-block;
+   line-height:50px;
+ }
+ .headertitle:hover, button:focus {
+   opacity: 0.75;
+   cursor: pointer;
+ }
+ .headertitle.disabled {
+     pointer-events: none;
+     text-decoration: none;
+ }
+ .headercontrols {
+  font-family: arial;
+  font-size: 80%;
+  text-align:right;
+ }

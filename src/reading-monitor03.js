@@ -3,10 +3,7 @@
  * (c) 2017 by Wen Eng. All rights reserved.
  ********************************************/
 "use strict";
-// ECMASCript6 class syntax only
-
-// types of tokens // kludge because ES6 does not allow encapsulation
-
+// ECMAScript6 class syntax only
 
 function getOS() {
    var userAgent = window.navigator.userAgent,
@@ -86,6 +83,11 @@ class PronunciationMap {
 class SpeechRecognition {
   constructor(parent) {
     this._parent = parent;
+    this._buttonImgInactive = "img/mic1-inactive-xparent.gif"
+    this._buttonImgActive = "img/mic1-250ms.gif"
+    this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif"
+    this.buttonImgInactive = this._buttonImgGhosted;
+
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
     this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
@@ -206,25 +208,26 @@ class SpeechRecognition {
       // Define event handling
       //
       //event handlers
+      var readingMonitor = this.parent;
       this._buttonElement.onclick = function(event) {
         // listening && timer active: STOP LISTENING
         // listening && timer inactive STOP LISTENING
         // not listening && timer isActive START LISTENING
         // not listening && timer active: START LISTENING
-        if (!MyReadingMonitor.listening.isActive) {
-          MyReadingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
-          MyReadingMonitor.timer.start();
-          MyReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
-          MyReadingMonitor.listening.buttonActivate();
-          MyReadingMonitor.speaking.say("listening");
+        if (!readingMonitor.listening.isActive) {
+          readingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
+          readingMonitor.timer.start();
+          readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
+          readingMonitor.listening.buttonActivate();
+          readingMonitor.speaking.say("listening");
           recognition.start();
         }
         else {
-          MyReadingMonitor.diagnosticMsg = "listenBtn:onclick(): listening";
-          MyReadingMonitor.timer.cancel();
+          readingMonitor.diagnosticMsg = "listenBtn:onclick(): listening";
+          readingMonitor.timer.cancel();
           recognition.stop();
-          MyReadingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
-          MyReadingMonitor.listening.buttonDeactivate();
+          readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
+          readingMonitor.listening.buttonDeactivate();
 //          MyReadingMonitor.speaking.say("no longer listening");
         }
         event.stopPropagation();
@@ -245,12 +248,12 @@ class SpeechRecognition {
            var w;
            for (w = 0; w < spokenWords.length; w++) {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
-             MyReadingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
-             if (MyReadingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-               MyReadingMonitor.moveToNextWord();
+             readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
+             if (readingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
+               readingMonitor.moveToNextWord();
              } //
            } // for
-           MyReadingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
+           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
           //         console.log('confidence: ' + event.results[0][0].confidence);
           //         console.log("result[last]:"+spokenWords);
           //         if ((event.results.length - 1) >= 1)
@@ -261,7 +264,7 @@ class SpeechRecognition {
             alert("recognition:onresult: MyReadingMonitor does not exist in global scope")
           }
           else {
-            MyReadingMonitor.diagnosticMsg = 'recognition:onresult: '+e.message;
+            readingMonitor.diagnosticMsg = 'recognition:onresult: '+e.message;
 
           }
         }
@@ -270,42 +273,42 @@ class SpeechRecognition {
       recognition.onspeechend = function() {
   //         thisMonitor.diagnosticMsg = "recognition.onspeechend";
 
-         if (MyReadingMonitor.timer.isActive) {
-           MyReadingMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
+         if (readingMonitor.timer.isActive) {
+           readingMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
   //           recognition.start();
          }
          else {
   //            listenBtn.defaultValue = "listen to me read";
-            MyReadingMonitor.diagnosticMsg = "recognition.onspeechend: timer expired or cancelled";
+            readingMonitor.diagnosticMsg = "recognition.onspeechend: timer expired or cancelled";
           }
        }
        recognition.onend = function() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (MyReadingMonitor.timer.isActive) {
-            MyReadingMonitor.listening.buttonActivate();
-            MyReadingMonitor.diagnosticMsg = "recognition.onend: continue listening";
+          if (readingMonitor.timer.isActive) {
+            readingMonitor.listening.buttonActivate();
+            readingMonitor.diagnosticMsg = "recognition.onend: continue listening";
             recognition.start();
           }
           else {
-            if (!MyReadingMonitor.timer.isActive)
-             MyReadingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
-             MyReadingMonitor.listening.buttonDeactivate();
-             MyReadingMonitor.speaking.say("no longer listening");
+            if (!readingMonitor.timer.isActive)
+             readingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
+             readingMonitor.listening.buttonDeactivate();
+             readingMonitor.speaking.say("no longer listening");
            }
         }
        recognition.onsoundend = function() {
          // event fires immediately after onspeechend
-         MyReadingMonitor.diagnosticMsg = "recognition.onsoundend";
+         readingMonitor.diagnosticMsg = "recognition.onsoundend";
          recognition.stop();
 //         MyReadingMonitor.speaking.say("no longer listening");
-         MyReadingMonitor.listening.buttonDeactivate();
+         readingMonitor.listening.buttonDeactivate();
        }
        recognition.onnomatch = function(event) {
-         MyReadingMonitor.diagnosticMsg = "recognition.onnomatch:";
+         readingMonitor.diagnosticMsg = "recognition.onnomatch:";
        }
        recognition.onerror = function(event) {
-         MyReadingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
+         readingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
          // timeout with no sound triggers this event
        }
        this.buttonDeactivate();  // starting state
@@ -318,8 +321,8 @@ class SpeechRecognition {
         MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
       }
     }
-  }
-}
+  } // initialize
+} // Speech Recognition class
 class SpeechSynthesis {
   constructor(parent) {
     this._parent = parent;
@@ -669,7 +672,7 @@ class ReadingMonitor {
       catch(e) {
         MyReadingMonitor.diagnosticMsg = "rm_word_spanOnClick: Unexpected error: "+e.message;
       }
-    }
+    } //rm_wordSpanOnClick
     parseSentences(sentenceTag) {
       var srcSentence, srcNonword, classLabel;
       var dstSentenceElement, srcSentenceElement;
@@ -722,7 +725,8 @@ class ReadingMonitor {
               if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
               previousWordIdx = wordIdx;
               span.setAttribute("id", w);
-              span.onclick = function() { MyReadingMonitor.rm_wordSpanOnClick(event) };
+              var readingMonitor = this;
+              span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
 
               var pattern = this.listening.wordRecognitionPattern(words[w]);
               if (typeof pattern != "undefined") span.setAttribute("rm_word_recognitionPattern", pattern);
