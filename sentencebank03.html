@@ -7,7 +7,7 @@ body {
   margin: 0px;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* strictly for iOS */
   max-height: 100%;
 }
 h1 {
@@ -23,32 +23,13 @@ h2 {
   font-weight: bold;
   font-family: arial;
   }
-/*
- * page "frame" definitions
- */
- [class*='col-1'] { /*selector matches every class whose attr contains col-*/
-  float:left;
-  }
-.col-1-2 {
-    width:50%;
-  }
-
-}
-.sentence {
-  font-family: arial;
-  font-size: 110%;
-}
 .rm_sentence {
   font-family: arial;
   font-size: 110%;
 }
 li:not(:last-child) {
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* spacing between list items */
 }
-
-/*
-#volumeControl, #partialSentenceControl { text-align:right}
-*/
 </style>
 <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
@@ -181,14 +162,22 @@ li:not(:last-child) {
  * Event Listeners
  *
  ***/
-
 /*
  * onload
  */
 document.body.onload = function(e) {   //when the document body is clicked
-//  populateNavbar();
+  var supportMsg = document.getElementById('browser-msg');
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+  if (os == 'iOS') {
+     defaultVoice = "Fred"; }
+  else {
+     defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
  var MyReadingMonitor = new ReadingMonitor("sentence03");
+
  var MyPageNav = new navbar ();
  MyPageNav.populate();
 
@@ -209,17 +198,6 @@ document.body.onload = function(e) {   //when the document body is clicked
  MyReadingMonitor.timer.timeout = 10; // ms
 
  MyReadingMonitor.initialize();
-
-
-var supportMsg = document.getElementById('browser-msg');
-var osMsg = document.getElementById('os-msg');
-var os = getOS();
-if (os == 'iOS') {
-   defaultVoice = "Fred"; }
-else {
-   defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
-
-osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 
 </script>
 </html>
