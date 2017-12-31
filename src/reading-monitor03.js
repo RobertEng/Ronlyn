@@ -414,16 +414,18 @@ class SpeechSynthesis {
         if (speechSynthesis.onvoiceschanged == null) {
           // wait for speechRecognition to be available -- chrome kludge
            speechSynthesis.onvoiceschanged = function(e) { myClass.voiceSelectorPopulate(); };
+           alert("1");
          }
         else {
          // Iterate through each of the voices.
-         voices = speechSynthesis.getVoices();
-         voices.forEach(function(voice, v) {
-            option = document.createElement('option');
-            option.value = voice.name;
-            option.innerHTML = voice.name;
-            option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
-            myClass.voiceSelectorElement.appendChild(option);
+          voices = speechSynthesis.getVoices();
+          voices.forEach(function(voice, v) {
+          option = document.createElement('option');
+          option.value = voice.name;
+          option.innerHTML = voice.name;
+          option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
+          myClass.voiceSelectorElement.appendChild(option);
+          alert("2");
          }); // foreach
        }
      }
