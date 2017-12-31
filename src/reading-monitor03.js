@@ -434,7 +434,7 @@ class SpeechSynthesis {
          alert("voiceSelectorPopulate(): MyReadingMonitor does not exist in global scope")
        }
        else {
-          MyReadingMonitor.diagnosticMsg = "voiceSelectorPopulate: could not populate voices";
+          MyReadingMonitor.diagnosticMsg = "voiceSelectorPopulate(): could not populate voices";
        }
      }
   }
@@ -445,6 +445,7 @@ class SpeechSynthesis {
       this._synthesis.rate = 1;
       this._synthesis.pitch = 1;
       this.voiceSelectorPopulate();
+      alert("initializing synthesis");
     }
     catch(e) {
       if (typeof MyReadingMonitor == 'undefined') {
