@@ -443,8 +443,8 @@ class SpeechSynthesis {
       this._synthesis.rate = 1;
       this._synthesis.pitch = 1;
       this.voiceSelectorPopulate();
-      if (getOS == "iOS") {
-        alert("voiceSelectorPopulate() for iOS")
+      if (getOS() == "iOS") {
+        MyReadingMonitor.diagnosticMsg = "voiceSelectorPopulate() for iOS";
         this.voiceSelectorPopulate();
       }
     }
