@@ -444,8 +444,8 @@ class SpeechSynthesis {
       this._synthesis.lang = 'en-US';
       this._synthesis.rate = 1;
       this._synthesis.pitch = 1;
-      this.voiceSelectorPopulate();
       alert("initializing synthesis");
+      this.voiceSelectorPopulate();
     }
     catch(e) {
       if (typeof MyReadingMonitor == 'undefined') {
