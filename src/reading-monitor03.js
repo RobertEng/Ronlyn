@@ -414,19 +414,17 @@ class SpeechSynthesis {
         if (speechSynthesis.onvoiceschanged == null) {
           // wait for speechRecognition to be available -- chrome kludge
            speechSynthesis.onvoiceschanged = function(e) { myClass.voiceSelectorPopulate(); };
-           alert("1");
          }
         else {
          // Iterate through each of the voices.
           voices = speechSynthesis.getVoices();
           voices.forEach(function(voice, v) {
-          option = document.createElement('option');
-          option.value = voice.name;
-          option.innerHTML = voice.name;
-          option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
-          myClass.voiceSelectorElement.appendChild(option);
-          alert("2");
-         }); // foreach
+            option = document.createElement('option');
+            option.value = voice.name;
+            option.innerHTML = voice.name;
+            option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
+            myClass.voiceSelectorElement.appendChild(option);
+           }); // foreach
        }
      }
      catch(e) {
@@ -444,8 +442,8 @@ class SpeechSynthesis {
       this._synthesis.lang = 'en-US';
       this._synthesis.rate = 1;
       this._synthesis.pitch = 1;
-      alert("initializing synthesis");
       this.voiceSelectorPopulate();
+      if (getOS == "iOS") this.voiceSelectorPopulate();
     }
     catch(e) {
       if (typeof MyReadingMonitor == 'undefined') {
