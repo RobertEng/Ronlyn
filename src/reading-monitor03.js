@@ -855,13 +855,6 @@ class ReadingMonitor {
     initialize() {
       this.diagnosticMsg = "Initializing reading monitor.";
 //      if (this.SpeechSynthesisIsSupported()) {
-      if (this.speaking.isSupported) {
-        this.speaking.initialize();
-      }
-      else {
-        this.diagnosticMsg = "Speech Synthesis is not supported on "+ getOS();
-        alert("Speech Synthesis is not supported on "+ getOS());
-      }
       if (this.listening.isSupported) {
         this.listening.initialize();
       }
@@ -869,6 +862,13 @@ class ReadingMonitor {
         this.listening.buttonDisabled();
         this.diagnosticMsg = "SpeechRecognition is not supported on " + getOS();
         alert("Speech Recognition is not supported on "+ getOS());
+      }
+      if (this.speaking.isSupported) {
+        this.speaking.initialize();
+      }
+      else {
+        this.diagnosticMsg = "Speech Synthesis is not supported on "+ getOS();
+        alert("Speech Synthesis is not supported on "+ getOS());
       }
       this.diagnosticMsg = "Initialized reading monitor.";
 
