@@ -363,13 +363,6 @@ class SpeechSynthesis {
     this._alternatePronunication.set("6076", "6 0 7 6")
     this._alternatePronunication.set("20680", "2 0 6 8 0")
     this._alternatePronunication.set("95070", "9 5 0 7 0")
-
-    if (getOS() == "iOS") {
-      this._defaultVoice = 'Fred';
-    }
-    else {
-      this._defaultVoice = 'Microsoft Zira Desktop - English (United States)';
-    }
   }
   betterAlternative(spokenWord) {
       return this._alternatePronunication.value(spokenWord);
@@ -414,28 +407,23 @@ class SpeechSynthesis {
   get voiceSelectorElement() {
       return this._voiceSelectorElement;
   }
-  respelledWord(word) {
-  // returns phonetic word for "word" and speaking
-    return word;
-  }
   voiceSelectorPopulate() {
      var  v,voice,voices, option;
      try {
+        var myClass = this;
         if (speechSynthesis.onvoiceschanged == null) {
           // wait for speechRecognition to be available -- chrome kludge
-           speechSynthesis.onvoiceschanged = MyReadingMonitor.speaking.voiceSelectorPopulate;
+           speechSynthesis.onvoiceschanged = function(e) { myClass.voiceSelectorPopulate(); };
          }
         else {
          // Iterate through each of the voices.
          voices = speechSynthesis.getVoices();
          voices.forEach(function(voice, v) {
-            // Create a new option element.
-            // Set the options value and text.
             option = document.createElement('option');
             option.value = voice.name;
             option.innerHTML = voice.name;
             option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
-            MyReadingMonitor.speaking.voiceSelectorElement.appendChild(option);
+            myClass.voiceSelectorElement.appendChild(option);
          }); // foreach
        }
      }
@@ -816,28 +804,17 @@ class ReadingMonitor {
         this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
       }
     }
-    set currentWordFontWeight(state) {
-      try {
-        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.fontWeight = state;
-      }
-      catch(e) {
-        this.diagnosticMsg = "currentWordFontWeight(): could not change word indicator";
-      }
-    }
-    set currentWordDecoration(state) {
-      try {
-        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].style.textDecoration = state;
-      }
-      catch(e) {
-        this.diagnosticMsg = "currentWordDecoration(): could not change word indicator";
-      }
-    }
     currentWordIndicatorOff() {
       try {
         document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].classList.remove("rm_word_current");
       }
       catch(e) {
-        this.diagnosticMsg = "currentWordIndicatorOff(): could not remove rm_word_current";
+        if (typeof this._sentenceIdx == "undefined" && this._wordId == 0) {
+          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
+        }
+        else {
+          this.diagnosticMsg = "currentWordIndicatorOff(): could not remove rm_word_current because "+e.message;
+        }
       }
     }
     currentWordIndicatorOn() {
