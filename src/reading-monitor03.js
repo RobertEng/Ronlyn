@@ -814,7 +814,7 @@ class ReadingMonitor {
       }
       catch(e) {
         if (typeof this._sentenceIdx == "undefined" && this._wordId == 0) {
-          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
+//          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
         }
         else {
           this.diagnosticMsg = "currentWordIndicatorOff(): could not remove rm_word_current because "+e.message;
