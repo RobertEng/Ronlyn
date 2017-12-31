@@ -425,7 +425,7 @@ class SpeechSynthesis {
             option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
             myClass.voiceSelectorElement.appendChild(option);
            }); // foreach
-       }
+         }
      }
      catch(e) {
        if (typeof MyReadingMonitor == "undefined") {
@@ -443,7 +443,10 @@ class SpeechSynthesis {
       this._synthesis.rate = 1;
       this._synthesis.pitch = 1;
       this.voiceSelectorPopulate();
-      if (getOS == "iOS") this.voiceSelectorPopulate();
+      if (getOS == "iOS") {
+        alert("voiceSelectorPopulate() for iOS")
+        this.voiceSelectorPopulate();
+      }
     }
     catch(e) {
       if (typeof MyReadingMonitor == 'undefined') {
