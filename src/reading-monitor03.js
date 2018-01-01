@@ -4,7 +4,6 @@
  ********************************************/
 "use strict";
 // ECMAScript6 class syntax only
-
 function getOS() {
    var userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
@@ -485,6 +484,27 @@ class ReadingMonitor {
       this._wordId = 0; // manages the initial condition where sentence idx is set without wordId
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
     }
+    get RM_PUNCTUATION() {
+      return "rm_punctuation";
+    }
+    get RM_SENTENCE() {
+      return "rm_sentence";
+    }
+    get RM_WORD() {
+      return "rm_word";
+    }
+    get RM_WORD_BETTERPRONUNCIATION() {
+      return "rm_word_betterPronunciation";
+    }
+    get RM_WORD_CURRENT() {
+      return "rm_word_current";
+    }
+    get RM_WHITESPACE() {
+      return "rm_whitespace";
+    }
+    get RM_RECOGNITIONPATTERN() {
+      return "rm_recognitionPattern";
+    }
     get punctuationPattern() {
       return this._punctuationPattern;
     }
@@ -576,13 +596,13 @@ class ReadingMonitor {
     set currentSentenceIdx(sentenceIdx) {
         // check if Idx is valid based on DOM
         try {
-          this.currentWordIndicatorOff();
+//          if (sentenceIdx != this._sentenceIdx) this.currentWordIndicatorOff();
           this._sentenceIdx = Number(sentenceIdx);
           this._sentenceIdxElement.innerText = sentenceIdx.toString();
 
-          this._lastWordIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].childElementCount - 1;
-          var rm_wordLastIdx = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word").length - 1;
-          this._lastWordId = document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[rm_wordLastIdx].getAttribute("id");
+          this._lastWordIdx = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].childElementCount - 1;
+          var rm_wordLastIdx = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD).length - 1;
+          this._lastWordId = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[rm_wordLastIdx].getAttribute("id");
         }
         catch(e) {
           this.diagnosticMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
@@ -597,9 +617,9 @@ class ReadingMonitor {
     set currentWordId(wordId) {
       // check if Idx is valid based on DOM
       try {
-        this.currentWordIndicatorOff();
+//        this.currentWordIndicatorOff();
         this._wordId = wordId;
-        this.currentWordIndicatorOn();
+  //      this.currentWordIndicatorOn();
         this._wordIdElement.innerText = wordId.toString();
       }
       catch(e) {
@@ -624,7 +644,7 @@ class ReadingMonitor {
     }
     get currentWord() {
       try {
-        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].innerText;
+        return document.getElementsByClassName(this.RM_SENTENCE)[this.currentSentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].innerText;
       }
       catch(e) {
         this.diagnosticMsg = "currentWord getter: failed to get value to "+wordId+ " because "+e.message;
@@ -633,7 +653,7 @@ class ReadingMonitor {
     }
      currentWordAttribute(tag) {
       try {
-        return document.getElementsByClassName("rm_sentence")[this.currentSentenceIdx].getElementsByClassName("rm_word")[this._wordId].getAttribute(tag);
+        return document.getElementsByClassName(this.RM_SENTENCE)[this.currentSentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].getAttribute(tag);
       }
       catch(e) {
         this.diagnosticMsg = "currentWord getter: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
@@ -653,17 +673,17 @@ class ReadingMonitor {
           //could be simplified by iterating through sentenceElement.getElementsByClass("rm_word")
           //should hide rm_word_speaking in loop
           for (w = 0; !hasFoundWordId && w < sentenceElement.childElementCount; w++) {
-            if (sentenceElement.children[w].getAttribute("class").indexOf("rm_word") != -1) {
+            if (sentenceElement.children[w].getAttribute("class").indexOf(this.RM_WORD) != -1) {
               hasFoundWordId = sentenceElement.children[w].getAttribute("id").indexOf(wordId) != -1;
 //              wordsToBeSpoken = wordsToBeSpoken  + " " +sentenceElement.children[w].innerText;
-              var nextWord = sentenceElement.children[w].getAttribute("rm_word_betterPronunciation")
+              var nextWord = sentenceElement.children[w].getAttribute(this.RM_WORD_BETTERPRONUNCIATION)
               if (nextWord == null) nextWord = sentenceElement.children[w].innerText;
               wordsToBeSpoken = wordsToBeSpoken  + " " + nextWord;
             }
           }
         }
         else {
-          var betterAlternative = MyReadingMonitor.currentWordAttribute("rm_word_betterPronunciation");
+          var betterAlternative = MyReadingMonitor.currentWordAttribute(this.RM_WORD_BETTERPRONUNCIATION);
           if (betterAlternative != null) {
             wordsToBeSpoken = betterAlternative;
           }
@@ -696,7 +716,7 @@ class ReadingMonitor {
           srcSentence = srcSentenceElement.innerText;
 
           dstSentenceElement = document.createElement(srcSentenceElement.tagName);
-          dstSentenceElement.setAttribute("class", "rm_sentence");
+          dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
           dstSentenceElement.setAttribute("id", s);
 
 //        sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
@@ -710,10 +730,10 @@ class ReadingMonitor {
             if (wordPos > currentPos) { // punctuation or whitespace before word
               srcNonword = srcSentence.substring(currentPos, wordPos);
               if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
-                classLabel = "rm_whitespace";
+                classLabel = this.RM_WHITESPACE;
               } // must add other tests when other rm_* types are added
               else {
-                classLabel = "rm_punctuation";
+                classLabel = this.RM_PUNCTUATION;
               }
               currentPos = wordPos; // advance to current word
               span = document.createElement("span");
@@ -725,7 +745,7 @@ class ReadingMonitor {
             if (wordPos == currentPos) { // positioned at beginning of word
               currentPos = currentPos + wordLength; // advance passed current word
               span = document.createElement("span");
-              span.setAttribute("class", "rm_word");
+              span.setAttribute("class", this.RM_WORD);
               span.setAttribute("idx", wordIdx);
               if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
               previousWordIdx = wordIdx;
@@ -734,9 +754,9 @@ class ReadingMonitor {
               span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
 
               var pattern = this.listening.wordRecognitionPattern(words[w]);
-              if (typeof pattern != "undefined") span.setAttribute("rm_word_recognitionPattern", pattern);
+              if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
               var alternative = this.speaking.betterAlternative(words[w]);
-              if (typeof alternative != "undefined") span.setAttribute("rm_word_betterPronunciation", alternative);
+              if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
 
               span.innerText = words[w];
               dstSentenceElement.appendChild(span);
@@ -746,7 +766,7 @@ class ReadingMonitor {
           if (currentPos < srcSentence.length) { // no more words just punctuations?
             span = document.createElement("span");
             span.innerText = srcSentence.substring(currentPos, srcSentence.length);
-            span.setAttribute("class", "rm_punctuation");
+            span.setAttribute("class", this.RM_PUNCTUATION);
             span.setAttribute("idx", wordIdx);
             dstSentenceElement.appendChild(span);
           }
@@ -760,7 +780,7 @@ class ReadingMonitor {
           }
           srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
         } // for loop of sentences
-        this._lastSentenceIdx = document.getElementsByClassName("rm_sentence").length -1;
+        this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
     } // parseSentences1
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation or whitespace)
@@ -774,35 +794,29 @@ class ReadingMonitor {
         this.moveToNextSentence();
       }
       else {
-        this.currentWordId++;
+        this.moveToThisWordPosition(this.currentSentenceIdx, Number(this.currentWordId)+1);
       }
     }
     moveToFirstSentence() {
       // check for last sentence
-      this.moveToSentence(0);
-      this.currentWordId = 0;
+      this.moveToThisWordPosition(0, 0);
     }
     moveToNextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
+        this.diagnosticMsg = "End of last sentence readed."
       }
       else {
-        this.moveToSentence(Number(this.currentSentenceIdx) + 1);
-      }
-    }
-    moveToSentence(sentenceIdx) {
-      // check for last sentence
-      //reset rm_word_current
-      if (sentenceIdx != this.currentSentenceIdx) {
-        this.currentSentenceIdx = Number(sentenceIdx);
-        this.currentToken = 0;
-        this.currentWordId = 0;
+//        this.moveToSentence(Number(this.currentSentenceIdx) + 1);
+        this.moveToThisWordPosition(Number(this.currentSentenceIdx)+1, 0);
       }
     }
     moveToThisWordPosition(sentenceIdx, wordId) {
       try {
-        this.moveToSentence(sentenceIdx)
+        this.currentWordIndicatorOff(); // reset current word before changing sentence
+        this.currentSentenceIdx = sentenceIdx;
         this.currentWordId = Number(wordId);
+        this.currentWordIndicatorOn(); // reset current word before changing sentence
       }
       catch(e) {
         this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
@@ -810,20 +824,20 @@ class ReadingMonitor {
     }
     currentWordIndicatorOff() {
       try {
-        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].classList.remove("rm_word_current");
+        document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.remove(this.RM_WORD_CURRENT);
       }
       catch(e) {
         if (typeof this._sentenceIdx == "undefined" && this._wordId == 0) {
 //          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
         }
         else {
-          this.diagnosticMsg = "currentWordIndicatorOff(): could not remove rm_word_current because "+e.message;
+          this.diagnosticMsg = "currentWordIndicatorOff(): could not reset rm_word_current because "+e.message;
         }
       }
     }
     currentWordIndicatorOn() {
       try {
-        document.getElementsByClassName("rm_sentence")[this._sentenceIdx].getElementsByClassName("rm_word")[this._wordId].classList.add("rm_word_current");
+        document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.add(this.RM_WORD_CURRENT);
       }
       catch(e) {
         this.diagnosticMsg = "currentWordIndicatorOn(): could not add rm_word_current";
@@ -841,7 +855,7 @@ class ReadingMonitor {
       }
       else {
         // try pattern match
-        var pattern = this.currentWordAttribute("rm_word_recognitionPattern");
+        var pattern = this.currentWordAttribute(this.RM_RECOGNITIONPATTERN);
         if (pattern != null) {
           var recognitionPattern = new RegExp(pattern);
           return recognitionPattern.test(spokenWord.toLowerCase());
