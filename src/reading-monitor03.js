@@ -30,7 +30,7 @@ class Timer {
   }
   set timeout(secs) {
     // period of time from start() to onspeechend
-    this._timeout = secs * 1000; //msecs
+    this._timeout = Number(secs) * 1000; //msecs
   }
   start() {
     this._startTime = new Date();
@@ -118,7 +118,7 @@ class SpeechRecognition {
     return (this._isActive);  // CAREFUL...set asynchronously
   }
   set isActive(active) {
-    this._isActive - active;  // CAREFUL...set asynchronously
+    this._isActive = active;  // CAREFUL...set asynchronously
   }
   get isSupported() {
     return (window.hasOwnProperty('SpeechRecognition') || window.hasOwnProperty('webkitSpeechRecognition'));
@@ -196,7 +196,7 @@ class SpeechRecognition {
       this._isActive = false;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
+      this.diagnosticMsg = "listening.buttonDisabled(): unexpected error";
     }
   }
   initialize() {
@@ -280,36 +280,53 @@ class SpeechRecognition {
       recognition.onspeechend = function() {
   //         thisMonitor.diagnosticMsg = "recognition.onspeechend";
 
-         if (readingMonitor.timer.isActive) {
+         if (readingMonitor.listening.isActive && readingMonitor.timer.isActive) {
            readingMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
-  //           recognition.start();
+//         recognition.start();
          }
          else {
+           if (!readingMonitor.listening.isActive) {
   //            listenBtn.defaultValue = "listen to me read";
-            readingMonitor.diagnosticMsg = "recognition.onspeechend: timer expired or cancelled";
-          }
+              readingMonitor.diagnosticMsg = "recognition.onspeechend: user cancelled";
+            }
+           else if (!readingMonitor.timer.isActive){
+     //            listenBtn.defaultValue = "listen to me read";
+               readingMonitor.diagnosticMsg = "recognition.onspeechend: timer expired";
+            }
+           else {
+             readingMonitor.diagnosticMsg = "recognition.onspeechend: unknown end state";
+            }
+         }
        }
        recognition.onend = function() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (readingMonitor.timer.isActive) {
-            readingMonitor.listening.buttonActivate();
-            readingMonitor.diagnosticMsg = "recognition.onend: continue listening";
+          if (readingMonitor.listening.isActive && readingMonitor.timer.isActive) {
+            readingMonitor.diagnosticMsg = "recognition.onend: restart listening";
+            readingMonitor.speaking.say("still listening");
             recognition.start();
           }
           else {
-            if (!readingMonitor.timer.isActive)
-             readingMonitor.diagnosticMsg = "recognition.onend: timer expired or cancelled";
-             readingMonitor.listening.buttonDeactivate();
-             readingMonitor.speaking.say("no longer listening");
-           }
-        }
+            if (!readingMonitor.listening.isActive) {
+              readingMonitor.diagnosticMsg = "recognition.onend: user cancelled";
+            }
+            else if (!readingMonitor.timer.isActive) {
+                readingMonitor.diagnosticMsg = "recognition.onend: timer expired";
+            }
+            else {
+              readingMonitor.diagnosticMsg = "recognition.onend: unknown end state";
+            }
+           readingMonitor.speaking.say("no longer listening");
+           readingMonitor.listening.buttonDeactivate();
+           recognition.stop();
+         }
+      }
        recognition.onsoundend = function() {
          // event fires immediately after onspeechend
          readingMonitor.diagnosticMsg = "recognition.onsoundend";
-         recognition.stop();
+//         recognition.stop();
 //         MyReadingMonitor.speaking.say("no longer listening");
-         readingMonitor.listening.buttonDeactivate();
+//         readingMonitor.listening.buttonDeactivate();
        }
        recognition.onnomatch = function(event) {
          readingMonitor.diagnosticMsg = "recognition.onnomatch:";
