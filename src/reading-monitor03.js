@@ -35,12 +35,12 @@ class Timer {
   start() {
     this._startTime = new Date();
     this._timerOn = true;
-    this.diagnosticMsg = "timer.start: " + this._startTime;
+    this._parent.parent.diagnosticMsg = "timer.start: " + this._startTime;
   }
   cancel() {
     this._timerOn = false;
     this._startTime = new Date();
-    this.diagnosticMsg = "cancel: " + this._startTime;
+    this._parent.parent.diagnosticMsg = "timer.cancel: " + this._startTime;
   }
   get isActive() {
     var current  = new Date();
@@ -86,6 +86,7 @@ class SpeechRecognition {
     this._buttonImgActive = "img/mic1-250ms.gif"
     this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif"
 
+    this._timer = new Timer(this);
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
     this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
@@ -108,6 +109,12 @@ class SpeechRecognition {
     this._recognitionPattern.set("Ave", "^(avenue)$");
     this._recognitionPattern.set("St", "^(street)$");
   }
+  set errorMsg(msg) {
+    this._parent.errorMsg = msg;
+  }
+  get timer() {
+    return this._timer;
+  }
   wordRecognitionPattern(writtenWord) {
       return this._recognitionPattern.value(writtenWord);
   }
@@ -128,7 +135,7 @@ class SpeechRecognition {
       this._buttonElement = document.getElementById(buttonId);
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonElementId setter: Invalid element id "+buttonId;
+      this.errorMsg = "listening.buttonElementId setter: Invalid element id "+buttonId;
     }
   }
   get buttonElement() {
@@ -139,7 +146,7 @@ class SpeechRecognition {
       this._buttonImgElement = document.getElementById(buttonImgId);
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonImgElementId setter: Invalid element id "+buttonId;
+      this.errorMsg = "listening.buttonImgElementId setter: Invalid element id "+buttonId;
     }
   }
   get buttonImgElement() {
@@ -150,7 +157,7 @@ class SpeechRecognition {
       this._buttonElement.defaultValue = label;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonLabel setter: Error setting listening.buttonLabel with "+imgName;
+      this.errorMsg = "listening.buttonLabel setter: Error setting listening.buttonLabel with "+imgName;
     }
   }
   set buttonImgActive(imgName) {
@@ -160,17 +167,29 @@ class SpeechRecognition {
       this._buttonImgActive = imgName;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonLabel setter: Error setting listening.buttonImgActive with "+imgName;
+      this.errorMsg = "listening.buttonLabel setter: Error setting listening.buttonImgActive with "+imgName;
     }
   }
   set buttonImgInactive(imgName) {
     try {
       this._buttonImgInactive = imgName;
-      this._buttonImgElement.src = this._buttonImgInactive;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonImgInactive setter: Error setting listening.buttonImgInactive with "+imgName;
+      this.errorMsg = "listening.buttonImgInactive setter: Error setting listening.buttonImgInactive with "+imgName;
     }
+  }
+  get checkboxStopAtEosElement() {
+    return this._checkboxStopAtEosElement;
+  }
+  set checkboxStopAtEosElementId(id) {
+      try {
+        this._checkboxStopAtEosElement = document.getElementById(id);
+        //try touching it and testing for the proper type
+        var checked = this._checkboxStopAtEosElement.checked;
+      }
+      catch(e) {
+        this.errorMsg = "checkboxStopAtEosElementId setter: invalid element id "+id;
+      }
   }
   buttonActivate() {
     try {
@@ -178,16 +197,17 @@ class SpeechRecognition {
       this._isActive = true;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonActivate(): unexpected error";
+      this.errorMsg = "listening.buttonActivate(): unexpected error";
     }
   }
   buttonDeactivate() {
     try {
       this._buttonImgElement.src = this._buttonImgInactive;
+      this.timer.cancel();
       this._isActive = false;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonDeactivate(): unexpected error";
+      this.errorMsg = "listening.buttonDeactivate(): unexpected error";
     }
   }
   buttonDisabled() {
@@ -196,7 +216,7 @@ class SpeechRecognition {
       this._isActive = false;
     }
     catch(e) {
-      this.diagnosticMsg = "listening.buttonDisabled(): unexpected error";
+      this.errorMsg = "listening.buttonDisabled(): unexpected error";
     }
   }
   initialize() {
@@ -223,7 +243,7 @@ class SpeechRecognition {
         // not listening && timer active: START LISTENING
         if (!readingMonitor.listening.isActive) {
           readingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
-          readingMonitor.timer.start();
+          readingMonitor.listening.timer.start();
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           readingMonitor.listening.buttonActivate();
           readingMonitor.speaking.say("listening");
@@ -231,7 +251,7 @@ class SpeechRecognition {
         }
         else {
           readingMonitor.diagnosticMsg = "listenBtn:onclick(): listening";
-          readingMonitor.timer.cancel();
+          readingMonitor.listening.timer.cancel();
           recognition.stop();
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
           readingMonitor.listening.buttonDeactivate();
@@ -257,10 +277,15 @@ class SpeechRecognition {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
              if (readingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
+               var stopAfterMoveToNextWord = (readingMonitor.isLastWordOfSentence() && readingMonitor.listening.checkboxStopAtEosElement.checked);
                readingMonitor.moveToNextWord();
+               if (stopAfterMoveToNextWord) {
+                 readingMonitor.listening.buttonDeactivate();
+                 recognition.stop();
+               }
              } //
            } // for
-           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
+//           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
           //         console.log('confidence: ' + event.results[0][0].confidence);
           //         console.log("result[last]:"+spokenWords);
           //         if ((event.results.length - 1) >= 1)
@@ -271,7 +296,7 @@ class SpeechRecognition {
             alert("recognition:onresult: MyReadingMonitor does not exist in global scope")
           }
           else {
-            readingMonitor.diagnosticMsg = 'recognition:onresult: '+e.message;
+            readingMonitor.errorMsg = 'recognition:onresult: '+e.message;
 
           }
         }
@@ -280,7 +305,7 @@ class SpeechRecognition {
       recognition.onspeechend = function() {
   //         thisMonitor.diagnosticMsg = "recognition.onspeechend";
 
-         if (readingMonitor.listening.isActive && readingMonitor.timer.isActive) {
+         if (readingMonitor.listening.isActive && readingMonitor.listening.timer.isActive) {
            readingMonitor.diagnosticMsg = "recognition.onspeechend: keep listening";
 //         recognition.start();
          }
@@ -289,7 +314,7 @@ class SpeechRecognition {
   //            listenBtn.defaultValue = "listen to me read";
               readingMonitor.diagnosticMsg = "recognition.onspeechend: user cancelled";
             }
-           else if (!readingMonitor.timer.isActive){
+           else if (!readingMonitor.listening.timer.isActive){
      //            listenBtn.defaultValue = "listen to me read";
                readingMonitor.diagnosticMsg = "recognition.onspeechend: timer expired";
             }
@@ -301,7 +326,7 @@ class SpeechRecognition {
        recognition.onend = function() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
-          if (readingMonitor.listening.isActive && readingMonitor.timer.isActive) {
+          if (readingMonitor.listening.isActive && readingMonitor.listening.timer.isActive) {
             readingMonitor.diagnosticMsg = "recognition.onend: restart listening";
             readingMonitor.speaking.say("still listening");
             recognition.start();
@@ -310,7 +335,7 @@ class SpeechRecognition {
             if (!readingMonitor.listening.isActive) {
               readingMonitor.diagnosticMsg = "recognition.onend: user cancelled";
             }
-            else if (!readingMonitor.timer.isActive) {
+            else if (!readingMonitor.listening.timer.isActive) {
                 readingMonitor.diagnosticMsg = "recognition.onend: timer expired";
             }
             else {
@@ -342,7 +367,7 @@ class SpeechRecognition {
         alert("No global variable MyReadingMonitor found.");
       }
       else {
-        MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
+        MyReadingMonitor.errorMsg =" Could not initialize Speech Recognition object";
       }
     }
   } // initialize
@@ -350,6 +375,7 @@ class SpeechRecognition {
 class SpeechSynthesis {
   constructor(parent) {
     this._parent = parent;
+
     this._alternatePronunication = new PronunciationMap(this);
     this._alternatePronunication.set("Caden", "Kayden")
     this._alternatePronunication.set("Elan", "Elon")
@@ -380,7 +406,10 @@ class SpeechSynthesis {
     this._alternatePronunication.set("20680", "2 0 6 8 0")
     this._alternatePronunication.set("95070", "9 5 0 7 0")
   }
-  betterAlternative(spokenWord) {
+  set errorMsg(msg) {
+    this._parent.errorMsg = msg;
+  }
+betterAlternative(spokenWord) {
       return this._alternatePronunication.value(spokenWord);
   }
   get parent() {
@@ -392,16 +421,30 @@ class SpeechSynthesis {
   get isSupported() {
     return (window.hasOwnProperty('SpeechSynthesisUtterance') && 'speechSynthesis' in window);
   }
+  get checkboxPartialSentenceElement() {
+      return this._checkBoxPartialSentenceElement;
+  }
+  set checkboxPartialSentenceElementId(id) {
+      try {
+        this._checkBoxPartialSentenceElement = document.getElementById(id);
+        //try touching it and testing for the proper type
+        var checked = this._checkBoxPartialSentenceElement.checked;
+      }
+      catch(e) {
+        this.errorMsg = "checkboxPartialSentenceElementId setter: invalid element id "+id;
+      }
+    }
   set volumeControlElementId(id) {
     try {
       this._volumeControlElement = document.getElementById(id);
       //try touching it and testing for the proper range
-      var vol = parseFloat(MyReadingMonitor.speaking.volumeControlElement.value);
+//      var vol = parseFloat(MyReadingMonitor.speaking.volumeControlElement.value);
+      var vol = parseFloat(this._volumeControlElement.value);
       if (isNaN(vol) || vol > 1 || vol < 0)
         this._parent.diagnosticMsg = "volumeControlElementId setter: invalid element type or range for "+id;
     }
     catch(e) {
-      this._parent.diagnosticMsg = "volumeControlElementId setter: invalid element id "+id;
+      this.errorMsg = "volumeControlElementId setter: invalid element id "+id;
     }
   }
   get volumeControlElement() {
@@ -417,7 +460,7 @@ class SpeechSynthesis {
        }
     }
     catch(e) {
-      this._parent.diagnosticMsg = "voiceSelectorElementId setter: invalid Element id "+id;
+      this.errorMsg = "voiceSelectorElementId setter: invalid Element id "+id;
     }
   }
   get voiceSelectorElement() {
@@ -448,7 +491,7 @@ class SpeechSynthesis {
          alert("voiceSelectorPopulate(): MyReadingMonitor does not exist in global scope")
        }
        else {
-          MyReadingMonitor.diagnosticMsg = "voiceSelectorPopulate(): could not populate voices";
+          MyReadingMonitor.errorMsg = "voiceSelectorPopulate(): could not populate voices";
        }
      }
   }
@@ -469,7 +512,7 @@ class SpeechSynthesis {
         alert("No global variable MyReadingMonitor found.");
       }
       else {
-        MyReadingMonitor.diagnosticMsg =" Could not initialize Speech Recognition object";
+        this.errorMsg =" Could not initialize Speech Recognition object";
       }
     }
   }
@@ -491,7 +534,6 @@ class ReadingMonitor {
     // class variables
     constructor(name) {
       this._name = name;
-      this._timer = new Timer(this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
       this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
@@ -546,9 +588,6 @@ class ReadingMonitor {
     get speaking() {
         return this._speechSynthesis;
     }
-    get timer() {
-      return this._timer;
-    }
     set name(newName) {
         this._name = newName;
     }
@@ -558,7 +597,7 @@ class ReadingMonitor {
         this._sentenceIdxElement.innerText = "0"; // touch test
       }
       catch(e) {
-        this.diagnosticMsg = "sentenceIdxElementId setter: invalid Element id "+id;
+        this.errorMsg = "sentenceIdxElementId setter: invalid Element id "+id;
       };
     }
     set sentenceIdElementId(id) {
@@ -567,7 +606,7 @@ class ReadingMonitor {
         this._sentenceIdElement.innerText = "0"; // touch test
       }
       catch(e) {
-        this.diagnosticMsg = "sentenceIdElementId setter: invalid Element id "+id;
+        this.errorMsg = "sentenceIdElementId setter: invalid Element id "+id;
       };
     }
     set wordIdxElementId(id) {
@@ -577,7 +616,7 @@ class ReadingMonitor {
           this._tokenIdxElement.innerText = "0"; // touch test
         }
         catch(e) {
-          this.diagnosticMsg = "wordIdxElementId setter: invalid Element id "+id;
+          this.errorMsg = "wordIdxElementId setter: invalid Element id "+id;
         };
       }
       set wordIdElementId(id) {
@@ -587,7 +626,7 @@ class ReadingMonitor {
             this._wordIdElement.innerText = "0"; // touch test
           }
           catch(e) {
-            this.diagnosticMsg = "wordIdElementId setter: invalid Element id "+id;
+            this.errorMsg = "wordIdElementId setter: invalid Element id "+id;
           };
         }
     set diagnosticElementId(id) {
@@ -607,6 +646,24 @@ class ReadingMonitor {
           console.log("RMdiag-"+timestamp + ": " + msg);
         };
       }
+    set errorElementId(id) {
+        this._errorElement = document.getElementById(id);
+    }
+    set errorMsg(msg) {
+        try {
+          var time = new Date();
+          var timestamp = time.toLocaleTimeString();
+//          header = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds()+"."+time.getMilliseconds();
+          this._errorElement.textContent = timestamp + ":" + msg;
+        }
+        catch(e) {
+          console.log("errorMsg: cannot access error field");
+        }
+        finally {
+          console.log("RMerror -"+timestamp + ": " + msg);
+        };
+      }
+
     get currentSentenceIdx() {
         return Number(this._sentenceIdx);
     }
@@ -622,7 +679,7 @@ class ReadingMonitor {
           this._lastWordId = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[rm_wordLastIdx].getAttribute("id");
         }
         catch(e) {
-          this.diagnosticMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
+          this.errorMsg = "currentSentenceIdx setter: failed to set value to "+sentenceIdx+ " because "+e.message;
         }
     }
     get currentWordId() {
@@ -641,7 +698,7 @@ class ReadingMonitor {
       }
       catch(e) {
         this._wordId = wordId;
-        this.diagnosticMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
+        this.errorMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
       }
     }
     get lastWordIdx() {
@@ -650,7 +707,7 @@ class ReadingMonitor {
     get lastWordId() {
       return this._lastWordId;
     }
-    isLastWord() {
+    isLastWordOfSentence() {
       return this._wordId >= this._lastWordId;
     }
     endOfSentence() {
@@ -664,7 +721,7 @@ class ReadingMonitor {
         return document.getElementsByClassName(this.RM_SENTENCE)[this.currentSentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].innerText;
       }
       catch(e) {
-        this.diagnosticMsg = "currentWord getter: failed to get value to "+wordId+ " because "+e.message;
+        this.errorMsg = "currentWord getter: failed to get value to "+wordId+ " because "+e.message;
         return null;
       }
     }
@@ -673,7 +730,7 @@ class ReadingMonitor {
         return document.getElementsByClassName(this.RM_SENTENCE)[this.currentSentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].getAttribute(tag);
       }
       catch(e) {
-        this.diagnosticMsg = "currentWord getter: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
+        this.errorMsg = "currentWord getter: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
         return null;
       }
     }
@@ -684,7 +741,7 @@ class ReadingMonitor {
         var wordId = e.target.getAttribute("id");
         var wordsToBeSpoken = "";
         MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
-        var partialSentenceInput = document.getElementById('partialSentence');
+        var partialSentenceInput = this.speaking.checkboxPartialSentenceElement;
         if (partialSentenceInput.checked) {
           var w, hasFoundWordId = false;
           //could be simplified by iterating through sentenceElement.getElementsByClass("rm_word")
@@ -712,7 +769,7 @@ class ReadingMonitor {
        e.stopPropagation(); // stop bubbling
       }
       catch(e) {
-        MyReadingMonitor.diagnosticMsg = "rm_word_spanOnClick: Unexpected error: "+e.message;
+        MyReadingMonitor.errorMsg = "rm_word_spanOnClick: Unexpected error: "+e.message;
       }
     } //rm_wordSpanOnClick
     parseSentences(sentenceTag) {
@@ -807,7 +864,7 @@ class ReadingMonitor {
       // the given filter. The view is linear. In the absence of specific
       // requirements to the contrary, the nodes within the collection must be
       // sorted in tree order:" top-down, depth first OR HTML WYSIWYG.
-      if (this.isLastWord()) {
+      if (this.isLastWordOfSentence()) {
         this.moveToNextSentence();
       }
       else {
@@ -836,7 +893,7 @@ class ReadingMonitor {
         this.currentWordIndicatorOn(); // reset current word before changing sentence
       }
       catch(e) {
-        this.diagnosticMsg = "moveToThisWordPosition(): could not change word";
+        this.errorMsg = "moveToThisWordPosition(): could not change word";
       }
     }
     currentWordIndicatorOff() {
@@ -848,7 +905,7 @@ class ReadingMonitor {
 //          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
         }
         else {
-          this.diagnosticMsg = "currentWordIndicatorOff(): could not reset rm_word_current because "+e.message;
+          this.errorMsg = "currentWordIndicatorOff(): could not reset rm_word_current because "+e.message;
         }
       }
     }
@@ -857,7 +914,7 @@ class ReadingMonitor {
         document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.add(this.RM_WORD_CURRENT);
       }
       catch(e) {
-        this.diagnosticMsg = "currentWordIndicatorOn(): could not add rm_word_current";
+        this.errorMsg = "currentWordIndicatorOn(): could not add rm_word_current";
       }
     }
     matchWord(spokenWord) {

@@ -48,9 +48,13 @@ li:not(:last-child) {
           <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
        </div>
        <div class="option" id="partialSentenceControl">
-         <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
-         <label id="partialSentenceModeLabel" for="single word">Speak all words up to selected one</label>
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Speak sentence up to selected word</label>
       </div>
+      <div class="option" id="StopListeningAtEOSentenceControl">
+        <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+        <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+     </div>
     </div>
   </div>
 </header>
@@ -97,14 +101,15 @@ li:not(:last-child) {
 <h1><a class="navbar-itemByHeadingLevel" id="test">Test</a></h1>
 
 <p id="diagnostic">no error</p>
+<p id="error">no error</p>
 <p>
   <span>sentence idx:</span><span id="sentenceIdx">0</span>,
   <span>word idx:</span><span id="wordIdx">0</span>,
-  <span>word id:</span><span id="wordId">0</span>
+  <span>word id:</span><span id="wordId">0</span>,
+  <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+<p>
+<span id="os-msg"></span>
 </p>
-<div>last spoken word:</span><span id="lastSpokenWord">0</div>
-<p id="os-msg"></p>
-<p id="browser-msg"></p>
 
 <div class="option">
    <label for="voice" id="voiceLabel">Voice</label>
@@ -135,32 +140,34 @@ li:not(:last-child) {
  * onload
  */
 document.body.onload = function(e) {   //when the document body is clicked
-  var supportMsg = document.getElementById('browser-msg');
   var osMsg = document.getElementById('os-msg');
   var os = getOS();
 
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
  var MyReadingMonitor = new ReadingMonitor("sentence03");
-
  var MyPageNav = new navbar ();
+
  MyPageNav.populate();
 
  // register html field names
  MyReadingMonitor.diagnosticElementId ="diagnostic";
-
- MyReadingMonitor.listening.buttonElementId = "listenBtn";
- MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
- MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
- MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
- MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
- MyReadingMonitor.speaking.volumeControlElementId ="volume";
-
- MyReadingMonitor.sentenceIdElementId = "sentenceId";
+ MyReadingMonitor.errorElementId ="error";
+// MyReadingMonitor.sentenceIdElementId = "sentenceId";
  MyReadingMonitor.wordIdElementId = "wordId";
  MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
  MyReadingMonitor.wordIdxElementId = "wordIdx";
- MyReadingMonitor.timer.timeout = 10; // seconds
+
+ MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+ MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+ MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+ MyReadingMonitor.listening.buttonElementId = "listenBtn";
+ MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+ MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+ MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+ MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+ MyReadingMonitor.speaking.volumeControlElementId ="volume";
 
  MyReadingMonitor.initialize();
 
