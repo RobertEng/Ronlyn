@@ -89,25 +89,68 @@ class SpeechRecognition {
     this._timer = new Timer(this);
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
+    // pairs of written word that SpeechRecognition would match the second
     this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
+    this._recognitionPattern.set("Ronlyn's", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1}'s)$");
     this._recognitionPattern.set("Goo", "^(g[ou])");
     this._recognitionPattern.set("Wen", "^(wh{0,1}en)$");
+    this._recognitionPattern.set("Wen's", "^(wh{0,1}en's)$");
     this._recognitionPattern.set("Aruna", "^([ai]runa)$");
+    this._recognitionPattern.set("Berna", "^(b[eu]rn[ae]t{0,2})$");
+    this._recognitionPattern.set("Bett", "^(bet{1,2})$");
+    this._recognitionPattern.set("Bett's", "^(bet{1,2}s)$");
     this._recognitionPattern.set("Gambhir", "^(gamb[ie]e{0,1}r)$");
     this._recognitionPattern.set("shao", "^(sh[ae]ll)$");
     this._recognitionPattern.set("mai", "^(my)");
     this._recognitionPattern.set("cheung", "^(ch[euo]ng)$");
-    this._recognitionPattern.set("gaw", "^(g[ao]{lw])$");
+    this._recognitionPattern.set("gaw", "^(ga{0,1}o{0,1}l{0,1}w{0,1})$");
     this._recognitionPattern.set("negin", "^(n[ei]ge{1,2}ne{0,1})$");
     this._recognitionPattern.set("Jaylynne", "^(ja[yi]l[ey]n{1,2}e{0,1})$");
     this._recognitionPattern.set("Lynda", "^(l[iy]nda)$");
     this._recognitionPattern.set("Melisse", "^(m[ei]lis{1,2}e{0,1})$");
     this._recognitionPattern.set("Meilan", "^(m[aei]y{0,1}land{0,1})$");
+    this._recognitionPattern.set("Popo's", "^(popo'{0,1}s)$");
     this._recognitionPattern.set("Auntie", "^([ant{1,2}[iy])$");
     this._recognitionPattern.set("Ag", "^([ae]g{1,2})$");
     this._recognitionPattern.set("Seaton", "^(sea{0,1}ton)$");
     this._recognitionPattern.set("Ave", "^(avenue)$");
     this._recognitionPattern.set("St", "^(street)$");
+    this._recognitionPattern.set("one", "1");
+    this._recognitionPattern.set("two", "2");
+    this._recognitionPattern.set("three", "3");
+    this._recognitionPattern.set("four", "4");
+    this._recognitionPattern.set("five", "5");
+    this._recognitionPattern.set("six", "6");
+    this._recognitionPattern.set("seven", "7");
+    this._recognitionPattern.set("eight", "8");
+    this._recognitionPattern.set("nine", "9");
+    this._recognitionPattern.set("ten", "10");
+    this._recognitionPattern.set("twenty", "20");
+    this._recognitionPattern.set("thirty", "30");
+    this._recognitionPattern.set("forty", "40");
+    this._recognitionPattern.set("fifty", "50");
+    this._recognitionPattern.set("sixty", "60");
+    this._recognitionPattern.set("seventy", "70");
+    this._recognitionPattern.set("eighty", "80");
+    this._recognitionPattern.set("ninety", "90");
+    this._recognitionPattern.set("eleven", "11");
+    this._recognitionPattern.set("twelve", "12");
+    this._recognitionPattern.set("thirteen", "13");
+    this._recognitionPattern.set("fourteen", "14");
+    this._recognitionPattern.set("fifteen", "15");
+    this._recognitionPattern.set("sixteen", "16");
+    this._recognitionPattern.set("seventeen", "17");
+    this._recognitionPattern.set("eighteen", "18");
+    this._recognitionPattern.set("nineteen", "19");
+    this._recognitionPattern.set("char", "^(char{0,1})$");
+    this._recognitionPattern.set("siu", "^(si{0,1}ue{0,1})$");
+    this._recognitionPattern.set("bao", "^(ba{0,1}ow{0,1})$");
+    this._recognitionPattern.set("chueng", "^(chu[mn]g{0,1})$");
+    this._recognitionPattern.set("Popeye's", "^(popeyes)$");
+    this._recognitionPattern.set("Talkfest", "^(fest)$");
+    this._recognitionPattern.set("Giovanola", "(v[ae]nt{0,1}[io]l{0,1}a)$");
+    this._recognitionPattern.set("Dianne", "^(dian{1,2}e)$");
+    this._recognitionPattern.set("Dori", "^(dor[iy])$");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -922,7 +965,7 @@ class ReadingMonitor {
       // need code to manage special cases: proper noun not already recognized
       // inn parsing phase, embed possible surrogates for matching proper names:
       // Ronlyn = { Rollin | Rowland | ronlin | ron lin }
-      var properNamePattern = new RegExp(/^[A-Z]/); //first letter uppercase... less conficent if at beginning of sentence
+  //    var properNamePattern = new RegExp(/^[A-Z]/); //first letter uppercase... less conficent if at beginning of sentence
       // try lexical match
       if (spokenWord.toLowerCase() == this.currentWord.toLowerCase()) {
         return true;

@@ -19,7 +19,6 @@ main {
   right: 0;
   bottom: 0;
   overflow: auto;
-  background: #fff;
   margin-left: 10px;
 }
 #header { <!-- single element id="header"-->
@@ -36,6 +35,10 @@ main {
    height: var(--header-height);
    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
    background: #ccc;
+ }
+ #listenBtnImg {
+   width: 40px;
+   height: 40px;
  }
  .navbar-li
  {
