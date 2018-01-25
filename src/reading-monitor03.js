@@ -1,6 +1,6 @@
 /*******************************************
- * Reading Monitor v0.1.0
- * (c) 2017 by Wen Eng. All rights reserved.
+ * Reading Monitor v0.3.0
+ * (c) 2017, 2018 by Wen Eng. All rights reserved.
  ********************************************/
 "use strict";
 // ECMAScript6 class syntax only
@@ -448,6 +448,7 @@ class SpeechSynthesis {
     this._alternatePronunication.set("6076", "6 0 7 6")
     this._alternatePronunication.set("20680", "2 0 6 8 0")
     this._alternatePronunication.set("95070", "9 5 0 7 0")
+    this._alternatePronunication.set("Rummikub", "rummy cube")
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -583,8 +584,12 @@ class ReadingMonitor {
       this._tokenSeparatorPattern = new RegExp(/[\s]/);
       this._whitespacePattern = new RegExp(/[\s]/);
       this._wordSeparatorPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
+      this._htmlTagPattern = new RegExp(/<\/?[\w\s="/.':;#-\/\?]+>/);
       this._wordId = 0; // manages the initial condition where sentence idx is set without wordId
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
+    }
+    get RM_HTMLTAG() {
+      return "rm_htmlTag";
     }
     get RM_PUNCTUATION() {
       return "rm_punctuation";
@@ -606,6 +611,9 @@ class ReadingMonitor {
     }
     get RM_RECOGNITIONPATTERN() {
       return "rm_recognitionPattern";
+    }
+    get htmlTagPattern() {
+      return this._htmlTagPattern;
     }
     get punctuationPattern() {
       return this._punctuationPattern;
@@ -831,7 +839,6 @@ class ReadingMonitor {
           typeof srcSentenceElement != 'undefined';
           srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
           srcSentence = srcSentenceElement.innerText;
-
           dstSentenceElement = document.createElement(srcSentenceElement.tagName);
           dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
           dstSentenceElement.setAttribute("id", s);
@@ -844,10 +851,13 @@ class ReadingMonitor {
           for (w = 0; w < words.length; w++) {
             wordPos  = srcSentence.indexOf(words[w], currentPos);
             wordLength = words[w].length;
-            if (wordPos > currentPos) { // punctuation or whitespace before word
+            if (wordPos > currentPos) { // Tag, punctuation or whitespace before word
               srcNonword = srcSentence.substring(currentPos, wordPos);
-              if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
-                classLabel = this.RM_WHITESPACE;
+              if (MyReadingMonitor.htmlTagPattern.test(srcNonword)) {
+                classLabel = this.RM_HTMLTAG;
+              }
+              else if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
+                  classLabel = this.RM_WHITESPACE;
               } // must add other tests when other rm_* types are added
               else {
                 classLabel = this.RM_PUNCTUATION;
@@ -875,12 +885,13 @@ class ReadingMonitor {
               var alternative = this.speaking.betterAlternative(words[w]);
               if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
 
-              span.innerText = words[w];
+//              span.innerText = words[w];
+              span.innerHTML = words[w];
               dstSentenceElement.appendChild(span);
               wordIdx++;
             }
           } // for loop of words
-          if (currentPos < srcSentence.length) { // no more words just punctuations?
+            if (currentPos < srcSentence.length) { // no more words just punctuations?
             span = document.createElement("span");
             span.innerText = srcSentence.substring(currentPos, srcSentence.length);
             span.setAttribute("class", this.RM_PUNCTUATION);
@@ -892,7 +903,7 @@ class ReadingMonitor {
              var prevIdx = dstSentenceElement.children[c].getAttribute("prevWordIdx");
             if (prevIdx !== null && prevIdx != -1) { // rm_word
               dstSentenceElement.children[prevIdx].setAttribute("nextWordIdx", c);
-              srcSentence = document.getElementsByClassName(sentenceTag)
+// what does this do?              srcSentence = document.getElementsByClassName(sentenceTag)
             }
           }
           srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);

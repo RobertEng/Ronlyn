@@ -54,6 +54,12 @@
 .rm_sentence:hover {
     cursor: pointer;
   }
+
+  .rm_word_current {
+    text-decoration: underline;
+  /*  font-weight: bold; */
+  }
+
 </style>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -71,6 +77,10 @@
     <input type="checkbox" name="partialSentence" id="partialSentence" default=checked>
     <label for="single word">Speak all words up to selected one</label>
  </div>
+ <div class="option" id="StopListeningAtEOSentenceControl">
+   <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+   <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+</div>
 
   <div class="option">
      <label for="voice">Voice</label>
@@ -83,8 +93,7 @@
 <br>
 The beginning of the ul block
 <ul>
-  <li><div class="sentence">My..."help!".</div></li>
-  <li><div class="sentence">My name is Ronlyn Goo.</div></li>
+<li><div class="sentence">My name is <b>Ronlyn</b> Goo.</div></li>
 <li><div class="sentence">I am 54 years old!</div></li>
 <li><div class="sentence">My husband is named Wen?</div></li>
 <li><div class="sentence">We have been married 25 years.</div></li>
@@ -135,12 +144,14 @@ The ending of the ul block
 
   MyReadingMonitor.speaking.voiceSelectorElementId ="voiceSelector";
   MyReadingMonitor.speaking.volumeControlElementId ="volumeInput";
+  MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+  MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
 
   MyReadingMonitor.sentenceIdElementId = "sentenceId";
   MyReadingMonitor.wordIdElementId = "wordId";
   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
   MyReadingMonitor.wordIdxElementId = "wordIdx";
-  MyReadingMonitor.timer.timeout = 10; // ms
+  MyReadingMonitor.listening.timer.timeout = 10; // ms
 
   MyReadingMonitor.parseSentences("sentence");
   MyReadingMonitor.moveToFirstSentence();
