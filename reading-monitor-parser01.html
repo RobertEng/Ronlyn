@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+<link rel="manifest" href="manifest.webapp">
+    <title>Speech Recognition tester</title>
+
+<style>
+    body, html {
+      margin: 10;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: inherit;
+         background: #ccc;
+    }
+
+    h1 {
+      font-family: arial;
+      font-size: 100%;
+      text-align: left;
+
+    }
+    h2 {
+      font-family: arial;
+      font-size: 90%;
+      text-align: left;
+    }
+    h3 {
+      font-family: arial;
+      font-size: 80%;
+      text-align: left;
+    }
+    h4 {
+      font-family: arial;
+      font-size: 75%;
+      text-align: left;
+    }
+    p {
+      font-family: sans-serif;
+      font-size: 80%;
+      text-align: left;
+    }
+
+    div {
+      position: relative;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    .hints span {
+      text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+    }
+    #listenBtn {
+      border: 0;
+      background-color:transparent;
+      padding: 0;
+      outline: none;
+      border: none;
+}
+.rm_sentence:hover {
+    cursor: pointer;
+}
+
+.rm_word_current {
+  text-decoration: underline;
+/*  font-weight: bold; */
+}
+.tokenlist {
+   font-family: courier;
+}
+</style>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <title>reading monitor tester</title>
+  <h1>Reading Monitor Tester</h1>
+
+<h2>Preprocessor</h2>
+Tests the underlying preprocessing that enables the speaking and listening capability within the reading montior.
+<h3>Tokenizer</h3>
+<div class="parsertest_sentence">My name is Ronlyn Goo.</div>
+<XMP><div class="parsertest_sentence">My name is Ronlyn Goo.</div></XMP>
+<p><span>tokens (just words):</span><span class="tokenlist" id=1>hi</span></p>
+
+<div class="parsertest_sentence">My name is Wen.</div>
+<XMP><div class="parsertest_sentence">My name is Wen.</div></XMP>
+<p><span>tokens (just words):</span><span class="tokenlist" id=2>hi</span></p>
+
+<div class="parsertest_sentence">My name is <b>Ronlyn</b> Goo.</div>
+<XMP><div class="parsertest_sentence">My name is <b>Ronlyn</b> Goo.</div></XMP>
+<p><span>tokens (just words):</span><span class="tokenlist" id=2>hi</span></p>
+
+<h3>Parser</h3>
+<h2>Diagnostics</h2>
+<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
+<p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
+<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
+<p id="confidence">no error</p>
+<p id="diagnostic">no error</p>
+
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
+<script>
+//import ReadingMonitor from 'reading-monitor.js';
+  var MyReadingMonitor = new ReadingMonitor("Speech recognition tester");
+
+  // register html field names
+  MyReadingMonitor.diagnosticElementId ="diagnostic";
+
+  MyReadingMonitor.parseSentences1("parsertest_sentence");
+
+</script>
+</body>
+</html>

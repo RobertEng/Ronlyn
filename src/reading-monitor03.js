@@ -909,6 +909,103 @@ class ReadingMonitor {
           srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
         } // for loop of sentences
         this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
+    } // parseSentences
+    parseSentences1(sentenceTag) {
+      var srcSentence, srcNonword, classLabel;
+      var dstSentenceElement, srcSentenceElement;
+      var c, s, w;
+      var words;
+      var currentPos, wordPos, wordLength;
+      var wordIdx = 0;
+      var span;
+      var previousWordIdx = -1;
+      var alternateRecognitionAttribute;
+      var alternateSynthesisAttribute;
+
+// test code: start
+      var tokenElement = document.getElementsByClassName("tokenlist");
+// test code: end
+      for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
+          typeof srcSentenceElement != 'undefined';
+          srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
+//            srcSentence = srcSentenceElement.innerText;
+            srcSentence = srcSentenceElement.innerHTML;
+          dstSentenceElement = document.createElement(srcSentenceElement.tagName);
+          dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
+          dstSentenceElement.setAttribute("id", s);
+
+//        sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
+          words = srcSentence.split(MyReadingMonitor.wordSeparatorPattern).filter(item => item.length > 0); // remove null
+// test code: start
+          tokenElement[s].innerText = "(" + words.join("|") +")";
+          if (MyReadingMonitor.htmlTagPattern.test(srcSentence)) {
+            console.log("has html embedded")
+          }
+// test code: end
+          currentPos = 0; // beginning of sentence
+          wordIdx = 0;
+          previousWordIdx = -1;
+          for (w = 0; w < words.length; w++) {
+            wordPos  = srcSentence.indexOf(words[w], currentPos);
+            wordLength = words[w].length;
+            if (wordPos > currentPos) { // Tag, punctuation or whitespace before word
+              srcNonword = srcSentence.substring(currentPos, wordPos);
+              if (MyReadingMonitor.htmlTagPattern.test(srcNonword)) {
+                classLabel = this.RM_HTMLTAG;
+              }
+              else if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
+                  classLabel = this.RM_WHITESPACE;
+              } // must add other tests when other rm_* types are added
+              else {
+                classLabel = this.RM_PUNCTUATION;
+              }
+              currentPos = wordPos; // advance to current word
+              span = document.createElement("span");
+              span.setAttribute("class", classLabel);
+              span.setAttribute("idx", wordIdx++);
+              span.innerText = srcNonword;
+              dstSentenceElement.appendChild(span);
+            }
+            if (wordPos == currentPos) { // positioned at beginning of word
+              currentPos = currentPos + wordLength; // advance passed current word
+              span = document.createElement("span");
+              span.setAttribute("class", this.RM_WORD);
+              span.setAttribute("idx", wordIdx);
+              if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
+              previousWordIdx = wordIdx;
+              span.setAttribute("id", w);
+              var readingMonitor = this;
+              span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
+
+              var pattern = this.listening.wordRecognitionPattern(words[w]);
+              if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
+              var alternative = this.speaking.betterAlternative(words[w]);
+              if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
+
+//              span.innerText = words[w];
+              span.innerHTML = words[w];
+              dstSentenceElement.appendChild(span);
+              wordIdx++;
+            }
+          } // for loop of words
+            if (currentPos < srcSentence.length) { // no more words just punctuations?
+            span = document.createElement("span");
+            span.innerText = srcSentence.substring(currentPos, srcSentence.length);
+            span.setAttribute("class", this.RM_PUNCTUATION);
+            span.setAttribute("idx", wordIdx);
+            dstSentenceElement.appendChild(span);
+          }
+          // set nextWordIdx from prevWordIdx
+          for (c = dstSentenceElement.childElementCount - 1; c >= 0; c--) {
+             var prevIdx = dstSentenceElement.children[c].getAttribute("prevWordIdx");
+            if (prevIdx !== null && prevIdx != -1) { // rm_word
+              dstSentenceElement.children[prevIdx].setAttribute("nextWordIdx", c);
+// what does this do?              srcSentence = document.getElementsByClassName(sentenceTag)
+            }
+          }
+          srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
+        } // for loop of sentences
+        this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
     } // parseSentences1
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation or whitespace)
