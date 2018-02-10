@@ -88,8 +88,18 @@
 <h2>Preprocessor</h2>
 Tests the underlying preprocessing that enables the speaking and listening capability within the reading montior.
 <h3>Tokenizer</h3>
-<li><div class="sentence">My name is <b>Ronlyn</b> Goo.</div></li>
-<p><span>tokens:</span><span id="tokens"></span></p>
+<div class="sentence_for_tokens">My name is Ronlyn Goo.</div>
+<div class="sentence_for_tokens">My name is <b>Ronlyn</b> Goo.</div>
+<div class="sentence_for_tokens">Cat! Dog?</div>
+<div class="sentence_for_tokens">The quick brown <b>fox</b> jumped over the lazy dog.</div>
+<div class="sentence_for_tokens"><b>The quick</b> brown <b>fox</b> jumped over the lazy dog.".</div>
+<div class="sentence_for_tokens"><empty or void element> like <br> exist.</div>
+<div class="sentence_for_tokens">the time is 12:30 pm.</div>
+<div class="sentence_for_tokens">the date is 1/26/2018.</div>
+<div class="sentence_for_tokens">email is wen_eng@yahoo.com.</div>
+<div class="sentence_for_tokens">I have 1,000.0</div>
+<div class="sentence_for_tokens"><a href='http:\/\/www.yahoo.com'>click here</a></div>
+
 
 <h3>Parser</h3>
 
@@ -124,12 +134,21 @@ Tests the underlying preprocessing that enables the speaking and listening capab
 <br>
 <h3>ul block</h3>
 <ul>
-<li><div class="sentence">My name is <b>Ronlyn</b> Goo.</div></li>
 <li><div class="sentence">I am 54 years old!</div></li>
+<li><div class="sentence">I am <b>54</b> years</b> old</b>!</div></li>
 <li><div class="sentence">My husband is named Wen?</div></li>
 <li><div class="sentence">We have been married 25 years.</div></li>
 <li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
 <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+<li><div class="sentence">Today is 1/26/2018.</div></li>
+<li><div class="sentence">The time is 12:30 pm.</div></li>
+<li><div class="sentence">The cost is $1.50.</div></li>
+<li><div class="sentence">The number is 1000.0</div></li>
+<li><div class="sentence">email is wen_eng@yahoo.com.</div></li>
+<li><div class="sentence" style="color:green"><span style="color:red">My </span> name is <b>Ronlyn</b> Goo.</div></li>
+<li><div><span style="color:red">My<span style="color:green">name </span>is </span><b>Ronlyn</b> Goo.</div></li>
+<li><div class="sentence"><span style="color:red">red words</span> followed by <span style="color:blue">blue ones</span></div>
+
 </ul>
 <h3>Proper names</h3>
 
@@ -171,8 +190,7 @@ Tests the underlying preprocessing that enables the speaking and listening capab
   MyReadingMonitor.wordIdxElementId = "wordIdx";
   MyReadingMonitor.listening.timer.timeout = 10; // ms
 
-  MyReadingMonitor.parseSentences("sentence");
-  MyReadingMonitor.moveToFirstSentence();
+
   MyReadingMonitor.initialize();
 
 </script>

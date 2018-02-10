@@ -151,6 +151,10 @@ class SpeechRecognition {
     this._recognitionPattern.set("Giovanola", "(v[ae]nt{0,1}[io]l{0,1}a)$");
     this._recognitionPattern.set("Dianne", "^(dian{1,2}e)$");
     this._recognitionPattern.set("Dori", "^(dor[iy])$");
+    this._recognitionPattern.set("Dr", "doctor");
+    this._recognitionPattern.set("Theatre", "theater");
+    this._recognitionPattern.set("pm", "p.m.");
+    this._recognitionPattern.set("am", "a.m.");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -449,6 +453,7 @@ class SpeechSynthesis {
     this._alternatePronunication.set("20680", "2 0 6 8 0")
     this._alternatePronunication.set("95070", "9 5 0 7 0")
     this._alternatePronunication.set("Rummikub", "rummy cube")
+    this._alternatePronunication.set("Dr", "doctor")
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -574,28 +579,245 @@ betterAlternative(spokenWord) {
       window.speechSynthesis.speak(this._synthesis);
   }
 }
+class Token {
+/*
+  constructor(text) {
+    this._text = text;
+    this._position = 0;
+    this._type = "";
+  }
+  */
+  constructor(text, type, position) {
+    this._text = text;
+    this._type = type;
+    this._subtype = "";
+    this._attributes = "";
+    this._position = position;
+  }
+  get text() {
+    return this._text;
+  }
+  get attributes() {
+    return this._attributes;
+  }
+  set attributes(attr) {
+    this._attributes = attr;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(position) {
+    this._position = position;
+  }
+  get subtype() {
+    return this._subtype;
+  }
+  set subtype(tokenType) {
+    this._subtype = tokenType;
+  }
+  get type() {
+    return this._type;
+  }
+  set type(tokenType) {
+    this._type = tokenType;
+  }
+}
+class Tokenizer {
+  constructor(parent) {
+    this._parent = parent;
+//    this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
+//    this._tokenSeparatorPattern = new RegExp(/[\s]/);
+//    this._whitespacePattern = new RegExp(/[\s]/);
+
+//    this._wordSeparatorPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
+//    this._wordPattern = new RegExp(/([A-Za-z0-9]+)/g);
+
+//    this._tokenPattern = new RegExp(/([A-Za-z0-9]+)|([,\/#$%\^&\*;:{}=\-_`~()\"\?\.!@])|(<\/?[\w\s="/.':;#-\/\?]+>)/g);
+
+     this._wordTokenPattern = new RegExp(/([A-Za-z0-9]+)/);
+     this._punctuationTokenPattern = new RegExp(/([,\/#$%\^&\*;:{}=\-_`~()\"\?\.!@])/);
+     this._htmlTagTokenPattern = new RegExp(/(<\/?[\w\s="/.':;#-\/\?]+>)/);
+//     this._htmlTagOpenTokenPattern = new RegExp(/(<[\w\s="/.':;#-\/\?]+>)/);
+//     this._htmlTagCloseTokenPattern = new RegExp(/(<\/[\w\s="/.':;#-\/\?]+>)/);
+
+     this._tokenPattern = new RegExp(this._wordTokenPattern.source
+                              +"|"+this._punctuationTokenPattern.source
+                              +"|"+this._htmlTagTokenPattern.source,"g");
+
+    this._numberWithCommaPattern = new RegExp(/[0-9]/);
+    this._UsdPattern = new RegExp(/[0-9]/);
+    this._date1Pattern = new RegExp(/[0-9]/);
+    this._date2Pattern = new RegExp(/[0-9]/);
+    this._timePattern = new RegExp(/[0-9]/);
+    this._htmlTagPattern = new RegExp(/<\/?[\w\s="/.':;#-\/\?]+>/);
+// search for complex patterns with embedded punctations before simple punctuations
+// e.g. timePattern 1:30 before just ":".
+  }
+  get TOKEN_TBD() {
+    return "TOKEN_tbd";
+  }
+  get TOKEN_HTMLTAG() {
+    return "TOKEN_htmlTag";
+  }
+  get TOKEN_HTMLTAG_ABBREV() {
+    return "TOKEN_htmlTag";
+  }
+  get TOKEN_HTMLTAG_SELFCLOSE() {
+    // AKA void elements
+    return "TOKEN_htmlTagSelfClose";
+  }
+  get TOKEN_HTMLTAG_CLOSE() {
+    return "TOKEN_htmlTagClose";
+  }
+  get TOKEN_HTMLTAG_OPEN() {
+    return "TOKEN_htmlTagOpen";
+  }
+  get TOKEN_PUNCTUATION() {
+    return "TOKEN_punctuation";
+  }
+  get TOKEN_PUNCTUATION_COMMA() {
+    // for pausing
+    return "TOKEN_punctuationComma";
+  }
+  get TOKEN_PUNCTUATION_SEMICOLON() {
+    // for pausing
+    return "TOKEN_punctuationSemicolon";
+  }
+  get TOKEN_WORD() {
+    return "TOKEN_word";
+  }
+  get TOKEN_PUNCTUATION_USD() {
+    //
+    return "TOKEN_punctuationUsd";
+  }
+  get TOKEN_WORD_DATE() {
+    return "TOKEN_wordDate";
+  }
+  get TOKEN_WORD_TIME() {
+    return "TOKEN_wordTime";
+  }
+  get TOKEN_WORD_COMMASEPARATEDNUMBER() {
+    // keep together
+    return "TOKEN_wordCommaSeparatedNumber";
+  }
+  get TOKEN_WHITESPACE() {
+    return "TOKEN_whitespace";
+  }
+  tokens(sentence) {
+    var tokens = Array(), tokenList;
+    var currentPos = 0, tokenPos, tokenLength, t = 0, tl;
+    tokenList = this.tokenListSansWhitespace(sentence);
+    for (tl = 0; tl < tokenList.length; tl++) {
+      tokenPos  = sentence.indexOf(tokenList[tl], currentPos);
+      if (currentPos < tokenPos) {
+        // whitespace before token
+        tokens[t++] = new Token(sentence.substring(currentPos, tokenPos), this.TOKEN_WHITESPACE, currentPos);
+        currentPos = tokenPos;
+      }
+      if (currentPos == tokenPos) {
+        // positioned at token
+        tokens[t] = new Token(tokenList[tl], this.TOKEN_TBD, currentPos);
+        currentPos = tokenPos + tokenList[tl].length;
+
+        // tests for subtype: more specific to least specific
+        if (tokenList[tl].substring(0,1) =="$") {
+          tokens[t].type = this.TOKEN_PUNCTUATION_USD;
+          tokens[t].subtype = "$";
+        }
+        // HTML tag
+        else if (tokenList[tl].match(this._htmlTagTokenPattern)) {
+          if (tokenList[tl].substring(1,2) == "/") {
+            tokens[t].type = this.TOKEN_HTMLTAG_CLOSE;
+          }
+          else { // opening HMTL TAG
+            tokens[t].type = this.TOKEN_HTMLTAG_OPEN;
+            if (tokenList[tl].substring(1,5).toLowerCase() =="span") {
+              tokens[t].subtype = "span";
+              tokens[t].attributes = tokenList[tl].substring(6,tokenList[tl].length-1) ;
+            }
+          }
+        }
+        else if (tokenList[tl].match(this._punctuationTokenPattern)) {
+          tokens[t].type = this.TOKEN_PUNCTUATION;
+        }
+        else {
+          tokens[t].type = this.TOKEN_WORD; // catch all
+        }
+        t++;
+        // Word comma
+        // Word semicolon
+        // Number
+      }
+      // catch trailing whitespace, if any
+      if (currentPos < sentence.length) {
+        tokens[t] = new Token(sentence.substring(currentPos, sentence.length), this.TOKEN_WHITESPACE, currentPos);
+      }
+    }
+    return tokens;
+  }
+  tokenListSansWhitespace(sentence) {
+    return sentence.match(this._tokenPattern);
+  }
+  htmlTagClosing(htmlTagOpening) {
+    // assume format <TAG> | <TAG attributes>
+    // returns </TAG>
+    try {
+      htmlTagClosing = "</"
+      blankPos = htmlTagOpening.indexOf(" ");
+
+      if (blankPos > 0) {
+       htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, blankPos) +">"
+     }
+      else {
+        htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, htmlTagOpening.length)
+      }
+      return htmlTagOpening;
+    }
+    catch (e) {
+      return "";
+    }
+  }
+  htmlTagOpening(htmlTagClosing) {
+    try {
+      return htmlTagClosing.substring(0,1)+htmlTagClosing.substring(2,htmlTagClosing.length);
+    }
+    catch (e) {
+      return "";
+    }
+  }
+}
 class ReadingMonitor {
     // class variables
     constructor(name) {
       this._name = name;
+      this._tokenizer = new Tokenizer(this);
       this._speechRecognition = new SpeechRecognition(this);
       this._speechSynthesis = new SpeechSynthesis(this);
-      this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
-      this._tokenSeparatorPattern = new RegExp(/[\s]/);
+//      this._punctuationPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\?\.!]/);
+//      this._tokenSeparatorPattern = new RegExp(/[\s]/);
       this._whitespacePattern = new RegExp(/[\s]/);
       this._wordSeparatorPattern = new RegExp(/[,\/#$%\^&\*;:{}=\-_`~()\"\.\?!\t\s]/);
-      this._htmlTagPattern = new RegExp(/<\/?[\w\s="/.':;#-\/\?]+>/);
+//      this._htmlTagPattern = new RegExp(/<\/?[\w\s="/.':;#-\/\?]+>/);
       this._wordId = 0; // manages the initial condition where sentence idx is set without wordId
       // var tokenPattern = new RegExp(/[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+/);
     }
+    get TOKEN_HTMLTAG() {
+      return this._tokenizer.TOKEN_HTMLTAG;
+    }
+    get TOKEN_PUNCTUATION() {
+      return this._tokenizer.TOKEN_PUNCTUATION;
+    }
     get RM_HTMLTAG() {
-      return "rm_htmlTag";
+      return "rm_htmltag";
     }
     get RM_PUNCTUATION() {
       return "rm_punctuation";
     }
     get RM_SENTENCE() {
       return "rm_sentence";
+    }
+    get RM_TBD() {
+      return "rm_tbd";
     }
     get RM_WORD() {
       return "rm_word";
@@ -638,6 +860,9 @@ class ReadingMonitor {
     }
     get speaking() {
         return this._speechSynthesis;
+    }
+    get tokenizer() {
+      return this._tokenizer;
     }
     set name(newName) {
         this._name = newName;
@@ -787,9 +1012,14 @@ class ReadingMonitor {
     }
     rm_wordSpanOnClick(e) {
       try {
-        var sentenceElement = e.target.parentElement;
+        var spanElement, sentenceElement;
+        for (sentenceElement = e.target; sentenceElement.className != this.RM_SENTENCE; sentenceElement = sentenceElement.parentElement) {
+          spanElement = sentenceElement;
+        };
+//        if (sentenceElement.className != this.RM_SENTENCE) sentenceElement = sentenceElement.parentElement;
         var sentenceIdx = sentenceElement.getAttribute("id");
-        var wordId = e.target.getAttribute("id");
+//        var wordId = e.target.getAttribute("id");
+        var wordId = spanElement.getAttribute("id");
         var wordsToBeSpoken = "";
         MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
         var partialSentenceInput = this.speaking.checkboxPartialSentenceElement;
@@ -832,8 +1062,8 @@ class ReadingMonitor {
       var wordIdx = 0;
       var span;
       var previousWordIdx = -1;
-      var alternateRecognitionAttribute;
-      var alternateSynthesisAttribute;
+//      var alternateRecognitionAttribute;
+//      var alternateSynthesisAttribute;
 
       for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
           typeof srcSentenceElement != 'undefined';
@@ -853,10 +1083,10 @@ class ReadingMonitor {
             wordLength = words[w].length;
             if (wordPos > currentPos) { // Tag, punctuation or whitespace before word
               srcNonword = srcSentence.substring(currentPos, wordPos);
-              if (MyReadingMonitor.htmlTagPattern.test(srcNonword)) {
-                classLabel = this.RM_HTMLTAG;
-              }
-              else if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
+//              if (MyReadingMonitor.htmlTagPattern.test(srcNonword)) {
+//                classLabel = this.RM_HTMLTAG;
+//              }
+              if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
                   classLabel = this.RM_WHITESPACE;
               } // must add other tests when other rm_* types are added
               else {
@@ -910,103 +1140,198 @@ class ReadingMonitor {
         } // for loop of sentences
         this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
     } // parseSentences
+
     parseSentences1(sentenceTag) {
-      var srcSentence, srcNonword, classLabel;
-      var dstSentenceElement, srcSentenceElement;
-      var c, s, w;
-      var words;
-      var currentPos, wordPos, wordLength;
-      var wordIdx = 0;
-      var span;
-      var previousWordIdx = -1;
-      var alternateRecognitionAttribute;
-      var alternateSynthesisAttribute;
+      for(var s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
+        typeof srcSentenceElement != 'undefined';
+        srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
 
-// test code: start
-      var tokenElement = document.getElementsByClassName("tokenlist");
-// test code: end
-      for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
-          typeof srcSentenceElement != 'undefined';
-          srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
-//            srcSentence = srcSentenceElement.innerText;
-            srcSentence = srcSentenceElement.innerHTML;
-          dstSentenceElement = document.createElement(srcSentenceElement.tagName);
-          dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
-          dstSentenceElement.setAttribute("id", s);
+        var tokens = this._tokenizer.tokens(srcSentenceElement.innerHTML);
+        var htmlTagsOpen = new Map();
+        var spansAttributes = new Array(); //attribute
+        //
+        var dstSentenceElement = document.createElement(srcSentenceElement.tagName);
+        // transfer all attributes from source sentence
+        dstSentenceElement.setAttribute("id", s);
+        for (var a = 0; a < srcSentenceElement.attributes.length; a++) {
+            dstSentenceElement.setAttribute(srcSentenceElement.attributes[a].name, srcSentenceElement.attributes[a].value);
+        }
+        // except className
+        dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
 
-//        sentences[s].setAttribute("style", "display:inline;"); //style="display: inline"
-          words = srcSentence.split(MyReadingMonitor.wordSeparatorPattern).filter(item => item.length > 0); // remove null
-// test code: start
-          tokenElement[s].innerText = "(" + words.join("|") +")";
-          if (MyReadingMonitor.htmlTagPattern.test(srcSentence)) {
-            console.log("has html embedded")
-          }
-// test code: end
-          currentPos = 0; // beginning of sentence
-          wordIdx = 0;
-          previousWordIdx = -1;
-          for (w = 0; w < words.length; w++) {
-            wordPos  = srcSentence.indexOf(words[w], currentPos);
-            wordLength = words[w].length;
-            if (wordPos > currentPos) { // Tag, punctuation or whitespace before word
-              srcNonword = srcSentence.substring(currentPos, wordPos);
-              if (MyReadingMonitor.htmlTagPattern.test(srcNonword)) {
-                classLabel = this.RM_HTMLTAG;
-              }
-              else if (MyReadingMonitor.whitespacePattern.test(srcNonword)) {
-                  classLabel = this.RM_WHITESPACE;
-              } // must add other tests when other rm_* types are added
-              else {
-                classLabel = this.RM_PUNCTUATION;
-              }
-              currentPos = wordPos; // advance to current word
-              span = document.createElement("span");
-              span.setAttribute("class", classLabel);
-              span.setAttribute("idx", wordIdx++);
-              span.innerText = srcNonword;
-              dstSentenceElement.appendChild(span);
+        var spanIdx = 0; // sequential index of all spans
+        var wordId = 0; // sequential index of spans of type rm_word's
+
+        for (var t = 0; t < tokens.length; t++) {
+          var classLabel = this.RM_TBD;
+          var span = document.createElement("span");
+
+          switch (tokens[t].type) {
+            case this._tokenizer.TOKEN_PUNCTUATION: {
+              classLabel = this.RM_PUNCTUATION;
+              span.setAttribute("idx", spanIdx++);
+              break;
             }
-            if (wordPos == currentPos) { // positioned at beginning of word
-              currentPos = currentPos + wordLength; // advance passed current word
-              span = document.createElement("span");
-              span.setAttribute("class", this.RM_WORD);
-              span.setAttribute("idx", wordIdx);
-              if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
-              previousWordIdx = wordIdx;
-              span.setAttribute("id", w);
+            case this._tokenizer.TOKEN_WHITESPACE: {
+              classLabel = this.RM_WHITESPACE;
+              span.setAttribute("idx", spanIdx++);
+              break;
+            }
+            case this._tokenizer.TOKEN_HTMLTAG_OPEN: {
+              classLabel = this.RM_HTMLTAG;
+              var htmlTagCount = htmlTagsOpen.get(tokens[t].text);
+              if (typeof(htmlTagCount) == "undefined") {
+                htmlTagsOpen.set(tokens[t].text, 1);
+              }
+              else {
+                htmlTagsOpen.set(tokens[t].text, Number(htmlTagCount)+1);
+              }
+              break;
+            }
+            case this._tokenizer.TOKEN_HTMLTAG_CLOSE: {
+              classLabel = this.RM_HTMLTAG;
+              var htmlTagClose = this._tokenizer.htmlTagOpening(tokens[t].text);
+              var htmlTagCount = htmlTagsOpen.get(htmlTagClose);
+              if (typeof(htmlTagCount) == "undefined") {
+                htmlTagsOpen.set(htmlTagClose, 0);
+              }
+              else {
+                htmlTagsOpen.set(htmlTagClose, Number( htmlTagCount)-1);
+              }
+              break;
+            }
+            case this._tokenizer.TOKEN_HTMLTAG: {
+              classLabel = this.RM_HTMLTAG;
+              // create/duplicate open and close html for each word span
+              //when <> is encountered, push into stack
+              // rm_word state needs to look at stack to determine if word requires tags
+              //remember each span must contain a proper html pair
+              //when </> is encountered pop stack
+              break;
+            }
+            case this._tokenizer.TOKEN_PUNCTUATION: {
+              classLabel = this.RM_PUNCTUATION;
+              span.setAttribute("idx", spanIdx++);
+              break;
+            }
+            default: {
+              classLabel = this.RM_WORD;
+              span.setAttribute("idx", spanIdx++);
+              span.setAttribute("id", wordId++);
               var readingMonitor = this;
               span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
 
-              var pattern = this.listening.wordRecognitionPattern(words[w]);
+              var pattern = this.listening.wordRecognitionPattern(tokens[t].text);
               if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
-              var alternative = this.speaking.betterAlternative(words[w]);
+              var alternative = this.speaking.betterAlternative(tokens[t].text);
               if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
-
-//              span.innerText = words[w];
-              span.innerHTML = words[w];
-              dstSentenceElement.appendChild(span);
-              wordIdx++;
+              break;
             }
-          } // for loop of words
-            if (currentPos < srcSentence.length) { // no more words just punctuations?
-            span = document.createElement("span");
-            span.innerText = srcSentence.substring(currentPos, srcSentence.length);
-            span.setAttribute("class", this.RM_PUNCTUATION);
-            span.setAttribute("idx", wordIdx);
+          }
+          if (classLabel == this.RM_HTMLTAG) {
+              // skip htmltags
+          }
+          else {
+            span.setAttribute("class", classLabel);
+
+            // add htmlTagsOpen and allow browser to render well-formed span by automatically
+            // including closing tags even for self closing html tags.
+            //
+            //
+            // iterate through map htmlTagsOpen
+            var htmlTagsOpenString = "";
+            for (var [tag, count] of htmlTagsOpen.entries()) {
+                if (count > 0) htmlTagsOpenString = htmlTagsOpenString + tag;
+            }
+            span.innerHTML = htmlTagsOpenString+tokens[t].text;
+            // span.innerText = opening tags + tokens[t].text + closing tags           span.innerText = HTMLTAGS
             dstSentenceElement.appendChild(span);
           }
-          // set nextWordIdx from prevWordIdx
-          for (c = dstSentenceElement.childElementCount - 1; c >= 0; c--) {
-             var prevIdx = dstSentenceElement.children[c].getAttribute("prevWordIdx");
-            if (prevIdx !== null && prevIdx != -1) { // rm_word
-              dstSentenceElement.children[prevIdx].setAttribute("nextWordIdx", c);
-// what does this do?              srcSentence = document.getElementsByClassName(sentenceTag)
-            }
+        } //tokens
+        srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
+    } // for loop of sentences
+    this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
+  } // parseSentences1
+  parseSentences2(sentenceTag) {
+    var srcSentence, srcNonword, classLabel;
+    var dstSentenceElement, srcSentenceElement;
+    var s, t;
+//    var words;
+//    var currentPos, wordPos, wordLength;
+    var wordIdx = 0, wordId = 0;
+    var span;
+    var previousWordIdx = -1;
+    var alternateRecognitionAttribute;
+    var alternateSynthesisAttribute;
+//    var tokens;
+
+//      for(s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
+//        typeof srcSentenceElement != 'undefined';
+//        srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
+  var srcSentenceElement = document.querySelectorAll("."+sentenceTag);
+  for(s = 0; s < srcSentenceElement.length; s++) {
+      var tokens = this._tokenizer.tokens(srcSentenceElement[s].innerHTML);
+
+      dstSentenceElement = document.createElement(srcSentenceElement[s].tagName);
+      dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
+      dstSentenceElement.setAttribute("id", s);
+
+      wordIdx = 0; wordId = 0;
+      previousWordIdx = -1;
+      for (t = 0; t < tokens.length; t++) {
+        span = document.createElement("span");
+        span.setAttribute("idx", wordIdx++);
+
+        switch (tokens[t].type) {
+          case this._tokenizer.TOKEN_WHITESPACE: {
+            classLabel = this.RM_WHITESPACE;
+            break;
           }
-          srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
-        } // for loop of sentences
-        this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
-    } // parseSentences1
+          case this._tokenizer.TOKEN_HTMLTAG:
+          case this._tokenizer.TOKEN_HTMLTAG_OPEN:
+          case this._tokenizer.TOKEN_HTMLTAG_CLOSE: {
+            classLabel = this.RM_HTMLTAG;
+            // create/duplicate open and close html for each span
+
+            break;
+          }
+
+          case this._tokenizer.TOKEN_PUNCTUATION: {
+            classLabel = this.RM_PUNCTUATION;
+            break;
+          }
+          default: {
+            classLabel = this.RM_WORD;
+            if (previousWordIdx != -1) span.setAttribute("prevWordIdx", previousWordIdx);
+            previousWordIdx = wordIdx;
+            span.setAttribute("id", wordId++);
+            var readingMonitor = this;
+            span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
+
+            var pattern = this.listening.wordRecognitionPattern(tokens[t].text);
+            if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
+            var alternative = this.speaking.betterAlternative(tokens[t].text);
+            if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
+            break;
+          }
+        }
+        span.setAttribute("class", classLabel);
+        span.innerText = tokens[t].text;
+        dstSentenceElement.appendChild(span);
+      } //tokens
+      // set nextWordIdx from prevWordIdx
+      var c;
+      for (c = dstSentenceElement.childElementCount - 1; c >= 0; c--) {
+        var prevIdx = dstSentenceElement.children[c].getAttribute("prevWordIdx");
+        if (prevIdx !== null && prevIdx != -1) { // rm_word
+          dstSentenceElement.children[prevIdx].setAttribute("nextWordIdx", c);
+// what does this do?              srcSentence = document.getElementsByClassName(sentenceTag)
+        }
+      }
+      srcSentenceElement[s].parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
+  } // for loop of sentences
+    this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
+} // parseSentences2
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation or whitespace)
       // getElementsByClassName returns a HTMLCollection of matching elements.
@@ -1111,7 +1436,9 @@ class ReadingMonitor {
       }
       this.diagnosticMsg = "Initialized reading monitor.";
 
-      this.parseSentences("sentence");
+//      this.parseSentences("sentence");
+//this.parseSentences1("sentence");
+    this.parseSentences1("sentence");
       this.moveToFirstSentence();
 
     // ReadingMonitor event handlers
