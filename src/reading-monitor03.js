@@ -24,7 +24,25 @@ function getOS() {
       os = 'Linux'; }
    return os;
 }
-class Timer {
+class Stack {
+  constructor() {
+    this._itmes = [];
+    this._depth = 0;
+  }
+  length() {
+    return this._depth;
+  }
+  pop() {
+    if (this._depth > 0) {
+      this._depth--;
+    }
+  }
+  push(item) {
+    this._items.push(item);
+    this._depth++;
+  }
+}
+  class Timer {
   constructor(parent) {
     this._parent = parent;
   }
@@ -703,6 +721,17 @@ class Tokenizer {
   get TOKEN_WHITESPACE() {
     return "TOKEN_whitespace";
   }
+  tokens1(sentence) {
+    var parser = new DOMParser().parseFromString(sentence,"text/html");
+    var body = parser.getElementsByTagName("body");
+    var tokens = body[0].childNodes;
+
+    // span attribute
+//    var el = document.createElement('html');
+//    el.innerHTML = sentence;
+//    var tokens = el.getElementsByTagName("*");
+
+  }
   tokens(sentence) {
     var tokens = Array(), tokenList;
     var currentPos = 0, tokenPos, tokenLength, t = 0, tl;
@@ -758,15 +787,15 @@ class Tokenizer {
   tokenListSansWhitespace(sentence) {
     return sentence.match(this._tokenPattern);
   }
-  htmlTagClosing(htmlTagOpening) {
+  htmlTagClosingFromOpening(htmlTagOpening) {
     // assume format <TAG> | <TAG attributes>
-    // returns </TAG>
+    // returns "</TAG>" or "</TAG "
     try {
       htmlTagClosing = "</"
       blankPos = htmlTagOpening.indexOf(" ");
 
       if (blankPos > 0) {
-       htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, blankPos) +">"
+       htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, blankPos) +"/>";
      }
       else {
         htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, htmlTagOpening.length)
@@ -777,12 +806,28 @@ class Tokenizer {
       return "";
     }
   }
-  htmlTagOpening(htmlTagClosing) {
+  htmlOpeningTag(htmlTag) {
+    // 1) not an HTML tag => return htmlTag
+    // 2) tag with attributes => strip attributes
+    // 3) closing tag => remove /
+    var openingTag = htmlTag;
     try {
-      return htmlTagClosing.substring(0,1)+htmlTagClosing.substring(2,htmlTagClosing.length);
+      if (htmlTag.slice(0,1) == "<") {
+        if (htmlTag.slice(-1) != ">") {
+        // not just html tag
+        }
+        if (htmlTag.slice(1,2) == "/") {
+            openingTag = htmlTag.slice(0,1)+htmlTag.slice(2,htmlTag.length);
+        }
+        var blankPos = htmlTag.indexOf(" "); // should be pattern for \s
+        if (blankPos > 0) {
+            openingTag = htmlTag.slice(0,blankPos-1)+">";
+        }
+      }
+      return openingTag;
     }
     catch (e) {
-      return "";
+      return openingTag;
     }
   }
 }
@@ -1147,8 +1192,9 @@ class ReadingMonitor {
         srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
 
         var tokens = this._tokenizer.tokens(srcSentenceElement.innerHTML);
-        var htmlTagsOpen = new Map();
-        var spansAttributes = new Array(); //attribute
+//        var tokens = this._tokenizer.tokens1(srcSentenceElement.innerHTML);
+        var htmlTagMap = new Map(); // map for htmltags with not specific attributes
+        var spanTagStack = new Array(); // stack containing span/attributes
         //
         var dstSentenceElement = document.createElement(srcSentenceElement.tagName);
         // transfer all attributes from source sentence
@@ -1179,24 +1225,38 @@ class ReadingMonitor {
             }
             case this._tokenizer.TOKEN_HTMLTAG_OPEN: {
               classLabel = this.RM_HTMLTAG;
-              var htmlTagCount = htmlTagsOpen.get(tokens[t].text);
-              if (typeof(htmlTagCount) == "undefined") {
-                htmlTagsOpen.set(tokens[t].text, 1);
+              // span only
+              var htmlTag = tokens[t].text; // potentially case sensitive
+              if (htmlTag.indexOf("<span") == 0) {
+                  spanTagStack.push(htmlTag)
               }
               else {
-                htmlTagsOpen.set(tokens[t].text, Number(htmlTagCount)+1);
+                // all tags without attributes
+                htmlTag = htmlTag.toLowerCase();
+                var htmlTagCount = htmlTagMap.get(htmlTag);
+                if (typeof(htmlTagCount) == "undefined") {
+                  htmlTagMap.set(htmlTag, 1);
+                }
+                else {
+                  htmlTagMap.set(htmlTag, Number(htmlTagCount)+1);
+                }
               }
               break;
             }
             case this._tokenizer.TOKEN_HTMLTAG_CLOSE: {
               classLabel = this.RM_HTMLTAG;
-              var htmlTagClose = this._tokenizer.htmlTagOpening(tokens[t].text);
-              var htmlTagCount = htmlTagsOpen.get(htmlTagClose);
-              if (typeof(htmlTagCount) == "undefined") {
-                htmlTagsOpen.set(htmlTagClose, 0);
+              var htmlOpeningTag = this._tokenizer.htmlOpeningTag(tokens[t].text).toLowerCase();
+              if (htmlOpeningTag == "<span>") {
+                  spanTagStack.pop();
               }
-              else {
-                htmlTagsOpen.set(htmlTagClose, Number( htmlTagCount)-1);
+              else {  //look up tag by opening tag and decrement count
+                var htmlTagCount = htmlTagMap.get(htmlOpeningTag);
+                if (typeof(htmlTagCount) == "undefined") {
+                  htmlTagMap.set(htmlOpeningTag, 0);
+                }
+                else {
+                  htmlTagMap.set(htmlOpeningTag, Number( htmlTagCount)-1);
+                }
               }
               break;
             }
@@ -1233,17 +1293,16 @@ class ReadingMonitor {
           }
           else {
             span.setAttribute("class", classLabel);
-
             // add htmlTagsOpen and allow browser to render well-formed span by automatically
             // including closing tags even for self closing html tags.
             //
-            //
-            // iterate through map htmlTagsOpen
-            var htmlTagsOpenString = "";
-            for (var [tag, count] of htmlTagsOpen.entries()) {
-                if (count > 0) htmlTagsOpenString = htmlTagsOpenString + tag;
+            // iterate through map htmlTagMap
+            var htmlTagMapString = "", tags = "", count;
+            for ([tags, count] of htmlTagMap.entries()) {
+                if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }
-            span.innerHTML = htmlTagsOpenString+tokens[t].text;
+            htmlTagMapString = spanTagStack.join("") + htmlTagMapString;
+            span.innerHTML = htmlTagMapString+tokens[t].text;
             // span.innerText = opening tags + tokens[t].text + closing tags           span.innerText = HTMLTAGS
             dstSentenceElement.appendChild(span);
           }

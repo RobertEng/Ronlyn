@@ -132,23 +132,27 @@ Tests the underlying preprocessing that enables the speaking and listening capab
 
 <button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
 <br>
-<h3>ul block</h3>
+<h3>ul text formatted block</h3>
 <ul>
-<li><div class="sentence">I am 54 years old!</div></li>
-<li><div class="sentence">I am <b>54</b> years</b> old</b>!</div></li>
-<li><div class="sentence">My husband is named Wen?</div></li>
-<li><div class="sentence">We have been married 25 years.</div></li>
-<li><div class="sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div></li>
-<li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+<li><div class="sentence">Embedding rm_recognition pattern for <span rm_fillinoptions="a,b,c">________</em></span></div>
+<li><div class="sentence">Normal weight font with <b>bolded words</b> embedded</div></li>
+<li><div class="sentence">Normal weight font with <b>bolded <em>and emphasized</em> words</b> embedded</div></li>
+<li><div class="sentence">Normal weight font with overlapping  <em>emphasized and <b>bolded</em> words</b> embedded.</div></li>
+<li><div class="sentence" style="color:green"><span style="color:red">My </span> name is <b>Ronlyn</b> Goo.</div></li>
+<li><div class="sentence"><span style="color:red">My <span style="color:green">name </span>is </span><b>Ronlyn</b> Goo.</div></li>
+<li><div class="sentence"><span style="color:red">red words</span> followed by <span style="color:blue">blue ones</span></div>
+<li><div class="sentence"><span style="color:red">Aruna </span>is my friend and so is <span style="color:blue">Berna</span></div>
+<li><div class="sentence"><span style="color:red">Red span with <span style="color:blue">blue </span>nested within.</span></div>
+  <li><div class="sentence">recognition pattern<span rm_test="blah"  rm_recognitionpattern="^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$">Ronlyn.</span>
+</ul>
+
+<h3>ul text semantics block</h3>
+<ul>
 <li><div class="sentence">Today is 1/26/2018.</div></li>
 <li><div class="sentence">The time is 12:30 pm.</div></li>
 <li><div class="sentence">The cost is $1.50.</div></li>
 <li><div class="sentence">The number is 1000.0</div></li>
 <li><div class="sentence">email is wen_eng@yahoo.com.</div></li>
-<li><div class="sentence" style="color:green"><span style="color:red">My </span> name is <b>Ronlyn</b> Goo.</div></li>
-<li><div><span style="color:red">My<span style="color:green">name </span>is </span><b>Ronlyn</b> Goo.</div></li>
-<li><div class="sentence"><span style="color:red">red words</span> followed by <span style="color:blue">blue ones</span></div>
-
 </ul>
 <h3>Proper names</h3>
 
