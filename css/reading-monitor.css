@@ -17,3 +17,17 @@
   text-decoration: underline;
 /*  font-weight: bold; */
 }
+.rm_word_current_1 {
+  text-decoration: underline;
+  background-color: yellow;
+  /*  font-weight: bold; */
+}
+.rm_word_current_2 {
+  text-decoration: underline;
+  color: yellow;
+/*  font-weight: bold; */
+}
+.rm_word_current_3 {
+  text-decoration: underline;
+/*  font-weight: bold; */
+}

@@ -42,6 +42,28 @@ class Stack {
     this._depth++;
   }
 }
+class CounterMap {
+  constructor() {
+    this._tokenCounter = new Map();
+  }
+  decrement(key) {
+    var counterValue = this._tokenCounter.get(key);
+    if (typeof(counterValue) == "undefined") {
+      counterValue = 1;
+    }
+    this._tokenCounter.set(key, counterValue-1);
+  }
+  entries() {
+    return this._tokenCounter.entries();
+  }
+  increment(key) {
+    var counterValue = this._tokenCounter.get(key);
+    if (typeof(counterValue) == "undefined") {
+      counterValue = 0;
+    }
+    this._tokenCounter.set(key, counterValue+1);
+  }
+}
   class Timer {
   constructor(parent) {
     this._parent = parent;
@@ -103,6 +125,7 @@ class SpeechRecognition {
     this._buttonImgInactive = "img/mic1-inactive-xparent.gif"
     this._buttonImgActive = "img/mic1-250ms.gif"
     this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif"
+//    this._recognitionPattern = new wordCountMap(this);
 
     this._timer = new Timer(this);
     this._recognitionPattern = new PronunciationMap(this);
@@ -333,7 +356,6 @@ class SpeechRecognition {
   //      ////////////
         try {
 //          MyReadingMonitor.diagnosticMsg = "recognition.onresult: triggered";
-          var spokenResults = event.results[0].isFinal;
           var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
           var isFinalResult = event.results[0].isFinal;
 //           MyReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
@@ -349,6 +371,13 @@ class SpeechRecognition {
                  recognition.stop();
                }
              } //
+             else if (spokenWords[w].length > 0){ // detected a word albeit the wrong one
+               if (isFinalResult) {
+                 readingMonitor.userMsg = "Expected: "+readingMonitor.currentWord+ " but hearing "+spokenWords[w];
+
+               }
+               // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
+             }
            } // for
 //           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
           //         console.log('confidence: ' + event.results[0][0].confidence);
@@ -967,6 +996,19 @@ class ReadingMonitor {
           console.log("RMdiag-"+timestamp + ": " + msg);
         };
       }
+      set userMsgElementId(id) {
+          this._userMsgElement = document.getElementById(id);
+      }
+      set userMsg(msg) {
+          try {
+//            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
+            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+";<br> "+ msg;
+          }
+          catch(e) {
+            console.log("userMsg: cannot access user message field");
+          }
+        }
+
     set errorElementId(id) {
         this._errorElement = document.getElementById(id);
     }
@@ -1193,6 +1235,7 @@ class ReadingMonitor {
 
         var tokens = this._tokenizer.tokens(srcSentenceElement.innerHTML);
 //        var tokens = this._tokenizer.tokens1(srcSentenceElement.innerHTML);
+        var htmlTagCounterMap = new CounterMap(); // map for htmltags with not specific attributes
         var htmlTagMap = new Map(); // map for htmltags with not specific attributes
         var spanTagStack = new Array(); // stack containing span/attributes
         //
@@ -1233,6 +1276,7 @@ class ReadingMonitor {
               else {
                 // all tags without attributes
                 htmlTag = htmlTag.toLowerCase();
+/*
                 var htmlTagCount = htmlTagMap.get(htmlTag);
                 if (typeof(htmlTagCount) == "undefined") {
                   htmlTagMap.set(htmlTag, 1);
@@ -1240,6 +1284,8 @@ class ReadingMonitor {
                 else {
                   htmlTagMap.set(htmlTag, Number(htmlTagCount)+1);
                 }
+*/
+                var htmlTagCount = htmlTagCounterMap.increment(htmlTag);
               }
               break;
             }
@@ -1257,6 +1303,7 @@ class ReadingMonitor {
                 else {
                   htmlTagMap.set(htmlOpeningTag, Number( htmlTagCount)-1);
                 }
+                var htmlTagCount1 = htmlTagCounterMap.decrement(htmlTag);
               }
               break;
             }
@@ -1297,8 +1344,14 @@ class ReadingMonitor {
             // including closing tags even for self closing html tags.
             //
             // iterate through map htmlTagMap
+/*
             var htmlTagMapString = "", tags = "", count;
             for ([tags, count] of htmlTagMap.entries()) {
+                if (count > 0) htmlTagMapString = htmlTagMapString + tags;
+            }
+*/
+            var htmlTagMapString = "", tags = "", count;
+            for ([tags, count] of htmlTagCounterMap.entries()) {
                 if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }
             htmlTagMapString = spanTagStack.join("") + htmlTagMapString;
@@ -1392,7 +1445,7 @@ class ReadingMonitor {
     this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
 } // parseSentences2
     moveToNextWord() {
-      // position to the next word as opposed to token (word, punctuation or whitespace)
+      // position to the next word as opposed to token (word, punctuation, HTML tag or whitespace)
       // getElementsByClassName returns a HTMLCollection of matching elements.
       // According to w3.org 2015, "[t]he collection then represents a view of the
       // subtree rooted at the collection's root, containing only nodes that match
@@ -1452,6 +1505,15 @@ class ReadingMonitor {
         this.errorMsg = "currentWordIndicatorOn(): could not add rm_word_current";
       }
     }
+    currentWordIndicatorEscalated() {
+      try {
+  //      document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.add(this.RM_WORD_CURRENT);
+        document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.add(this.RM_WORD_CURRENT+"_1");
+      }
+      catch(e) {
+        this.errorMsg = "currentWordIndicatorOn(): could not add rm_word_current";
+      }
+    }
     matchWord(spokenWord) {
       // matches spoken word to written word
       // need code to manage special cases: proper noun not already recognized
@@ -1471,7 +1533,7 @@ class ReadingMonitor {
         }
         else {
           //add to list of words to be added to pronunciationPattern
-          this.diagnosticMsg = "matchWord() cannot match " + spokenWord.toLowerCase();
+          this.diagnosticMsg = "matchWord() cannot match: " + spokenWord.toLowerCase() +" to "+this.currentWord.toLowerCase();
         }
       }
     }
