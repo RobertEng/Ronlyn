@@ -42,13 +42,14 @@ class Stack {
     this._depth++;
   }
 }
+// derived from Map() to specifically increment and decrement value field
 class CounterMap {
   constructor() {
     this._tokenCounter = new Map();
   }
   decrement(key) {
     var counterValue = this._tokenCounter.get(key);
-    if (typeof(counterValue) == "undefined") {
+    if (typeof(counterValue) == "undefined") {  // if key does not exist
       counterValue = 1;
     }
     this._tokenCounter.set(key, counterValue-1);
@@ -58,13 +59,13 @@ class CounterMap {
   }
   increment(key) {
     var counterValue = this._tokenCounter.get(key);
-    if (typeof(counterValue) == "undefined") {
+    if (typeof(counterValue) == "undefined") {  // if key does not exist
       counterValue = 0;
     }
     this._tokenCounter.set(key, counterValue+1);
   }
 }
-  class Timer {
+class Timer {
   constructor(parent) {
     this._parent = parent;
   }
@@ -128,6 +129,7 @@ class SpeechRecognition {
 //    this._recognitionPattern = new wordCountMap(this);
 
     this._timer = new Timer(this);
+    this._mismatchedWordCounterMap = new CounterMap();
     this._recognitionPattern = new PronunciationMap(this);
     // should be stored externally in a xml/html file
     // pairs of written word that SpeechRecognition would match the second
@@ -203,6 +205,9 @@ class SpeechRecognition {
   get timer() {
     return this._timer;
   }
+  get mismatchedWordCounterMap() {
+    return this._mismatchedWordCounterMap;
+  }
   wordRecognitionPattern(writtenWord) {
       return this._recognitionPattern.value(writtenWord);
   }
@@ -221,9 +226,11 @@ class SpeechRecognition {
   set buttonElementId(buttonId) {
     try {
       this._buttonElement = document.getElementById(buttonId);
+      if (this._buttonElement == null) { throw "invalid button id" }
     }
-    catch(e) {
-      this.errorMsg = "listening.buttonElementId setter: Invalid element id "+buttonId;
+    catch(e) { // intercept
+      this.errorMsg = "buttonElementId setter: "+e.message+"="+buttonId;
+      // throw(e); // iff fatal error
     }
   }
   get buttonElement() {
@@ -232,9 +239,11 @@ class SpeechRecognition {
   set buttonImgElementId(buttonImgId) {
     try {
       this._buttonImgElement = document.getElementById(buttonImgId);
+      if (this._buttonImgElement == null) { throw "invalid buttonImg id" }
     }
     catch(e) {
-      this.errorMsg = "listening.buttonImgElementId setter: Invalid element id "+buttonId;
+      this.errorMsg = "buttonImgElementId setter: "+e+"="+buttonImgId;
+      // throw(e); // iff fatal error
     }
   }
   get buttonImgElement() {
@@ -245,7 +254,8 @@ class SpeechRecognition {
       this._buttonElement.defaultValue = label;
     }
     catch(e) {
-      this.errorMsg = "listening.buttonLabel setter: Error setting listening.buttonLabel with "+imgName;
+      this.errorMsg = "buttonLabel setter: Could not set button label because "+e;
+      // throw(e); // iff fatal error
     }
   }
   set buttonImgActive(imgName) {
@@ -256,6 +266,7 @@ class SpeechRecognition {
     }
     catch(e) {
       this.errorMsg = "listening.buttonLabel setter: Error setting listening.buttonImgActive with "+imgName;
+      // throw(e); // iff fatal error
     }
   }
   set buttonImgInactive(imgName) {
@@ -264,6 +275,7 @@ class SpeechRecognition {
     }
     catch(e) {
       this.errorMsg = "listening.buttonImgInactive setter: Error setting listening.buttonImgInactive with "+imgName;
+      // throw(e); // iff fatal error
     }
   }
   get checkboxStopAtEosElement() {
@@ -277,6 +289,7 @@ class SpeechRecognition {
       }
       catch(e) {
         this.errorMsg = "checkboxStopAtEosElementId setter: invalid element id "+id;
+        // throw(e); // iff fatal error
       }
   }
   buttonActivate() {
@@ -285,7 +298,8 @@ class SpeechRecognition {
       this._isActive = true;
     }
     catch(e) {
-      this.errorMsg = "listening.buttonActivate(): unexpected error";
+      this.errorMsg = "buttonActivate(): unexpected error "+e.message;
+      // throw(e); // iff fatal error
     }
   }
   buttonDeactivate() {
@@ -295,7 +309,8 @@ class SpeechRecognition {
       this._isActive = false;
     }
     catch(e) {
-      this.errorMsg = "listening.buttonDeactivate(): unexpected error";
+      this.errorMsg = "buttonDeactivate(): unexpected error "+e.message;
+      // throw(e); // iff fatal error
     }
   }
   buttonDisabled() {
@@ -304,7 +319,8 @@ class SpeechRecognition {
       this._isActive = false;
     }
     catch(e) {
-      this.errorMsg = "listening.buttonDisabled(): unexpected error";
+      this.errorMsg = "listening.buttonDisabled(): unexpected error "+e.message;
+      // throw(e); // iff fatal error
     }
   }
   initialize() {
@@ -360,6 +376,7 @@ class SpeechRecognition {
           var isFinalResult = event.results[0].isFinal;
 //           MyReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
            var w;
+           if (isFinalResult) readingMonitor.diagnosticMsg = "recognition.onresult: isfinal";
            for (w = 0; w < spokenWords.length; w++) {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
@@ -370,13 +387,14 @@ class SpeechRecognition {
                  readingMonitor.listening.buttonDeactivate();
                  recognition.stop();
                }
-             } //
-             else if (spokenWords[w].length > 0){ // detected a word albeit the wrong one
-               if (isFinalResult) {
-                 readingMonitor.userMsg = "Expected: "+readingMonitor.currentWord+ " but hearing "+spokenWords[w];
-
+             }
+//             else if (spokenWords[w].length > 0){ // detected a word albeit the wrong one
+             else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
+               if (isFinalResult && w == spokenWords.length - 1 && !readingMonitor.isLastWordOfSentence()) {
+                 readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>, heard: <em>"+spokenWords[w]+"</em>";
+                 readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
                }
-               // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
+             // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
              }
            } // for
 //           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
@@ -391,7 +409,7 @@ class SpeechRecognition {
           }
           else {
             readingMonitor.errorMsg = 'recognition:onresult: '+e.message;
-
+            // throw(e) iff fatal error
           }
         }
       } // onresult
@@ -426,6 +444,16 @@ class SpeechRecognition {
             recognition.start();
           }
           else {
+            var time = new Date();
+            var timestamp = time.toLocaleTimeString();
+            var htmlMapString = "<br><b>Summary </b>"+timestamp+":<br>";
+            var word = "";
+            var count;
+            for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
+                if (count > 0) htmlMapString = htmlMapString + "<em>"+word + "</em> = "+count+"<br>";
+            }
+            readingMonitor.userMsg =  htmlMapString;
+
             if (!readingMonitor.listening.isActive) {
               readingMonitor.diagnosticMsg = "recognition.onend: user cancelled";
             }
@@ -463,6 +491,7 @@ class SpeechRecognition {
       else {
         MyReadingMonitor.errorMsg =" Could not initialize Speech Recognition object";
       }
+      throw(e);
     }
   } // initialize
 } // Speech Recognition class
@@ -947,7 +976,7 @@ class ReadingMonitor {
         this._sentenceIdxElement.innerText = "0"; // touch test
       }
       catch(e) {
-        this.errorMsg = "sentenceIdxElementId setter: invalid Element id "+id;
+        this.errorMsg = "sentenceIdxElementId setter: Could not access element id="+id+" because " + e.message;
       };
     }
     set sentenceIdElementId(id) {
@@ -956,77 +985,103 @@ class ReadingMonitor {
         this._sentenceIdElement.innerText = "0"; // touch test
       }
       catch(e) {
-        this.errorMsg = "sentenceIdElementId setter: invalid Element id "+id;
+        this.errorMsg = "sentenceIdElementId setter: Could not access element id="+id+" because "+e.message;
       };
     }
     set wordIdxElementId(id) {
-        //check typeof parameter
-        try {
-          this._tokenIdxElement  = document.getElementById(id);
-          this._tokenIdxElement.innerText = "0"; // touch test
-        }
-        catch(e) {
-          this.errorMsg = "wordIdxElementId setter: invalid Element id "+id;
-        };
+      //check typeof parameter
+      try {
+        this._tokenIdxElement  = document.getElementById(id);
+        this._tokenIdxElement.innerText = "0"; // touch test
       }
-      set wordIdElementId(id) {
-          //check typeof parameter
-          try {
-            this._wordIdElement  = document.getElementById(id);
-            this._wordIdElement.innerText = "0"; // touch test
-          }
-          catch(e) {
-            this.errorMsg = "wordIdElementId setter: invalid Element id "+id;
-          };
-        }
+      catch(e) {
+        this.errorMsg = "wordIdxElementId setter: Could not access element id="+id+" because "+e.message;
+      };
+    }
+    set wordIdElementId(id) {
+      //check typeof parameter
+      try {
+        this._wordIdElement  = document.getElementById(id);
+        this._wordIdElement.innerText = "0"; // touch test
+      }
+      catch(e) {
+        this.errorMsg = "wordIdElementId setter: Could not access element "+id+" because "+e.message;
+
+      };
+    }
     set diagnosticElementId(id) {
         this._diagnosticElement = document.getElementById(id);
     }
     set diagnosticMsg(msg) {
-        try {
-          var time = new Date();
-          var timestamp = time.toLocaleTimeString();
-//          header = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds()+"."+time.getMilliseconds();
-          this._diagnosticElement.textContent = timestamp + ":" + msg;
-        }
-        catch(e) {
-          console.log("diagnosticMsg: cannot access diagnostic field");
-        }
-        finally {
-          console.log("RMdiag-"+timestamp + ": " + msg);
-        };
+      try {
+        var time = new Date();
+        var timestamp = time.toLocaleTimeString();
+        this._diagnosticElement.textContent = "["+timestamp + "]:" + msg;
       }
-      set userMsgElementId(id) {
-          this._userMsgElement = document.getElementById(id);
+      catch(e) {
+        this.errorMsg = "diagnosticMsg: cannot access field";
       }
-      set userMsg(msg) {
-          try {
+      finally {
+        console.log("RMdiag-"+timestamp + ": " + msg);
+      };
+    }
+    set userMsgElementId(id) {
+      try {
+        this._userMsgElement = document.getElementById(id);
+        if (this._userMsgElement == null) {throw("invalid element id") }
+      }
+      catch(e){
+        this.errorMsg = "userMsgElementId setter: "+e.message+"="+buttonId;
+      }
+    }
+    set userMsg(msg) {
+      try {
+          this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+"<br>"+ msg;
+      }
+      catch(e) {
+        this.errorMsg = "userMsg setter: Could not access field because "+e.message;
+      }
+    }
+    get userMsg() {
+      try {
 //            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
-            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+";<br> "+ msg;
-          }
-          catch(e) {
-            console.log("userMsg: cannot access user message field");
-          }
-        }
-
-    set errorElementId(id) {
-        this._errorElement = document.getElementById(id);
+            var msg = this._userMsgElement.innerHTML;
+            if (typeof msg == "undefined") msg = "";
+            return msg;
+      }
+      catch(e) {
+        parent.errorMsg = "userMsg getter: Could not access field because "+e.message;
+      }
+    }
+    set errorMsgElementId(id) {
+        this._errorMsgElement = document.getElementById(id);
+        var time = new Date();
+        var timestamp = time.toLocaleTimeString();
+        this._errorMsgElement.textContent = "["+timestamp+"]: Error messaging initialized."
+        // allow uncaught exceptions to bubble up
+    }
+    get errorMsg() {
+      try {
+//            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
+            var msg = this._errorMsgElement.innerHTML;
+            if (typeof msg == "undefined") msg = "";
+            return msg;
+      }
+      catch(e) {
+        console.log("errorMsg: not initialized properly.");
+        return "errorMsg: not initialized properly.";
+      }
     }
     set errorMsg(msg) {
-        try {
-          var time = new Date();
-          var timestamp = time.toLocaleTimeString();
-//          header = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds()+"."+time.getMilliseconds();
-          this._errorElement.textContent = timestamp + ":" + msg;
-        }
-        catch(e) {
-          console.log("errorMsg: cannot access error field");
-        }
-        finally {
-          console.log("RMerror -"+timestamp + ": " + msg);
-        };
+      try {
+        var time = new Date();
+        var timestamp = time.toLocaleTimeString();
+        this._errorMsgElement.innerHTML = "["+timestamp+"]: "+ msg +"<br>"+ this._errorMsgElement.innerHTML;
       }
-
+      catch(e) {
+        console.log("[]"+timestamp+"]: errorMsg (uninitialized): "+msg);
+      }
+    }
     get currentSentenceIdx() {
         return Number(this._sentenceIdx);
     }
@@ -1062,6 +1117,7 @@ class ReadingMonitor {
       catch(e) {
         this._wordId = wordId;
         this.errorMsg = "currentWordId setter: failed to set value to "+wordId+ " because "+e.message;
+        // is this fatal (unrecoverable)?
       }
     }
     get lastWordIdx() {
@@ -1086,6 +1142,7 @@ class ReadingMonitor {
       catch(e) {
         this.errorMsg = "currentWord getter: failed to get value to "+wordId+ " because "+e.message;
         return null;
+        // is this fatal (unrecoverable)?
       }
     }
      currentWordAttribute(tag) {
@@ -1093,8 +1150,9 @@ class ReadingMonitor {
         return document.getElementsByClassName(this.RM_SENTENCE)[this.currentSentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].getAttribute(tag);
       }
       catch(e) {
-        this.errorMsg = "currentWord getter: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
+        this.errorMsg = "currentWordAttribute: failed to get value of tag="+tag+" to "+wordId+ " because "+e.message;
         return null;
+        // is this fatal (unrecoverable)?
       }
     }
     rm_wordSpanOnClick(e) {
@@ -1236,7 +1294,6 @@ class ReadingMonitor {
         var tokens = this._tokenizer.tokens(srcSentenceElement.innerHTML);
 //        var tokens = this._tokenizer.tokens1(srcSentenceElement.innerHTML);
         var htmlTagCounterMap = new CounterMap(); // map for htmltags with not specific attributes
-        var htmlTagMap = new Map(); // map for htmltags with not specific attributes
         var spanTagStack = new Array(); // stack containing span/attributes
         //
         var dstSentenceElement = document.createElement(srcSentenceElement.tagName);
@@ -1276,16 +1333,7 @@ class ReadingMonitor {
               else {
                 // all tags without attributes
                 htmlTag = htmlTag.toLowerCase();
-/*
-                var htmlTagCount = htmlTagMap.get(htmlTag);
-                if (typeof(htmlTagCount) == "undefined") {
-                  htmlTagMap.set(htmlTag, 1);
-                }
-                else {
-                  htmlTagMap.set(htmlTag, Number(htmlTagCount)+1);
-                }
-*/
-                var htmlTagCount = htmlTagCounterMap.increment(htmlTag);
+                htmlTagCounterMap.increment(htmlTag);
               }
               break;
             }
@@ -1296,14 +1344,7 @@ class ReadingMonitor {
                   spanTagStack.pop();
               }
               else {  //look up tag by opening tag and decrement count
-                var htmlTagCount = htmlTagMap.get(htmlOpeningTag);
-                if (typeof(htmlTagCount) == "undefined") {
-                  htmlTagMap.set(htmlOpeningTag, 0);
-                }
-                else {
-                  htmlTagMap.set(htmlOpeningTag, Number( htmlTagCount)-1);
-                }
-                var htmlTagCount1 = htmlTagCounterMap.decrement(htmlTag);
+                htmlTagCounterMap.decrement(htmlTag);
               }
               break;
             }
@@ -1342,15 +1383,9 @@ class ReadingMonitor {
             span.setAttribute("class", classLabel);
             // add htmlTagsOpen and allow browser to render well-formed span by automatically
             // including closing tags even for self closing html tags.
-            //
-            // iterate through map htmlTagMap
-/*
-            var htmlTagMapString = "", tags = "", count;
-            for ([tags, count] of htmlTagMap.entries()) {
-                if (count > 0) htmlTagMapString = htmlTagMapString + tags;
-            }
-*/
-            var htmlTagMapString = "", tags = "", count;
+            var htmlTagMapString = "";
+            var tags = "";
+            var count;
             for ([tags, count] of htmlTagCounterMap.entries()) {
                 if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }

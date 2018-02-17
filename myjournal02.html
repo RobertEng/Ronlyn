@@ -27,7 +27,7 @@ h2 {
   font-size: 90%;
   padding-top:2px;
   border-bottom: solid lightgray 2px;
-  width:50%  }
+  width:100%  }
 }
 li:not(:last-child) {
   margin-bottom: 10px;
@@ -54,6 +54,10 @@ ol li .rm_sentence {
   padding-left:10px;
   grid-gap: 10px;
   grid-template-areas: "images";
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
 }
 img {
   width:220px;
@@ -637,7 +641,7 @@ main {
       <div class="sentence">Wen does not have to drive too far.</div>
     </li>
     <li>
-      <div class="sentence">The restaurant is located in the Cupertino Marketplace,the same shopping center as Elephant Bar.</div>
+      <div class="sentence">The restaurant is located in the Cupertino Marketplace, the same shopping center as Elephant Bar.</div>
     </li>
     <li>
       <div class="sentence">But when we pull into the parking lot, David cannot immediately find Kong.</div>
@@ -1043,7 +1047,7 @@ main {
       <li><div class="sentence">I start a new speech and language program at the Kay Armstead Center for Communication Disorders.</div></li>
       <li><div class="sentence">The program is a non-profit community clinic located at San Jose State.</div></li>
       <li>
-        <div class="sentence">My instructor is a graduate student named Elaine Yau.</div>
+        <div class="sentence">My instructor is a graduate student named Elaine.</div>
         <div class="sentence">Her supervisor is named Anita Schaack.</div>
       </li>
       <li><div class="sentence">I attend one-hour sessions twice a week for the next month.</div></li>
@@ -1396,11 +1400,15 @@ main {
       </ul>
     </div>
   </div>
-  <h1><a class="navbar-itemByHeadingLevel" id="test">Test</a></h1>
+  <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Messages to User</h2>
+  <p id="usermsg"><b>Results</b>:</p>
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
 
-  <p id="usermsg">no results</p>
-  <p id="diagnostic">no error</p>
-  <p id="error">no error</p>
+<h2>Diagnostic Messages</h2>
+<p id="diagnostic"></p>
   <p>
     <span>sentence idx:</span><span id="sentenceIdx">0</span>,
     <span>word idx:</span><span id="wordIdx">0</span>,
@@ -1444,25 +1452,44 @@ document.body.onload = function(e) {   //when the document body is clicked
  MyPageNav.populate();
 
  // register html field names
- MyReadingMonitor.diagnosticElementId ="diagnostic";
- MyReadingMonitor.userMsgElementId ="usermsg";
- MyReadingMonitor.errorElementId ="error";
-// MyReadingMonitor.sentenceIdElementId = "sentenceId";
- MyReadingMonitor.wordIdElementId = "wordId";
- MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
- MyReadingMonitor.wordIdxElementId = "wordIdx";
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
 
- MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
- MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
- MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
- MyReadingMonitor.listening.buttonElementId = "listenBtn";
- MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
- MyReadingMonitor.listening.timer.timeout = 10; // seconds
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
 
- MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
- MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
- MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
 
- MyReadingMonitor.initialize();
+
 </script>
 </html>
