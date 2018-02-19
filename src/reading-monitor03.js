@@ -351,6 +351,10 @@ class SpeechRecognition {
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           readingMonitor.listening.buttonActivate();
           readingMonitor.speaking.say("listening");
+
+          var time = new Date();
+          var timestamp = time.toLocaleTimeString();
+          readingMonitor.userMsg = "<u>Reading session started at "+timestamp+"</u>";
           recognition.start();
         }
         else {
@@ -390,12 +394,13 @@ class SpeechRecognition {
              }
 //             else if (spokenWords[w].length > 0){ // detected a word albeit the wrong one
              else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
-               if (isFinalResult && w == spokenWords.length - 1 && !readingMonitor.isLastWordOfSentence()) {
+               if (isFinalResult && w == spokenWords.length - 1) {
                  readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>, heard: <em>"+spokenWords[w]+"</em>";
                  readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
                }
              // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
              }
+
            } // for
 //           readingMonitor.diagnosticMsg = 'Result received: ' + spokenWords;
           //         console.log('confidence: ' + event.results[0][0].confidence);
@@ -446,11 +451,11 @@ class SpeechRecognition {
           else {
             var time = new Date();
             var timestamp = time.toLocaleTimeString();
-            var htmlMapString = "<br><b>Summary </b>"+timestamp+":<br>";
+            var htmlMapString = "<br>Summary "+timestamp+":";
             var word = "";
             var count;
             for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
-                if (count > 0) htmlMapString = htmlMapString + "<em>"+word + "</em> = "+count+"<br>";
+                if (count > 0) htmlMapString = htmlMapString + "<br><em>"+word + "</em> = "+count
             }
             readingMonitor.userMsg =  htmlMapString;
 
@@ -970,6 +975,25 @@ class ReadingMonitor {
     set name(newName) {
         this._name = newName;
     }
+    //
+    // HTML Element registration
+    //
+    set diagnosticElementId(id) {
+      try {
+        this._diagnosticElement = document.getElementById(id);
+        if (this._diagnosticElement == null) {throw("invalid element id") }
+      }
+      catch(e){
+        this.errorMsg = "diagnosticMsgElementId setter: No diagnostic messages using element id="+id+" because "+e.message;
+      }
+    }
+    set errorMsgElementId(id) {
+        this._errorMsgElement = document.getElementById(id);
+        var time = new Date();
+        var timestamp = time.toLocaleTimeString();
+        this._errorMsgElement.textContent = "["+timestamp+"]: Error messaging initialized."
+        // allow uncaught exception to bubble up
+    }
     set sentenceIdxElementId(id) {
       try {
         this._sentenceIdxElement  = document.getElementById(id);
@@ -988,15 +1012,14 @@ class ReadingMonitor {
         this.errorMsg = "sentenceIdElementId setter: Could not access element id="+id+" because "+e.message;
       };
     }
-    set wordIdxElementId(id) {
-      //check typeof parameter
+    set userMsgElementId(id) {
       try {
-        this._tokenIdxElement  = document.getElementById(id);
-        this._tokenIdxElement.innerText = "0"; // touch test
+        this._userMsgElement = document.getElementById(id);
+        if (this._userMsgElement == null) {throw("invalid element id") }
       }
       catch(e) {
-        this.errorMsg = "wordIdxElementId setter: Could not access element id="+id+" because "+e.message;
-      };
+        this.errorMsg = "userMsgElementId setter:  No user messages using element id="+id+" because "+e.message;
+      }
     }
     set wordIdElementId(id) {
       //check typeof parameter
@@ -1009,39 +1032,41 @@ class ReadingMonitor {
 
       };
     }
-    set diagnosticElementId(id) {
-        this._diagnosticElement = document.getElementById(id);
+    set wordIdxElementId(id) {
+      //check typeof parameter
+      try {
+        this._tokenIdxElement  = document.getElementById(id);
+        this._tokenIdxElement.innerText = "0"; // touch test
+      }
+      catch(e) {
+        this.errorMsg = "wordIdxElementId setter: Could not access element id="+id+" because "+e.message;
+      };
     }
     set diagnosticMsg(msg) {
       try {
-        var time = new Date();
-        var timestamp = time.toLocaleTimeString();
-        this._diagnosticElement.textContent = "["+timestamp + "]:" + msg;
+        if (this._diagnosticElement != null) {
+          var time = new Date();
+          var timestamp = time.toLocaleTimeString();
+          this._diagnosticElement.textContent = "["+timestamp + "]:" + msg;
+        }
       }
       catch(e) {
-        this.errorMsg = "diagnosticMsg: cannot access field";
+//        fail silently
       }
       finally {
         console.log("RMdiag-"+timestamp + ": " + msg);
       };
     }
-    set userMsgElementId(id) {
-      try {
-        this._userMsgElement = document.getElementById(id);
-        if (this._userMsgElement == null) {throw("invalid element id") }
-      }
-      catch(e){
-        this.errorMsg = "userMsgElementId setter: "+e.message+"="+buttonId;
-      }
-    }
     set userMsg(msg) {
       try {
-          this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+"<br>"+ msg;
+          if (this._userMsgElement != null)
+            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+"<br>"+ msg;
       }
       catch(e) {
         this.errorMsg = "userMsg setter: Could not access field because "+e.message;
       }
     }
+    /*
     get userMsg() {
       try {
 //            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
@@ -1052,26 +1077,7 @@ class ReadingMonitor {
       catch(e) {
         parent.errorMsg = "userMsg getter: Could not access field because "+e.message;
       }
-    }
-    set errorMsgElementId(id) {
-        this._errorMsgElement = document.getElementById(id);
-        var time = new Date();
-        var timestamp = time.toLocaleTimeString();
-        this._errorMsgElement.textContent = "["+timestamp+"]: Error messaging initialized."
-        // allow uncaught exceptions to bubble up
-    }
-    get errorMsg() {
-      try {
-//            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
-            var msg = this._errorMsgElement.innerHTML;
-            if (typeof msg == "undefined") msg = "";
-            return msg;
-      }
-      catch(e) {
-        console.log("errorMsg: not initialized properly.");
-        return "errorMsg: not initialized properly.";
-      }
-    }
+    }*/
     set errorMsg(msg) {
       try {
         var time = new Date();
