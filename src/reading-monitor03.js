@@ -131,6 +131,8 @@ class SpeechRecognition {
     this._timer = new Timer(this);
     this._mismatchedWordCounterMap = new CounterMap();
     this._recognitionPattern = new PronunciationMap(this);
+    this._currentWordExpected = ""; //strictly for reporting and NOT processing
+    this._previousSpokenWord = "";
     // should be stored externally in a xml/html file
     // pairs of written word that SpeechRecognition would match the second
     this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
@@ -198,6 +200,8 @@ class SpeechRecognition {
     this._recognitionPattern.set("Theatre", "theater");
     this._recognitionPattern.set("pm", "p.m.");
     this._recognitionPattern.set("am", "a.m.");
+    this._recognitionPattern.set("flour", "^(flo[uw]e{0,1}r)$");
+    this._recognitionPattern.set("cyndi", "c[iy]nd[yi]");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -207,6 +211,9 @@ class SpeechRecognition {
   }
   get mismatchedWordCounterMap() {
     return this._mismatchedWordCounterMap;
+  }
+  resetMismatchedWordCounterMap() {
+    this._mismatchedWordCounterMap = new CounterMap();
   }
   wordRecognitionPattern(writtenWord) {
       return this._recognitionPattern.value(writtenWord);
@@ -265,7 +272,7 @@ class SpeechRecognition {
       this._buttonImgActive = imgName;
     }
     catch(e) {
-      this.errorMsg = "listening.buttonLabel setter: Error setting listening.buttonImgActive with "+imgName;
+      this.errorMsg = "listening.buttonImgActive setter: Error setting listening.buttonImgActive with "+imgName;
       // throw(e); // iff fatal error
     }
   }
@@ -323,6 +330,18 @@ class SpeechRecognition {
       // throw(e); // iff fatal error
     }
   }
+  get previouslySpokenWord() {
+    return this._previouslySpokenWord;
+  }
+  set previouslySpokenWord(word) {
+    this._previouslySpokenWord = word;
+  }
+  get currentWordExpected() {
+    return this._currentWordExpected;
+  }
+  set currentWordExpected(word) {
+    this._currentWordExpected = word;
+  }
   initialize() {
     try {
 
@@ -346,6 +365,10 @@ class SpeechRecognition {
         // not listening && timer isActive START LISTENING
         // not listening && timer active: START LISTENING
         if (!readingMonitor.listening.isActive) {
+          readingMonitor.listening.currentWordExpected = "";
+          readingMonitor.listening.previouslySpokenWord = "";
+          readingMonitor.listening.resetMismatchedWordCounterMap();
+
           readingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
           readingMonitor.listening.timer.start();
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
@@ -392,11 +415,19 @@ class SpeechRecognition {
                  recognition.stop();
                }
              }
-//             else if (spokenWords[w].length > 0){ // detected a word albeit the wrong one
              else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
                if (isFinalResult && w == spokenWords.length - 1) {
-                 readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>, heard: <em>"+spokenWords[w]+"</em>";
-                 readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
+                  if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
+                   if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
+                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>, heard: <em>"+spokenWords[w]+"</em>";
+                     readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
+                   }
+                   else {
+                     readingMonitor.userMsgAppend = ", "+" <em>"+spokenWords[w]+"</em>";
+                   }
+                   readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
+                   readingMonitor.listening.previouslySpokenWord = spokenWords[w];
+                 }
                }
              // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
              }
@@ -722,8 +753,8 @@ class Tokenizer {
 //     this._htmlTagCloseTokenPattern = new RegExp(/(<\/[\w\s="/.':;#-\/\?]+>)/);
 
      this._tokenPattern = new RegExp(this._wordTokenPattern.source
-                              +"|"+this._punctuationTokenPattern.source
-                              +"|"+this._htmlTagTokenPattern.source,"g");
+                               +"|"+this._punctuationTokenPattern.source
+                               +"|"+this._htmlTagTokenPattern.source,"g");
 
     this._numberWithCommaPattern = new RegExp(/[0-9]/);
     this._UsdPattern = new RegExp(/[0-9]/);
@@ -936,6 +967,9 @@ class ReadingMonitor {
     get RM_WORD_CURRENT() {
       return "rm_word_current";
     }
+    get RM_WORD_HIDDEN() {
+      return "rm_word_hidden";
+    }
     get RM_WHITESPACE() {
       return "rm_whitespace";
     }
@@ -1064,6 +1098,15 @@ class ReadingMonitor {
       }
       catch(e) {
         this.errorMsg = "userMsg setter: Could not access field because "+e.message;
+      }
+    }
+    set userMsgAppend(msg) {
+      try {
+          if (this._userMsgElement != null)
+            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+msg;
+      }
+      catch(e) {
+        this.errorMsg = "userMsgAppend setter: Could not access field because "+e.message;
       }
     }
     /*
@@ -1204,7 +1247,7 @@ class ReadingMonitor {
         MyReadingMonitor.errorMsg = "rm_word_spanOnClick: Unexpected error: "+e.message;
       }
     } //rm_wordSpanOnClick
-    parseSentences1(sentenceTag) {
+    parseSentences(sentenceTag) {
       for(var s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
         typeof srcSentenceElement != 'undefined';
         srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
@@ -1226,11 +1269,15 @@ class ReadingMonitor {
         var spanIdx = 0; // sequential index of all spans
         var wordId = 0; // sequential index of spans of type rm_word's
 
+        // could be modified to accommodate semantic analysis
+        // where states (cases) can be dependent on prvious ones
         for (var t = 0; t < tokens.length; t++) {
+          var tokenType = tokens[t].type;
+          var tokenText = tokens[t].text;
           var classLabel = this.RM_TBD;
           var span = document.createElement("span");
 
-          switch (tokens[t].type) {
+          switch (tokenType) {
             case this._tokenizer.TOKEN_PUNCTUATION: {
               classLabel = this.RM_PUNCTUATION;
               span.setAttribute("idx", spanIdx++);
@@ -1244,9 +1291,10 @@ class ReadingMonitor {
             case this._tokenizer.TOKEN_HTMLTAG_OPEN: {
               classLabel = this.RM_HTMLTAG;
               // span only
-              var htmlTag = tokens[t].text; // potentially case sensitive
+              var htmlTag = tokenText; // potentially case sensitive
               if (htmlTag.indexOf("<span") == 0) {
                   spanTagStack.push(htmlTag)
+//                  spanfillin(tokenText);
               }
               else {
                 // all tags without attributes
@@ -1257,7 +1305,7 @@ class ReadingMonitor {
             }
             case this._tokenizer.TOKEN_HTMLTAG_CLOSE: {
               classLabel = this.RM_HTMLTAG;
-              var htmlOpeningTag = this._tokenizer.htmlOpeningTag(tokens[t].text).toLowerCase();
+              var htmlOpeningTag = this._tokenizer.htmlOpeningTag(tokenText).toLowerCase();
               if (htmlOpeningTag == "<span>") {
                   spanTagStack.pop();
               }
@@ -1287,9 +1335,9 @@ class ReadingMonitor {
               var readingMonitor = this;
               span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
 
-              var pattern = this.listening.wordRecognitionPattern(tokens[t].text);
+              var pattern = this.listening.wordRecognitionPattern(tokenText);
               if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
-              var alternative = this.speaking.betterAlternative(tokens[t].text);
+              var alternative = this.speaking.betterAlternative(tokenText);
               if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
               break;
             }
@@ -1308,7 +1356,7 @@ class ReadingMonitor {
                 if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }
             htmlTagMapString = spanTagStack.join("") + htmlTagMapString;
-            span.innerHTML = htmlTagMapString+tokens[t].text;
+            span.innerHTML = htmlTagMapString+tokenText;
             // span.innerText = opening tags + tokens[t].text + closing tags           span.innerText = HTMLTAGS
             dstSentenceElement.appendChild(span);
           }
@@ -1316,7 +1364,7 @@ class ReadingMonitor {
         srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
       } // for loop of sentences
       this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
-    } // parseSentences1
+    } // parseSentences
     moveToNextWord() {
       // position to the next word as opposed to token (word, punctuation, HTML tag or whitespace)
       // getElementsByClassName returns a HTMLCollection of matching elements.
@@ -1359,7 +1407,13 @@ class ReadingMonitor {
     }
     currentWordIndicatorOff() {
       try {
-        document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId].classList.remove(this.RM_WORD_CURRENT);
+        var spanElement = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId];
+        spanElement.classList.remove(this.RM_WORD_CURRENT);
+        if (spanElement.childElementCount > 0) {
+          // find child with rm_word*
+          spanElement.childNodes[0].classList.remove(this.RM_WORD_HIDDEN);
+          // more than 1 child span under rm_word?
+        }
       }
       catch(e) {
         if (typeof this._sentenceIdx == "undefined" && this._wordId == 0) {
@@ -1431,8 +1485,7 @@ class ReadingMonitor {
       this.diagnosticMsg = "Initialized reading monitor.";
 
 //      this.parseSentences("sentence");
-//this.parseSentences1("sentence");
-    this.parseSentences1("sentence");
+      this.parseSentences("sentence");
       this.moveToFirstSentence();
 
     // ReadingMonitor event handlers
