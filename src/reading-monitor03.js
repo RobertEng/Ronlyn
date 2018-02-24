@@ -142,6 +142,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Wen's", "^(wh{0,1}en's)$");
     this._recognitionPattern.set("Aruna", "^([ai]runa)$");
     this._recognitionPattern.set("Berna", "^(b[eu]rn[ae]t{0,2})$");
+    this._recognitionPattern.set("Berna's", "^(b[eu]rn[ae]t{0,2}s)$");
     this._recognitionPattern.set("Bett", "^(bet{1,2})$");
     this._recognitionPattern.set("Bett's", "^(bet{1,2}s)$");
     this._recognitionPattern.set("Gambhir", "^(gamb[ie]e{0,1}r)$");
@@ -202,6 +203,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("am", "a.m.");
     this._recognitionPattern.set("flour", "^(flo[uw]e{0,1}r)$");
     this._recognitionPattern.set("Cyndi", "c[iy]nd[yi]");
+    this._recognitionPattern.set("Cyndi's", "c[iy]nd[yi]'s");
     this._recognitionPattern.set("Aileen", "[ae]ileen");
     this._recognitionPattern.set("to", "to{1,2}");
     this._recognitionPattern.set("Mex", "max");
@@ -1338,6 +1340,12 @@ class ReadingMonitor {
             }
             default: {
               classLabel = this.RM_WORD;
+              if (t < (tokens.length - 2)
+                && (tokens[t+1].text == "'")
+                && (tokens[t+2].text.toLowerCase() == "s")) {
+                  tokenText = tokenText + "'"+tokens[t+2].text;
+                  t = t + 2;
+                }
               // lookahead to see if next two tokens are an apostrophe followed by an s
               span.setAttribute("idx", spanIdx++);
               span.setAttribute("id", wordId++);
