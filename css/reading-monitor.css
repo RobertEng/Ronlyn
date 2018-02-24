@@ -33,8 +33,9 @@
 }
 .rm_word_fillin {
   display: inline-block; /* Be careful of unintended side effects  */
-  min-width:40px;
+  min-width:20px;
   text-decoration: none;
+  text-align: center;
   border-bottom: 1px dashed black;
   padding-left: 10px;
   padding-right: 10px;

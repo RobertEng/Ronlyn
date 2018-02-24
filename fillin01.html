@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+h1 {
+  padding-top:5px;
+  font-family: arial;
+  font-size: 100%;
+  font-weight: bold;
+  border-top: solid lightgray 4px;
+  width:100%
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+  padding-top:2px;
+  border-bottom: solid lightgray 2px;
+  width:100%  }
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+ol {
+  font-family: arial;
+}
+ol li .rm_sentence {
+    margin-bottom: 10px; /* override li */
+
+}
+.photoentry {
+  display: grid;
+  grid-template-columns: 220px auto  ;
+  grid-template-areas: "photo captions ";
+}
+
+.photo {
+  display: grid;
+  margin-bottom:10px;
+  padding-left:10px;
+  grid-gap: 10px;
+  grid-template-areas: "images";
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+img {
+  width:220px;
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+}
+main {
+  background-color: linen;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+</head>
+<title>Fill-in Responses</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyns Fill-in Responses">
+        <span style="float:left; padding-right:5px">
+          <button id="listenBtn" value="listen">
+            <img id="listenBtnImg"  alt="Listen">
+          </button>
+        </span>
+        <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Fill-in Responses">Ronlyn's Fill-in Responses</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="volumeControl" hidden>
+         <label for="volume" id="volumeLabel">Volume</label>
+          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+       </div>
+
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Speak sentence up to selected word</label>
+      </div>
+      <div class="option" id="StopListeningAtEOSentenceControl">
+        <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+        <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+     </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<h1><a class="navbar-itemByHeadingLevel" id="nouns">Nouns</a></h1>
+<div class="sentence">I pick up food from my plate with a <span class="rm_word_fillin rm_word_hidden">fork</span>.</div>
+<div class="sentence">I blow out the candles before eating my <span class="rm_word_fillin rm_word_hidden">birthday</span>   <span class="rm_word_fillin rm_word_hidden">cake</span>.</div>
+<div class="sentence">I like eating mint chip <span class="rm_word_fillin rm_word_hidden">ice </span> <span class="rm_word_fillin rm_word_hidden">cream</span>.</div>
+<div class="sentence">I add chocolate and whipped cream before drinking my <span class="rm_word_fillin rm_word_hidden">coffee</span>.</div>
+<div class="sentence">I use a kitchen cloth to wipe the wet <span class="rm_word_fillin rm_word_hidden">dishes</span>.</div>
+<div class="sentence">I heat up an omelet pan to cook the <span class="rm_word_fillin rm_word_hidden">eggs</span>.</div>
+
+<div class="sentence">To go outside, I open the <span class="rm_word_fillin rm_word_hidden">door</span>.</div>
+<div class="sentence">To go places, we drive a <span class="rm_word_fillin rm_word_hidden">car</span>.</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>User Messages</h2>
+  <div id="usermsg"></div>
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+  <p>
+    <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+    <span>word idx:</span><span id="wordIdx">0</span>,
+    <span>word id:</span><span id="wordId">0</span>,
+    <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+  <p>
+  <span id="os-msg"></span>
+  </p>
+
+  <div class="option">
+     <label for="voice" id="voiceLabel">Voice</label>
+     <select name="voice" id="voice"></select>
+  </div>
+
+</main>
+
+<nav>
+  <nav id="nav">
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+      <div onclick="" class="navbar-list ul">
+        <div onclick="" id="navbar-items">
+      </div>
+    </div>
+  </nav>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+ var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyPageNav = new navbar ();
+
+ MyPageNav.populate();
+
+ // register html field names
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+
+
+</script>
+</html>

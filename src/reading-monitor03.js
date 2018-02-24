@@ -1362,6 +1362,7 @@ class ReadingMonitor {
           if (classLabel == this.RM_HTMLTAG) {
               // skip htmltags
           }
+
           else {
             span.setAttribute("class", classLabel);
             // add htmlTagsOpen and allow browser to render well-formed span by automatically
@@ -1372,8 +1373,12 @@ class ReadingMonitor {
             for ([tags, count] of htmlTagCounterMap.entries()) {
                 if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }
-            htmlTagMapString = spanTagStack.join("") + htmlTagMapString;
+            if (classLabel != this.RM_WHITESPACE) {
+                // skip htmltags
+              htmlTagMapString = spanTagStack.join("") + htmlTagMapString;
+            }
             span.innerHTML = htmlTagMapString+tokenText;
+            // need to clean up code here: very kludgy
             // span.innerText = opening tags + tokens[t].text + closing tags           span.innerText = HTMLTAGS
             dstSentenceElement.appendChild(span);
           }
@@ -1404,6 +1409,7 @@ class ReadingMonitor {
     moveToNextSentence() {
       // check for last sentence
       if (this.isLastSentence()) {
+        this.currentWordIndicatorOff();
         this.diagnosticMsg = "End of last sentence readed."
       }
       else {
