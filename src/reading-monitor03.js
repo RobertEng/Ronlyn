@@ -196,12 +196,16 @@ class SpeechRecognition {
     this._recognitionPattern.set("Giovanola", "(v[ae]nt{0,1}[io]l{0,1}a)$");
     this._recognitionPattern.set("Dianne", "^(dian{1,2}e)$");
     this._recognitionPattern.set("Dori", "^(dor[iy])$");
-    this._recognitionPattern.set("Dr", "doctor");
+    this._recognitionPattern.set("Dr", "dr.");
     this._recognitionPattern.set("Theatre", "theater");
     this._recognitionPattern.set("pm", "p.m.");
     this._recognitionPattern.set("am", "a.m.");
     this._recognitionPattern.set("flour", "^(flo[uw]e{0,1}r)$");
-    this._recognitionPattern.set("cyndi", "c[iy]nd[yi]");
+    this._recognitionPattern.set("Cyndi", "c[iy]nd[yi]");
+    this._recognitionPattern.set("Aileen", "[ae]ileen");
+    this._recognitionPattern.set("to", "to{1,2}");
+    this._recognitionPattern.set("Mex", "max");
+    this._recognitionPattern.set("Aqui", "a{0,1}c{0,1}ke[ey]");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -843,7 +847,11 @@ class Tokenizer {
         currentPos = tokenPos + tokenList[tl].length;
 
         // tests for subtype: more specific to least specific
-        if (tokenList[tl].substring(0,1) =="$") {
+        if (tokenList[tl].substring(0,1).toLowerCase() =="'") {
+          tokens[t].type = this.TOKEN_PUNCTUATION;
+          tokens[t].subtype = "'";
+        }
+        else if (tokenList[tl].substring(0,1) =="$") {
           tokens[t].type = this.TOKEN_PUNCTUATION_USD;
           tokens[t].subtype = "$";
         }
@@ -1330,6 +1338,7 @@ class ReadingMonitor {
             }
             default: {
               classLabel = this.RM_WORD;
+              // lookahead to see if next two tokens are an apostrophe followed by an s
               span.setAttribute("idx", spanIdx++);
               span.setAttribute("id", wordId++);
               var readingMonitor = this;

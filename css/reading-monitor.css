@@ -10,8 +10,6 @@
   padding: 0px 0px 0px 0px;
   margin: none;
   outline:none;
-  height: 40px;
-  width:40px;
 }
 .rm_word_current {
   text-decoration: underline;
@@ -32,4 +30,16 @@
 .rm_word_current_3 {
   text-decoration: none;
   border-bottom: 3px solid black;
+}
+.rm_word_fillin {
+  display: inline-block; /* Be careful of unintended side effects  */
+  min-width:40px;
+  text-decoration: none;
+  border-bottom: 1px dashed black;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.rm_word_hidden
+{
+  color: rgba(0,0,0,0.0); /* transparent */
 }
