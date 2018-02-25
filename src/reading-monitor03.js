@@ -392,7 +392,6 @@ class SpeechRecognition {
           recognition.stop();
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user terminated';
           readingMonitor.listening.buttonDeactivate();
-//          MyReadingMonitor.speaking.say("no longer listening");
         }
         event.stopPropagation();
       }
@@ -505,7 +504,7 @@ class SpeechRecognition {
             else {
               readingMonitor.diagnosticMsg = "recognition.onend: unknown end state";
             }
-           readingMonitor.speaking.say("no longer listening");
+           readingMonitor.speaking.say("done listening");
            readingMonitor.listening.buttonDeactivate();
            recognition.stop();
          }
