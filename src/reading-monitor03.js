@@ -208,6 +208,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("to", "to{1,2}");
     this._recognitionPattern.set("Mex", "max");
     this._recognitionPattern.set("Aqui", "a{0,1}c{0,1}ke[ey]");
+    this._recognitionPattern.set("Tin", "t[ei]n");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -414,12 +415,27 @@ class SpeechRecognition {
              readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
              if (readingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
                var stopAfterMoveToNextWord = (readingMonitor.isLastWordOfSentence() && readingMonitor.listening.checkboxStopAtEosElement.checked);
+               var wasLastWordOfSentence = readingMonitor.isLastWordOfSentence();
                readingMonitor.moveToNextWord();
+               /*
+
                if (stopAfterMoveToNextWord) {
                  readingMonitor.listening.buttonDeactivate();
                  recognition.stop();
                }
-             }
+               */
+               if (wasLastWordOfSentence) {
+                 if (readingMonitor.listening.checkboxStopAtEosElement.checked) {
+                   readingMonitor.listening.buttonDeactivate();
+                   recognition.stop();
+
+                 }
+                 else { // EOS but option to stop is not checked
+                   recognition.abort(); // clears results and re-enable in onend event
+                   readingMonitor.listening.timer.start();
+                 }
+               }
+             } // matchWord()
              else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
                if (isFinalResult && w == spokenWords.length - 1) {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
@@ -445,7 +461,7 @@ class SpeechRecognition {
           //         console.log('result[0]: ' + event.results[0][0].transcript);
         } //try
         catch(e) {
-          if (typeof MyReadingMonitor == "undefined") {
+          if (typeof readingMonitor == "undefined") {
             alert("recognition:onresult: MyReadingMonitor does not exist in global scope")
           }
           else {
@@ -476,15 +492,21 @@ class SpeechRecognition {
             }
          }
        }
-       recognition.onend = function() {
+       recognition.onend = function(event) {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
           if (readingMonitor.listening.isActive && readingMonitor.listening.timer.isActive) {
-            readingMonitor.diagnosticMsg = "recognition.onend: restart listening";
-            readingMonitor.speaking.say("still listening");
+            readingMonitor.diagnosticMsg = "recognition.onend: restart listening, timer still active";
+            if (readingMonitor.currentWordId == 0) {
+              readingMonitor.speaking.say("new sentence");
+            }
+            else {
+              readingMonitor.speaking.say("still listening");
+            }
             recognition.start();
           }
           else {
+            // report result summary via user messages
             var time = new Date();
             var timestamp = time.toLocaleTimeString();
             var htmlMapString = "<br>Summary "+timestamp+":";
@@ -497,16 +519,18 @@ class SpeechRecognition {
 
             if (!readingMonitor.listening.isActive) {
               readingMonitor.diagnosticMsg = "recognition.onend: user cancelled";
+              readingMonitor.speaking.say("cancelled");
             }
             else if (!readingMonitor.listening.timer.isActive) {
                 readingMonitor.diagnosticMsg = "recognition.onend: timer expired";
+                readingMonitor.speaking.say("take a break");
             }
             else {
               readingMonitor.diagnosticMsg = "recognition.onend: unknown end state";
             }
-           readingMonitor.speaking.say("done listening");
-           readingMonitor.listening.buttonDeactivate();
-           recognition.stop();
+            readingMonitor.speaking.say("done listening");
+            readingMonitor.listening.buttonDeactivate();
+            recognition.stop();
          }
       }
        recognition.onsoundend = function() {
@@ -520,8 +544,11 @@ class SpeechRecognition {
          readingMonitor.diagnosticMsg = "recognition.onnomatch:";
        }
        recognition.onerror = function(event) {
-         readingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
          // timeout with no sound triggers this event
+         readingMonitor.diagnosticMsg = 'recognition.onerror: ' + event.error;
+//         if ((readingMonitor.listening.isActive || !readingMonitor.listening.timer.isActive) && event.error == "no-speech") {
+//           readingMonitor.speaking.say("no speech heard");
+//         }
        }
        this.buttonDeactivate();  // starting state
     }
