@@ -67,6 +67,13 @@ img {
   border-radius: 5px;
   height: auto;
 }
+.rm_fillin_checklist {
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px;
+}
+.rm_fillin_checklist_item_checked_off {
+  text-decoration: line-through;
+}
 main {
   background-color: linen;
 }
@@ -110,60 +117,84 @@ main {
 
 <h1><a class="navbar-itemByHeadingLevel" id="nouns">Nouns</a></h1>
 <h2>For breakfast,</h2>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_breakfast"></div>
 <ul>
   <li>
-    <div class="sentence">I pour a cup of hot <span class="rm_word_fillin rm_word_hidden">coffee</span>.</div>
+    <div class="sentence">I pour a cup of hot <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">coffee</span>.</div>
   </li>
   <li>
-    <div class="sentence">I add soy <span class="rm_word_fillin rm_word_hidden">milk</span>.</div>
+    <div class="sentence">I add soy <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">milk</span>.</div>
   </li>
   <li>
-    <div class="sentence">I also add in chocolate <span class="rm_word_fillin rm_word_hidden"> syrup</span>.</div>
+    <div class="sentence">I also add in chocolate <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">syrup</span>.</div>
   </li>
   <li>
-    <div class="sentence">I stir my coffee with a <span class="rm_word_fillin rm_word_hidden">spoon</span>.</div>
+    <div class="sentence">I stir my coffee with a <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">spoon</span>.</div>
   </li>
   <li>
-    <div class="sentence">I top my coffee off with <span class="rm_word_fillin rm_word_hidden">whipped cream</span>.</div>
+    <div class="sentence">I top my coffee off with <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">whipped cream</span>.</div>
   </li>
   <li>
-    <div class="sentence">I take my five <span class="rm_word_fillin rm_word_hidden">pills</span>.</div>
+    <div class="sentence">I take my five <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">pills</span>.</div>
   </li>
   <li>
-    <div class="sentence">I eat scrambled <span class="rm_word_fillin rm_word_hidden">eggs</span>.</div>
+    <div class="sentence">I eat scrambled <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">eggs</span>.</div>
   </li>
   <li>
-    <div class="sentence">I eat my eggs with a <span class="rm_word_fillin rm_word_hidden">fork</span>.</div>
+    <div class="sentence">I eat my eggs with a <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">fork</span>.</div>
   </li>
   <li>
-    <div class="sentence">Strawberries and blueberries are types of <span class="rm_word_fillin rm_word_hidden">fruit</span>.</div>
+    <div class="sentence">Strawberries and blueberries are types of <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="breakfast">fruit</span>.</div>
   </li>
 </ul>
 <h2>For lunch,</h2>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_lunch"></div>
 <ul>
   <li>
-    <div class="sentence">I eat a Togo's <span class="rm_word_fillin rm_word_hidden">sandwich</span>.</div>
+    <div class="sentence">I eat a turkey and avocado <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="lunch">sandwich</span>.</div>
   </li>
   <li>
-    <div class="sentence">I drink a diet <span class="rm_word_fillin rm_word_hidden">soda</span>.</div>
+    <div class="sentence">I eat a bowl of corn chowder <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="lunch">soup</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I eat soup with a <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="lunch">spoon</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I drink a diet <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="lunch">soda</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I also drink a hot cup of jasmine <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="lunch">tea</span>.</div>
   </li>
 </ul>
 <h2>For dinner,</h2>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_dinner"></div>
 <ul>
   <li>
-    <div class="sentence">I love sour cream on my <span class="rm_word_fillin rm_word_hidden">baked potato</span>.</div>
+    <div class="sentence">I like New York strip <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">dinner</span>.</div>
   </li>
   <li>
-    <div class="sentence">I like tomatoes in my <span class="rm_word_fillin rm_word_hidden">salad</span>.</div>
+    <div class="sentence">I cut my steak with a <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">knife</span> and eat it with a  <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">fork</span>.</div>
   </li>
   <li>
-    <div class="sentence">I like tomatoes in my <span class="rm_word_fillin rm_word_hidden">salad</span>.</div>
+    <div class="sentence">I put sour cream on my <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">baked potato</span>.</div>
   </li>
   <li>
-    <div class="sentence">A green salad contain leafy <span class="rm_word_fillin rm_word_hidden">lettuce</span>.</div>
+    <div class="sentence">I like yellow curry <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">chicken</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I love BBQ pulled <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">pork</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">It goes well with cole <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">slaw</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I wash lettuce for the <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">salad</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I add red, ripe <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="dinner">tomatoes</span>.</div>
   </li>
 </ul>
-For dessert,
+<h2>For dessert,</h2>
 <ul>
   <li>
     <div class="sentence">Mocha almond fudge is my favorite <span class="rm_word_fillin rm_word_hidden">ice </span> <span class="rm_word_fillin rm_word_hidden">cream</span>.</div>
@@ -172,10 +203,34 @@ For dessert,
     <div class="sentence">I eat ice cream with a <span class="rm_word_fillin rm_word_hidden">spoon</span>.</div>
   </li>
 </ul>
-In the kitchen,
+<h2>In the kitchen,</h2>
 <ul>
   <li>
-    <div class="sentence">I use a kitchen cloth to wipe the wet <span class="rm_word_fillin rm_word_hidden">dishes</span>.</div>
+    <div class="sentence">I wash pots and pans in the <span class="rm_word_fillin rm_word_hidden">sink</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I put dirty dishes in the <span class="rm_word_fillin rm_word_hidden">dishwasher</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I cook on the <span class="rm_word_fillin rm_word_hidden">stove</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I bake in the <span class="rm_word_fillin rm_word_hidden">oven</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I keep cold items in the <span class="rm_word_fillin rm_word_hidden">refrigerator</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I warm up leftovers in the <span class="rm_word_fillin rm_word_hidden">microwave oven</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I bake lemon <span class="rm_word_fillin rm_word_hidden">squares</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I bake banana nut <span class="rm_word_fillin rm_word_hidden">bread</span>.</div>
+  </li>
+  <li>
+    <div class="sentence">I bake banana and blueberry <span class="rm_word_fillin rm_word_hidden">muffins</span>.</div>
   </li>
 </ul>
 
@@ -188,6 +243,34 @@ To go outside,
     <div class="sentence">We drive in a <span class="rm_word_fillin rm_word_hidden">car</span>.</div>
   </li>
 </ul>
+<h1><a class="navbar-itemByHeadingLevel" id="pronouns">Pronouns</a></h1>
+<h2>Personal pronouns (subjective)</h2>
+<ul>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">I</span> bake lemon squares.</div>
+  </li>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">We</span> walk together.</div>
+  </li>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">They</span> are our neighbors.</div>
+  </li>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">He </span> is David's brother.</div>
+  </li>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">She </span> is my sister.</div>
+  </li>
+  <li>
+    <div class="sentence"><span class="rm_word_fillin rm_word_hidden">You</span> help me to practice walking.</div>
+  </li>
+</ul>
+
+
+<h2>Personal pronouns (objective)</h2>
+<h2>Possessive pronouns</h2>
+
+
 <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
 <h2>User Messages</h2>
   <div id="usermsg"></div>
@@ -225,7 +308,7 @@ To go outside,
   </nav>
 </nav>
 </body>
-<script type="text/javascript" src="src/reading-monitor03.js"></script>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
 <script type="text/javascript" src="src/page-nav.js"></script>
 <script>
 document.body.onload = function(e) {   //when the document body is clicked
@@ -234,7 +317,7 @@ document.body.onload = function(e) {   //when the document body is clicked
 
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
- var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyReadingMonitor = new ReadingMonitor("fillin01");
  var MyPageNav = new navbar ();
 
  MyPageNav.populate();
