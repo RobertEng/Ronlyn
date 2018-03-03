@@ -1,5 +1,5 @@
 /*******************************************
- * Reading Monitor v0.3.0
+ * Reading Monitor v0.4.0
  * (c) 2017, 2018 by Wen Eng. All rights reserved.
  ********************************************/
 "use strict";
@@ -1013,6 +1013,9 @@ class ReadingMonitor {
     get TOKEN_PUNCTUATION() {
       return this._tokenizer.TOKEN_PUNCTUATION;
     }
+    get RM_FILLIN_CHECKLIST_ITEM() {
+      return "rm_fillin_checklist_item_checked_off";
+    }
     get RM_HTMLTAG() {
       return "rm_htmltag";
     }
@@ -1033,6 +1036,9 @@ class ReadingMonitor {
     }
     get RM_WORD_CURRENT() {
       return "rm_word_current";
+    }
+    get RM_WORD_FILLIN() {
+      return "rm_word_fillin";
     }
     get RM_WORD_HIDDEN() {
       return "rm_word_hidden";
@@ -1176,18 +1182,6 @@ class ReadingMonitor {
         this.errorMsg = "userMsgAppend setter: Could not access field because "+e.message;
       }
     }
-    /*
-    get userMsg() {
-      try {
-//            this._userMsgElement.textContent = this._userMsgElement.textContent+";<br> "+ msg;
-            var msg = this._userMsgElement.innerHTML;
-            if (typeof msg == "undefined") msg = "";
-            return msg;
-      }
-      catch(e) {
-        parent.errorMsg = "userMsg getter: Could not access field because "+e.message;
-      }
-    }*/
     set errorMsg(msg) {
       try {
         var time = new Date();
@@ -1319,14 +1313,15 @@ class ReadingMonitor {
       }
     } //rm_wordSpanOnClick
     parseSentences(sentenceTag) {
+      // must be processed at end of ALL sentence parsing to assign unique fillinChecklistId
+      // could be refactored into its own object
       var fillinChecklists = new ListMap();
       var fillinChecklistId = 0;
       for(var s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
-        typeof srcSentenceElement != 'undefined';
+        typeof srcSentenceElement != 'undefined'; // keep looping until no more valid sentence elements
         srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
 
-        var tokens = this._tokenizer.tokens(srcSentenceElement.innerHTML);
-//        var tokens = this._tokenizer.tokens1(srcSentenceElement.innerHTML);
+        var tokens = this.tokenizer.tokens(srcSentenceElement.innerHTML);
         var htmlTagCounterMap = new CounterMap(); // map for htmltags with not specific attributes
         var spanTagStack = new Array(); // stack containing span/attributes
         //
@@ -1352,17 +1347,17 @@ class ReadingMonitor {
           var span = document.createElement("span");
 
           switch (tokenType) {
-            case this._tokenizer.TOKEN_PUNCTUATION: {
+            case this.tokenizer.TOKEN_PUNCTUATION: {
               classLabel = this.RM_PUNCTUATION;
               span.setAttribute("idx", spanIdx++);
               break;
             }
-            case this._tokenizer.TOKEN_WHITESPACE: {
+            case this.tokenizer.TOKEN_WHITESPACE: {
               classLabel = this.RM_WHITESPACE;
               span.setAttribute("idx", spanIdx++);
               break;
             }
-            case this._tokenizer.TOKEN_HTMLTAG_OPEN: {
+            case this.tokenizer.TOKEN_HTMLTAG_OPEN: {
               classLabel = this.RM_HTMLTAG;
               // span only
               var htmlTag = tokenText; // potentially case sensitive
@@ -1371,7 +1366,7 @@ class ReadingMonitor {
                   // for each sentence, capture fillin words for checklist
                   // Should be done in tokenizer as attribute/value map.
                   // that can get confusing for lookahead
-                  if (tokens[t].attributes.toLowerCase().indexOf("rm_word_fillin")
+                  if (tokens[t].attributes.toLowerCase().indexOf(this.RM_WORD_FILLIN)
                     && (tokens[t+1].type = this.RM_WORD)) {
                       var fillinPhrase = "";
                       for (var f = t+1; f < tokens.length && tokens[f].text.toLowerCase().indexOf("</span>"); f++) {
@@ -1389,7 +1384,7 @@ class ReadingMonitor {
                         if (pos >= 0) {
                           htmlTag = htmlTag.substring(0, pos)+" rm_fillin_checklist_id="+fillinChecklistId+htmlTag.substring(pos, htmlTag.length);
                         }
-                      fillinChecklistId++
+                      fillinChecklistId++;
                       }
                     } // pos >=0
                   } // if rm_word_fillin
@@ -1402,10 +1397,10 @@ class ReadingMonitor {
               }
               break;
             }
-            case this._tokenizer.TOKEN_HTMLTAG_CLOSE: {
+            case this.tokenizer.TOKEN_HTMLTAG_CLOSE: {
               classLabel = this.RM_HTMLTAG;
               // get corresponding open tag for key
-              var htmlOpeningTag = this._tokenizer.htmlOpeningTag(tokenText).toLowerCase();
+              var htmlOpeningTag = this.tokenizer.htmlOpeningTag(tokenText).toLowerCase();
               if (htmlOpeningTag == "<span>") {
                   spanTagStack.pop();
               }
@@ -1414,7 +1409,7 @@ class ReadingMonitor {
               }
               break;
             }
-            case this._tokenizer.TOKEN_HTMLTAG: {
+            case this.tokenizer.TOKEN_HTMLTAG: {
               classLabel = this.RM_HTMLTAG;
               // create/duplicate open and close html for each word span
               //when <> is encountered, push into stack
@@ -1423,7 +1418,7 @@ class ReadingMonitor {
               //when </> is encountered pop stack
               break;
             }
-            case this._tokenizer.TOKEN_PUNCTUATION: {
+            case this.tokenizer.TOKEN_PUNCTUATION: {
               classLabel = this.RM_PUNCTUATION;
               span.setAttribute("idx", spanIdx++);
               break;
@@ -1522,7 +1517,10 @@ class ReadingMonitor {
       // check for last sentence
       if (this.isLastSentence()) {
         this.currentWordIndicatorOff();
+
         this.diagnosticMsg = "End of last sentence readed."
+//        this.listening.stop();
+        this.listening.buttonDeactivate();
       }
       else {
 //        this.moveToSentence(Number(this.currentSentenceIdx) + 1);
@@ -1549,9 +1547,7 @@ class ReadingMonitor {
           // more than 1 child span under rm_word?
           var fillinId = spanElement.childNodes[0].getAttribute("rm_fillin_checklist_id");
           var el = document.getElementById("rm_fillin_checklist_id_"+fillinId);
-          el.classList.add("rm_fillin_checklist_item_checked_off");
-//          spanElement.childNodes[0].getElementById("rm_fillin_checklist_item_")
-//          classList.add("rm_fillin_checklist_item_checked_off");
+          el.classList.add(this.RM_FILLIN_CHECKLIST_ITEM);
         }
       }
       catch(e) {
@@ -1559,7 +1555,7 @@ class ReadingMonitor {
 //          this.diagnosticMsg = "currentWordIndicatorOff(): initializing."
         }
         else {
-          this.errorMsg = "currentWordHiddenOff(): could not reset rm_word_hidden because "+e.message;
+          this.errorMsg = "currentWordFilledInCorrectly(): could not reset "+this.RM_WORD_HIDDEN+" because "+e.message;
         }
       }
     }
