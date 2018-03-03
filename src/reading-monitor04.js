@@ -237,6 +237,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Tin", "t[ei]n");
     this._recognitionPattern.set("Anne", "an{1,2}e{0,1}");
     this._recognitionPattern.set("Cathleen", "[ck]athleen");
+    this._recognitionPattern.set("tea", "te{0,2}");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -1270,6 +1271,10 @@ class ReadingMonitor {
         // is this fatal (unrecoverable)?
       }
     }
+    sayInnertextOnClick(e) {
+      var el = e.target;
+      MyReadingMonitor.speaking.say(el.innerText);
+    }
     rm_wordSpanOnClick(e) {
       try {
         var spanElement, sentenceElement;
@@ -1486,6 +1491,8 @@ class ReadingMonitor {
         var fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
         var div = document.createElement("div");
         div.setAttribute("id", "rm_fillin_checklist_id_"+fid);
+        div.onclick = function() { readingMonitor.sayInnertextOnClick(event) };
+
         div.innerText = fillinWord;
         el.appendChild(div);
         }
