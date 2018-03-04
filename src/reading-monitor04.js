@@ -4,6 +4,17 @@
  ********************************************/
 "use strict";
 // ECMAScript6 class syntax only
+function getCurrentDateTimeStamp() {
+  var time = new Date();
+  return time.getFullYear()+"-"
+    +(time.getMonth()+1).toString().padStart(2,"00")+"-"
+    +time.getDate().toString().padStart(2,"00")+" "
+    +time.toLocaleTimeString();
+}
+function getCurrentTimeStamp() {
+  var time = new Date();
+  return time.toLocaleTimeString();
+}
 function getOS() {
    var userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
@@ -238,6 +249,8 @@ class SpeechRecognition {
     this._recognitionPattern.set("Anne", "an{1,2}e{0,1}");
     this._recognitionPattern.set("Cathleen", "[ck]athleen");
     this._recognitionPattern.set("tea", "te{0,2}");
+    this._recognitionPattern.set("grew", "gr[ue]w{0,1}");
+    this._recognitionPattern.set("Terra", "t[ea]r{1,2}a");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -411,9 +424,7 @@ class SpeechRecognition {
           readingMonitor.listening.buttonActivate();
           readingMonitor.speaking.say("listening");
 
-          var time = new Date();
-          var timestamp = time.toLocaleTimeString();
-          readingMonitor.userMsg = "<u>Reading session started at "+timestamp+"</u>";
+          readingMonitor.userMsg = "<u>Reading session started at "+ getCurrentDateTimeStamp()+"</u>";
           recognition.start();
         }
         else {
@@ -471,7 +482,7 @@ class SpeechRecognition {
                if (isFinalResult && w == spokenWords.length - 1) {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
                    if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
-                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>, heard: <em>"+spokenWords[w]+"</em>";
+                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>; heard: <em>"+spokenWords[w]+"</em>";
                      readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
                    }
                    else {
@@ -538,9 +549,7 @@ class SpeechRecognition {
           }
           else {
             // report result summary via user messages
-            var time = new Date();
-            var timestamp = time.toLocaleTimeString();
-            var htmlMapString = "<br>Summary "+timestamp+":";
+            var htmlMapString = "<br>Summary at "+ getCurrentDateTimeStamp();
             var word = "";
             var count;
             for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
@@ -1096,9 +1105,7 @@ class ReadingMonitor {
     }
     set errorMsgElementId(id) {
         this._errorMsgElement = document.getElementById(id);
-        var time = new Date();
-        var timestamp = time.toLocaleTimeString();
-        this._errorMsgElement.textContent = "["+timestamp+"]: Error messaging initialized."
+        this._errorMsgElement.textContent = "["+getCurrentDateTimeStamp()+"]: Error messaging initialized."
         // allow uncaught exception to bubble up
     }
     set sentenceIdxElementId(id) {
@@ -1152,22 +1159,22 @@ class ReadingMonitor {
     set diagnosticMsg(msg) {
       try {
         if (this._diagnosticElement != null) {
-          var time = new Date();
-          var timestamp = time.toLocaleTimeString();
-          this._diagnosticElement.textContent = "["+timestamp + "]:" + msg;
+          this._diagnosticElement.textContent = "["+getCurrentTimeStamp() + "]:" + msg;
         }
       }
       catch(e) {
 //        fail silently
       }
       finally {
-        console.log("RMdiag-"+timestamp + ": " + msg);
+        console.log("RMdiag-"+getCurrentTimeStamp() + ": " + msg);
       };
     }
     set userMsg(msg) {
       try {
-          if (this._userMsgElement != null)
-            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML+"<br>"+ msg;
+          if (this._userMsgElement != null) {
+            this._userMsgElement.innerHTML = this._userMsgElement.innerHTML
+            +"<br>"+msg;
+          }
       }
       catch(e) {
         this.errorMsg = "userMsg setter: Could not access field because "+e.message;
@@ -1184,12 +1191,10 @@ class ReadingMonitor {
     }
     set errorMsg(msg) {
       try {
-        var time = new Date();
-        var timestamp = time.toLocaleTimeString();
-        this._errorMsgElement.innerHTML = "["+timestamp+"]: "+ msg +"<br>"+ this._errorMsgElement.innerHTML;
+        this._errorMsgElement.innerHTML = "["+getCurrentDateTimeStamp()+"]: "+ msg +"<br>"+ this._errorMsgElement.innerHTML;
       }
       catch(e) {
-        console.log("[]"+timestamp+"]: errorMsg (uninitialized): "+msg);
+        console.log("["+getCurrentDateTimeStamp()+"]: errorMsg (uninitialized): "+msg);
       }
     }
     get currentSentenceIdx() {
@@ -1322,11 +1327,11 @@ class ReadingMonitor {
         srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
 
         var tokens = this.tokenizer.tokens(srcSentenceElement.innerHTML);
-        var htmlTagCounterMap = new CounterMap(); // map for htmltags with not specific attributes
+        var htmlTagCounterMap = new CounterMap(); // map for htmltags with no specific attributes
         var spanTagStack = new Array(); // stack containing span/attributes
-        //
+
+        // transfer all attributes from source sentence to destination sentence
         var dstSentenceElement = document.createElement(srcSentenceElement.tagName);
-        // transfer all attributes from source sentence
         dstSentenceElement.setAttribute("id", s);
 
         for (var a = 0; a < srcSentenceElement.attributes.length; a++) {
@@ -1339,7 +1344,7 @@ class ReadingMonitor {
         var wordId = 0; // sequential index of spans of type rm_word's
 
         // could be modified to accommodate semantic analysis
-        // where states (cases) can be dependent on prvious ones
+        // where states (cases) can be dependent on previous ones
         for (var t = 0; t < tokens.length; t++) {
           var tokenType = tokens[t].type;
           var tokenText = tokens[t].text;
