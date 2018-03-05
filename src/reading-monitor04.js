@@ -470,7 +470,6 @@ class SpeechRecognition {
                  if (readingMonitor.listening.checkboxStopAtEosElement.checked) {
                    readingMonitor.listening.buttonDeactivate();
                    recognition.stop();
-
                  }
                  else { // EOS but option to stop is not checked
                    recognition.abort(); // clears results and re-enable in onend event
@@ -548,7 +547,7 @@ class SpeechRecognition {
             recognition.start();
           }
           else {
-            // report result summary via user messages
+              // report result summary via user messages
             var htmlMapString = "<br>Summary at "+ getCurrentDateTimeStamp();
             var word = "";
             var count;
@@ -557,7 +556,12 @@ class SpeechRecognition {
             }
             readingMonitor.userMsg =  htmlMapString;
 
-            if (!readingMonitor.listening.isActive) {
+            // announce termination state
+            if (readingMonitor.isLastSentence()) {
+              readingMonitor.diagnosticMsg = "recognition.onend: no more sentences";
+              readingMonitor.speaking.say("no more sentences");
+            }
+            else if (!readingMonitor.listening.isActive) {
               readingMonitor.diagnosticMsg = "recognition.onend: user cancelled";
               readingMonitor.speaking.say("cancelled");
             }
@@ -1387,7 +1391,7 @@ class ReadingMonitor {
                         fillinChecklists.list(fillinChecklist).push((fillinPhrase+("000"+(fillinChecklistId).toString()).slice(-3)).trim())
                         pos = htmlTag.indexOf(">");
                         if (pos >= 0) {
-                          htmlTag = htmlTag.substring(0, pos)+" rm_fillin_checklist_id="+fillinChecklistId+htmlTag.substring(pos, htmlTag.length);
+                          htmlTag = htmlTag.substring(0, pos)+"rm_fillin_checklist_id="+fillinChecklistId+htmlTag.substring(pos, htmlTag.length);
                         }
                       fillinChecklistId++;
                       }
@@ -1491,6 +1495,7 @@ class ReadingMonitor {
         var fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
         var div = document.createElement("div");
         div.setAttribute("id", "rm_fillin_checklist_id_"+fid);
+        div.setAttribute("class", "rm_fillin_checklist_item");
         div.onclick = function() { readingMonitor.sayInnertextOnClick(event) };
 
         div.innerText = fillinWord;
@@ -1522,10 +1527,9 @@ class ReadingMonitor {
       // check for last sentence
       if (this.isLastSentence()) {
         this.currentWordIndicatorOff();
-
-        this.diagnosticMsg = "End of last sentence readed."
-//        this.listening.stop();
-        this.listening.buttonDeactivate();
+        this.listening.isActive = false;
+        this.diagnosticMsg = "End of last sentence read."
+//        this.listening.buttonDeactivate();
       }
       else {
 //        this.moveToSentence(Number(this.currentSentenceIdx) + 1);
