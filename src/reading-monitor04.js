@@ -168,8 +168,9 @@ class SpeechRecognition {
     this._timer = new Timer(this);
     this._mismatchedWordCounterMap = new CounterMap();
     this._recognitionPattern = new PronunciationMap(this);
-    this._currentWordExpected = ""; //strictly for reporting and NOT processing
-    this._previousSpokenWord = "";
+    this._currentWordExpected = ""; //strictly for reporting and NOT recognition
+    this._currentWordStart = 0; //strictly for reporting and NOT processing
+    this._previousSpokenWord = ""; //strictly for reporting and NOT recognition
     // should be stored externally in a xml/html file
     // pairs of written word that SpeechRecognition would match the second
     this._recognitionPattern.set("Ronlyn", "^(ron|ro[ns]a{0,1}l[aiye]nd{0,1})$");
@@ -251,6 +252,8 @@ class SpeechRecognition {
     this._recognitionPattern.set("tea", "te{0,2}");
     this._recognitionPattern.set("grew", "gr[ue]w{0,1}");
     this._recognitionPattern.set("Terra", "t[ea]r{1,2}a");
+    this._recognitionPattern.set("mows", "moe's");
+    this._recognitionPattern.set("SPARC", "spark");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -482,6 +485,7 @@ class SpeechRecognition {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
                    if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
                      readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>; heard: <em>"+spokenWords[w]+"</em>";
+//                     readingMonitor.listening.currentWordStartTime();
                      readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
                    }
                    else {
@@ -1484,23 +1488,33 @@ class ReadingMonitor {
         //rm_fillin_checklist in dstSentenceElement iff fillin_checklist exists, then populate it while adding ids to rm_word_fillin
         srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
       } // for loop of sentences
-      var checklistName = "";
-      var fillinList;
-      for ([checklistName, fillinList] of fillinChecklists.entries()) {
-        fillinList.sort();
-        var el = document.getElementById("rm_fillin_checklist_"+checklistName);
-//        .getElementById(checklistName);
-        for (var f = 0; f < fillinList.length;f++) {
-        var fid = Number(fillinList[f].substring(fillinList[f].length-3));
-        var fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
-        var div = document.createElement("div");
-        div.setAttribute("id", "rm_fillin_checklist_id_"+fid);
-        div.setAttribute("class", "rm_fillin_checklist_item");
-        div.onclick = function() { readingMonitor.sayInnertextOnClick(event) };
+      try {
+        var checklistName = "";
+        var fillinList;
+        for ([checklistName, fillinList] of fillinChecklists.entries()) {
+          fillinList.sort();
+          var el = document.getElementById("rm_fillin_checklist_"+checklistName);
+          if (el == null) {
+            this.errorMsg = "parseSentence(): Cannot create fillin "+checklistName+" because no target element exists.";
+          }
+          else {
+  //        .getElementById(checklistName);
+            for (var f = 0; f < fillinList.length;f++) {
+              var fid = Number(fillinList[f].substring(fillinList[f].length-3));
+              var fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
+              var div = document.createElement("div");
+              div.setAttribute("id", "rm_fillin_checklist_id_"+fid);
+              div.setAttribute("class", "rm_fillin_checklist_item");
+              div.onclick = function() { readingMonitor.sayInnertextOnClick(event) };
 
-        div.innerText = fillinWord;
-        el.appendChild(div);
+              div.innerText = fillinWord;
+              el.appendChild(div);
+            }
+          }
         }
+      }
+      catch(e) {
+        this.errorMsg = "parseSentence(): Cannot create fillin checklist "+checklistName+" because "+e.message;
       }
       this._lastSentenceIdx = document.getElementsByClassName(this.RM_SENTENCE).length -1;
     } // parseSentences
