@@ -21,14 +21,14 @@ h1 {
   font-family: arial;
   font-size: 100%;
   font-weight: bold;
-  border-top: solid lightgray 4px;
+  border-top: solid gray 4px;
   width:100%
 }
 h2 {
   font-family: arial;
   font-size: 90%;
   padding-top:2px;
-  border-bottom: solid lightgray 2px;
+  border-bottom: solid gray 2px;
   width:100%  }
 }
 li:not(:last-child) {
@@ -68,7 +68,7 @@ img {
   height: auto;
 }
 .rm_fillin_checklist {
-  border: solid  2px Gray;
+  border: solid  2px LightGray;
   border-collapse: collapse;
   display: grid;
   width: 80%;
@@ -96,13 +96,14 @@ img {
 }
 .column2 {
   column-count: 2;
+  column-fill: balance;
 }
 ul {
-
-  margin-top:0;
+  margin-top:0; /* otherwise columns tops do not align-top */
 }
 main {
   background-color: linen;
+  padding-left: 5px;
 }
 </style>
 <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
@@ -314,7 +315,7 @@ main {
 <h2>Personal pronouns (subjective aka nominative)</h2>
 <small>
 These pronouns are used to form the subject of a sentence or as a predicate noun (aka predicate nominative) when following
- a form of <em>be</em> verb (e.g., is, was) and it renames or describes the subject of the sentence.
+ a form of <em>be</em> verb (e.g., is, was) and it renames or describes the subject of the sentence. Subjective pronouns include: <em>I, you, he, she, it, we, they</em>.
 </small>
 
 <div class="rm_fillin_checklist" id="rm_fillin_checklist_subjective_pronouns1"></div>
@@ -362,7 +363,15 @@ These pronouns are used to form the subject of a sentence or as a predicate noun
 </ul>
 
 <h2>Personal pronouns (objective)</h2>
+<small>
+Objective pronouns are used as direct objects, indirect objects or objects of the preposition.
+Objective pronouns include: <em>me, you, him, her, it, us, them</em>.
+</small>
+
 <h2>Possessive pronouns</h2>
+<small>
+Possessive pronouns are used to indicate ownership of objects. Possessive pronouns include: <em>my, your, his, hers, its, our, ours, their, theirs</em>.
+</small>
 
 <h1><a class="navbar-itemByHeadingLevel" id="verbs">Verbs</a></h1>
 <small>Helping verbs extend the meaning, emphasis or tense of the main verbs within a sentence. Helping verbs fall into a couple of categories: auxiliary verbs and modal ones. Auxiliary verbs
@@ -565,7 +574,226 @@ can, could, may, might, will, would, shall, should, must, ought.
 </div>
 
 <h1><a class="navbar-itemByHeadingLevel" id="prepositions">Prepositions</a></h1>
-</div><h2>Prepositions (at, to, for)</h2>
+<small>
+Prepositions indicate relationships between other words (e.g., when or where) within sentences. These include: <em>of, in, to, for, with, on, at, from, by,
+  about, as, into, like, through, after, over, between, out, against, during, without, before, under, around, among</em> ranked from most frequently used to least.
+</small>
+</div><h2>Preposition: of</h2>
+<small>
+  The preposition <em>of</em> expresses connection or belonging to something greater.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_of"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">Wen and I were married in the fall <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> 1992.</div>
+  </li>
+  <li>
+    <div class="sentence">I am the oldest <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> my siblings.</div>
+  </li>
+  <li>
+    <div class="sentence">Stacy is the youngest <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> my siblings.</div>
+  </li>
+  <li>
+    <div class="sentence">The recipe requires one cup <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> flour.</div>
+  </li>
+  <li>
+    <div class="sentence">I drink a glass <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> soda.</div>
+  </li>
+  <li>
+    <div class="sentence">I eat a bowl <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> oatmeal for breakfast.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert is the organizer <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> Hacktech.</div>
+  </li>
+  <li>
+    <div class="sentence">David should take care <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> the white car.</div>
+  </li>
+  <li>
+    <div class="sentence">I ate a slice <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> apple pie.</div>
+  </li>
+  <li>
+    <div class="sentence">I would like a scoop <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_of">of</span> ice cream.</div>
+  </li>
+</ul>
+</div>
+</div><h2>Preposition: in</h2>
+<small>
+  The preposition <em>in</em> expresses a place within an area.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_in"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">I live <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> Saratoga.</div>
+  </li>
+  <li>
+    <div class="sentence">The dishes are kept <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the cupboard.</div>
+  </li>
+  <li>
+    <div class="sentence">Silverware is stored <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the drawer.</div>
+  </li>
+  <li>
+    <div class="sentence">The car is parked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the garage.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert goes to school <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> Pasadena.</div>
+  </li>
+  <li>
+    <div class="sentence">I put my earrings away <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the drawer.</div>
+  </li>
+  <li>
+    <div class="sentence">The cookies are baking <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the oven.</div>
+  </li>
+  <li>
+    <div class="sentence">I bathe <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the shower.</div>
+  </li>
+  <li>
+    <div class="sentence">We sleep <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> a bed.</div>
+  </li>
+  <li>
+    <div class="sentence">I hang my clothes <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_in">in</span> the closet.</div>
+  </li>
+</div>
+</div>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_in"></div>
+</div><h2>Preposition: to</h2>
+<small>
+  The preposition <em>to</em> expresses direction or movement of something.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_to"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">I walk <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the kitchen.</div>
+  </li>
+  <li>
+    <div class="sentence">We go <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the movies.</div>
+  </li>
+  <li>
+    <div class="sentence">I walk <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the car.</div>
+  </li>
+  <li>
+    <div class="sentence">I walk <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the bathroom.</div>
+  </li>
+  <li>
+    <div class="sentence">David drives back <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the Stanford.</div>
+  </li>
+    <li>
+    <div class="sentence">My parents came <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> our house.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert is moving back <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the bay area.</div>
+  </li>
+  <li>
+    <div class="sentence">They came <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> the graduation.</div>
+  </li>
+  <li>
+    <div class="sentence">We drive <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> DeAnza College.</div>
+  </li>
+  <li>
+    <div class="sentence">We go <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_to">to</span> Robert's graduation.</div>
+  </li>
+</div>
+</div>
+<h2>Preposition: for</h2>
+<small>
+  The preposition <em>for</em> expresses intention of something; reason; or purpose.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_for"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">We buy food <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_for">for</span> David.</div>
+  </li>
+  <li>
+    <div class="sentence">Daddy looked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_for">for</span> his keys.</div>
+  </li>
+  <li>
+    <div class="sentence">Daddy looked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_for">for</span> his keys.</div>
+  </li>
+  <li>
+    <div class="sentence">I paid <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_for">for </span> my lunch.</div>
+  </li>
+  <li>
+    <div class="sentence">We need batteries <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_for">for </span> the TV clicker.</div>
+  </li>
+</div>
+<h2>Preposition: with</h2>
+<small>
+  The preposition <em>with</em> expresses possession or accompaniment of something or someone.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_with"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">We buy food <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_with">for</span> David.</div>
+  </li>
+  <li>
+    <div class="sentence">Daddy looked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_with">for</span> his keys.</div>
+  </li>
+  <li>
+    <div class="sentence">Daddy looked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_with">for</span> his keys.</div>
+  </li>
+  <li>
+    <div class="sentence">I paid <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_with">for </span> my lunch.</div>
+  </li>
+  <li>
+    <div class="sentence">We need batteries <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_with">for </span> the TV clicker.</div>
+  </li>
+</div>
+</div><h2>Preposition: on</h2>
+<small>
+  The preposition <em>on</em> expresses position where something or some time (e.g., date) comes to rest on one another.
+</small>
+</div><h2>Preposition: at</h2>
+<small>
+  The preposition <em>at</em> expresses precise location of something, but not used for broader, non-specific places such as cities, states or countries.
+</small>
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions_at"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence">I look <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> my watch.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert studies <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> Caltech.</div>
+  </li>
+  <li>
+    <div class="sentence">I attend SPARC <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> San Jose State.</div>
+  </li>
+  <li>
+    <div class="sentence">I enjoy dim sum <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> Joy Luck Palace.</div>
+  </li>
+  <li>
+    <div class="sentence">I sleep <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> night.</div>
+  </li>
+  <li>
+    <div class="sentence">David studied <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> Stanford.</div>
+  </li>
+  <li>
+    <div class="sentence">I always have clam chowder <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> The City Fish.</div>
+  </li>
+  <li>
+    <div class="sentence">I met Wen <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> UC Berkeley.</div>
+  </li>
+  <li>
+    <div class="sentence">I live <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> 20680 Seaton Ave.</div>
+  </li>
+  <li>
+    <div class="sentence">I bake goodies <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions_at">at</span> home.</div>
+  </li>
+</div>
+<h2>Preposition: from</h2>
+<small>
+  The preposition <em>from</em> expresses where something originates.
+</small>
+<h2>Preposition: by</h2>
+<small>
+  The preposition <em>by</em> expresses close proximity to something; or credit for work.
+</small>
+
+</div><h2>Prepositions: at, to</h2>
 <div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions1"></div>
 <div class="column2">
 <ul>
@@ -575,23 +803,14 @@ can, could, may, might, will, would, shall, should, must, ought.
   <li>
     <div class="sentence">I look <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> my watch.</div>
   </li>
-  <li>
-    <div class="sentence">I paid <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">for </span> my lunch.</div>
-  </li>
-  <li>
+    <li>
     <div class="sentence">I gave it <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">to</span> her.</div>
   </li>
   <li>
     <div class="sentence">They came <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">to</span> the graduation.</div>
   </li>
   <li>
-    <div class="sentence">Daddy looked <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">for</span> his keys.</div>
-  </li>
-  <li>
-    <div class="sentence">I will meet you <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> Skills Plus.</div>
-  </li>
-  <li>
-    <div class="sentence">We buy food <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">for</span> David.</div>
+    <div class="sentence">I see Grace <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> Skills Plus.</div>
   </li>
   <li>
     <div class="sentence">I attend SPARC <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> San Jose State.</div>
@@ -599,8 +818,21 @@ can, could, may, might, will, would, shall, should, must, ought.
   <li>
     <div class="sentence">We drive <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">to</span> DeAnza College.</div>
   </li>
+  <li>
+    <div class="sentence">I sleep <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> night.</div>
+  </li>
+  <li>
+    <div class="sentence">I met Wen <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> UC Berkeley.</div>
+  </li>
+  <li>
+    <div class="sentence">I live <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="prepositions1">at</span> 20680 Seaton Ave.</div>
+  </li>
 </div>
-</div><h2>Prepositions (at, to, on)</h2>
+</div><h2>Prepositions: </h2>
+<small>
+  The preposition <em>of</em> conveys connection or belonging to something.
+</small>
+<h2>Prepositions (at, to, on)</h2>
 <div class="rm_fillin_checklist" id="rm_fillin_checklist_prepositions2"></div>
 <div class="column2">
 <ul>

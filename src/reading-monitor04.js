@@ -254,6 +254,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Terra", "t[ea]r{1,2}a");
     this._recognitionPattern.set("mows", "moe's");
     this._recognitionPattern.set("SPARC", "spark");
+    this._recognitionPattern.set("Hacktech", "h[ae]ct[ie][ck]");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
