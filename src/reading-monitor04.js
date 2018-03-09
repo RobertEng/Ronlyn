@@ -647,6 +647,7 @@ class SpeechSynthesis {
     this._alternatePronunication.set("95070", "9 5 0 7 0")
     this._alternatePronunication.set("Rummikub", "rummy cube")
     this._alternatePronunication.set("Dr", "doctor")
+//    this._alternatePronunication.set("Paratransit", "pair-ah-transit")
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
