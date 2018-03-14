@@ -78,7 +78,7 @@ main {
      pointer-events: none;
      text-decoration: none;
  }
-#voiceLabel, #volumeLabel, #partialSentenceModeLabel, #stopListeningAtEOSmodeLabel {
+#voiceLabel, #volumeLabel, #partialSentenceModeLabel, #stopListeningAtEOSmodeLabel, #lastSpokenWordLabel {
    font-family:arial;
    font-size:80%;
  }

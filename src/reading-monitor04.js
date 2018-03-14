@@ -262,6 +262,12 @@ class SpeechRecognition {
   get timer() {
     return this._timer;
   }
+  set lastSpokenWordElementId(id) {
+    this._lastSpokenWordElement =  document.getElementById(id);
+  }
+  get lastSpokenWordElement() {
+    return this._lastSpokenWordElement;
+  }
   get mismatchedWordCounterMap() {
     return this._mismatchedWordCounterMap;
   }
@@ -428,7 +434,7 @@ class SpeechRecognition {
           readingMonitor.listening.buttonActivate();
           readingMonitor.speaking.say("listening");
 
-          readingMonitor.userMsg = "<u>Reading session started at "+ getCurrentDateTimeStamp()+"</u>";
+          readingMonitor.userMsg = "<u>Reading session of <em>"+ document.title+"</em> started at "+ getCurrentDateTimeStamp()+"</u>";
           recognition.start();
         }
         else {
@@ -463,6 +469,8 @@ class SpeechRecognition {
                // if hidden then unhide
                readingMonitor.currentWordFilledInCorrectly(); /// filled in correctly
                readingMonitor.moveToNextWord();
+               readingMonitor.listening.lastSpokenWordElement.innerText = "";
+
                /*
 
                if (stopAfterMoveToNextWord) {
@@ -485,7 +493,7 @@ class SpeechRecognition {
                if (isFinalResult && w == spokenWords.length - 1) {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
                    if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
-                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord + "</em>; heard: <em>"+spokenWords[w]+"</em>";
+                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord +"</em> in sid="+readingMonitor.currentSentenceIdx +"; heard <em>:"+spokenWords[w]+"</em>";
 //                     readingMonitor.listening.currentWordStartTime();
                      readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
                    }
@@ -494,6 +502,7 @@ class SpeechRecognition {
                    }
                    readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
                    readingMonitor.listening.previouslySpokenWord = spokenWords[w];
+                   readingMonitor.listening.lastSpokenWordElement.innerText = spokenWords[w];
                  }
                }
              // change class=RM_WORD_CURRENT style or change the RM_WORD_CURRENT to _ESCALATE1, 2 where do you reset this style though?
@@ -647,6 +656,8 @@ class SpeechSynthesis {
     this._alternatePronunication.set("95070", "9 5 0 7 0")
     this._alternatePronunication.set("Rummikub", "rummy cube")
     this._alternatePronunication.set("Dr", "doctor")
+//    this._alternatePronunication.set("writes", "rights")
+//    this._alternatePronunication.set("sells", "cells")
 //    this._alternatePronunication.set("Paratransit", "pair-ah-transit")
   }
   set errorMsg(msg) {
