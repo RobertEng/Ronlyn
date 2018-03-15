@@ -1,6 +1,6 @@
 /*******************************************
  * Page nav v0.1.0
- * (c) 2017 by Wen Eng. All rights reserved.
+ * (c) 2017-2018 by Wen Eng. All rights reserved.
  ********************************************/
  /**
 
@@ -15,6 +15,20 @@
 class navbar {
   constructor() {
 
+  }
+  lastSpokenWord_CheckboxChanged(e) {
+    var label = lastSpokenWordLabel.innerText;
+    var apos = label.indexOf(":");
+    if (apos >-1) lastSpokenWordLabel.innerText = label.substring(0, apos);
+    if (lastSpokenWordCheckbox.checked) {
+      lastSpokenWordLabel.innerText = lastSpokenWordLabel.innerText +": ";
+      lastSpokenWordspan.style.visibility = "";
+    }
+    else {
+      lastSpokenWordspan.style.visibility = "hidden";
+
+    }
+  //    lastSpokenWordspan.setAttribute("hidden", true);
   }
   navbarDiv_onclick(e) {
     var id = e.target.id;

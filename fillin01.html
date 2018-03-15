@@ -108,6 +108,9 @@ main {
 </style>
 <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+
 </head>
 <title>Fill-in Responses</title>
 <body>
@@ -129,8 +132,8 @@ main {
       </div>
 
        <div class="option" id="lastSpokenWordControl">
-         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="onlastSpokenWordCheckboxChanged()">
-         <label id="lastSpokenWordLabel" for="lastSpokenWord">Last spoken word: </label><span style="visibility: hidden" id="lastSpokenWordspan">nothing</span>
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyPageNav.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
       </div>
     </div>
   </div>
@@ -1014,6 +1017,8 @@ The Reading Monitor will stop listening after the end of each sentence.
 <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
 <h2>User Messages</h2>
   <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'fillin'+getCurrentDate()+'.log')">Download and Clear</button>
+
 <h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
 <h2>Error Messages<h2>
   <div id="errormsg">Not initialized</div>
@@ -1049,17 +1054,9 @@ The Reading Monitor will stop listening after the end of each sentence.
   </nav>
 </nav>
 </body>
-<script type="text/javascript" src="src/reading-monitor04.js"></script>
-<script type="text/javascript" src="src/page-nav.js"></script>
+
 <script>
-function onlastSpokenWordCheckboxChanged() {
-  if (lastSpokenWordCheckbox.checked)
-    lastSpokenWordspan.style.visibility = "";
-    //setAttribute("hidden", false);
-  else
-  lastSpokenWordspan.style.visibility = "hidden";
-//    lastSpokenWordspan.setAttribute("hidden", true);
-}
+
 document.body.onload = function(e) {   //when the document body is clicked
   var osMsg = document.getElementById('os-msg');
   var os = getOS();

@@ -11,10 +11,37 @@ function getCurrentDateTimeStamp() {
     +time.getDate().toString().padStart(2,"00")+" "
     +time.toLocaleTimeString();
 }
+function getCurrentDate() {
+  var time = new Date();
+  return time.getFullYear()
+    +(time.getMonth()+1).toString().padStart(2,"00")
+    +time.getDate().toString().padStart(2,"00");
+}
 function getCurrentTimeStamp() {
   var time = new Date();
   return time.toLocaleTimeString();
 }
+function downloadAndClearElement(elementId, filename) {
+  downloadElement(elementId, filename);
+  clearElement(elementId);
+}
+function downloadElement(elementId, filename) {
+  var dl = document.createElement('a');
+  var el = document.getElementById(elementId);
+  dl.setAttribute('href', 'data:text/html;charset=utf-8,'+encodeURIComponent(el.innerText));
+  dl.setAttribute('download', filename);
+  dl.style.display = 'none';
+  document.body.appendChild(dl);
+  dl.click();
+  document.body.removeChild(dl);
+}
+function clearElement(elementId) {
+  var el = document.getElementById(elementId);
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 function getOS() {
    var userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
@@ -493,7 +520,7 @@ class SpeechRecognition {
                if (isFinalResult && w == spokenWords.length - 1) {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
                    if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
-                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord +"</em> in sid="+readingMonitor.currentSentenceIdx +"; heard <em>:"+spokenWords[w]+"</em>";
+                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord +"</em> ("+readingMonitor.currentSentenceIdx +","+readingMonitor.currentWordId+"); heard:<em> "+spokenWords[w]+"</em>";
 //                     readingMonitor.listening.currentWordStartTime();
                      readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
                    }
@@ -562,13 +589,13 @@ class SpeechRecognition {
           }
           else {
               // report result summary via user messages
-            var htmlMapString = "<br>Summary at "+ getCurrentDateTimeStamp();
+            var htmlMapString = "Summary:";
             var word = "";
             var count;
             for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
                 if (count > 0) htmlMapString = htmlMapString + "<br><em>"+word + "</em> = "+count
             }
-            readingMonitor.userMsg =  htmlMapString;
+            readingMonitor.userMsg =  htmlMapString+"<br>Reading session ended at "+ getCurrentDateTimeStamp();
 
             // announce termination state
             if (readingMonitor.isLastSentence()) {
