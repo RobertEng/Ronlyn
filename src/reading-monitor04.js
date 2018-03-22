@@ -3,22 +3,24 @@
  * (c) 2017, 2018 by Wen Eng. All rights reserved.
  ********************************************/
 "use strict";
+const senteneceIdxTag = "idx";
+
 // ECMAScript6 class syntax only
 function getCurrentDateTimeStamp() {
-  var time = new Date();
+  let time = new Date();
   return time.getFullYear()+"-"
     +(time.getMonth()+1).toString().padStart(2,"00")+"-"
     +time.getDate().toString().padStart(2,"00")+" "
     +time.toLocaleTimeString();
 }
 function getCurrentDate() {
-  var time = new Date();
+  let time = new Date();
   return time.getFullYear()
     +(time.getMonth()+1).toString().padStart(2,"00")
     +time.getDate().toString().padStart(2,"00");
 }
 function getCurrentTimeStamp() {
-  var time = new Date();
+  let time = new Date();
   return time.toLocaleTimeString();
 }
 function downloadAndClearElement(elementId, filename) {
@@ -26,8 +28,8 @@ function downloadAndClearElement(elementId, filename) {
   clearElement(elementId);
 }
 function downloadElement(elementId, filename) {
-  var dl = document.createElement('a');
-  var el = document.getElementById(elementId);
+  let dl = document.createElement('a');
+  let el = document.getElementById(elementId);
   dl.setAttribute('href', 'data:text/html;charset=utf-8,'+encodeURIComponent(el.innerText));
   dl.setAttribute('download', filename);
   dl.style.display = 'none';
@@ -36,14 +38,13 @@ function downloadElement(elementId, filename) {
   document.body.removeChild(dl);
 }
 function clearElement(elementId) {
-  var el = document.getElementById(elementId);
+  let el = document.getElementById(elementId);
   while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
 }
-
 function getOS() {
-   var userAgent = window.navigator.userAgent,
+   let userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
    macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
    windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
@@ -86,7 +87,7 @@ class CounterMap {
     this._tokenCounter = new Map();
   }
   decrement(key) {
-    var counterValue = this._tokenCounter.get(key);
+    let counterValue = this._tokenCounter.get(key);
     if (typeof(counterValue) == "undefined") {  // if key does not exist
       counterValue = 1;
     }
@@ -96,11 +97,14 @@ class CounterMap {
     return this._tokenCounter.entries();
   }
   increment(key) {
-    var counterValue = this._tokenCounter.get(key);
+    let counterValue = this._tokenCounter.get(key);
     if (typeof(counterValue) == "undefined") {  // if key does not exist
       counterValue = 0;
     }
     this._tokenCounter.set(key, counterValue+1);
+  }
+  get size() {
+    return this._tokenCounter.size;
   }
 }
 class ListMap {
@@ -109,9 +113,9 @@ class ListMap {
   }
 
   add(key) {
-    var list = this._indexMap.get(key);
+    let list = this._indexMap.get(key);
     if (typeof(list) == "undefined") {  // if key does not exist
-      var emptylist = new Array();
+      var emptylist = new Array(); // global scope required
       this._indexMap.set(key, emptylist);
     }
   }
@@ -119,7 +123,7 @@ class ListMap {
     return this._indexMap.entries();
   }
   list(key) {
-    var list = this._indexMap.get(key);
+    let list = this._indexMap.get(key);
     if (typeof(list) == "undefined") {  // if key does not exist
       return null;
     }
@@ -127,7 +131,6 @@ class ListMap {
       return list;
     }
   }
-
 }
 class Timer {
   constructor(parent) {
@@ -148,14 +151,11 @@ class Timer {
     this._parent.parent.diagnosticMsg = "timer.cancel: " + this._startTime;
   }
   get isActive() {
-    var current  = new Date();
-    // period of time of silences
-//      this.diagnosticMsg = "timerIsActive(): " + this.timerElapsedTime < this._timeout;
     this._timerOn = ((this.elapsedTime < this._timeout) && this._timerOn) ;
     return (this._timerOn);
   }
   get elapsedTime() {
-    var current  = new Date();
+    let current  = new Date();
     return current - this._startTime;
   }
   set retries(retries) {
@@ -172,7 +172,7 @@ class PronunciationMap {
     this._pronunicationMap.set(key, value);
   };
   alternative(key) { // returns parameter if no match
-    var value = this._pronunicationMap.value(key);
+    let value = this._pronunicationMap.value(key);
     if (typeof alternative == "undefined") {
       return key;
     }
@@ -182,6 +182,37 @@ class PronunciationMap {
   }
   value(key) { // returns undefined  if no match
     return  this._pronunicationMap.get(key);
+  }
+}
+class Progress {
+  // all progress infomration and instrumentation primarily for
+  //listening but can be instantiated for listening or speaking
+  // to be sent back to the server.
+  constructor(parent) {
+    this._parent = parent;
+    this._username = "Ronlyn";
+    this._progressElement = "";
+    this._startTime = 0;
+    this._endTime = 0;
+    this._mismatchedWordCounterMap = new CounterMap();
+    this._currentWordExpected = ""; //strictly for reporting and NOT recognition
+    this._currentWordStart = 0; //strictly for reporting and NOT processing
+    this._previousSpokenWord = ""; //strictly for reporting and NOT recognition
+    this._wordCount = ""; //strictly for reporting and NOT recognition
+    // should have recognitionPattern too
+  }
+  wordExpected(word, sid, wid) {
+    this._currentWordExpected = word; //strictly for reporting and NOT recognition
+    // write
+  }
+  commit(comment) {
+
+  }
+  write() {
+
+  }
+  reset() {
+
   }
 }
 class SpeechRecognition {
@@ -195,6 +226,8 @@ class SpeechRecognition {
     this._timer = new Timer(this);
     this._mismatchedWordCounterMap = new CounterMap();
     this._recognitionPattern = new PronunciationMap(this);
+    this._progress = new Progress(this);
+    this._currentWordCount = 0; //strictly for reporting and NOT recognition
     this._currentWordExpected = ""; //strictly for reporting and NOT recognition
     this._currentWordStart = 0; //strictly for reporting and NOT processing
     this._previousSpokenWord = ""; //strictly for reporting and NOT recognition
@@ -289,6 +322,9 @@ class SpeechRecognition {
   get timer() {
     return this._timer;
   }
+  get progress() {
+    return this._progress;
+  }
   set lastSpokenWordElementId(id) {
     this._lastSpokenWordElement =  document.getElementById(id);
   }
@@ -378,7 +414,7 @@ class SpeechRecognition {
       try {
         this._checkboxStopAtEosElement = document.getElementById(id);
         //try touching it and testing for the proper type
-        var checked = this._checkboxStopAtEosElement.checked;
+        let checked = this._checkboxStopAtEosElement.checked;
       }
       catch(e) {
         this.errorMsg = "checkboxStopAtEosElementId setter: invalid element id "+id;
@@ -428,10 +464,15 @@ class SpeechRecognition {
   set currentWordExpected(word) {
     this._currentWordExpected = word;
   }
+  get currentWordCount() {
+    return this._currentWordCount;
+  }
+  set currentWordCount(count) {
+    this._currentWordCount = count;
+  }
   initialize() {
     try {
-
-      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; // global scope required
 
       this._recognition = new SpeechRecognition();
       this._recognition.lang = 'en-US';
@@ -439,12 +480,12 @@ class SpeechRecognition {
       this._recognition.continuous = true;
       this._recognition.maxAlternatives = 1;
       this.isActive = false;
-      var recognition = this._recognition;
+      let recognition = this._recognition;
       //
       // Define event handling
       //
       //event handlers
-      var readingMonitor = this.parent;
+      let readingMonitor = this.parent;
       this._buttonElement.onclick = function(event) {
         // listening && timer active: STOP LISTENING
         // listening && timer inactive STOP LISTENING
@@ -454,6 +495,8 @@ class SpeechRecognition {
           readingMonitor.listening.currentWordExpected = "";
           readingMonitor.listening.previouslySpokenWord = "";
           readingMonitor.listening.resetMismatchedWordCounterMap();
+          readingMonitor.listening.currentWordCount = 0;
+          readingMonitor.listening.progress.reset();
 
           readingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
           readingMonitor.listening.timer.start();
@@ -482,21 +525,22 @@ class SpeechRecognition {
   //      ////////////
         try {
 //          MyReadingMonitor.diagnosticMsg = "recognition.onresult: triggered";
-          var spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
-          var isFinalResult = event.results[0].isFinal;
+          let spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
+          let isFinalResult = event.results[0].isFinal;
 //           MyReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
-           var w;
            if (isFinalResult) readingMonitor.diagnosticMsg = "recognition.onresult: isfinal";
-           for (w = 0; w < spokenWords.length; w++) {
+           for (let w = 0; w < spokenWords.length; w++) {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
              if (readingMonitor.matchWord(spokenWords[w])) { //should strip blanks too
-               var stopAfterMoveToNextWord = (readingMonitor.isLastWordOfSentence() && readingMonitor.listening.checkboxStopAtEosElement.checked);
-               var wasLastWordOfSentence = readingMonitor.isLastWordOfSentence();
+               let stopAfterMoveToNextWord = (readingMonitor.isLastWordOfSentence()
+                                            && readingMonitor.listening.checkboxStopAtEosElement.checked);
+               let wasLastWordOfSentence = readingMonitor.isLastWordOfSentence(); // wrt new sentence after moveToNextWord
                // if hidden then unhide
+               readingMonitor.listening.currentWordCount++;
                readingMonitor.currentWordFilledInCorrectly(); /// filled in correctly
                readingMonitor.moveToNextWord();
-               readingMonitor.listening.lastSpokenWordElement.innerText = "";
+//               readingMonitor.listening.lastSpokenWordElement.innerText = "";
 
                /*
 
@@ -510,8 +554,10 @@ class SpeechRecognition {
                    readingMonitor.listening.buttonDeactivate();
                    recognition.stop();
                  }
-                 else { // EOS but option to stop is not checked
-                   recognition.abort(); // clears results and re-enable in onend event
+                 else {
+                   // clears results and re-enable in onend event and probably (observed)
+                   // resets SpeechRecognition engine internal grammar.
+                   recognition.abort();
                    readingMonitor.listening.timer.start();
                  }
                }
@@ -519,16 +565,21 @@ class SpeechRecognition {
              else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
                if (isFinalResult && w == spokenWords.length - 1) {
                   if (readingMonitor.listening.previouslySpokenWord != spokenWords[w]) {
+                    // eliminated repeat mismatches with last word in final transcript
                    if (readingMonitor.currentWord != readingMonitor.listening.currentWordExpected) {
-                     readingMonitor.userMsg = "Expected: <em>"+readingMonitor.currentWord +"</em> ("+readingMonitor.currentSentenceIdx +","+readingMonitor.currentWordId+"); heard:<em> "+spokenWords[w]+"</em>";
-//                     readingMonitor.listening.currentWordStartTime();
+                     // current Word to be read has advanced passed the previous currentWord
                      readingMonitor.listening.currentWordExpected = readingMonitor.currentWord;
+                     readingMonitor.userMsg = "Expected: <em><span sid="+readingMonitor.currentSentenceIdx +" wordid="+readingMonitor.currentWordId+">"+readingMonitor.listening.currentWordExpected +"</span></em>; heard:<em> "+spokenWords[w]+"</em>";
+//                     readingMonitor.listening.progress.wordExpected = readingMonitor.currentWord;
                    }
                    else {
                      readingMonitor.userMsgAppend = ", "+" <em>"+spokenWords[w]+"</em>";
+//                     readingMonitor.listening.progress.wordMisspoken = spokenWords[w];
                    }
                    readingMonitor.listening.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
                    readingMonitor.listening.previouslySpokenWord = spokenWords[w];
+//                   readingMonitor.listening.progress.mismatchedWordCounterMap.increment(readingMonitor.currentWord);
+//                   readingMonitor.listening.previouslySpokenWord = spokenWords[w];
                    readingMonitor.listening.lastSpokenWordElement.innerText = spokenWords[w];
                  }
                }
@@ -589,12 +640,21 @@ class SpeechRecognition {
           }
           else {
               // report result summary via user messages
-            var htmlMapString = "Summary:";
-            var word = "";
-            var count;
-            for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
-                if (count > 0) htmlMapString = htmlMapString + "<br><em>"+word + "</em> = "+count
+            let htmlMapString = "Total words spoken correctly: "+ readingMonitor.listening.currentWordCount;
+            if (readingMonitor.listening.mismatchedWordCounterMap.size > 0) {
+              htmlMapString += " but had problems with "
+                +readingMonitor.listening.mismatchedWordCounterMap.size+" word";
+                if (readingMonitor.listening.mismatchedWordCounterMap.size != 1) {
+                  htmlMapString += "s"
+                }
+                htmlMapString += ":";
             }
+            let word = "";
+            let count;
+            for ([word, count] of readingMonitor.listening.mismatchedWordCounterMap.entries()) {
+                if (count > 0) htmlMapString += " <em>"+word + "</em>("+count+"),";
+            }
+            if (readingMonitor.listening.mismatchedWordCounterMap.size > 0) htmlMapString = htmlMapString.slice(0,-1)+".";
             readingMonitor.userMsg =  htmlMapString+"<br>Reading session ended at "+ getCurrentDateTimeStamp();
 
             // announce termination state
@@ -709,7 +769,7 @@ betterAlternative(spokenWord) {
       try {
         this._checkBoxPartialSentenceElement = document.getElementById(id);
         //try touching it and testing for the proper type
-        var checked = this._checkBoxPartialSentenceElement.checked;
+        let checked = this._checkBoxPartialSentenceElement.checked;
       }
       catch(e) {
         this.errorMsg = "checkboxPartialSentenceElementId setter: invalid element id "+id;
@@ -719,8 +779,7 @@ betterAlternative(spokenWord) {
     try {
       this._volumeControlElement = document.getElementById(id);
       //try touching it and testing for the proper range
-//      var vol = parseFloat(MyReadingMonitor.speaking.volumeControlElement.value);
-      var vol = parseFloat(this._volumeControlElement.value);
+      let vol = parseFloat(this._volumeControlElement.value);
       if (isNaN(vol) || vol > 1 || vol < 0)
         this._parent.diagnosticMsg = "volumeControlElementId setter: invalid element type or range for "+id;
     }
@@ -748,18 +807,18 @@ betterAlternative(spokenWord) {
       return this._voiceSelectorElement;
   }
   voiceSelectorPopulate() {
-     var  v,voice,voices, option;
      try {
-        var myClass = this;
+        let myClass = this;
         if (speechSynthesis.onvoiceschanged == null) {
           // wait for speechRecognition to be available -- chrome kludge
            speechSynthesis.onvoiceschanged = function(e) { myClass.voiceSelectorPopulate(); };
          }
         else {
          // Iterate through each of the voices.
-          voices = speechSynthesis.getVoices();
+          let v,voice;
+          let voices = speechSynthesis.getVoices();
           voices.forEach(function(voice, v) {
-            option = document.createElement('option');
+            let option = document.createElement('option');
             option.value = voice.name;
             option.innerHTML = voice.name;
             option.selected = (voice.name == MyReadingMonitor.speaking.defaultVoice);
@@ -799,12 +858,12 @@ betterAlternative(spokenWord) {
   }
   say(words) {
     //    this._synthesis.speak(words);
-      var voices = speechSynthesis.getVoices();
-      var myvoice = voices.filter(
+      let voices = speechSynthesis.getVoices();
+      let myvoice = voices.filter(
         function(voice) {
           return voice.name == MyReadingMonitor.speaking.voiceSelectorElement.value;
         });
-      var currentVoice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == MyReadingMonitor.speaking.voiceSelectorElement.value; })[0];
+      let currentVoice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == MyReadingMonitor.speaking.voiceSelectorElement.value; })[0];
       this._synthesis.voice = currentVoice;
       this._synthesis.volume = parseFloat(MyReadingMonitor.speaking.volumeControlElement.value);
       this._synthesis.text = words;
@@ -936,9 +995,9 @@ class Tokenizer {
     return "TOKEN_whitespace";
   }
   tokens1(sentence) {
-    var parser = new DOMParser().parseFromString(sentence,"text/html");
-    var body = parser.getElementsByTagName("body");
-    var tokens = body[0].childNodes;
+  //  var parser = new DOMParser().parseFromString(sentence,"text/html");
+  //  var body = parser.getElementsByTagName("body");
+  //  var tokens = body[0].childNodes;
 
     // span attribute
 //    var el = document.createElement('html');
@@ -947,11 +1006,10 @@ class Tokenizer {
 
   }
   tokens(sentence) {
-    var tokens = Array(), tokenList;
-    var currentPos = 0, tokenPos, tokenLength, t = 0, tl;
-    tokenList = this.tokenListSansWhitespace(sentence);
-    for (tl = 0; tl < tokenList.length; tl++) {
-      tokenPos  = sentence.indexOf(tokenList[tl], currentPos);
+    let tokens = Array();
+    let tokenList = this.tokenListSansWhitespace(sentence);
+    for (let tl = 0, t = 0, currentPos = 0; tl < tokenList.length; tl++) {
+      let tokenPos  = sentence.indexOf(tokenList[tl], currentPos);
       if (currentPos < tokenPos) {
         // whitespace before token
         tokens[t++] = new Token(sentence.substring(currentPos, tokenPos), this.TOKEN_WHITESPACE, currentPos);
@@ -1009,12 +1067,12 @@ class Tokenizer {
     // assume format <TAG> | <TAG attributes>
     // returns "</TAG>" or "</TAG "
     try {
-      htmlTagClosing = "</"
-      blankPos = htmlTagOpening.indexOf(" ");
+      let htmlTagClosing = "</"
+      let blankPos = htmlTagOpening.indexOf(" ");
 
       if (blankPos > 0) {
        htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, blankPos) +"/>";
-     }
+      }
       else {
         htmlTagClosing = htmlTagClosing + htmlTagOpening.substring(1, htmlTagOpening.length)
       }
@@ -1028,7 +1086,7 @@ class Tokenizer {
     // 1) not an HTML tag => return htmlTag
     // 2) tag with attributes => strip attributes
     // 3) closing tag => remove /
-    var openingTag = htmlTag;
+    let  openingTag = htmlTag;
     try {
       if (htmlTag.slice(0,1) == "<") {
         if (htmlTag.slice(-1) != ">") {
@@ -1037,7 +1095,7 @@ class Tokenizer {
         if (htmlTag.slice(1,2) == "/") {
             openingTag = htmlTag.slice(0,1)+htmlTag.slice(2,htmlTag.length);
         }
-        var blankPos = htmlTag.indexOf(" "); // should be pattern for \s
+        let blankPos = htmlTag.indexOf(" "); // should be pattern for \s
         if (blankPos > 0) {
             openingTag = htmlTag.slice(0,blankPos-1)+">";
         }
@@ -1256,7 +1314,7 @@ class ReadingMonitor {
           this._sentenceIdxElement.innerText = sentenceIdx.toString();
 
           this._lastWordIdx = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].childElementCount - 1;
-          var rm_wordLastIdx = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD).length - 1;
+          let rm_wordLastIdx = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD).length - 1;
           this._lastWordId = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[rm_wordLastIdx].getAttribute("id");
         }
         catch(e) {
@@ -1319,38 +1377,38 @@ class ReadingMonitor {
       }
     }
     sayInnertextOnClick(e) {
-      var el = e.target;
+      let el = e.target;
       MyReadingMonitor.speaking.say(el.innerText);
     }
     rm_wordSpanOnClick(e) {
       try {
-        var spanElement, sentenceElement;
+        let spanElement, sentenceElement;
         for (sentenceElement = e.target; sentenceElement.className != this.RM_SENTENCE; sentenceElement = sentenceElement.parentElement) {
           spanElement = sentenceElement;
         };
 //        if (sentenceElement.className != this.RM_SENTENCE) sentenceElement = sentenceElement.parentElement;
-        var sentenceIdx = sentenceElement.getAttribute("id");
+        let sentenceIdx = sentenceElement.getAttribute(senteneceIdxTag);
 //        var wordId = e.target.getAttribute("id");
-        var wordId = spanElement.getAttribute("id");
-        var wordsToBeSpoken = "";
+        let wordId = spanElement.getAttribute("id");
+        let wordsToBeSpoken = "";
         MyReadingMonitor.moveToThisWordPosition(sentenceIdx, wordId);
-        var partialSentenceInput = this.speaking.checkboxPartialSentenceElement;
+        let partialSentenceInput = this.speaking.checkboxPartialSentenceElement;
         if (partialSentenceInput.checked) {
-          var w, hasFoundWordId = false;
+          let hasFoundWordId = false;
           //could be simplified by iterating through sentenceElement.getElementsByClass("rm_word")
           //should hide rm_word_speaking in loop
-          for (w = 0; !hasFoundWordId && w < sentenceElement.childElementCount; w++) {
+          for (let w = 0; !hasFoundWordId && w < sentenceElement.childElementCount; w++) {
             if (sentenceElement.children[w].getAttribute("class").indexOf(this.RM_WORD) != -1) {
               hasFoundWordId = sentenceElement.children[w].getAttribute("id").indexOf(wordId) != -1;
 //              wordsToBeSpoken = wordsToBeSpoken  + " " +sentenceElement.children[w].innerText;
-              var nextWord = sentenceElement.children[w].getAttribute(this.RM_WORD_BETTERPRONUNCIATION)
+              let nextWord = sentenceElement.children[w].getAttribute(this.RM_WORD_BETTERPRONUNCIATION)
               if (nextWord == null) nextWord = sentenceElement.children[w].innerText;
               wordsToBeSpoken = wordsToBeSpoken  + " " + nextWord;
             }
           }
         }
         else {
-          var betterAlternative = MyReadingMonitor.currentWordAttribute(this.RM_WORD_BETTERPRONUNCIATION);
+          let betterAlternative = MyReadingMonitor.currentWordAttribute(this.RM_WORD_BETTERPRONUNCIATION);
           if (betterAlternative != null) {
             wordsToBeSpoken = betterAlternative;
           }
@@ -1368,36 +1426,36 @@ class ReadingMonitor {
     parseSentences(sentenceTag) {
       // must be processed at end of ALL sentence parsing to assign unique fillinChecklistId
       // could be refactored into its own object
-      var fillinChecklists = new ListMap();
-      var fillinChecklistId = 0;
-      for(var s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
+      let fillinChecklists = new ListMap();
+      let fillinChecklistId = 0;
+      for(let s = 0, srcSentenceElement = document.getElementsByClassName(sentenceTag)[0];
         typeof srcSentenceElement != 'undefined'; // keep looping until no more valid sentence elements
         srcSentenceElement = document.getElementsByClassName(sentenceTag)[0], s++) {
 
-        var tokens = this.tokenizer.tokens(srcSentenceElement.innerHTML);
-        var htmlTagCounterMap = new CounterMap(); // map for htmltags with no specific attributes
-        var spanTagStack = new Array(); // stack containing span/attributes
+        let tokens = this.tokenizer.tokens(srcSentenceElement.innerHTML);
+        let htmlTagCounterMap = new CounterMap(); // map for htmltags with no specific attributes
+        let spanTagStack = new Array(); // stack containing span/attributes
 
         // transfer all attributes from source sentence to destination sentence
-        var dstSentenceElement = document.createElement(srcSentenceElement.tagName);
-        dstSentenceElement.setAttribute("id", s);
+        let dstSentenceElement = document.createElement(srcSentenceElement.tagName);
+        dstSentenceElement.setAttribute(senteneceIdxTag, s);
 
-        for (var a = 0; a < srcSentenceElement.attributes.length; a++) {
+        for (let a = 0; a < srcSentenceElement.attributes.length; a++) {
             dstSentenceElement.setAttribute(srcSentenceElement.attributes[a].name, srcSentenceElement.attributes[a].value);
         }
         // except className
         dstSentenceElement.setAttribute("class", this.RM_SENTENCE);
 
-        var spanIdx = 0; // sequential index of all spans
-        var wordId = 0; // sequential index of spans of type rm_word's
+        let spanIdx = 0; // sequential index of all spans
+        let wordId = 0; // sequential index of spans of type rm_word's
 
         // could be modified to accommodate semantic analysis
         // where states (cases) can be dependent on previous ones
-        for (var t = 0; t < tokens.length; t++) {
-          var tokenType = tokens[t].type;
-          var tokenText = tokens[t].text;
-          var classLabel = this.RM_TBD;
-          var span = document.createElement("span");
+        for (let t = 0; t < tokens.length; t++) {
+          let tokenType = tokens[t].type;
+          let tokenText = tokens[t].text;
+          let classLabel = this.RM_TBD;
+          let span = document.createElement("span");
 
           switch (tokenType) {
             case this.tokenizer.TOKEN_PUNCTUATION: {
@@ -1413,7 +1471,7 @@ class ReadingMonitor {
             case this.tokenizer.TOKEN_HTMLTAG_OPEN: {
               classLabel = this.RM_HTMLTAG;
               // span only
-              var htmlTag = tokenText; // potentially case sensitive
+              let htmlTag = tokenText; // potentially case sensitive
               if (htmlTag.indexOf("<span") == 0) {
                   // first (and perhaps only) word of rm_fillin
                   // for each sentence, capture fillin words for checklist
@@ -1421,16 +1479,16 @@ class ReadingMonitor {
                   // that can get confusing for lookahead
                   if (tokens[t].attributes.toLowerCase().indexOf(this.RM_WORD_FILLIN)
                     && (tokens[t+1].type = this.RM_WORD)) {
-                      var fillinPhrase = "";
-                      for (var f = t+1; f < tokens.length && tokens[f].text.toLowerCase().indexOf("</span>"); f++) {
+                      let fillinPhrase = "";
+                      for (let f = t+1; f < tokens.length && tokens[f].text.toLowerCase().indexOf("</span>"); f++) {
                         fillinPhrase = fillinPhrase + tokens[f].text;
                       }
-                    var fillinChecklist = "";
-                    var pos = tokens[t].attributes.indexOf("rm_fillin_checklist=");
+                    let fillinChecklist = "";
+                    let pos = tokens[t].attributes.indexOf("rm_fillin_checklist=");
                     if (pos >= 0) {
-                      var checkListAttribute = tokens[t].attributes.substring(pos);
+                      let checkListAttribute = tokens[t].attributes.substring(pos);
                       if (/"/.test(tokens[t].attributes)) {
-                        var fillinChecklist = checkListAttribute.match(/"(.*?)"/)[1];
+                        let fillinChecklist = checkListAttribute.match(/"(.*?)"/)[1];
                         fillinChecklists.add(fillinChecklist);
                         fillinChecklists.list(fillinChecklist).push((fillinPhrase+("000"+(fillinChecklistId).toString()).slice(-3)).trim())
                         pos = htmlTag.indexOf(">");
@@ -1453,7 +1511,7 @@ class ReadingMonitor {
             case this.tokenizer.TOKEN_HTMLTAG_CLOSE: {
               classLabel = this.RM_HTMLTAG;
               // get corresponding open tag for key
-              var htmlOpeningTag = this.tokenizer.htmlOpeningTag(tokenText).toLowerCase();
+              let htmlOpeningTag = this.tokenizer.htmlOpeningTag(tokenText).toLowerCase();
               if (htmlOpeningTag == "<span>") {
                   spanTagStack.pop();
               }
@@ -1490,12 +1548,12 @@ class ReadingMonitor {
               // and insert next rm_word token into grid/list
               span.setAttribute("idx", spanIdx++);
               span.setAttribute("id", wordId++);
-              var readingMonitor = this;
+              let readingMonitor = this;  // required global
               span.onclick = function() { readingMonitor.rm_wordSpanOnClick(event) };
 
-              var pattern = this.listening.wordRecognitionPattern(tokenText);
+              let pattern = this.listening.wordRecognitionPattern(tokenText);
               if (typeof pattern != "undefined") span.setAttribute(this.RM_RECOGNITIONPATTERN, pattern);
-              var alternative = this.speaking.betterAlternative(tokenText);
+              let alternative = this.speaking.betterAlternative(tokenText);
               if (typeof alternative != "undefined") span.setAttribute(this.RM_WORD_BETTERPRONUNCIATION, alternative);
               break;
             }
@@ -1508,9 +1566,9 @@ class ReadingMonitor {
             span.setAttribute("class", classLabel);
             // add htmlTagsOpen and allow browser to render well-formed span by automatically
             // including closing tags even for self closing html tags.
-            var htmlTagMapString = "";
-            var tags = "";
-            var count;
+            let htmlTagMapString = "";
+            let tags = "";
+            let count;
             for ([tags, count] of htmlTagCounterMap.entries()) {
                 if (count > 0) htmlTagMapString = htmlTagMapString + tags;
             }
@@ -1529,20 +1587,21 @@ class ReadingMonitor {
         srcSentenceElement.parentNode.replaceChild(dstSentenceElement, srcSentenceElement);
       } // for loop of sentences
       try {
-        var checklistName = "";
-        var fillinList;
+        let checklistName = "";
+        let fillinList;
         for ([checklistName, fillinList] of fillinChecklists.entries()) {
           fillinList.sort();
-          var el = document.getElementById("rm_fillin_checklist_"+checklistName);
+          let el = document.getElementById("rm_fillin_checklist_"+checklistName);
           if (el == null) {
             this.errorMsg = "parseSentence(): Cannot create fillin "+checklistName+" because no target element exists.";
           }
           else {
   //        .getElementById(checklistName);
-            for (var f = 0; f < fillinList.length;f++) {
-              var fid = Number(fillinList[f].substring(fillinList[f].length-3));
-              var fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
-              var div = document.createElement("div");
+            let readingMonitor = this;
+            for (let f = 0; f < fillinList.length;f++) {
+              let fid = Number(fillinList[f].substring(fillinList[f].length-3));
+              let fillinWord = fillinList[f].substring(0, fillinList[f].length-3);
+              let div = document.createElement("div");
               div.setAttribute("id", "rm_fillin_checklist_id_"+fid);
               div.setAttribute("class", "rm_fillin_checklist_item");
               div.onclick = function() { readingMonitor.sayInnertextOnClick(event) };
@@ -1603,13 +1662,13 @@ class ReadingMonitor {
     }
     currentWordFilledInCorrectly() {
       try {
-        var spanElement = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId];
+        let spanElement = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId];
         if (spanElement.childElementCount > 0) {
           // find child with rm_word*
           spanElement.childNodes[0].classList.remove(this.RM_WORD_HIDDEN);
           // more than 1 child span under rm_word?
-          var fillinId = spanElement.childNodes[0].getAttribute("rm_fillin_checklist_id");
-          var el = document.getElementById("rm_fillin_checklist_id_"+fillinId);
+          let fillinId = spanElement.childNodes[0].getAttribute("rm_fillin_checklist_id");
+          let el = document.getElementById("rm_fillin_checklist_id_"+fillinId);
           el.classList.add(this.RM_FILLIN_CHECKLIST_ITEM);
         }
       }
@@ -1624,7 +1683,7 @@ class ReadingMonitor {
     }
     currentWordIndicatorOff() {
       try {
-        var spanElement = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId];
+        let spanElement = document.getElementsByClassName(this.RM_SENTENCE)[this._sentenceIdx].getElementsByClassName(this.RM_WORD)[this._wordId];
         spanElement.classList.remove(this.RM_WORD_CURRENT);
 //        if (spanElement.childElementCount > 0) {
 //          // find child with rm_word*
@@ -1670,9 +1729,9 @@ class ReadingMonitor {
       }
       else {
         // try pattern match
-        var pattern = this.currentWordAttribute(this.RM_RECOGNITIONPATTERN);
+        let pattern = this.currentWordAttribute(this.RM_RECOGNITIONPATTERN);
         if (pattern != null) {
-          var recognitionPattern = new RegExp(pattern);
+          var recognitionPattern = new RegExp(pattern); // global scope required
           return recognitionPattern.test(spokenWord.toLowerCase());
         }
         else {
