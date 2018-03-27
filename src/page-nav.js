@@ -33,7 +33,11 @@ class navbar {
   navbarDiv_onclick(e) {
     var id = e.target.id;
     window.location.href = "#"+id; //goto anchor
-    if (MyReadingMonitor) MyReadingMonitor.speaking.say(e.target.innerText);
+    if (typeof MyReadingMonitor === 'undefined') {
+    }
+    else {
+      MyReadingMonitor.speaking.say(e.target.innerText);
+    }
   }
   populate() {
     var div_navbar = document.getElementById('navbar-items');

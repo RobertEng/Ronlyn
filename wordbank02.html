@@ -173,13 +173,21 @@ main {
 input[type=range] {
   height:20px;
 }
-@media (max-width: 640px){
+/* iPhone 5 specific formatting style */
+@media screen and (min-width: 320px) and (max-width: 568px) and (-webkit-device-pixel-ratio: 2) {
+  .navbar-li
+  {
+    font-size: 120%;
+    font-family: arial;
+    font-weight:bold;
+    padding: 10px;
+  }
   body {
-    background-color:
+    background-color: red
     }
 }
-
 </style>
+<link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
 </head>
 <title>Word Bank</title>
 <body>
@@ -198,7 +206,7 @@ input[type=range] {
 </header>
 <main>
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
-<h1><a class="navbar-item" id="Daily Living">Daily Living</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="Daily Living">Daily Living</a></h1>
 <h2>When I am hungry or thirsty, I...</h2>
 <div class="wrapper6">
   <button class="box speak-onclick">pour my coffee</button>
@@ -354,7 +362,7 @@ input[type=range] {
   <button class="box speak-onclick">fall asleep</button>
 </div>
 
-<h1><a class="navbar-item" id="Common Reading Words">Common Words</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="Common Reading Words">Common Words</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">a</button>
   <button class="box speak-onclick">about</button>
@@ -419,7 +427,7 @@ input[type=range] {
   <button class="box speak-onclick">you</button>
   <button class="box speak-onclick">your</button>
 </div>
-<h1><a class="navbar-item" id="pronouns">Pronouns</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="pronouns">Pronouns</a></h1>
 <h2>Subjective</h2>
 <div class="wrapper8">
   <button class="box speak-onclick">I</button>
@@ -450,7 +458,7 @@ input[type=range] {
 <button class="box speak-onclick">your</button>
 <button class="box speak-onclick">its</button>
 </div>
-<h1><a class="navbar-item" id="nouns">Nouns</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="nouns">Nouns</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">baby</button>
   <button class="box speak-onclick" XSAMPA="batheing suit">bathing suit</button>
@@ -610,7 +618,7 @@ input[type=range] {
   <button class="box speak-onclick"></button>
   <button class="box speak-onclick"></button>
 </div>
-<h1><a class="navbar-item" id="food">Food</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="food">Food</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">almond</button>
   <button class="box speak-onclick">apple</button>
@@ -748,7 +756,7 @@ input[type=range] {
   <button class="box speak-onclick">Thai</button>
   <button class="box speak-onclick">vegetarian</button>
 </div>
-<h1><a class="navbar-item" id="drinks">Drinks</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="drinks">Drinks</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">coffee</button>
   <button class="box speak-onclick">diet pepsi</button>
@@ -764,7 +772,7 @@ input[type=range] {
   <button class="box speak-onclick">water</button>
 </div>
 
-<h1><a class="navbar-item" id="mood">Moods</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="mood">Moods</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">afraid</button>
   <button class="box speak-onclick">amazed</button>
@@ -816,7 +824,7 @@ input[type=range] {
   <button class="box speak-onclick">wonderful</button>
 </div>
 
-<h1><a class="navbar-item" id="verbs">Verbs</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="verbs">Verbs</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">ask</button>
   <button class="box speak-onclick">bake</button>
@@ -946,7 +954,7 @@ input[type=range] {
   <button class="box speak-onclick">might</button>
   <button class="box speak-onclick">must</button>
 </div>
-<h1><a class="navbar-item" id="clothing">Clothing</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="clothing">Clothing</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">aquasocks</button>
   <button class="box speak-onclick">belt</button>
@@ -987,7 +995,7 @@ input[type=range] {
   <button class="box speak-onclick">watch</button>
 </div>
 
-<h1><a class="navbar-item" id="colors">Colors</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="colors">Colors</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">black</button>
   <button class="box speak-onclick">blue</button>
@@ -1007,7 +1015,7 @@ input[type=range] {
   <button class="box speak-onclick">yellow</button>
 </div>
 
-<h1><a class="navbar-item" id="places">Places</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="places">Places</a></h1>
 <h2>At home</h2>
 <div class="wrapper8">
   <button class="box speak-onclick">attic</button>
@@ -1086,7 +1094,7 @@ input[type=range] {
   <button class="box speak-onclick">Yogurtland</button>
 </div>
 
-<h1><a class="navbar-item" id="numbers">Numbers</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="numbers">Numbers</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">0</button>
   <button class="box speak-onclick">1</button>
@@ -1187,7 +1195,7 @@ input[type=range] {
   <button class="box speak-onclick">millionth</button>
 </div>
 
-<h1><a class="navbar-item" id="family">Family</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="family">Family</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">Ronlyn</button>
   <button class="box speak-onclick">Wen</button>
@@ -1229,7 +1237,7 @@ input[type=range] {
   <button class="box speak-onclick">Bryce</button>
 </div>
 
-<h1><a class="navbar-item" id="relationships">Family Relationships</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="relationships">Family Relationships</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">wife</button>
   <button class="box speak-onclick">husband</button>
@@ -1260,7 +1268,7 @@ input[type=range] {
 
 </div>
 
-<h1><a class="navbar-item" id="people">Friends</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="people">Friends</a></h1>
 <div class="wrapper8">
   <button class="box speak-onclick">Aruna</button>
   <button class="box speak-onclick" XSAMPA="Burnna">Berna</button>
@@ -1286,7 +1294,7 @@ input[type=range] {
   <button class="box speak-onclick">Father Bill</button>
 </div>
 
-<h1><a class="navbar-item" id="home" XSAMPA="contact information">Contact Info</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="home" XSAMPA="contact information">Contact Info</a></h1>
   <div class="wrapper8">
     <button class="box speak-onclick" XSAMPA="2 0 6 8 0 Seaton Avenue">20680 Seaton Ave</button>
     <button class="box speak-onclick">Saratoga</button>
@@ -1297,7 +1305,7 @@ input[type=range] {
     <button class="box speak-onclick" XSAMPA="4 0 8. 2 0 6. 5 9 6 3">(408) 206-5963</button>
     <button class="box speak-onclick" XSAMPA="4 0 8, 7 4 1, 8 8 8 3">(408) 741-8883</button>
 </div>
-<h1><a class="navbar-item" id="days">Days of week</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="days">Days of week</a></h1>
   <div class="wrapper8">
     <button class="box speak-onclick">Sunday</button>
     <button class="box speak-onclick">Monday</button>
@@ -1311,7 +1319,7 @@ input[type=range] {
     <button class="box speak-onclick">yesterday</button>
 </div>
 
-<h1><a class="navbar-item" id="months">Months of year</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="months">Months of year</a></h1>
   <div class="wrapper8">
     <button class="box speak-onclick">January</button>
     <button class="box speak-onclick">February</button>
@@ -1327,7 +1335,7 @@ input[type=range] {
     <button class="box speak-onclick">December</button>
 </div>
 
-<h1><a class="navbar-item" id="months">Observances</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="months">Observances</a></h1>
   <div class="wrapper8">
     <button class="box speak-onclick">New Year's Day</button>
     <button class="box speak-onclick" XSAMPA="doctor martin luther king day">MLK Day</button>
@@ -1373,6 +1381,7 @@ input[type=range] {
   </nav>
 </nav>
 </body>
+<script type="text/javascript" src="src/page-nav.js"></script>
 <script>
 
 /***
@@ -1491,26 +1500,6 @@ function getOS() {
    return os;
 }
 /*
- * Populate list of navbar items.
- */
-function populateNavbar() {
-
-    navbarList = document.getElementById('navbar-items');
-
-    //scan main for <h1> to build navbar
-    //get main element some day
-    var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h1>
-    for (var i = 0; i < navbarItemList.length; i++) {
-      var div = document.createElement('div'); // var forces creation of new tr
-      div.className = "navbar-li li onclick-href";
-      div.id = navbarItemList[i].id;
-      div.onclick ="";  //kludge for iOS
-      div.innerHTML = navbarItemList[i].innerHTML;
-      navbarList.append(div);
-    }
-} // populateNavbar
-
-/*
  * Populate list of voices.
  */
 function populateVoices(defaultVoice) {
@@ -1541,27 +1530,26 @@ function wordSpeak(button) {
  * Speak
  */
 function speak(text, callback) {
-   var msg = new SpeechSynthesisUtterance('default');
-   msg.text = text;
-   msg.volume = parseFloat(volumeInput.value);
-   msg.lang = 'en-US';
-   msg.rate = 1;
-   msg.pitch = 1;
-   if (voiceSelect.value) {
-      msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
-	}
-    msg.onend = function () {
-        if (callback) {
-            callback();
-        }
-    };
-
-    msg.onerror = function (e) {
-        if (callback) {
-            callback(e);
-        }
-    };
-    window.speechSynthesis.speak(msg);
+  var msg = new SpeechSynthesisUtterance('default');
+  msg.text = text;
+  msg.volume = parseFloat(volumeInput.value);
+  msg.lang = 'en-US';
+  msg.rate = 1;
+  msg.pitch = 1;
+  if (voiceSelect.value) {
+    msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+  }
+  msg.onend = function () {
+      if (callback) {
+          callback();
+      }
+  };
+  msg.onerror = function (e) {
+      if (callback) {
+          callback(e);
+      }
+  };
+  window.speechSynthesis.speak(msg);
 } // function speak
 
 /***
@@ -1573,31 +1561,39 @@ function speak(text, callback) {
 /*
  * Check browser support for speech synthesis
  */
-var supportMsg = document.getElementById('browser-msg');
+ document.body.onload = function(e) {   //when the document body is clicked
+   var osMsg = document.getElementById('os-msg');
+   var os = getOS();
+
+   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+  var MyPageNav = new navbar ();
+
+  MyPageNav.populate();
+  var supportMsg = document.getElementById('browser-msg');
 
 if ('speechSynthesis' in window) {
 	supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
-} else {
-	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
-        + 'Try again with another browser.';
-	supportMsg.classList.add('not-supported');
-	// remove all speak buttons
+  }
+  else {
+  	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
+          + 'Try again with another browser.';
+	  supportMsg.classList.add('not-supported');
+  }
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+  if (os == 'iOS') {
+     defaultVoice = "Fred"; }
+  else {
+     defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+  populateVoices(defaultVoice);
+
+  // Chrome loads voices asynchronously.
+  window.speechSynthesis.onvoiceschanged = function(e) {
+    populateVoices('Microsoft Zira Desktop - English (United States)');
+  };
 }
-var osMsg = document.getElementById('os-msg');
-var os = getOS();
-if (os == 'iOS') {
-   defaultVoice = "Fred"; }
-else {
-   defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
-
-osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
-
-populateVoices(defaultVoice);
-
-// Chrome loads voices asynchronously.
-window.speechSynthesis.onvoiceschanged = function(e) {
-  populateVoices('Microsoft Zira Desktop - English (United States)');
-};
-
 </script>
 </html>
