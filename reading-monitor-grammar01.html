@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+<link rel="manifest" href="manifest.webapp">
+    <title>Speech Recognition Grammar tester</title>
+
+<style>
+    body, html {
+      margin: 10;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: inherit;
+    }
+
+    h1 {
+      font-family: arial;
+      font-size: 100%;
+      text-align: left;
+
+    }
+    h2 {
+      font-family: arial;
+      font-size: 90%;
+      text-align: left;
+    }
+    h3 {
+      font-family: arial;
+      font-size: 80%;
+      text-align: left;
+    }
+    h4 {
+      font-family: arial;
+      font-size: 75%;
+      text-align: left;
+    }
+    p {
+      font-family: sans-serif;
+      font-size: 80%;
+      text-align: left;
+    }
+
+    div {
+      position: relative;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    .hints span {
+      text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+    }
+    #listenBtn {
+      border: 0;
+      background-color:transparent;
+      padding: 0;
+      outline: none;
+      border: none;
+}
+.rm_sentence:hover {
+    cursor: pointer;
+}
+
+.rm_word_current {
+  text-decoration: underline;
+/*  font-weight: bold; */
+}
+.tokenlist {
+   font-family: courier;
+}
+.parsertest_tokens {
+  font-family: courier;
+  font-size: 90%;
+}
+</style>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <title>reading monitor grammar tester</title>
+  <h1>Reading Monitor Grammar Tester</h1>
+
+  <XMP>  The quick brown <b>fox <i>jumped over</b> the</i> lazy dog.</XMP>
+    The quick brown <b>fox <i>jumped over</b> the</i> lazy dog.</div>
+  <XMP>  The quick brown <span style="color:red">fox <i>jumped over </span> the</i> lazy dog.</XMP>
+    The quick brown <span style="color:red">fox <i>jumped over</span> the</i> lazy dog.</XMP>
+    <XMP>I am <b>54 </b>years old!</div></li></XMP>
+    I am <b>54 </b>years old!</div></li>
+    <XMP>I am <b><b>54 </b>years</b> old!</div></li></XMP>
+    I am <b><b>54 </b>years</b> old!</div></li></b>
+    <XMP>I am <strong>54 </strong>years old!</div></li></XMP>
+    I am <strong>54 </strong>years old!</div></li>
+    <XMP>I am <em>54 </em>years old!</div></li></XMP>
+    I am <em>54 </em>years old!</div></li>
+<h2>Preprocessor</h2>
+Tests the underlying preprocessing that enables the speaking and listening capability within the reading montior.
+<h3>Tokenizer</h3>
+<div class="parsertest_sentence">My name is Ronlyn Goo.</div>
+<div class="parsertest_sentence">   leading blanks.</div>
+<div class="parsertest_sentence">trailing blanks.  </div>
+<div class="parsertest_sentence">My name is Ronlyn Goo.</div>
+<div class="parsertest_sentence">My name is Wen.</div>
+<div class="parsertest_sentence">My name is <b>Ronlyn</b> Goo.</div>
+<div class="parsertest_sentence">My name is <b>Ronlyn Goo</b>.</div>
+<div class="parsertest_sentence">I am 54 years old!</div>
+<div class="parsertest_sentence">My husband is named Wen?</div>
+<div class="parsertest_sentence">We have been married 25 years.</div>
+<div class="parsertest_sentence">I have a Bachelors degree in Chemical Engineering from UC Berkeley.</div>
+<div class="parsertest_sentence">I also have an MBA degree from Stanford.</div>
+<div class="parsertest_sentence">Today is 1/26/2018.</div>
+<div class="parsertest_sentence">The time is 12:30 pm.</div>
+<div class="parsertest_sentence">The time with no space between minutes and AM or PM like 12:30pm.</div>
+<div class="parsertest_sentence">What about abbreviations like is 12:30pm PDT.</div>
+<div class="parsertest_sentence">The time is 12:30pm PDT.</div>
+<div class="parsertest_sentence">The cost is $1.50.</div>
+<div class="parsertest_sentence">The number is 1000.0</div>
+<div class="parsertest_sentence"><a href="www.yahoo.com">click here.</a></div>
+<div class="parsertest_sentence">Cat! Dog?</div>
+<div class="parsertest_sentence">doo-doo...</div>
+<div class="parsertest_sentence"><self attr="something"/>The quick brown fox jumped over the lazy dog.</div>
+<div class="parsertest_sentence"><self closing="hi there"/><empty or void element> like <br> exist.</div>
+<div class="parsertest_sentence"><span style="color:red">wen_eng@yahoo.com.</span></div>
+<div class="parsertest_sentence"><span style="color:red">red words</span> followed by <span style="color:blue">blue ones</span></div>
+<div class="parsertest_sentence">email is wen_eng@yahoo.com.</div>
+<div class="parsertest_sentence">__ ___ ____ _____ Ab____ B____</div>
+<div class="parsertest_sentence">I en___ going outs___ and w____ </div>
+<div class="parsertest_sentence">I <span hidden>go></span>g__</span> outside.</div>
+<div class="parsertest_sentence">It's raining <span hidden><u>cats</u></span> and dogs outside.</div>
+
+<p><u>&nbsp;&nbsp;cat&nbsp;&nbsp;&nbsp;</u> vs. _____</p>
+<p>___<span hidden><u>cat</u></span>___ and dog</p>
+</ul><h3>Parser</h3>
+
+</ul><h3>Listening</h3>
+
+<button id="listenBtn" value="listen to me read"><img id="listenBtnImg" width=100 height=100 alt="Listen"></button>
+<br>
+
+<div class="listening_sentence">The time is 12:30pm PDT.</div>
+<div class="listening_sentence">The cost is $1.50.</div>
+<h2>Diagnostics</h2>
+<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
+<p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
+<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
+<p id="confidence">no error</p>
+<p id="diagnostic">no error</p>
+
+<script type="text/javascript" src="src/reading-monitor03.js"></script>
+<script>
+//import ReadingMonitor from 'reading-monitor.js';
+  var MyReadingMonitor = new ReadingMonitor("parser tester");
+  var tokenList, div1, div2;
+  MyReadingMonitor.diagnosticElementId ="diagnostic";
+
+  var els = document.getElementsByClassName("parsertest_sentence");
+  var parentNode = els.parentNode;
+  var parsertest = document.querySelectorAll("div.parsertest_sentence");
+  for (var i = parsertest.length - 1; i >= 0; i--) {
+    html = parsertest[i].innerHTML;
+    tokenList = MyReadingMonitor.tokenizer.tokenListSansWhitespace(html);
+    div1 = document.createElement("div");
+    div1.className = "parsertest_tokens";
+    div1.innerHTML= "<XMP>"+ html +"</XMP>";
+//    els[i].parentElement.appendChild(div1);
+    els[i].appendChild(div1);
+    div2 = document.createElement("div");
+    div2.className = "parsertest_tokens";
+    div2.innerHTML = "<xmp>token list (no WS) = ["+ tokenList.join("|")+"]</xmp>";
+    div1.appendChild(div2);
+    var ul = document.createElement("ul");
+    tokens = MyReadingMonitor.tokenizer.tokens(html);
+    for (var j = 0; j < tokens.length; j++) {
+      var li = document.createElement("li");
+      li.className = "parsertest_tokens"
+      var textNode = document.createTextNode("["+tokens[j].text+"] ("+tokens[j].type+" "+tokens[j].subtype+" "+tokens[j].attributes+")");
+      li.appendChild(textNode);
+      ul.appendChild(li)
+    }
+    div1.appendChild(ul);
+  }
+  MyReadingMonitor.parseSentences("listening_sentence");
+  MyReadingMonitor.initialize();
+</script>
+</body>
+</html>

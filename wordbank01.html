@@ -53,10 +53,6 @@ h2 {
 .wrapper8 {
   grid-template-columns: repeat(8, auto);
 }
-@media only screen and (max-width: 640px) {
-.wrapper8 {
-  grid-template-columns: repeat(6, auto);
-}}
 .wrapper6 {
   grid-template-columns: repeat(6, auto);
 }
@@ -70,6 +66,14 @@ h2 {
   width: 150px;
   grid-row-gap: 15px;
   grid-template-columns: repeat(1,auto);
+}
+@media only screen and (max-width: 640px) {
+.wrapper8 {
+  grid-template-columns: repeat(4, auto);
+}
+.wrapper6 {
+    grid-template-columns: repeat(4, auto);
+  }
 }
 .ul
 {
@@ -141,6 +145,7 @@ h2 {
 .col-1-2 {
     width:50%;
   }
+
 #nav {
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
@@ -164,7 +169,11 @@ main {
 }
 input[type=range] {
   height:20px;
-
+}
+@media (max-width: 640px){
+  body {
+    background-color:
+    }
 }
 
 </style>
@@ -282,7 +291,7 @@ input[type=range] {
   <button class="box speak-onclick">stand up</button>
   <button class="box speak-onclick">stretch</button>
 </div>
-<h2>When I attend at Skills Plus, I...</h2>
+<h2>When I attend Skills Plus, I...</h2>
 <div class="wrapper6">
 <button class="box speak-onclick">ride in the car</button>
 <button class="box speak-onclick">wait for VTA paratransit to pick me up</button>
@@ -290,6 +299,25 @@ input[type=range] {
 <button class="box speak-onclick">bring homemade snacks for my classmates</button>
 <button class="box speak-onclick">walk to my classroom</button>
 <button class="box speak-onclick">greet all the other students</button>
+<button class="box speak-onclick">talk to other students</button>
+
+<button class="box speak-onclick">exercise in Grace's class</button>
+<button class="box speak-onclick">stretch in Cathleen's class </button>
+<button class="box speak-onclick">practice speaking in Jackie's class</button>
+
+<button class="box speak-onclick">enjoy the social time</button>
+<button class="box speak-onclick">make new friends</button>
+<button class="box speak-onclick">try to improve everyday</button>
+</div>
+<h2>When I attend SPARC, I...</h2>
+<div class="wrapper6">
+<button class="box speak-onclick">ride in the car</button>
+<button class="box speak-onclick">wait for VTA paratransit to pick me up</button>
+<button class="box speak-onclick">ride VTA paratransit to San Jose State</button>
+<button class="box speak-onclick">have individual therapy</button>
+<button class="box speak-onclick">participate in group therapy</button>
+<button class="box speak-onclick">sing in a choir</button>
+<button class="box speak-onclick">eat snacks during the break</button>
 <button class="box speak-onclick">talk to other students</button>
 
 <button class="box speak-onclick">exercise in Grace's class</button>
