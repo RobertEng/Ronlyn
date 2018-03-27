@@ -12,7 +12,7 @@
  "use strict";
  // ECMAScript6 class syntax only
 
-class navbar {
+class Navbar {
   constructor() {
 
   }
