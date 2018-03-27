@@ -1448,9 +1448,39 @@ document.body.onclick = function(e) {   //when the document body is clicked
 /*
  * onload
  */
-document.body.onload = function(e) {   //when the document body is clicked
+ document.body.onload = function(e) {   //when the document body is clicked
+   var osMsg = document.getElementById('os-msg');
+   var os = getOS();
 
-//  populateNavbar();
+   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+  var MyPageNav = new navbar ();
+
+  MyPageNav.populate();
+  var supportMsg = document.getElementById('browser-msg');
+
+if ('speechSynthesis' in window) {
+ supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+  }
+  else {
+   supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
+          + 'Try again with another browser.';
+   supportMsg.classList.add('not-supported');
+  }
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+  if (os == 'iOS') {
+     defaultVoice = "Fred"; }
+  else {
+     defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+  populateVoices(defaultVoice);
+
+  // Chrome loads voices asynchronously.
+  window.speechSynthesis.onvoiceschanged = function(e) {
+    populateVoices('Microsoft Zira Desktop - English (United States)');
+  };
 }
 /***
  *
@@ -1462,6 +1492,8 @@ var button = document.getElementById('speak');
 var speechMsgInput = document.getElementById('speech-msg');
 var volumeInput = document.getElementById('volume');
 var voiceSelect = document.getElementById('voice');
+
+
 /***
  *
  * Function definitions
@@ -1573,39 +1605,6 @@ function speak(text, callback) {
 /*
  * Check browser support for speech synthesis
  */
- document.body.onload = function(e) {   //when the document body is clicked
-   var osMsg = document.getElementById('os-msg');
-   var os = getOS();
 
-   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
-  var MyPageNav = new navbar ();
-
-  MyPageNav.populate();
-  var supportMsg = document.getElementById('browser-msg');
-
-if ('speechSynthesis' in window) {
-	supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
-  }
-  else {
-  	supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
-          + 'Try again with another browser.';
-	  supportMsg.classList.add('not-supported');
-  }
-  var osMsg = document.getElementById('os-msg');
-  var os = getOS();
-  if (os == 'iOS') {
-     defaultVoice = "Fred"; }
-  else {
-     defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
-
-  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
-
-  populateVoices(defaultVoice);
-
-  // Chrome loads voices asynchronously.
-  window.speechSynthesis.onvoiceschanged = function(e) {
-    populateVoices('Microsoft Zira Desktop - English (United States)');
-  };
-}
 </script>
 </html>
