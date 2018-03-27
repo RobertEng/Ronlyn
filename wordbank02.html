@@ -1453,19 +1453,21 @@ document.body.onclick = function(e) {   //when the document body is clicked
    var os = getOS();
 
    osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
-  var MyPageNav = new navbar ();
 
-  MyPageNav.populate();
+
   var supportMsg = document.getElementById('browser-msg');
-
-if ('speechSynthesis' in window) {
- supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+  if ('speechSynthesis' in window) {
+    supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
   }
   else {
    supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
           + 'Try again with another browser.';
    supportMsg.classList.add('not-supported');
   }
+  var MyPageNav = new navbar ();
+
+  MyPageNav.populate();
+
   var osMsg = document.getElementById('os-msg');
   var os = getOS();
   if (os == 'iOS') {
@@ -1505,7 +1507,23 @@ var voiceSelect = document.getElementById('voice');
  *
  * Sample function to generate buttons tags from a list of words.
  */
-function generateButtons() {
+ function populateNavbar() {
+
+     navbarList = document.getElementById('navbar-items');
+
+     //scan main for <h1> to build navbar
+     //get main element some day
+     var navbarItemList = document.getElementsByClassName("navbar-item"); // from <h1>
+     for (var i = 0; i < navbarItemList.length; i++) {
+       var div = document.createElement('div'); // var forces creation of new tr
+       div.className = "navbar-li li onclick-href";
+       div.id = navbarItemList[i].id;
+       div.onclick ="";  //kludge for iOS
+       div.innerHTML = navbarItemList[i].innerHTML;
+       navbarList.append(div);
+     }
+ } // populateNavbar
+ function generateButtons() {
   wordBank = ['0', '1', '2'];
   buttons = "";
   for (w in wordBank) {
