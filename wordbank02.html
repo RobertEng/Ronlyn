@@ -175,16 +175,13 @@ input[type=range] {
 }
 /* iPhone 5 specific formatting style */
 @media screen and (min-width: 320px) and (max-width: 568px) {
+  .box {
+    background-color: red;
+  }
   .navbar-li
   {
     font-size: 120%;
-    font-family: arial;
-    font-weight:bold;
-    padding: 10px;
   }
-  body {
-    background-color: red
-    }
 }
 </style>
 <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
@@ -193,7 +190,7 @@ input[type=range] {
 <body>
 <header>
   <div class="grid" id="header">
-    <div class="col-1-2 headertitle" XSAMPA="Ronlyn's Word Bank (v2.2)">
+    <div class="col-1-2 headertitle"">
        <span class="speak-onclick" XSAMPA="Ronlyn's word bank">Ronlyn's Word Bank (v2.1)</span>
     </div>
     <div class="col-1-2 headercontrols">
