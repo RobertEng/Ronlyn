@@ -1464,9 +1464,14 @@ document.body.onclick = function(e) {   //when the document body is clicked
           + 'Try again with another browser.';
    supportMsg.classList.add('not-supported');
   }
-  var MyPageNav = new Navbar ();
-//  MyPageNav.populate();
-  populateNavbar();
+  try {
+    var MyPageNav = new Navbar ();
+    MyPageNav.populate();
+    populateNavbar();
+  }
+  catch(e) {
+    alert(e.message)
+  }
   var osMsg = document.getElementById('os-msg');
   var os = getOS();
   if (os == 'iOS') {
