@@ -1491,21 +1491,11 @@ var speechMsgInput = document.getElementById('speech-msg');
 var volumeInput = document.getElementById('volume');
 var voiceSelect = document.getElementById('voice');
 
-
-/***
- *
- * Function definitions
- *
- ***/
- try {
-   var MyPageNav = new Navbar();
-   MyPageNav.populate();
-   populateNavbar();
- }
- catch(e) {
-   alert(e.message)
- }
-
+ /***
+  *
+  * Function definitions
+  *
+  ***/
 /**
  * generateButtons()
  *
@@ -1539,9 +1529,7 @@ var voiceSelect = document.getElementById('voice');
   console.log(document.getElementsByClassName("wrapper8")[0]);
 
   document.getElementsByClassName("wrapper8")[0].innerHTML = buttons;
-
 }
-
 /*
  * getOS
  */
@@ -1624,9 +1612,13 @@ function speak(text, callback) {
  *
  ***/
 
-/*
- * Check browser support for speech synthesis
- */
-
+  try {
+    var MyPageNav = new Navbar();
+    MyPageNav.populate();
+    //populateNavbar();
+  }
+  catch(e) {
+    alert(e.message)
+  }
 </script>
 </html>
