@@ -91,7 +91,7 @@ main {
       </div>
 
        <div class="option" id="lastSpokenWordControl">
-         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyPageNav.lastSpokenWord_CheckboxChanged()">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
          <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
       </div>
     </div>
@@ -2239,7 +2239,7 @@ document.body.onload = function(e) {   //when the document body is clicked
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
  var MyReadingMonitor = new ReadingMonitor("myjournal03");
- var MyPageNav = new Navbar ();
+ var MyPageNav = new Navbar();
 
  MyPageNav.populate();
 
