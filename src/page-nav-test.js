@@ -16,6 +16,7 @@ class Navbar {
   constructor() {
 
   }
+  /*
   lastSpokenWord_CheckboxChanged(e) {
     var label = lastSpokenWordLabel.innerText;
     var apos = label.indexOf(":");
@@ -39,6 +40,7 @@ class Navbar {
       MyReadingMonitor.speaking.say(e.target.innerText);
     }
   }
+  */
   populate() {
     var div_navbar = document.getElementById('navbar-items');
     //scan main for <h1> to build navbar
