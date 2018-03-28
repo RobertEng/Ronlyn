@@ -1614,6 +1614,7 @@ function speak(text, callback) {
  ***/
 
   try {
+    var MyReadingMonitor = new ReadingMonitor("wordbank02");
     var MyPageNav = new Navbar();
     MyPageNav.populate();
     //populateNavbar();
