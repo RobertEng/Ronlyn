@@ -145,7 +145,7 @@ input[type=range] {
 /* device specific tweaks
    Samsung Galaxy s5
 */
-@media screen
+@media only screen
   and (device-width: 360px)
   and (device-height: 640px)
   and (-webkit-device-pixel-ratio: 3) {
@@ -193,7 +193,13 @@ input[type=range] {
     font-size: 120%;
   }
 }
-
+@media only screen
+  and (device-width: 360px) {
+  .box {
+    font-size: 175%;
+    background-color: pink;
+  }
+}
 </style>
 <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
 </head>
