@@ -1,6 +1,6 @@
 :root {
   --header-height: 50px;
-  --nav-width: 170px;
+  --nav-width: 200px;
 }
 nav {
   -webkit-tap-highlight-color: transparent;
