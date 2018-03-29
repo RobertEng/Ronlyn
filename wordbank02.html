@@ -5,7 +5,7 @@
 :root {
   --columns:8;  // number of columns for grid
   --grid-column-repeat: repeat(6, auto);
-  --button-background-color: #69c773;
+  --button-background-color: LightGray;
 }
 body {
   margin: 0px;
@@ -148,7 +148,8 @@ input[type=range] {
 @media only screen
   and (device-width: 360px)
   and (device-height: 640px)
-  and (-webkit-device-pixel-ratio: 3) {
+  and (-webkit-device-pixel-ratio: 3)
+  and (orientation: portrait) {
   .box {
     font-size: 175%;
     background-color: red;
@@ -158,7 +159,9 @@ input[type=range] {
 /* iPhone 5 specific formatting style; perhaps this code should be moved to
   page-nav iff another page requires the same customization*/
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
   :root {
     --nav-width: 200px;
   }
