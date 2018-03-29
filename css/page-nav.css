@@ -1,27 +1,27 @@
 :root {
   --header-height: 50px;
 }
-#nav {
+nav {
   -webkit-tap-highlight-color: transparent;
   -webkit-backface-visibility: hidden;
   position: absolute;
   top: var(--header-height);
   bottom: 0;
   left: 0;
-  width: 150px; /* Width of navigation frame */
-  overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  width: 170px; /* Width of navigation frame */
+  overflow: auto; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
   background: #eee;
 }
 main {
   position: fixed;
   top: var(--header-height);
-  left: 150px; /* Set this to the width of the navigation frame */
+  left: 170px; /* Set this to the width of the navigation frame */
   right: 0;
   bottom: 0;
   overflow: auto;
   margin-left: 10px;
 }
-#header { <!-- single element id="header"-->
+header {
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
