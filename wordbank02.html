@@ -7,6 +7,7 @@
   --grid-column-repeat: repeat(6, auto);
   --button-background-color: #69c773;
 }
+}
 body {
   margin: 0px;
 //  padding: 0;
@@ -142,8 +143,19 @@ header { <!-- single element id="header"-->
 input[type=range] {
   height:20px;
 }
-/* iPhone 5 specific formatting style */
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+  .box {
+    font-size: 175%;
+    background-color: red;
+  }
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+    :root {
+      --nav-width: 200px;
+    }
     .box {
       font-size: 175%;
       background-color: palegreen;
@@ -161,13 +173,14 @@ input[type=range] {
         grid-template-columns: repeat(4, auto);
     }
     nav {
+      width: var(--nav-width); /* Set this to the width of the navigation frame */
       overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
     }
     /*
     #nav {
       width: 25%x; /* Width of navigation frame */
     main {
-      left: 300px; /* Set this to the width of the navigation frame */
+      left: var(--nav-width); /* Set this to the width of the navigation frame */
     }
     .navbar-li
     {
