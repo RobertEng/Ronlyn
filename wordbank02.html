@@ -154,16 +154,10 @@ input[type=range] {
     background-color: red;
   }
 }
-@media screen
-  and (max-device-width: 360px) {
-  .box {
-    font-size: 175%;
-    background-color: pink;
-  }
-}
 
 /* iPhone 5 specific formatting style; perhaps this code should be moved to
   page-nav iff another page requires the same customization*/
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
   :root {
     --nav-width: 200px;
@@ -197,6 +191,13 @@ input[type=range] {
   .navbar-li
   {
     font-size: 120%;
+  }
+}
+@media screen
+  and (max-device-width: 360px) {
+  .box {
+    font-size: 175%;
+    background-color: pink;
   }
 }
 </style>
