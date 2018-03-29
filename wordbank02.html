@@ -6,6 +6,8 @@
   --columns:8;  // number of columns for grid
   --grid-column-repeat: repeat(6, auto);
   --button-background-color: Green;
+  --nav-width: 250px;
+  }
 }
 body {
   margin: 0px;
@@ -179,15 +181,15 @@ input[type=range] {
       grid-template-columns: repeat(4, auto);
   }
   nav {
-    width: 250px
+    width: var(--nav-width);
     overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
   }
   main {
-    left: 250px; /* Set this to the width of the navigation frame */
+    left: var(--nav-width);
   }
   .navbar-li
   {
-    font-size: 120%;
+    font-size: 150%;
   }
 }
 @media only screen
@@ -199,15 +201,19 @@ input[type=range] {
         grid-template-columns: repeat(4, auto);
     }
     nav {
-      width: 250px; /* Set this to the width of the navigation frame */
+      width: var(--nav-width);
       overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
     }
     main {
-      left: 250px
+      left: var(--nav-width);
     }
   .box {
     font-size: 175%;
     background-color: pink;
+  }
+  .navbar-li
+  {
+    font-size: 150%;
   }
 }
 </style>
