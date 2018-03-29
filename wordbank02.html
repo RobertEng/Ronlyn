@@ -142,19 +142,28 @@ header { <!-- single element id="header"-->
 input[type=range] {
   height:20px;
 }
-/* iPhone 5 specific formatting style; perhaps this code should be moved to
-  page-nav iff another page requires the same customization*/
+/* device specific tweaks
+   Samsung Galaxy s5
+*/
 @media screen
   and (device-width: 360px)
   and (device-height: 640px)
-  and (-webkit-device-pixel-ratio: 3)
-  and (orientation: portrait) {
+  and (-webkit-device-pixel-ratio: 3) {
   .box {
     font-size: 175%;
-    background-color: red;
+    background-color: pink;
+  }
+}
+@media screen
+  and (max-device-width: 360px)
+  .box {
+    font-size: 175%;
+    background-color: pink;
   }
 }
 
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
   :root {
     --nav-width: 200px;
