@@ -1,5 +1,6 @@
 :root {
   --header-height: 50px;
+  --nav-width: 170px;
 }
 nav {
   -webkit-tap-highlight-color: transparent;
@@ -8,14 +9,14 @@ nav {
   top: var(--header-height);
   bottom: 0;
   left: 0;
-  width: 170px; /* Width of navigation frame */
+  width: var(--nav-width); /* Width of navigation frame */
   overflow: auto; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
   background: #eee;
 }
 main {
   position: fixed;
   top: var(--header-height);
-  left: 170px; /* Set this to the width of the navigation frame */
+  left: var(--nav-width); /* Set this to the width of the navigation frame */
   right: 0;
   bottom: 0;
   overflow: auto;
