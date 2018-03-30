@@ -53,7 +53,7 @@ li:not(:last-child) {
   }
   main {
     left: var(--nav-width);
-    background-color: palegreen;
+    background-color: white;
   }
   .navbar-li
   {
@@ -77,6 +77,7 @@ li:not(:last-child) {
     }
     main {
       left: var(--nav-width);
+      background-color: palegreen;
     }
   .navbar-li
   {
@@ -329,26 +330,26 @@ li:not(:last-child) {
 <script type="text/javascript" src="src/reading-monitor04.js"></script>
 <script type="text/javascript" src="src/page-nav.js"></script>
 <script>
-
 /***
  *
  * Event Listeners
  *
  ***/
-/*
- * onload
- */
 document.body.onload = function(e) {   //when the document body is clicked
   var osMsg = document.getElementById('os-msg');
   var os = getOS();
 
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
+/***
+ *
+ * Initialize page
+ *
+ ***/
  var MyReadingMonitor = new ReadingMonitor("sentence03");
  var MyPageNav = new Navbar();
 
  MyPageNav.populate();
-
  try {
    MyReadingMonitor.errorMsgElementId ="errormsg";
  }
@@ -386,6 +387,5 @@ document.body.onload = function(e) {   //when the document body is clicked
  {
     MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
  }
-
 </script>
 </html>
