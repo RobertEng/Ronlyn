@@ -16,21 +16,6 @@ body {
   font-family: arial;
   font-size: 110%;
 }
-h1 {
-  padding-top:5px;
-  font-family: arial;
-  font-size: 100%;
-  font-weight: bold;
-  border-top: solid gray 4px;
-  width:100%
-}
-h2 {
-  font-family: arial;
-  font-size: 90%;
-  padding-top:2px;
-  border-bottom: solid gray 2px;
-  width:100%  }
-}
 li:not(:last-child) {
   margin-bottom: 10px;
 }
@@ -42,20 +27,6 @@ ol {
 }
 ol li .rm_sentence {
     margin-bottom: 10px; /* override li */
-
-}
-.photoentry {
-  display: grid;
-  grid-template-columns: 220px auto  ;
-  grid-template-areas: "photo captions ";
-}
-
-.photo {
-  display: grid;
-  margin-bottom:10px;
-  padding-left:10px;
-  grid-gap: 10px;
-  grid-template-areas: "images";
 }
 #errormsg {
   font-weight: normal;
@@ -1045,7 +1016,6 @@ The Reading Monitor will stop listening after the end of each sentence.
 </main>
 
 <nav>
-  <nav id="nav">
     <!--div class="innertube"-->
 <!--      <div class="wrapper1"> -->
 <!--        <div class="list-of-anchors-container"> -->
@@ -1053,7 +1023,6 @@ The Reading Monitor will stop listening after the end of each sentence.
         <div onclick="" id="navbar-items">
       </div>
     </div>
-  </nav>
 </nav>
 </body>
 
@@ -1066,7 +1035,7 @@ document.body.onload = function(e) {   //when the document body is clicked
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
  var MyReadingMonitor = new ReadingMonitor("fillin01");
- var MyPageNav = new navbar ();
+ var MyPageNav = new Navbar();
 
  MyPageNav.populate();
 

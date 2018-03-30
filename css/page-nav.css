@@ -51,6 +51,21 @@ header {
    opacity: 0.75;
    cursor: pointer;
  }
+ h1 {
+   padding-top:5px;
+   font-family: arial;
+   font-size: 100%;
+   font-weight: bold;
+   border-top: solid lightgray 4px;
+   width:100%
+ }
+ h2 {
+   font-family: arial;
+   font-size: 90%;
+   padding-top:2px;
+   border-bottom: solid lightgray 2px;
+   width:100%;
+ }
  /*
  .navbar-list:active {
    cursor: pointer;

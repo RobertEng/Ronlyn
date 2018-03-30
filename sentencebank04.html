@@ -2,6 +2,10 @@
 <html>
 <head>
 <style>
+:root {
+  --nav-width: 220px;
+  }
+}
 
 body {
   margin: 0px;
@@ -33,6 +37,57 @@ h2 {
 }
 li:not(:last-child) {
   margin-bottom: 10px; /* spacing between list items */
+}
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
+  .box {
+    font-size: 175%;
+  }
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 175%;
+  }
+  nav {
+    width: var(--nav-width);
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  }
+  main {
+    left: var(--nav-width);
+  }
+  .navbar-li
+  {
+    font-size: 150%;
+  }
+}
+@media only screen
+  and (device-width: 360px) {
+    .wrapper8 {
+      grid-template-columns: repeat(5, auto);
+    }
+    .wrapper6 {
+        grid-template-columns: repeat(4, auto);
+    }
+    nav {
+      width: var(--nav-width);
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    }
+    main {
+      left: var(--nav-width);
+    }
+  .box {
+    font-size: 175%;
+    background-color: pink;
+  }
+  .navbar-li
+  {
+    font-size: 150%;
+  }
 }
 </style>
 <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
@@ -79,14 +134,14 @@ li:not(:last-child) {
 <li><span class="sentence">In case of emergency, please call Wen at (408) 267-6076.</span></li>
 </ul>
 
-<h1><a class="navbar-itemByHeadingLevel" id="whathappened">What happened</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="whathappened">What happened to me</a></h1>
 <ul>
 <li>
   <span class="sentence">I had a hemorrhagic stroke in 2015.</span>
-  <span class="sentence">I had a bleed in my brain that damaged it.</span>
+  <span class="sentence">A bleed in my head damaged my brain.</span>
 </li>
 <li>
-  <span class="sentence">I was impaired on my right side and had severe aphasia.</span>
+  <span class="sentence">I was initially paralyzed on my right side and had severe aphasia.</span>
 </li>
 <li>
   <span class="sentence">Aphasia is the loss of language skills.</span>
@@ -95,20 +150,23 @@ li:not(:last-child) {
   <span class="sentence">Each stroke victim is affected differently.</span>
 </li>
 <li>
-  <span class="sentence">For me, I could not speak but a single word.</span>
+  <span class="sentence">Likewise, we recover at different rates.</span>
+</li>
+<li>
+  <span class="sentence">For me, I could say a single word.</span>
 </li>
 <li>
   <span class="sentence">Now, I am starting to speak in sentences again.</span>
 </li>
 <li>
-  <span class="sentence">But I still get frustrated when I cannot speak what I am thinking.</span>
+  <span class="sentence">But I still get frustrated when I cannot say what I am thinking.</span>
 </li>
 <li>
   <span class="sentence">I also have problems with arithmetic and remembering things.</span>
 </li>
 </ul>
 
-<h1><a class="navbar-itemByHeadingLevel" id="whoimportant">Who is important</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="whoimportant">My Family</a></h1>
 <ul>
 <li><span class="sentence">My husband is named Wen.</span></li>
 <li><span class="sentence">We have been married 25 years.</span></li>
@@ -122,7 +180,7 @@ li:not(:last-child) {
 <li><span class="sentence">Aruna Gambhir is my best friend.</span></li>
 <li>
   <span class="sentence">Jaylynne is my sister.</span>
-  <span class="sentence">Her children are Brandon and Caitie.</span></li>
+  <span class="sentence">Her children are named Brandon and Caitie.</span></li>
 <li>
   <span class="sentence">Stacy is my sister too.</span>
   <span class="sentence">Her son is named Caden.</span>
@@ -143,8 +201,10 @@ li:not(:last-child) {
   <li><span class="sentence">I like to read, surf the web, solve puzzles and bake.</span></li>
 
 <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
-<h2>User Messages</h2>
+<h2>Progress</h2>
   <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'mysentencebank'+getCurrentDate()+'.log')">Download and Clear</button>
+
 <h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
 <h2>Error Messages<h2>
   <div id="errormsg">Not initialized</div>
@@ -168,12 +228,10 @@ li:not(:last-child) {
 </main>
 
 <nav>
-  <nav id="nav">
-      <div onclick="" class="navbar-list ol">
-        <div onclick="" id="navbar-items"> <!-- placeholder -->
-      </div>
+  <div onclick="" class="navbar-list ol">
+    <div onclick="" id="navbar-items"> <!-- placeholder -->
     </div>
-  </nav>
+  </div>
 </nav>
 </body>
 <script type="text/javascript" src="src/reading-monitor04.js"></script>
@@ -195,7 +253,7 @@ document.body.onload = function(e) {   //when the document body is clicked
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
  var MyReadingMonitor = new ReadingMonitor("sentence03");
- var MyPageNav = new Navbar ();
+ var MyPageNav = new Navbar();
 
  MyPageNav.populate();
 
