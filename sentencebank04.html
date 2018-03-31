@@ -91,23 +91,23 @@ li:not(:last-child) {
 <header>
   <div class="container" id="header">
     <div class="col-2-3 headertitle" XSAMPA="Ronlyns Sentence Bank">
-        <span style="float:left; padding-right:5px"><button id="listenBtn" value="listen"><img id="listenBtnImg" width=40px height=40px alt="Listen"></button></span>
-        <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Text To Speech sentence bank">Ronlyn's Sentence Bank</span>
+      <span style="float:left; padding-right:5px">
+        <button id="listenBtn" value="listen">
+          <img id="listenBtnImg"  alt="Listen">
+        </button>
+      </span>
+      <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Photo Journal">Ronlyn's Sentence Bank</span>
     </div>
     <div class="col-1-3 headerControls">
-       <div class="option" id="volumeControl" hidden>
-         <label for="volume" id="volumeLabel">Volume</label>
-          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-       </div>
-
        <div class="option" id="partialSentenceControl">
          <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
-         <label id="partialSentenceModeLabel" for="partialSentence">Speak sentence up to selected word</label>
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
       </div>
-      <div class="option" id="StopListeningAtEOSentenceControl">
-        <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
-        <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
-     </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
     </div>
   </div>
 </header>
@@ -315,6 +315,17 @@ li:not(:last-child) {
 <h1><a class="navbar-itemByHeadingLevel" id="Deanza">When I'm at Adapted PE</a></h1>
   <h2></h2>
   <li><span class="sentence">I go to Adapted PE at DeAnza College.</span></li>
+  <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  The Reading Monitor will stop listening after the end of each sentence.
+    <div class="option" id="StopListeningAtEOSentenceControl">
+      <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+      <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+   </div>
+   The Reading Monitor recitation volume can be adjusted.
+   <div class="option" id="volumeControl">
+     <label for="volume" id="volumeLabel">Volume</label>
+      <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+   </div>
 
 <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
 <h2>Progress</h2>
@@ -398,6 +409,8 @@ document.body.onload = function(e) {   //when the document body is clicked
    MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
    MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
    MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
    try {
      MyReadingMonitor.initialize();
    }

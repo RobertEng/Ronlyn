@@ -326,7 +326,16 @@ class SpeechRecognition {
     return this._progress;
   }
   set lastSpokenWordElementId(id) {
-    this._lastSpokenWordElement =  document.getElementById(id);
+
+    try {
+      this._lastSpokenWordElement =  document.getElementById(id);
+      //try touching it and testing for the proper type
+      let test = this._lastSpokenWordElement.innerText;
+    }
+    catch(e) {
+      this.errorMsg = "lastSpokenWordElementId setter: invalid element id "+id;
+      // throw(e); // iff fatal error
+    }
   }
   get lastSpokenWordElement() {
     return this._lastSpokenWordElement;
