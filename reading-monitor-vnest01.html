@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+<link rel="manifest" href="manifest.webapp">
+    <title>Speech Recognition Grammar tester</title>
+
+<style>
+    body, html {
+      margin: 10;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: inherit;
+    }
+
+    h1 {
+      font-family: arial;
+      font-size: 100%;
+      text-align: left;
+
+    }
+    h2 {
+      font-family: arial;
+      font-size: 90%;
+      text-align: left;
+    }
+    h3 {
+      font-family: arial;
+      font-size: 80%;
+      text-align: left;
+    }
+    h4 {
+      font-family: arial;
+      font-size: 75%;
+      text-align: left;
+    }
+    p {
+      font-family: sans-serif;
+      font-size: 80%;
+      text-align: left;
+    }
+
+    div {
+      position: relative;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    .hints span {
+      text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+    }
+    #listenBtn {
+      border: 0;
+      background-color:transparent;
+      padding: 0;
+      outline: none;
+      border: none;
+}
+.rm_sentence:hover {
+    cursor: pointer;
+}
+
+.rm_word_current {
+  text-decoration: underline;
+/*  font-weight: bold; */
+}
+.tokenlist {
+   font-family: courier;
+}
+.parsertest_tokens {
+  font-family: courier;
+  font-size: 90%;
+}
+.PoS {
+  font-size:60%;
+  font-style:italic;
+  align:center;
+}
+#vnest-template {
+    display:grid;
+    grid-gap: 5px;
+    grid-template-areas: "a a a a a";
+    grid-auto-columns: min-content;
+}
+#vnest-template > span {
+  background-color: lime;
+}
+</style>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <title>reading monitor vnest tester</title>
+  <h1>Reading Monitor VNEST Tester</h1>
+Design and test vnest feature of reading-monitor.
+<br>
+
+<div id="vnest-template">
+  <span>the</span><span>quick</span><span>brown</span><span>fox</span><span>jumped</span>
+  <span class="PoS">article</span><span class="PoS">adjective</span><span class="PoS">adjective</span><span class="PoS">noun</span><span class="PoS">verb</span>
+</div>
+
+<h2>Diagnostics</h2>
+<p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
+<p><span>word idx:</span><span id="wordIdx">0</span></p>
+<p><span>sentence id:</span><span id="sentenceId">0</span></p>
+<p><span>word id:</span><span id="wordId">0</span></p>
+<p><span>last spoken word:</span><span id="lastSpokenWord">0</span></p>
+<p id="confidence">no error</p>
+<p id="diagnostic">no error</p>
+
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script>
+//import ReadingMonitor from 'reading-monitor.js';
+  var MyReadingMonitor = new ReadingMonitor("vnest tester");
+  var tokenList, div1, div2;
+  MyReadingMonitor.diagnosticElementId ="diagnostic";
+  MyReadingMonitor.parseSentences("listening_sentence");
+  MyReadingMonitor.initialize();
+</script>
+</body>
+</html>
