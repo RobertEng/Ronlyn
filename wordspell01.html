@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="apple-touch-icon" href="/img/rmg cartoon.png">
+<link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+:root {
+  --columns:8;  // number of columns for grid
+  --grid-column-repeat: repeat(6, auto);
+  --button-background-color: palegreen;
+  --nav-width: 220px;
+}
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+h1 {
+  font-family: arial;
+  font-size: 100%;
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+  font-weight: normal;
+}
+.box {
+  background-color: var(--button-background-color);
+  color: black;
+  border-radius: 5px;
+  padding: 0.5rem 0.8em;
+  font-family: arial;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  font-size: 85%;
+  text-align: center;
+  resize: horizontal;
+  min-width:75px;
+}
+.box_completed {
+  background-color: lightgray;
+}
+.box:hover, button:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+.box.disabled {
+    pointer-events: none;
+    text-decoration: none;
+}
+.wrapper,  .wrapper1  .wrapper2, .wrapper3, .wrapper6, .wrapper8 {
+  display: grid;
+  grid-gap: 5px;
+  resize: horizontal;
+}
+.wrapper8 {
+  grid-template-columns: repeat(8, auto);
+}
+.wrapper6 {
+  grid-template-columns: repeat(6, auto);
+}
+.wrapper3 {
+  grid-template-columns: repeat(3, auto);
+}
+.wrapper2 {
+  grid-template-columns: repeat(2, auto);
+}
+.wrapper1 {
+  width: 150px;
+  grid-row-gap: 15px;
+  grid-template-columns: repeat(1,auto);
+}
+.ul
+{
+  font-weight: bold;
+  font-family: arial;
+  }
+.navbar-li
+{
+  padding: 10px;
+  font-size: 120%;
+}
+.navbar-list:hover, button:focus {
+  opacity: 0.75;
+  cursor: pointer;
+}
+/*
+.navbar-list:active {
+  cursor: pointer;
+}
+.navbar-li:active {
+  background-color: red;
+  cursor: pointer;
+}
+*/
+.navbar-li:nth-child(even) {
+  background: white;
+}
+/*
+ * page "frame" definitions
+ */
+header { <!-- single element id="header"-->
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+   position: absolute;
+   top:0;
+   left:0px;
+   padding-left: 10px;
+   padding-right: 10px;
+   grid-gap: 0px;
+   width:100%;
+/*   height: 50px; */
+   overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+   background: #ccc;
+ }
+
+ .headertitle {
+   font-family: arial;
+   font-weight:bold;
+   font-size:110%;
+   height: inherit;
+   display: inline-block;
+   line-height:40px;
+ }
+ .headertitle:hover, button:focus {
+   opacity: 0.75;
+   cursor: pointer;
+ }
+ .headertitle.disabled {
+     pointer-events: none;
+     text-decoration: none;
+ }
+.headercontrols {
+  font-family: arial;
+  font-size: 80%;
+}
+[class*='col-1'] { /*selector matches every class whose attr contains col-*/
+  float:left;
+}
+.col-1-2 {
+    width:50%;
+  }
+
+input[type=range] {
+  height:20px;
+}
+/* device specific tweaks
+   Samsung Galaxy s5
+*/
+@media only screen
+  and (device-width: 360px)
+  and (device-height: 640px)
+  and (-webkit-device-pixel-ratio: 3)
+  and (orientation: portrait) {
+  .box {
+    font-size: 175%;
+    background-color: red;
+  }
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 175%;
+  }
+}
+
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
+  .box {
+    font-size: 175%;
+    background-color: palegreen;
+  }
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 175%;
+  }
+  .wrapper8 {
+    grid-template-columns: repeat(4, auto);
+  }
+  .wrapper6 {
+      grid-template-columns: repeat(4, auto);
+  }
+  nav {
+    width: var(--nav-width);
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  }
+  main {
+    left: var(--nav-width);
+  }
+  .navbar-li
+  {
+    font-size: 175%;
+  }
+}
+@media only screen
+  and (device-width: 360px) {
+    .wrapper8 {
+      grid-template-columns: repeat(5, auto);
+    }
+    .wrapper6 {
+        grid-template-columns: repeat(4, auto);
+    }
+    nav {
+      width: var(--nav-width);
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    }
+    main {
+      left: var(--nav-width);
+    }
+  .box {
+    font-size: 175%;
+    background-color: pink;
+  }
+  .navbar-li {
+    font-size: 150%;
+  }
+}
+</style>
+
+</head>
+<title>Word Spell</title>
+<body>
+<header>
+  <div class="grid" id="header">
+    <div class="col-1-2 headertitle"">
+       <span class="spell-onclick" XSAMPA="Ronlyn's word spell">Ronlyn's Word Spell (v1.0)</span>
+    </div>
+    <div class="col-1-2 headercontrols">
+       <div class="option" align="right">
+          <label for="volume">Volume</label>
+          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+       </div>
+     </div>
+  </div>
+</header>
+<main>
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+<h1><a class="navbar-itemByHeadingLevel" id="Names">Names</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="Ronlyn">?</button>
+  <button class="box spell-onclick" word="Wen">?</button>
+  <button class="box spell-onclick" word="David">?</button>
+  <button class="box spell-onclick" word="Robert">?</button>
+  <button class="box spell-onclick" word="Saratoga">?</button>
+  <button class="box spell-onclick" word="California">?</button>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="100 Most Common Words">Common Words</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="the">?</button>
+  <button class="box spell-onclick" word="be">?</button>
+  <button class="box spell-onclick" word="to">?</button>
+  <button class="box spell-onclick" word="of">?</button>
+  <button class="box spell-onclick" word="and">?</button>
+  <button class="box spell-onclick" word="a">?</button>
+  <button class="box spell-onclick" word="in">?</button>
+  <button class="box spell-onclick" word="that">?</button>
+  <button class="box spell-onclick" word="have">?</button>
+  <button class="box spell-onclick" word="I">?</button>
+  <button class="box spell-onclick" word="it">?</button>
+  <button class="box spell-onclick" word="for">?</button>
+  <button class="box spell-onclick" word="not">?</button>
+  <button class="box spell-onclick" word="on">?</button>
+  <button class="box spell-onclick" word="with">?</button>
+  <button class="box spell-onclick" word="he">?</button>
+  <button class="box spell-onclick" word="as">?</button>
+  <button class="box spell-onclick" word="you">?</button>
+  <button class="box spell-onclick" word="do">?</button>
+  <button class="box spell-onclick" word="at">?</button>
+  <button class="box spell-onclick" word="this">?</button>
+  <button class="box spell-onclick" word="but">?</button>
+  <button class="box spell-onclick" word="his">?</button>
+  <button class="box spell-onclick" word="by">?</button>
+  <button class="box spell-onclick" word="from">?</button>
+  <button class="box spell-onclick" word="they">?</button>
+  <button class="box spell-onclick" word="we">?</button>
+  <button class="box spell-onclick" word="say">?</button>
+  <button class="box spell-onclick" word="she">?</button>
+  <button class="box spell-onclick" word="or">?</button>
+  <button class="box spell-onclick" word="an">?</button>
+  <button class="box spell-onclick" word="will">?</button>
+  <button class="box spell-onclick" word="my">?</button>
+  <button class="box spell-onclick" word="one">?</button>
+  <button class="box spell-onclick" word="all">?</button>
+  <button class="box spell-onclick" word="would">?</button>
+  <button class="box spell-onclick" word="there">?</button>
+  <button class="box spell-onclick" word="their">?</button>
+  <button class="box spell-onclick" word="what">?</button>
+  <button class="box spell-onclick" word="so">?</button>
+  <button class="box spell-onclick" word="up">?</button>
+  <button class="box spell-onclick" word="out">?</button>
+  <button class="box spell-onclick" word="if">?</button>
+  <button class="box spell-onclick" word="about">?</button>
+  <button class="box spell-onclick" word="who">?</button>
+  <button class="box spell-onclick" word="get">?</button>
+  <button class="box spell-onclick" word="which">?</button>
+  <button class="box spell-onclick" word="go">?</button>
+  <button class="box spell-onclick" word="me">?</button>
+  <button class="box spell-onclick" word="when">?</button>
+  <button class="box spell-onclick" word="make">?</button>
+  <button class="box spell-onclick" word="can">?</button>
+  <button class="box spell-onclick" word="like">?</button>
+  <button class="box spell-onclick" word="time">?</button>
+  <button class="box spell-onclick" word="no">?</button>
+  <button class="box spell-onclick" word="just">?</button>
+  <button class="box spell-onclick" word="him">?</button>
+  <button class="box spell-onclick" word="know">?</button>
+  <button class="box spell-onclick" word="take">?</button>
+  <button class="box spell-onclick" word="people">?</button>
+  <button class="box spell-onclick" word="into">?</button>
+  <button class="box spell-onclick" word="year">?</button>
+  <button class="box spell-onclick" word="your">?</button>
+  <button class="box spell-onclick" word="good">?</button>
+  <button class="box spell-onclick" word="some">?</button>
+  <button class="box spell-onclick" word="could">?</button>
+  <button class="box spell-onclick" word="them">?</button>
+  <button class="box spell-onclick" word="see">?</button>
+  <button class="box spell-onclick" word="other">?</button>
+  <button class="box spell-onclick" word="than">?</button>
+  <button class="box spell-onclick" word="then">?</button>
+  <button class="box spell-onclick" word="now">?</button>
+  <button class="box spell-onclick" word="look">?</button>
+  <button class="box spell-onclick" word="only">?</button>
+  <button class="box spell-onclick" word="come">?</button>
+  <button class="box spell-onclick" word="its">?</button>
+  <button class="box spell-onclick" word="over">?</button>
+  <button class="box spell-onclick" word="think">?</button>
+  <button class="box spell-onclick" word="also">?</button>
+  <button class="box spell-onclick" word="back">?</button>
+  <button class="box spell-onclick" word="after">?</button>
+  <button class="box spell-onclick" word="use">?</button>
+  <button class="box spell-onclick" word="two">?</button>
+  <button class="box spell-onclick" word="how">?</button>
+  <button class="box spell-onclick" word="our">?</button>
+  <button class="box spell-onclick" word="work">?</button>
+  <button class="box spell-onclick" word="first">?</button>
+  <button class="box spell-onclick" word="well">?</button>
+  <button class="box spell-onclick" word="way">?</button>
+  <button class="box spell-onclick" word="even">?</button>
+  <button class="box spell-onclick" word="new">?</button>
+  <button class="box spell-onclick" word="want">?</button>
+  <button class="box spell-onclick" word="because">?</button>
+  <button class="box spell-onclick" word="any">?</button>
+  <button class="box spell-onclick" word="these">?</button>
+  <button class="box spell-onclick" word="give">?</button>
+  <button class="box spell-onclick" word="day">?</button>
+  <button class="box spell-onclick" word="most">?</button>
+  <button class="box spell-onclick" word="us">?</button>
+  <button class="box spell-onclick" word="her">?</button>
+
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="pronouns">Pronouns</a></h1>
+<h2>Subjective</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="I">?</button>
+  <button class="box spell-onclick" word="she">?</button>
+  <button class="box spell-onclick" word="he">?</button>
+  <button class="box spell-onclick" word="it">?</button>
+  <button class="box spell-onclick" word="you">?</button>
+  <button class="box spell-onclick" word="they">?</button>
+  <button class="box spell-onclick" word="we">?</button>
+</div>
+<h2>Objective</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="me">?</button>
+  <button class="box spell-onclick" word="him">?</button>
+  <button class="box spell-onclick" word="her">?</button>
+  <button class="box spell-onclick" word="us">?</button>
+  <button class="box spell-onclick" word="them">?</button>
+  <button class="box spell-onclick" word="you">?</button>
+  <button class="box spell-onclick" word="it">?</button>
+</div>
+<h2>Possessive</h2>
+<div class="wrapper8">
+<button class="box spell-onclick" word="my">?</button>
+<button class="box spell-onclick" word="his">?</button>
+<button class="box spell-onclick" word="her">?</button>
+<button class="box spell-onclick" word="our">?</button>
+<button class="box spell-onclick" word="their">?</button>
+<button class="box spell-onclick" word="your">?</button>
+<button class="box spell-onclick" word="its">?</button>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="nouns">Nouns</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="apple">?</button>
+  <button class="box spell-onclick" word="apricot">?</button>
+  <button class="box spell-onclick" word="accident">?</button>
+  <button class="box spell-onclick" word="airplane">?</button>
+  <button class="box spell-onclick" word="airport">?</button>
+  <button class="box spell-onclick" word="aisle">?</button>
+  <button class="box spell-onclick" word="almond">?</button>
+
+  <button class="box spell-onclick" word="baby">?</button>
+  <button class="box spell-onclick" word="ball">?</button>
+  <button class="box spell-onclick" word="bear">?</button>
+  <button class="box spell-onclick" word="bed">?</button>
+  <button class="box spell-onclick" word="bee">?</button>
+  <button class="box spell-onclick" word="bell">?</button>
+  <button class="box spell-onclick" word="bicycle">?</button>
+  <button class="box spell-onclick" word="bird">?</button>
+  <button class="box spell-onclick" word="blanket">?</button>
+  <button class="box spell-onclick" word="boat">?</button>
+  <button class="box spell-onclick" word="book">?</button>
+  <button class="box spell-onclick" word="boot">?</button>
+  <button class="box spell-onclick" word="boy">?</button>
+  <button class="box spell-onclick" word="box">?</button>
+  <button class="box spell-onclick" word="breakfast">?</button>
+  <button class="box spell-onclick" word="bun">?</button>
+  <button class="box spell-onclick" word="butter">?</button>
+
+  <button class="box spell-onclick" word="cake">?</button>
+  <button class="box spell-onclick" word="camel">?</button>
+  <button class="box spell-onclick" word="candle">?</button>
+  <button class="box spell-onclick" word="candy">?</button>
+  <button class="box spell-onclick" word="car">?</button>
+  <button class="box spell-onclick" word="carrot">?</button>
+  <button class="box spell-onclick" word="castle">?</button>
+  <button class="box spell-onclick" word="clock">?</button>
+  <button class="box spell-onclick" word="comb">?</button>
+  <button class="box spell-onclick" word="corn">?</button>
+  <button class="box spell-onclick" word="cow">?</button>
+  <button class="box spell-onclick" word="crown">?</button>
+  <button class="box spell-onclick" word="cube">?</button>
+  <button class="box spell-onclick" word="cup">?</button>
+
+  <button class="box spell-onclick" word="deer">?</button>
+  <button class="box spell-onclick" word="desk">?</button>
+  <button class="box spell-onclick" word="dice">?</button>
+  <button class="box spell-onclick" word="diamond">?</button>
+  <button class="box spell-onclick" word="dime">?</button>
+  <button class="box spell-onclick" word="dinner">?</button>
+  <button class="box spell-onclick" word="dinosaur">?</button>
+  <button class="box spell-onclick" word="dishes">?</button>
+  <button class="box spell-onclick" word="dog">?</button>
+  <button class="box spell-onclick" word="doll">?</button>
+  <button class="box spell-onclick" word="dollar">?</button>
+  <button class="box spell-onclick" word="dolphin">?</button>
+  <button class="box spell-onclick" word="donkey">?</button>
+  <button class="box spell-onclick" word="donut">?</button>
+  <button class="box spell-onclick" word="drum">?</button>
+  <button class="box spell-onclick" word="duck">?</button>
+
+  <button class="box spell-onclick" word="ear">?</button>
+  <button class="box spell-onclick" word="earth">?</button>
+  <button class="box spell-onclick" word="earthquake">?</button>
+  <button class="box spell-onclick" word="egg">?</button>
+  <button class="box spell-onclick" word="elephant">?</button>
+  <button class="box spell-onclick" word="elevator">?</button>
+  <button class="box spell-onclick" word="electricity">?</button>
+  <button class="box spell-onclick" word="emergency">?</button>
+  <button class="box spell-onclick" word="entry">?</button>
+  <button class="box spell-onclick" word="engineer">?</button>
+
+  <button class="box spell-onclick" word="fan">?</button>
+  <button class="box spell-onclick" word="feather">?</button>
+  <button class="box spell-onclick" word="feet">?</button>
+  <button class="box spell-onclick" word="fence">?</button>
+  <button class="box spell-onclick" word="finger">?</button>
+  <button class="box spell-onclick" word="fish">?</button>
+  <button class="box spell-onclick" word="five">?</button>
+  <button class="box spell-onclick" word="fire">?</button>
+  <button class="box spell-onclick" word="firetruck">?</button>
+  <button class="box spell-onclick" word="flag">?</button>
+  <button class="box spell-onclick" word="flour">?</button>
+  <button class="box spell-onclick" word="flower">?</button>
+  <button class="box spell-onclick" word="football">?</button>
+  <button class="box spell-onclick" word="fork">?</button>
+  <button class="box spell-onclick" word="fox">?</button>
+  <button class="box spell-onclick" word="four">?</button>
+
+  <button class="box spell-onclick" word="garage">?</button>
+  <button class="box spell-onclick" word="garbage">?</button>
+  <button class="box spell-onclick" word="gate">?</button>
+  <button class="box spell-onclick" word="gear">?</button>
+  <button class="box spell-onclick" word="ghost">?</button>
+  <button class="box spell-onclick" word="gift">?</button>
+  <button class="box spell-onclick" word="girl">?</button>
+  <button class="box spell-onclick" word="glove">?</button>
+  <button class="box spell-onclick" word="goat">?</button>
+  <button class="box spell-onclick" word="gorilla">?</button>
+  <button class="box spell-onclick" word="grapes">?</button>
+  <button class="box spell-onclick" word="groceries">?</button>
+  <button class="box spell-onclick" word="guitar">?</button>
+  <button class="box spell-onclick" word="gum">?</button>
+
+  <button class="box spell-onclick" word="hammer">?</button>
+  <button class="box spell-onclick" word="hand">?</button>
+  <button class="box spell-onclick" word="hanger">?</button>
+  <button class="box spell-onclick" word="harp">?</button>
+  <button class="box spell-onclick" word="hat">?</button>
+  <button class="box spell-onclick" word="heart">?</button>
+  <button class="box spell-onclick" word="helmet">?</button>
+  <button class="box spell-onclick" word="hippo">?</button>
+  <button class="box spell-onclick" word="hive">?</button>
+  <button class="box spell-onclick" word="Honda">?</button>
+  <button class="box spell-onclick" word="horn">?</button>
+  <button class="box spell-onclick" word="horse">?</button>
+  <button class="box spell-onclick" word="hot dog">?</button>
+  <button class="box spell-onclick" word="house">?</button>
+
+  <button class="box spell-onclick" word="I">?</button>
+  <button class="box spell-onclick" word="ice">?</button>
+  <button class="box spell-onclick" word="idiot">?</button>
+  <button class="box spell-onclick" word="ill">?</button>
+  <button class="box spell-onclick" word="improvement">?</button>
+
+  <button class="box spell-onclick" word="jade">?</button>
+  <button class="box spell-onclick" word="jail">?</button>
+  <button class="box spell-onclick" word="jam">?</button>
+  <button class="box spell-onclick" word="Japan">?</button>
+  <button class="box spell-onclick" word="jar">?</button>
+  <button class="box spell-onclick" word="Jasmine">?</button>
+  <button class="box spell-onclick" word="Jaws">?</button>
+  <button class="box spell-onclick" word="jellyfish">?</button>
+  <button class="box spell-onclick" word="jet">?</button>
+  <button class="box spell-onclick" word="jewelry">?</button>
+  <button class="box spell-onclick" word="judge">?</button>
+  <button class="box spell-onclick" word="juice">?</button>
+  <button class="box spell-onclick" word="June">?</button>
+  <button class="box spell-onclick" word="July">?</button>
+
+  <button class="box spell-onclick" word="knife">?</button>
+
+  <button class="box spell-onclick" word="lab">?</button>
+  <button class="box spell-onclick" word="ladder">?</button>
+  <button class="box spell-onclick" word="ladybug">?</button>
+  <button class="box spell-onclick" word="lamp">?</button>
+  <button class="box spell-onclick" word="laptop">?</button>
+  <button class="box spell-onclick" word="laundry">?</button>
+  <button class="box spell-onclick" word="leaves">?</button>
+  <button class="box spell-onclick" word="lemon">?</button>
+  <button class="box spell-onclick" word="lightning">?</button>
+  <button class="box spell-onclick" word="lime">?</button>
+  <button class="box spell-onclick" word="lion">?</button>
+  <button class="box spell-onclick" word="lizard">?</button>
+  <button class="box spell-onclick" word="lobster">?</button>
+  <button class="box spell-onclick" word="lock">?</button>
+  <button class="box spell-onclick" word="lollipop">?</button>
+
+  <button class="box spell-onclick" word="magnet">?</button>
+  <button class="box spell-onclick" word="map">?</button>
+  <button class="box spell-onclick" word="meat">?</button>
+  <button class="box spell-onclick" word="milk">?</button>
+  <button class="box spell-onclick" word="mittens">?</button>
+  <button class="box spell-onclick" word="money">?</button>
+  <button class="box spell-onclick" word="monkey">?</button>
+  <button class="box spell-onclick" word="moon">?</button>
+  <button class="box spell-onclick" word="moose">?</button>
+  <button class="box spell-onclick" word="mountain">?</button>
+  <button class="box spell-onclick" word="mouse">?</button>
+  <button class="box spell-onclick" word="mop">?</button>
+  <button class="box spell-onclick" word="mouth">?</button>
+  <button class="box spell-onclick" word="music">?</button>
+
+  <button class="box spell-onclick" word="napkin">?</button>
+
+  <button class="box spell-onclick" word="oatmeal">?</button>
+  <button class="box spell-onclick" word="odor">?</button>
+  <button class="box spell-onclick" word="odor">?</button>
+  <button class="box spell-onclick" word="office">?</button>
+  <button class="box spell-onclick" word="oil">?</button>
+  <button class="box spell-onclick" word="olive">?</button>
+  <button class="box spell-onclick" word="opener">?</button>
+  <button class="box spell-onclick" word="opinion">?</button>
+  <button class="box spell-onclick" word="opportunity">?</button>
+  <button class="box spell-onclick" word="option">?</button>
+  <button class="box spell-onclick" word="option">?</button>
+
+  <button class="box spell-onclick" word="pillow">?</button>
+
+  <button class="box spell-onclick" word="spoon">?</button>
+  <button class="box spell-onclick" word="sugar">?</button>
+
+  <button class="box spell-onclick" word="uncle">?</button>
+  <button class="box spell-onclick" word="underwear">?</button>
+  <button class="box spell-onclick" word="undergraduate">?</button>
+  <button class="box spell-onclick" word="unicorn">?</button>
+  <button class="box spell-onclick" word="uniform">?</button>
+
+  <button class="box spell-onclick" word="">?</button>
+  <button class="box spell-onclick" word="">?</button>
+  <button class="box spell-onclick" word="">?</button>
+  <button class="box spell-onclick" word="">?</button>
+  <button class="box spell-onclick" word="">?</button>
+  <button class="box spell-onclick" word="">?</button>
+
+  <button class="box spell-onclick" word="water">?</button>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="food">Food</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="almond">?</button>
+  <button class="box spell-onclick" word="apple">?</button>
+  <button class="box spell-onclick" word="apricot">?</button>
+  <button class="box spell-onclick" word="avocado">?</button>
+  <button class="box spell-onclick" word="bacon">?</button>
+  <button class="box spell-onclick" word="bagel">?</button>
+  <button class="box spell-onclick" word="banana">?</button>
+  <button class="box spell-onclick" word="bean">?</button>
+  <button class="box spell-onclick" word="beef">?</button>
+  <button class="box spell-onclick" word="blueberry">?</button>
+  <button class="box spell-onclick" word="bread">?</button>
+  <button class="box spell-onclick" word="broccoli">?</button>
+  <button class="box spell-onclick" word="burrito">?</button>
+  <button class="box spell-onclick" word="butter">?</button>
+  <button class="box spell-onclick" word="cabbage">?</button>
+  <button class="box spell-onclick" word="cake">?</button>
+  <button class="box spell-onclick" word="carrot">?</button>
+  <button class="box spell-onclick" word="cashew">?</button>
+  <button class="box spell-onclick" word="cantalope">?</button>
+  <button class="box spell-onclick" word="celery">?</button>
+  <button class="box spell-onclick" word="cereal">?</button>
+  <button class="box spell-onclick" word="cheese">?</button>
+  <button class="box spell-onclick" word="cherry">?</button>
+  <button class="box spell-onclick" word="chicken">?</button>
+  <button class="box spell-onclick" word="chips">?</button>
+  <button class="box spell-onclick" word="chocolate">?</button>
+  <button class="box spell-onclick" word="chow fun">?</button>
+  <button class="box spell-onclick" word="chow mein">?</button>
+  <button class="box spell-onclick" word="chowder">?</button>
+  <button class="box spell-onclick" word="coffee">?</button>
+  <button class="box spell-onclick" word="cookie">?</button>
+  <button class="box spell-onclick" word="corn">?</button>
+  <button class="box spell-onclick" word="crab">?</button>
+  <button class="box spell-onclick" word="croissant">?</button>
+  <button class="box spell-onclick" word="cupcake">?</button>
+  <button class="box spell-onclick" word="date">?</button>
+  <button class="box spell-onclick" word="dip">?</button>
+  <button class="box spell-onclick" word="duck">?</button>
+  <button class="box spell-onclick" word="donut">?</button>
+  <button class="box spell-onclick" word="egg">?</button>
+  <button class="box spell-onclick" word="eggplant">?</button>
+  <button class="box spell-onclick" word="enchilada">?</button>
+  <button class="box spell-onclick" word="eggroll">?</button>
+  <button class="box spell-onclick" word="fajita">?</button>
+  <button class="box spell-onclick" word="falafel">?</button>
+  <button class="box spell-onclick" word="fish">?</button>
+  <button class="box spell-onclick" word="flautas">?</button>
+  <button class="box spell-onclick" word="frappuccino">?</button>
+  <button class="box spell-onclick" word="fries">?</button>
+  <button class="box spell-onclick" word="garlic">?</button>
+  <button class="box spell-onclick" word="ginger">?</button>
+  <button class="box spell-onclick" word="granola">?</button>
+  <button class="box spell-onclick" word="grape">?</button>
+  <button class="box spell-onclick" word="green bean">?</button>
+  <button class="box spell-onclick" word="halibut">?</button>
+  <button class="box spell-onclick" word="ham">?</button>
+  <button class="box spell-onclick" word="hamburger">?</button>
+  <button class="box spell-onclick" word="honey">?</button>
+  <button class="box spell-onclick" word="hash brown">?</button>
+  <button class="box spell-onclick" word="hot dog">?</button>
+  <button class="box spell-onclick" word="jam">?</button>
+  <button class="box spell-onclick" word="jambalaya">?</button>
+  <button class="box spell-onclick" word="jelly">?</button>
+  <button class="box spell-onclick" word="ketchup">?</button>
+  <button class="box spell-onclick" word="lamb">?</button>
+  <button class="box spell-onclick" word="lasagna">?</button>
+  <button class="box spell-onclick" word="lemon">?</button>
+  <button class="box spell-onclick" word="lettuce">?</button>
+  <button class="box spell-onclick" word="lime">?</button>
+  <button class="box spell-onclick" word="lobster">?</button>
+  <button class="box spell-onclick" word="meatball">?</button>
+  <button class="box spell-onclick" word="milk">?</button>
+  <button class="box spell-onclick" word="noodle">?</button>
+  <button class="box spell-onclick" word="oatmeal">?</button>
+  <button class="box spell-onclick" word="onion">?</button>
+  <button class="box spell-onclick" word="omelet">?</button>
+  <button class="box spell-onclick" word="orange">?</button>
+  <button class="box spell-onclick" word="pancake">?</button>
+  <button class="box spell-onclick" word="pasta">?</button>
+  <button class="box spell-onclick" word="peanut">?</button>
+  <button class="box spell-onclick" word="peanut butter">?</button>
+  <button class="box spell-onclick" word="pepper">?</button>
+  <button class="box spell-onclick" word="pizza">?</button>
+  <button class="box spell-onclick" word="pork">?</button>
+  <button class="box spell-onclick" word="potato">?</button>
+  <button class="box spell-onclick" word="rasberry">?</button>
+  <button class="box spell-onclick" word="rice">?</button>
+  <button class="box spell-onclick" word="rolls">?</button>
+  <button class="box spell-onclick" word="quesadilla">?</button>
+  <button class="box spell-onclick" XSAMPA="keesch" word="quiche">?</button>
+  <button class="box spell-onclick" word="salad">?</button>
+  <button class="box spell-onclick" word="salmon">?</button>
+  <button class="box spell-onclick" word="salt">?</button>
+  <button class="box spell-onclick" word="sandwich">?</button>
+  <button class="box spell-onclick" word="sashimi">?</button>
+  <button class="box spell-onclick" word="sausage">?</button>
+  <button class="box spell-onclick" word="soup">?</button>
+  <button class="box spell-onclick" word="spaghetti">?</button>
+  <button class="box spell-onclick" word="spinach">?</button>
+  <button class="box spell-onclick" word="strawberry">?</button>
+  <button class="box spell-onclick" word="stir fry">?</button>
+  <button class="box spell-onclick" word="steak">?</button>
+  <button class="box spell-onclick" word="sushi">?</button>
+  <button class="box spell-onclick" word="taco">?</button>
+  <button class="box spell-onclick" word="tea">?</button>
+  <button class="box spell-onclick" word="toast">?</button>
+  <button class="box spell-onclick" word="tomato">?</button>
+  <button class="box spell-onclick" word="tuna">?</button>
+  <button class="box spell-onclick" word="waffle">?</button>
+  <button class="box spell-onclick" word="whipped cream">?</button>
+  <button class="box spell-onclick" word="wine">?</button>
+  <button class="box spell-onclick" word="walnut">?</button>
+  <button class="box spell-onclick" word="yogurt">?</button>
+  <button class="box spell-onclick" word="zucchini">?</button>
+</div>
+<h2>Types of Cuisine</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="American">?</button>
+  <button class="box spell-onclick" word="BBQ">?</button>
+  <button class="box spell-onclick" word="Cajun">?</button>
+  <button class="box spell-onclick" word="California">?</button>
+  <button class="box spell-onclick" word="Chinese">?</button>
+  <button class="box spell-onclick" word="French">?</button>
+  <button class="box spell-onclick" word="Indian">?</button>
+  <button class="box spell-onclick" word="Italian">?</button>
+
+  <button class="box spell-onclick" word="Japanese">?</button>
+  <button class="box spell-onclick" word="Korean">?</button>
+  <button class="box spell-onclick" word="Mediterranean">?</button>
+  <button class="box spell-onclick" word="Mexican">?</button>
+  <button class="box spell-onclick" word="Middle Eastern">?</button>
+  <button class="box spell-onclick" word="seafood">?</button>
+  <button class="box spell-onclick" word="Thai">?</button>
+  <button class="box spell-onclick" word="vegetarian">?</button>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="drinks">Drinks</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="coffee">?</button>
+  <button class="box spell-onclick" word="diet pepsi">?</button>
+  <button class="box spell-onclick" XSAMPA="frappachino" word="frappucino">?</button>
+  <button class="box spell-onclick" word="juice">?</button>
+  <button class="box spell-onclick" word="milk">?</button>
+  <button class="box spell-onclick" word="orange juice">?</button>
+  <button class="box spell-onclick" word="7 up">?</button>
+  <button class="box spell-onclick" word="smoothie">?</button>
+  <button class="box spell-onclick" word="soda">?</button>
+  <button class="box spell-onclick" word="soy milk">?</button>
+  <button class="box spell-onclick" word="tea">?</button>
+  <button class="box spell-onclick" word="water">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="mood">Moods</a></h1>
+<div class="wrapper6">
+  <button class="box spell-onclick" word="afraid">?</button>
+  <button class="box spell-onclick" word="amazed">?</button>
+  <button class="box spell-onclick" word="amused">?</button>
+  <button class="box spell-onclick" word="angry">?</button>
+  <button class="box spell-onclick" word="annoyed">?</button>
+  <button class="box spell-onclick" word="ashamed">?</button>
+  <button class="box spell-onclick" word="anxious">?</button>
+  <button class="box spell-onclick" word="blessed">?</button>
+  <button class="box spell-onclick" word="bored">?</button>
+  <button class="box spell-onclick" word="calm">?</button>
+  <button class="box spell-onclick" word="cheerful">?</button>
+  <button class="box spell-onclick" word="cold">?</button>
+  <button class="box spell-onclick" word="comfortable">?</button>
+  <button class="box spell-onclick" word="concerned">?</button>
+  <button class="box spell-onclick" word="confused">?</button>
+  <button class="box spell-onclick" word="curious">?</button>
+  <button class="box spell-onclick" word="disappointed">?</button>
+  <button class="box spell-onclick" word="depressed">?</button>
+  <button class="box spell-onclick" word="disgusted">?</button>
+  <button class="box spell-onclick" word="energetic">?</button>
+  <button class="box spell-onclick" word="exhausted">?</button>
+  <button class="box spell-onclick" word="fortunate">?</button>
+  <button class="box spell-onclick" word="frustrated">?</button>
+  <button class="box spell-onclick" word="glad">?</button>
+  <button class="box spell-onclick" word="grateful">?</button>
+  <button class="box spell-onclick" word="happy">?</button>
+  <button class="box spell-onclick" word="hopeful">?</button>
+  <button class="box spell-onclick" word="inspired">?</button>
+  <button class="box spell-onclick" word="interested">?</button>
+  <button class="box spell-onclick" word="joyful">?</button>
+  <button class="box spell-onclick" word="lonely">?</button>
+  <button class="box spell-onclick" word="loved">?</button>
+  <button class="box spell-onclick" word="merry">?</button>
+  <button class="box spell-onclick" word="optimistic">?</button>
+  <button class="box spell-onclick" word="pity">?</button>
+  <button class="box spell-onclick" word="pleased">?</button>
+  <button class="box spell-onclick" word="relaxed">?</button>
+  <button class="box spell-onclick" word="sad">?</button>
+  <button class="box spell-onclick" word="satisfied">?</button>
+  <button class="box spell-onclick" word="sick">?</button>
+  <button class="box spell-onclick" word="surprised">?</button>
+  <button class="box spell-onclick" word="sympathic">?</button>
+  <button class="box spell-onclick" word="thankful">?</button>
+  <button class="box spell-onclick" word="thrilled">?</button>
+  <button class="box spell-onclick" word="tired">?</button>
+  <button class="box spell-onclick" word="uncomfortable">?</button>
+  <button class="box spell-onclick" word="weird">?</button>
+  <button class="box spell-onclick" word="wonderful">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="verbs">Verbs</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="ask">?</button>
+  <button class="box spell-onclick" word="bake">?</button>
+  <button class="box spell-onclick" word="bounce">?</button>
+  <button class="box spell-onclick" word="build">?</button>
+  <button class="box spell-onclick" word="buy">?</button>
+  <button class="box spell-onclick" word="brush">?</button>
+  <button class="box spell-onclick" word="call">?</button>
+  <button class="box spell-onclick" word="carry">?</button>
+  <button class="box spell-onclick" word="clean">?</button>
+  <button class="box spell-onclick" word="climb">?</button>
+  <button class="box spell-onclick" word="come">?</button>
+  <button class="box spell-onclick" word="cook">?</button>
+  <button class="box spell-onclick" word="crawl">?</button>
+  <button class="box spell-onclick" word="cry">?</button>
+  <button class="box spell-onclick" word="cut">?</button>
+  <button class="box spell-onclick" word="dance">?</button>
+  <button class="box spell-onclick" word="dig">?</button>
+  <button class="box spell-onclick" word="do">?</button>
+  <button class="box spell-onclick" word="draw">?</button>
+  <button class="box spell-onclick" word="dress">?</button>
+  <button class="box spell-onclick" word="dribble">?</button>
+  <button class="box spell-onclick" word="drink">?</button>
+  <button class="box spell-onclick" word="drive">?</button>
+  <button class="box spell-onclick" word="dry">?</button>
+  <button class="box spell-onclick" word="eat">?</button>
+  <button class="box spell-onclick" word="erase">?</button>
+  <button class="box spell-onclick" word="exercise">?</button>
+  <button class="box spell-onclick" word="feel">?</button>
+  <button class="box spell-onclick" word="find">?</button>
+  <button class="box spell-onclick" word="fix">?</button>
+  <button class="box spell-onclick" word="fold">?</button>
+  <button class="box spell-onclick" word="give">?</button>
+  <button class="box spell-onclick" word="go">?</button>
+  <button class="box spell-onclick" word="greet">?</button>
+  <button class="box spell-onclick" word="hang">?</button>
+  <button class="box spell-onclick" word="have">?</button>
+  <button class="box spell-onclick" word="hear">?</button>
+  <button class="box spell-onclick" word="help">?</button>
+  <button class="box spell-onclick" word="hope">?</button>
+  <button class="box spell-onclick" word="hug">?</button>
+  <button class="box spell-onclick" word="jump">?</button>
+  <button class="box spell-onclick" word="kick">?</button>
+  <button class="box spell-onclick" word="kiss">?</button>
+  <button class="box spell-onclick" word="know">?</button>
+  <button class="box spell-onclick" word="laugh">?</button>
+  <button class="box spell-onclick" word="lay">?</button>
+  <button class="box spell-onclick" word="lie">?</button>
+  <button class="box spell-onclick" word="listen">?</button>
+  <button class="box spell-onclick" word="love">?</button>
+  <button class="box spell-onclick" word="make">?</button>
+  <button class="box spell-onclick" word="meet">?</button>
+  <button class="box spell-onclick" word="mix">?</button>
+  <button class="box spell-onclick" word="mow">?</button>
+  <button class="box spell-onclick" word="need">?</button>
+  <button class="box spell-onclick" word="paint">?</button>
+  <button class="box spell-onclick" word="pay">?</button>
+  <button class="box spell-onclick" word="peel">?</button>
+  <button class="box spell-onclick" word="play">?</button>
+  <button class="box spell-onclick" word="pray">?</button>
+  <button class="box spell-onclick" word="push">?</button>
+  <button class="box spell-onclick" word="put away">?</button>
+  <button class="box spell-onclick" word="read">?</button>
+  <button class="box spell-onclick" word="ride">?</button>
+  <button class="box spell-onclick" word="run">?</button>
+  <button class="box spell-onclick" word="say">?</button>
+  <button class="box spell-onclick" word="see">?</button>
+  <button class="box spell-onclick" word="send">?</button>
+  <button class="box spell-onclick" word="sing">?</button>
+  <button class="box spell-onclick" word="sit">?</button>
+  <button class="box spell-onclick" word="skip">?</button>
+  <button class="box spell-onclick" word="sleep">?</button>
+  <button class="box spell-onclick" word="slide">?</button>
+  <button class="box spell-onclick" word="sneeze">?</button>
+  <button class="box spell-onclick" word="speak">?</button>
+  <button class="box spell-onclick" word="stand">?</button>
+  <button class="box spell-onclick" word="stop">?</button>
+  <button class="box spell-onclick" word="sweep">?</button>
+  <button class="box spell-onclick" word="swim">?</button>
+  <button class="box spell-onclick" word="swing">?</button>
+  <button class="box spell-onclick" word="take">?</button>
+  <button class="box spell-onclick" word="talk">?</button>
+  <button class="box spell-onclick" word="taste">?</button>
+  <button class="box spell-onclick" word="teach">?</button>
+  <button class="box spell-onclick" word="tell">?</button>
+  <button class="box spell-onclick" word="think">?</button>
+  <button class="box spell-onclick" word="throw">?</button>
+  <button class="box spell-onclick" word="touch">?</button>
+  <button class="box spell-onclick" word="try">?</button>
+  <button class="box spell-onclick" word="use">?</button>
+  <button class="box spell-onclick" word="wait">?</button>
+  <button class="box spell-onclick" word="walk">?</button>
+  <button class="box spell-onclick" word="want">?</button>
+  <button class="box spell-onclick" word="wash">?</button>
+  <button class="box spell-onclick" word="watch">?</button>
+  <button class="box spell-onclick" word="wave">?</button>
+  <button class="box spell-onclick" word="wear">?</button>
+  <button class="box spell-onclick" word="whisper">?</button>
+  <button class="box spell-onclick" word="wish">?</button>
+  <button class="box spell-onclick" word="write">?</button>
+  <button class="box spell-onclick" word="wonder">?</button>
+<button class="box spell-onclick" word="yawn">?</button>
+</div>
+
+<h2>Helping Verbs</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="am">?</button>
+  <button class="box spell-onclick" word="are">?</button>
+  <button class="box spell-onclick" word="is">?</button>
+  <button class="box spell-onclick" word="was">?</button>
+  <button class="box spell-onclick" word="were">?</button>
+  <button class="box spell-onclick" word="be">?</button>
+  <button class="box spell-onclick" word="being">?</button>
+  <button class="box spell-onclick" word="been">?</button>
+  <button class="box spell-onclick" word="have">?</button>
+  <button class="box spell-onclick" word="has">?</button>
+  <button class="box spell-onclick" word="had">?</button>
+  <button class="box spell-onclick" word="do">?</button>
+  <button class="box spell-onclick" word="does">?</button>
+  <button class="box spell-onclick" word="did">?</button>
+  <button class="box spell-onclick" word="could">?</button>
+  <button class="box spell-onclick" word="should">?</button>
+  <button class="box spell-onclick" word="would">?</button>
+  <button class="box spell-onclick" word="can">?</button>
+  <button class="box spell-onclick" word="shall">?</button>
+  <button class="box spell-onclick" word="will">?</button>
+  <button class="box spell-onclick" word="may">?</button>
+  <button class="box spell-onclick" word="might">?</button>
+  <button class="box spell-onclick" word="must">?</button>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="clothing">Clothing</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="aquasocks">?</button>
+  <button class="box spell-onclick" word="belt">?</button>
+  <button class="box spell-onclick" word="blazer">?</button>
+  <button class="box spell-onclick" word="blouse">?</button>
+  <button class="box spell-onclick" word="bra">?</button>
+  <button class="box spell-onclick" word="bracelet">?</button>
+  <button class="box spell-onclick" word="cap">?</button>
+  <button class="box spell-onclick" word="coat">?</button>
+  <button class="box spell-onclick" word="camisole">?</button>
+  <button class="box spell-onclick" word="dress">?</button>
+  <button class="box spell-onclick" word="earrings">?</button>
+  <button class="box spell-onclick" word="goggles">?</button>
+  <button class="box spell-onclick" word="hair band">?</button>
+  <button class="box spell-onclick" word="hat">?</button>
+  <button class="box spell-onclick" word="jacket">?</button>
+  <button class="box spell-onclick" word="necklace">?</button>
+  <button class="box spell-onclick" word="pajamas">?</button>
+  <button class="box spell-onclick" word="panties">?</button>
+  <button class="box spell-onclick" word="pants">?</button>
+  <button class="box spell-onclick" word="scarf">?</button>
+  <button class="box spell-onclick" word="ring">?</button>
+  <button class="box spell-onclick" word="scarf">?</button>
+  <button class="box spell-onclick" word="skirt">?</button>
+  <button class="box spell-onclick" word="shirt">?</button>
+  <button class="box spell-onclick" word="shoes">?</button>
+  <button class="box spell-onclick" word="shorts">?</button>
+  <button class="box spell-onclick" word="slacks">?</button>
+  <button class="box spell-onclick" word="slip">?</button>
+  <button class="box spell-onclick" word="socks">?</button>
+  <button class="box spell-onclick" word="stockings">?</button>
+  <button class="box spell-onclick" word="sweater">?</button>
+  <button class="box spell-onclick" word="sweatshirt">?</button>
+  <button class="box spell-onclick" word="sweatpants">?</button>
+  <button class="box spell-onclick" word="swimsuit">?</button>
+  <button class="box spell-onclick" word="T shirt">?</button>
+  <button class="box spell-onclick" word="underwear">?</button>
+  <button class="box spell-onclick" word="visor">?</button>
+  <button class="box spell-onclick" word="watch">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="colors">Colors</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="black">?</button>
+  <button class="box spell-onclick" word="blue">?</button>
+  <button class="box spell-onclick" word="brown">?</button>
+  <button class="box spell-onclick" word="cyan">?</button>
+  <button class="box spell-onclick" word="fuchsia">?</button>
+  <button class="box spell-onclick" word="gray">?</button>
+  <button class="box spell-onclick" word="green">?</button>
+  <button class="box spell-onclick" word="magenta">?</button>
+  <button class="box spell-onclick" word="orange">?</button>
+  <button class="box spell-onclick" word="pink">?</button>
+  <button class="box spell-onclick" word="purple">?</button>
+  <button class="box spell-onclick" word="red">?</button>
+  <button class="box spell-onclick" word="scarlet">?</button>
+  <button class="box spell-onclick" word="teal">?</button>
+  <button class="box spell-onclick" word="white">?</button>
+  <button class="box spell-onclick" word="yellow">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="places">Places</a></h1>
+<h2>At home</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="attic">?</button>
+  <button class="box spell-onclick" word="backyard">?</button>
+  <button class="box spell-onclick" word="bathroom">?</button>
+  <button class="box spell-onclick" word="bedroom">?</button>
+  <button class="box spell-onclick" word="bonus room">?</button>
+  <button class="box spell-onclick" word="dinette">?</button>
+  <button class="box spell-onclick" word="dining room">?</button>
+  <button class="box spell-onclick" word="family room">?</button>
+
+  <button class="box spell-onclick" word="front yard">?</button>
+  <button class="box spell-onclick" word="garage">?</button>
+  <button class="box spell-onclick" word="great room">?</button>
+  <button class="box spell-onclick" word="guest room">?</button>
+  <button class="box spell-onclick" word="kitchen">?</button>
+  <button class="box spell-onclick" word="living room">?</button>
+  <button class="box spell-onclick" word="office">?</button>
+  <button class="box spell-onclick" word="side yard">?</button>
+</div>
+<h2>Outside the home</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="bakery">?</button>
+  <button class="box spell-onclick" word="bank">?</button>
+  <button class="box spell-onclick" word="college">?</button>
+  <button class="box spell-onclick" word="concert">?</button>
+  <button class="box spell-onclick" word="gas station">?</button>
+  <button class="box spell-onclick" word="gym">?</button>
+  <button class="box spell-onclick" word="hair salon">?</button>
+  <button class="box spell-onclick" word="inside">?</button>
+  <button class="box spell-onclick" word="market">?</button>
+  <button class="box spell-onclick" word="outside">?</button>
+  <button class="box spell-onclick" word="restaurant">?</button>
+  <button class="box spell-onclick" word="school">?</button>
+  <button class="box spell-onclick" word="store">?</button>
+  <button class="box spell-onclick" word="therapy">?</button>
+  <button class="box spell-onclick" word="work">?</button>
+</div>
+
+<h2>Locations outside the home</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="UC Berkeley">?</button>
+  <button class="box spell-onclick" word="Caltech">?</button>
+  <button class="box spell-onclick" word="Pacifica">?</button>
+  <button class="box spell-onclick" word="Pasadena">?</button>
+  <button class="box spell-onclick" word="Safeway">?</button>
+  <button class="box spell-onclick" word="Skills Plus">?</button>
+  <button class="box spell-onclick" word="Starbucks">?</button>
+  <button class="box spell-onclick" word="Stanford">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="numbers">Numbers</a></h1>
+<h2>Cardinal (conveying quantity)</h2>
+<div class="wrapper8">
+
+  <button class="box spell-onclick" word="zero">?</button>
+  <button class="box spell-onclick" word="one">?</button>
+  <button class="box spell-onclick" word="two">?</button>
+  <button class="box spell-onclick" word="three">?</button>
+  <button class="box spell-onclick" word="four">?</button>
+  <button class="box spell-onclick" word="five">?</button>
+  <button class="box spell-onclick" word="six">?</button>
+  <button class="box spell-onclick" word="seven">?</button>
+  <button class="box spell-onclick" word="eight">?</button>
+  <button class="box spell-onclick" word="nine">?</button>
+  <button class="box spell-onclick" word="ten">?</button>
+  <button class="box spell-onclick" word="eleven">?</button>
+  <button class="box spell-onclick" word="twelve">?</button>
+  <button class="box spell-onclick" word="thirteen">?</button>
+  <button class="box spell-onclick" word="fourteen">?</button>
+  <button class="box spell-onclick" word="fifteen">?</button>
+  <button class="box spell-onclick" word="sixteen">?</button>
+  <button class="box spell-onclick" word="seventeen">?</button>
+  <button class="box spell-onclick" word="eighteen">?</button>
+  <button class="box spell-onclick" word="nineteen">?</button>
+  <button class="box spell-onclick" word="twenty">?</button>
+  <button class="box spell-onclick" word="thirty">?</button>
+  <button class="box spell-onclick" word="forty">?</button>
+  <button class="box spell-onclick" word="fifty">?</button>
+  <button class="box spell-onclick" word="sixty">?</button>
+  <button class="box spell-onclick" word="seventy">?</button>
+  <button class="box spell-onclick" word="eighty">?</button>
+  <button class="box spell-onclick" word="ninety">?</button>
+  <button class="box spell-onclick" word="hundred">?</button>
+  <button class="box spell-onclick" word="thousand">?</button>
+  <button class="box spell-onclick" word="million">?</button>
+</div>
+<h2>Ordinal (conveying order)</h2>
+<div class="wrapper8">
+  <button class="box spell-onclick" XSAMPA="first">?</button>
+  <button class="box spell-onclick" XSAMPA="second">?</button>
+  <button class="box spell-onclick" XSAMPA="third">?</button>
+  <button class="box spell-onclick" word="fourth">?</button>
+  <button class="box spell-onclick" word="fifth">?</button>
+  <button class="box spell-onclick" word="sixth">?</button>
+  <button class="box spell-onclick" word="seventh">?</button>
+  <button class="box spell-onclick" word="eighth">?</button>
+  <button class="box spell-onclick" word="ninth">?</button>
+  <button class="box spell-onclick" word="tenth">?</button>
+  <button class="box spell-onclick" word="eleventh">?</button>
+  <button class="box spell-onclick" word="twelth">?</button>
+  <button class="box spell-onclick" word="thirteenth">?</button>
+  <button class="box spell-onclick" word="fourteenth">?</button>
+  <button class="box spell-onclick" word="fifteenth">?</button>
+  <button class="box spell-onclick" word="sixteenth">?</button>
+  <button class="box spell-onclick" word="seventeenth">?</button>
+  <button class="box spell-onclick" word="eighteenth">?</button>
+  <button class="box spell-onclick" word="nineteenth">?</button>
+  <button class="box spell-onclick" word="twentieth">?</button>
+  <button class="box spell-onclick" word="thirtieth">?</button>
+  <button class="box spell-onclick" word="fortieth">?</button>
+  <button class="box spell-onclick" word="fiftieth">?</button>
+  <button class="box spell-onclick" word="sixtieth">?</button>
+  <button class="box spell-onclick" word="seventieth">?</button>
+  <button class="box spell-onclick" word="eightieth">?</button>
+  <button class="box spell-onclick" word="ninetieth">?</button>
+  <button class="box spell-onclick" word="hundredth">?</button>
+  <button class="box spell-onclick" word="thousandth">?</button>
+  <button class="box spell-onclick" word="millionth">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="family">Family</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="Ronlyn">?</button>
+  <button class="box spell-onclick" word="Wen">?</button>
+  <button class="box spell-onclick" word="David">?</button>
+  <button class="box spell-onclick" word="Robert">?</button>
+  <button class="box spell-onclick" word="Gramma Goo">?</button>
+  <button class="box spell-onclick" word="Grampa Goo">?</button>
+  <button class="box spell-onclick" word="Dad">?</button>
+  <button class="box spell-onclick" XSAMPA="Jay-lynne!" word="Jaylynne">?</button>
+  <button class="box spell-onclick" word="Mike">?</button>
+  <button class="box spell-onclick" word="Brandon">?</button>
+  <button class="box spell-onclick" word="Caitlin">?</button>
+  <button class="box spell-onclick" word="Stacy">?</button>
+  <button class="box spell-onclick" word="Ramon">?</button>
+  <button class="box spell-onclick" XSAMPA="Kayden" word="Caden">?</button>
+  <button class="box spell-onclick" word="Bett">?</button>
+  <button class="box spell-onclick" word="Scott">?</button>
+  <button class="box spell-onclick" XSAMPA="E-lon^" word="Elan">?</button>
+  <button class="box spell-onclick" word="Chen">?</button>
+  <button class="box spell-onclick" word="Soo">?</button>
+  <button class="box spell-onclick" word="Tony">?</button>
+  <button class="box spell-onclick" XSAMPA="may-lon^" word="Meilan">?</button>
+  <button class="box spell-onclick" word="Jen">?</button>
+  <button class="box spell-onclick" word="Jane">?</button>
+  <button class="box spell-onclick" word="Michael">?</button>
+  <button class="box spell-onclick" word="Melissa">?</button>
+  <button class="box spell-onclick" word="Mitchell">?</button>
+  <button class="box spell-onclick" word="Dori">?</button>
+  <button class="box spell-onclick" word="Jack">?</button>
+  <button class="box spell-onclick" word="Eric">?</button>
+  <button class="box spell-onclick" word="Aaron">?</button>
+  <button class="box spell-onclick" word="Avis">?</button>
+  <button class="box spell-onclick" word="Dwayne">?</button>
+  <button class="box spell-onclick" word="Micah">?</button>
+  <button class="box spell-onclick" word="Bryce">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="relationships">Family Relationships</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="wife">?</button>
+  <button class="box spell-onclick" word="husband">?</button>
+  <button class="box spell-onclick" word="spouse">?</button>
+
+  <button class="box spell-onclick" word="mother">?</button>
+  <button class="box spell-onclick" word="father">?</button>
+  <button class="box spell-onclick" word="parent">?</button>
+
+  <button class="box spell-onclick" word="daughter">?</button>
+  <button class="box spell-onclick" word="son">?</button>
+  <button class="box spell-onclick" word="child">?</button>
+
+  <button class="box spell-onclick" word="sister">?</button>
+  <button class="box spell-onclick" word="brother">?</button>
+  <button class="box spell-onclick" word="sibling">?</button>
+
+  <button class="box spell-onclick" word="grandmother">?</button>
+  <button class="box spell-onclick" word="grandfather">?</button>
+  <button class="box spell-onclick" word="grandparent">?</button>
+
+  <button class="box spell-onclick" word="niece">?</button>
+  <button class="box spell-onclick" word="nephew">?</button>
+
+  <button class="box spell-onclick" word="aunt">?</button>
+  <button class="box spell-onclick" word="uncle">?</button>
+  <button class="box spell-onclick" word="cousin">?</button>
+
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="people">Friends</a></h1>
+<div class="wrapper8">
+  <button class="box spell-onclick" word="Aruna">?</button>
+  <button class="box spell-onclick" XSAMPA="Burnna" word="Berna">?</button>
+  <button class="box spell-onclick" word="Chitra">?</button>
+  <button class="box spell-onclick" word="Will">?</button>
+  <button class="box spell-onclick" word="Annalisa">?</button>
+  <button class="box spell-onclick" word="Marty">?</button>
+  <button class="box spell-onclick" word="Jim">?</button>
+  <button class="box spell-onclick" word="Carol">?</button>
+  <button class="box spell-onclick" word="Ward">?</button>
+  <button class="box spell-onclick" word="Marianna">?</button>
+
+  <button class="box spell-onclick" word="Boda">?</button>
+  <button class="box spell-onclick" word="Wendy">?</button>
+  <button class="box spell-onclick" word="Peter">?</button>
+  <button class="box spell-onclick" word="Lisa">?</button>
+  <button class="box spell-onclick" word="Louise">?</button>
+  <button class="box spell-onclick" XSAMPA="Meh-lease!" word="Melisse">?</button>
+  <button class="box spell-onclick" word="Charlene">?</button>
+  <button class="box spell-onclick" word="Barb">?</button>
+  <button class="box spell-onclick" word="Pete">?</button>
+  <button class="box spell-onclick" word="Father Bill">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="days">Days of week</a></h1>
+  <div class="wrapper8">
+    <button class="box spell-onclick" word="Sunday">?</button>
+    <button class="box spell-onclick" word="Monday">?</button>
+    <button class="box spell-onclick" word="Tuesday">?</button>
+    <button class="box spell-onclick" word="Wednesday">?</button>
+    <button class="box spell-onclick" word="Thursday">?</button>
+    <button class="box spell-onclick" word="Friday">?</button>
+    <button class="box spell-onclick" word="Saturday">?</button>
+    <button class="box spell-onclick" word="today">?</button>
+    <button class="box spell-onclick" word="tomorrow">?</button>
+    <button class="box spell-onclick" word="yesterday">?</button>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="months">Months of year</a></h1>
+  <div class="wrapper8">
+    <button class="box spell-onclick" word="January">?</button>
+    <button class="box spell-onclick" word="February">?</button>
+    <button class="box spell-onclick" word="March">?</button>
+    <button class="box spell-onclick" word="April">?</button>
+    <button class="box spell-onclick" word="May">?</button>
+    <button class="box spell-onclick" word="June">?</button>
+    <button class="box spell-onclick" word="July">?</button>
+    <button class="box spell-onclick" word="August">?</button>
+    <button class="box spell-onclick" word="September">?</button>
+    <button class="box spell-onclick" word="October">?</button>
+    <button class="box spell-onclick" word="November">?</button>
+    <button class="box spell-onclick" word="December">?</button>
+</div>
+
+<p id="os-msg"></p>
+<p id="browser-msg"></p>
+
+<div class="option">
+   <label for="voice">Voice</label>
+   <select name="voice" id="voice"></select>
+</div>
+
+</main>
+
+<nav>
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+      <div onclick="" class="navbar-list ul">
+        <div onclick="" id="navbar-items">
+      </div>
+    </div>
+</nav>
+</body>
+<script type="text/javascript"  charset="utf-8" src="src/page-nav.js"></script>
+<script>
+"use strict";
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+
+ /*
+  * onclick
+  */
+document.body.onclick = function(e) {   //when the document body is clicked
+    if (window.event) {
+        e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
+    else {
+        e = e.target; }                  //assign the element clicked to e
+
+    if (e.className) {
+      if (e.className.indexOf('spell-onclick') != -1) { //should use switch
+        let word;
+        let pronunciation = e.getAttribute("XSAMPA");
+         if (pronunciation) {
+           word = pronunciation;
+         }
+         else {
+           word = e.getAttribute("word");
+         }
+         speak("close your eyes and spell: "+word);
+         listen(e.getAttribute("word"), function()
+         {
+            e.innerHTML = e.getAttribute("word");
+            e.classList.add("box_completed");
+          });
+         // listen for response here
+      }
+      else if (e.className.indexOf('onclick') != -1
+        && e.className.indexOf('onclick-href') != -1) { //need an additional conditional here
+          let spelling = e.getAttribute("XSAMPA");
+          if (!spelling) {
+            spelling = e.innerHTML;
+          }
+        speak(spelling);
+        window.location.href = "#"+e.id;
+      } //
+
+      else if (e.className.indexOf('href-onclick') != -1) {
+//        window.location.href = "#"+e.innerHTML;  //goto anchor
+         alert("oops href-onclick");
+        window.location.href = "#"+e.id; } //goto anchor
+
+      else if (e.className.indexOf('headertitle') != -1) {
+        spelling = e.getAttribute("XSAMPA");
+        if (!spelling) {
+          spelling = e.innerHTML;
+        }
+        speak(spelling);
+      }
+      else {
+         speak("choose again") }
+       }
+    } //onclick
+/*
+ * onload
+ */
+ document.body.onload = function(e) {   //when the document body is clicked
+   let osMsg = document.getElementById('os-msg');
+   let defaultVoice;
+   var os = getOS();
+
+   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+
+  var supportMsg = document.getElementById('browser-msg');
+  if ('speechSynthesis' in window) {
+    supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+  }
+  else {
+   supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.'
+          + 'Try again with another browser.';
+   supportMsg.classList.add('not-supported');
+  }
+  osMsg = document.getElementById('os-msg');
+  var os = getOS();
+  if (os == 'iOS') {
+      defaultVoice = "Fred"; }
+  else {
+      defaultVoice = "Microsoft Zira Desktop - English (United States)"; }
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+
+  populateVoices(defaultVoice);
+
+  // Chrome loads voices asynchronously.
+  window.speechSynthesis.onvoiceschanged = function(e) {
+    populateVoices('Microsoft Zira Desktop - English (United States)');
+  };
+}
+/***
+ *
+ * global variables
+ *
+ ***/
+var gridWidth = 8;
+var button = document.getElementById('speak');
+var speechMsgInput = document.getElementById('speech-msg');
+var volumeInput = document.getElementById('volume');
+var voiceSelect = document.getElementById('voice');
+
+ /***
+  *
+  * Function definitions
+  *
+  ***/
+/*
+ * getOS
+ */
+function getOS() {
+   var userAgent = window.navigator.userAgent,
+   platform = window.navigator.platform,
+   macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+   windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+   iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+   os = null; // initalize string
+
+   if (macosPlatforms.indexOf(platform) !== -1) {
+      os = 'Mac OS'; }
+   else if (iosPlatforms.indexOf(platform) !== -1) {
+      os = 'iOS'; }
+   else if (windowsPlatforms.indexOf(platform) !== -1) {
+      os = 'Windows'; }
+   else if (/Android/.test(userAgent)) {
+      os = 'Android'; }
+   else if (!os && /Linux/.test(platform)) {
+      os = 'Linux'; }
+   return os;
+}
+/*
+ * Populate list of voices.
+ */
+function populateVoices(defaultVoice) {
+   // Fetch the available voices.
+   var voices = speechSynthesis.getVoices();
+   var option;
+   // Loop through each of the voices.
+   voices.forEach(function(voice, i) {
+      // Create a new option element.
+
+      // Set the options value and text.
+      option = document.createElement('option');
+      option.value = voice.name;
+      option.innerHTML = voice.name;
+      option.selected = (voice.name == defaultVoice);
+      // Add the option to the voice selector.
+      voiceSelect.appendChild(option);
+   });
+}
+/*
+ * Speak
+ */
+
+function wordSpeak(button) {
+   speak(button.value);
+} // function wordSpeak
+/*
+ * Speak
+ */
+function listen(word, callback) {
+  try {
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; // global scope required
+
+    var Listen = new SpeechRecognition();
+    Listen.lang = 'en-US';
+    Listen.interimResults = false;
+    Listen.continuous = true;
+    Listen.maxAlternatives = 1;
+    Listen.isActive = false;
+    Listen.start();
+    Listen.onresult = function(event) {
+      let result = event.results[event.results.length - 1][0].transcript;
+      let isFinalResult = event.results[0].isFinal;
+      console.log(result.trim(), word);
+//      if (isFinalResult && result == word) {
+      let  expandedWord = word.replace(/ /g,'').split('').join(' ').toLowerCase();
+      if (result.trim() == word || result.trim() == expandedWord) {
+        speak("correct");
+        callback();
+      }
+      else {
+        speak("I heard "+result+". Please spell the word "+word);
+      }
+    }
+  }
+  catch(e) {
+    console.log(e.message);
+  }
+}
+function speak(text, callback) {
+  let msg = new SpeechSynthesisUtterance('default');
+  msg.text = text;
+  msg.volume = parseFloat(volumeInput.value);
+  msg.lang = 'en-US';
+  msg.rate = 1;
+  msg.pitch = 1;
+  if (voiceSelect.value) {
+    msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+  }
+  msg.onend = function () {
+      if (callback) {
+          callback();
+      }
+  };
+  msg.onerror = function (e) {
+      if (callback) {
+          callback(e);
+      }
+  };
+  window.speechSynthesis.speak(msg);
+} // function speak
+
+/***
+ *
+ * Initialize page
+ *
+ ***/
+
+  try {
+    var MyPageNav = new Navbar();
+    MyPageNav.populate();
+    //populateNavbar();
+  }
+  catch(e) {
+    alert(e.message)
+  }
+</script>
+</html>

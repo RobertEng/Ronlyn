@@ -1483,7 +1483,7 @@ input[type=range] {
 </body>
 <script type="text/javascript"  charset="utf-8" src="src/page-nav.js"></script>
 <script>
-
+"use strict";
 /***
  *
  * Event Listeners
@@ -1537,8 +1537,9 @@ document.body.onclick = function(e) {   //when the document body is clicked
  * onload
  */
  document.body.onload = function(e) {   //when the document body is clicked
-   var osMsg = document.getElementById('os-msg');
-   var os = getOS();
+   let osMsg = document.getElementById('os-msg');
+   let os = getOS();
+   let defaultVoice;
 
    osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 
@@ -1552,8 +1553,8 @@ document.body.onclick = function(e) {   //when the document body is clicked
           + 'Try again with another browser.';
    supportMsg.classList.add('not-supported');
   }
-  var osMsg = document.getElementById('os-msg');
-  var os = getOS();
+   osMsg = document.getElementById('os-msg');
+   os = getOS();
   if (os == 'iOS') {
      defaultVoice = "Fred"; }
   else {
@@ -1589,6 +1590,7 @@ var voiceSelect = document.getElementById('voice');
  *
  * Sample function to generate buttons tags from a list of words.
  */
+ /*
  function populateNavbar() {
 
      navbarList = document.getElementById('navbar-items');
@@ -1605,6 +1607,8 @@ var voiceSelect = document.getElementById('voice');
        navbarList.append(div);
      }
  } // populateNavbar
+ */
+ /*
  function generateButtons() {
   wordBank = ['0', '1', '2'];
   buttons = "";
@@ -1618,6 +1622,7 @@ var voiceSelect = document.getElementById('voice');
 
   document.getElementsByClassName("wrapper8")[0].innerHTML = buttons;
 }
+*/
 /*
  * getOS
  */
