@@ -1286,12 +1286,14 @@ document.body.onclick = function(e) {   //when the document body is clicked
          else {
            word = e.getAttribute("word");
          }
-         speak("close your eyes and spell: "+word);
+//         speak("close your eyes and spell: "+word);
+         speak("close your eyes and spell: "+word, function() {;
          listen(e.getAttribute("word"), function()
          {
             e.innerHTML = e.getAttribute("word");
             e.classList.add("box_completed");
           });
+        });
          // listen for response here
       }
       else if (e.className.indexOf('onclick') != -1
