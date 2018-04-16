@@ -1446,6 +1446,7 @@ function listen(word, callback) {
       let  expandedWord = word.replace(/ /g,'').split('').join(' ').toLowerCase();
       if (result.trim() == word || result.trim() == expandedWord) {
         speak("correct");
+        Listen.stop();
         callback();
       }
       else {
