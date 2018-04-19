@@ -1431,7 +1431,7 @@ document.body.onclick = function(e) {   //when the document body is clicked
          }
 //         speak("close your eyes and spell: "+word);
         Listen.abort(); // cancel any existing listening session
-         speak("close your eyes and spell: "+word, function() {;
+         speak("close your eyes. Spell aloud the word: "+word, function() {;
          listen(e.getAttribute("word"), function()
          {
             e.innerHTML = e.getAttribute("word");
