@@ -39,7 +39,10 @@ h2 {
   resize: horizontal;
   min-width:75px;
 }
-.box_completed {
+.state_attempting {
+  background-color: pink;
+}
+.state_completed {
   background-color: lightgray;
 }
 .box:hover, button:focus {
@@ -282,7 +285,6 @@ input[type=range] {
   <button class="box spell-onclick" word="ear">?</button>
   <button class="box spell-onclick" word="eat">?</button>
   <button class="box spell-onclick" word="egg">?</button>
-  <button class="box spell-onclick" word="eve">?</button>
   <button class="box spell-onclick" word="fad">?</button>
   <button class="box spell-onclick" word="fed">?</button>
   <button class="box spell-onclick" word="fib">?</button>
@@ -1421,21 +1423,30 @@ document.body.onclick = function(e) {   //when the document body is clicked
 
     if (e.className) {
       if (e.className.indexOf('spell-onclick') != -1) { //should use switch
+          // case state=initial:
+          // case state=attempt
+          //    don't say close your eyes
+          // case state=completed:
+          //    just spak the word without listening
+          //
+
         let word;
         let pronunciation = e.getAttribute("XSAMPA");
-         if (pronunciation) {
-           word = pronunciation;
-         }
-         else {
-           word = e.getAttribute("word");
-         }
+        if (pronunciation) {
+          word = pronunciation;
+        }
+        else {
+          word = e.getAttribute("word");
+        }
 //         speak("close your eyes and spell: "+word);
         Listen.abort(); // cancel any existing listening session
-         speak("Close your eyes. Spell the word: "+word, function() {;
-         listen(e.getAttribute("word"), function()
-         {
+        e.classList.add("state_attempting");
+        speak("close your eyes. Spell the word: "+word, function() {;
+          listen(e.getAttribute("word"), function()
+          {
             e.innerHTML = e.getAttribute("word");
-            e.classList.add("box_completed");
+            e.classList.remove("state_attempting");
+            e.classList.add("state_completed");
           });
         });
          // listen for response here
@@ -1580,20 +1591,24 @@ function listen(word, callback) {
     Listen.maxAlternatives = 1;
     Listen.isActive = false;
     Listen.start();
+
     Listen.onresult = function(event) {
       let result = event.results[event.results.length - 1][0].transcript;
       let isFinalResult = event.results[0].isFinal;
+      Listen.abort(); // do not return further results
       console.log(result.trim(), word);
 //      if (isFinalResult && result == word) {
       let  expandedWord = word.replace(/ /g,'').split('').join(' ').toLowerCase();
       if (result.trim().toLowerCase() == word || result.trim() == expandedWord) {
         speak("correct");
-        Listen.stop();
         callback();
       }
       else {
-        speak("I heard "+result+". Please spell the word "+word);
+        speak("I heard you say "+result);
       }
+    }
+    Listen.onend = function(event) {
+      // retry code goes here
     }
   }
   catch(e) {
