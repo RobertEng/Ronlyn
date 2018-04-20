@@ -520,7 +520,6 @@ initialize() {
           readingMonitor.listening.currentWordCount = 0;
           readingMonitor.listening.progress.reset();
 
-          readingMonitor.diagnosticMsg = "listenBtn:onclick(): not listening";
           readingMonitor.listening.timer.start();
           readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
           readingMonitor.listening.buttonActivate();
@@ -1446,6 +1445,9 @@ class ReadingMonitor {
       }
     } //rm_wordSpanOnClick
     parseSentences(sentenceTag) {
+      //  Ideally, this parsing process should reside in the backend and the resulting
+      // HTML emitted to the client.
+
       // must be processed at end of ALL sentence parsing to assign unique fillinChecklistId
       // could be refactored into its own object
       let fillinChecklists = new ListMap();
