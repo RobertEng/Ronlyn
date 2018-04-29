@@ -650,12 +650,12 @@ initialize() {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
           if (readingMonitor.listening.isActive && readingMonitor.listening.timer.isActive) {
-            readingMonitor.diagnosticMsg = "recognition.onend: restart listening, timer still active";
+            readingMonitor.diagnosticMsg = "recognition.onend: restart listening because timer still active";
             if (readingMonitor.currentWordId == 0) {
               readingMonitor.speaking.say("new sentence");
             }
             else {
-              readingMonitor.speaking.say("still listening");
+//              readingMonitor.speaking.say("still listening");
               readingMonitor.diagnosticMsg = "recognition.onend: still listening";
             }
             readingMonitor.diagnosticMsg = "recognition.onend: recognition.start()";
