@@ -656,7 +656,9 @@ initialize() {
             }
             else {
               readingMonitor.speaking.say("still listening");
+              readingMonitor.diagnosticMsg = "recognition.onend: still listening";
             }
+            readingMonitor.diagnosticMsg = "recognition.onend: recognition.start()";
             recognition.start();
           }
           else {
