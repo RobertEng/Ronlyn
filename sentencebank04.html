@@ -315,17 +315,35 @@ li:not(:last-child) {
 <h1><a class="navbar-itemByHeadingLevel" id="Deanza">When I'm at Adapted PE</a></h1>
   <h2></h2>
   <li><span class="sentence">I go to Adapted PE at DeAnza College.</span></li>
-  <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+
+
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  <div id="os-msg"></div>
+  <br>
   The Reading Monitor will stop listening after the end of each sentence.
-    <div class="option" id="StopListeningAtEOSentenceControl">
-      <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
-      <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
-   </div>
-   The Reading Monitor recitation volume can be adjusted.
-   <div class="option" id="volumeControl">
-     <label for="volume" id="volumeLabel">Volume</label>
-      <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-   </div>
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+  </div>
+  <br>
+  The Reading Monitor recitation volume can be adjusted.
+  <div class="option" id="volumeControl">
+    <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+  </div>
+  <br>
+  The Reading Monitor voice can be changed.
+  <div class="option">
+    <label for="voice" id="voiceLabel">Voice</label>
+    <select name="voice" id="voice"></select>
+  </div>
+  <br>
+
+ The Reading Monitor diagnoistics can be verbose.
+  <div class="option" id="showDiagnosticMsgVerboseControl">
+   <input type="checkbox" name="showDiagnosticMsgVerbose" id="showDiagnosticMsgVerbose" default="unchecked">
+   <label id="showDiagnosticMsgVerboseLabel" for="showDiagnosticMsgVerbose">Show diagnostic message queue</label>
+  </div>
 
 <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
 <h2>Progress</h2>
@@ -343,14 +361,6 @@ li:not(:last-child) {
   <span>word idx:</span><span id="wordIdx">0</span>,
   <span>word id:</span><span id="wordId">0</span>,
   <span>last spoken word:</span><span id="lastSpokenWord">0</span>
-<p>
-<span id="os-msg"></span>
-</p>
-
-<div class="option">
-   <label for="voice" id="voiceLabel">Voice</label>
-   <select name="voice" id="voice"></select>
-</div>
 
 </main>
 
@@ -393,6 +403,7 @@ document.body.onload = function(e) {   //when the document body is clicked
  }
  try { // register HTML controls and fields
    MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.diagnosticVerboseCheckboxElementId = "showDiagnosticMsgVerbose";
    MyReadingMonitor.userMsgElementId ="usermsg";
  //   MyReadingMonitor.sentenceIdElementId = "sentenceId";
    MyReadingMonitor.wordIdElementId = "wordId";

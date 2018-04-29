@@ -94,7 +94,7 @@ header {
      pointer-events: none;
      text-decoration: none;
  }
-#voiceLabel, #volumeLabel, #partialSentenceModeLabel, #stopListeningAtEOSmodeLabel, #lastSpokenWordLabel {
+#voiceLabel, #volumeLabel, #partialSentenceModeLabel, #stopListeningAtEOSmodeLabel, #lastSpokenWordLabel, #showDiagnosticMsgQueueLabel {
    font-family:arial;
    font-size:80%;
  }

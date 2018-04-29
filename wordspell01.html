@@ -39,11 +39,13 @@ h2 {
   resize: horizontal;
   min-width:75px;
 }
-.state_attempting {
-  background-color: pink;
+.state_attempt {
+  background-color: lightpink;
 }
 .state_completed {
   background-color: lightgray;
+  font-weight: normal;
+  color: gray;
 }
 .box:hover, button:focus {
   opacity: 0.75;
@@ -244,10 +246,10 @@ input[type=range] {
        <span class="spell-onclick" XSAMPA="Ronlyn's word spell">Ronlyn's Word Spell (v1.0)</span>
     </div>
     <div class="col-1-2 headercontrols">
-       <div class="option" align="right">
-          <label for="volume">Volume</label>
-          <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-       </div>
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
      </div>
   </div>
 </header>
@@ -1440,12 +1442,12 @@ document.body.onclick = function(e) {   //when the document body is clicked
         }
 //         speak("close your eyes and spell: "+word);
         Listen.abort(); // cancel any existing listening session
-        e.classList.add("state_attempting");
+        e.classList.add("state_attempt");
         speak("close your eyes. Spell the word: "+word, function() {;
           listen(e.getAttribute("word"), function()
           {
             e.innerHTML = e.getAttribute("word");
-            e.classList.remove("state_attempting");
+            e.classList.remove("state_attempt");
             e.classList.add("state_completed");
           });
         });
@@ -1513,26 +1515,54 @@ document.body.onclick = function(e) {   //when the document body is clicked
     populateVoices('Microsoft Zira Desktop - English (United States)');
   };
 }
+
 /***
  *
  * global variables
  *
  ***/
+var finalTranscript = "";
 var button = document.getElementById('speak');
 var speechMsgInput = document.getElementById('speech-msg');
 var volumeInput = document.getElementById('volume');
 var voiceSelect = document.getElementById('voice');
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; // global scope required
 var Listen = new SpeechRecognition();
+var ListenRecognitionList = new webkitSpeechGrammarList();
+var grammar = "#JSGF V1.0; grammar alphabet; public <letter> = a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z "
+                + " | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z ;"
+ListenRecognitionList.addFromString(grammar, 1);
+Listen.grammars = ListenRecognitionList;
+Listen.lang = 'en-US';
+Listen.interimResults = false;
+Listen.continuous = false;
 
+Listen.interimResults = true; // looking more closely into interim results
+//Listen.continuous = true;
+
+Listen.maxAlternatives = 1;
+Listen.isActive = false;
  /***
   *
   * Function definitions
   *
   ***/
-/*
- * getOS
- */
+function lastSpokenWord_CheckboxChanged(e) {
+   let label = lastSpokenWordLabel.innerText;
+   let apos = label.indexOf(":");
+   if (apos >-1) lastSpokenWordLabel.innerText = label.substring(0, apos);
+   if (lastSpokenWordCheckbox.checked) {
+     lastSpokenWordLabel.innerText = lastSpokenWordLabel.innerText +": ";
+     lastSpokenWordspan.style.visibility = "";
+   }
+   else {
+     lastSpokenWordspan.style.visibility = "hidden";
+   }
+ }//    lastSpokenWordspan.setAttribute("hidden", true);
+
+ /*
+  * getOS
+  */
 function getOS() {
    var userAgent = window.navigator.userAgent,
    platform = window.navigator.platform,
@@ -1585,17 +1615,30 @@ function wordSpeak(button) {
  */
 function listen(word, callback) {
   try {
-    Listen.lang = 'en-US';
-    Listen.interimResults = false;
-    Listen.continuous = true;
-    Listen.maxAlternatives = 1;
-    Listen.isActive = false;
+
     Listen.start();
 
     Listen.onresult = function(event) {
+
+      // added to test interim/final processing
+      let interimTranscript = "";
+      for (let i = event.resultIndex; i < event.results.length;++i) {
+        if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        else {
+          interimTranscript += event.results[i][0].transcript;
+        }
+      }
+      console.log("interim:"+interimTranscript);
+      //
       let result = event.results[event.results.length - 1][0].transcript;
       let isFinalResult = event.results[0].isFinal;
-      Listen.abort(); // do not return further results
+      if (isFinalResult) {
+        console.log("final:"+finalTranscript);
+        Listen.abort(); // do not return further results
+      }
+      document.getElementById("lastSpokenWordspan").innerText = result;
       console.log(result.trim(), word);
 //      if (isFinalResult && result == word) {
       let  expandedWord = word.replace(/ /g,'').split('').join(' ').toLowerCase();
@@ -1603,8 +1646,8 @@ function listen(word, callback) {
         speak("correct");
         callback();
       }
-      else {
-        speak("I heard you say "+result);
+      else if (isFinalResult) {
+         speak("I heard you say "+result);
       }
     }
     Listen.onend = function(event) {
@@ -1618,7 +1661,7 @@ function listen(word, callback) {
 function speak(text, callback) {
   let msg = new SpeechSynthesisUtterance('default');
   msg.text = text;
-  msg.volume = parseFloat(volumeInput.value);
+//  msg.volume = parseFloat(volumeInput.value);
   msg.lang = 'en-US';
   msg.rate = 1;
   msg.pitch = 1;

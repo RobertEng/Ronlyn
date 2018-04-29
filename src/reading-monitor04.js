@@ -143,12 +143,12 @@ class Timer {
   start() {
     this._startTime = new Date();
     this._timerOn = true;
-    this._parent.parent.diagnosticMsg = "timer.start: " + this._startTime;
+    this._parent.parent.diagnosticMsg = "Timer.start: " + this._startTime;
   }
   cancel() {
     this._timerOn = false;
     this._startTime = new Date();
-    this._parent.parent.diagnosticMsg = "timer.cancel: " + this._startTime;
+    this._parent.parent.diagnosticMsg = "Timer.cancel: " + this._startTime;
   }
   get isActive() {
     this._timerOn = ((this.elapsedTime < this._timeout) && this._timerOn) ;
@@ -480,8 +480,8 @@ class SpeechRecognition {
     this._currentWordCount = count;
   }
   lastSpokenWord_CheckboxChanged(e) {
-    var label = lastSpokenWordLabel.innerText;
-    var apos = label.indexOf(":");
+    let label = lastSpokenWordLabel.innerText;
+    let apos = label.indexOf(":");
     if (apos >-1) lastSpokenWordLabel.innerText = label.substring(0, apos);
     if (lastSpokenWordCheckbox.checked) {
       lastSpokenWordLabel.innerText = lastSpokenWordLabel.innerText +": ";
@@ -1230,6 +1230,15 @@ class ReadingMonitor {
         this.errorMsg = "diagnosticMsgElementId setter: No diagnostic messages using element id="+id+" because "+e.message;
       }
     }
+    set diagnosticVerboseCheckboxElementId(id) {
+      try {
+        this._diagnosticVerboseCheckboxElement = document.getElementById(id);
+        if (this._diagnosticVerboseCheckboxElement == null) {throw("invalid element id") }
+      }
+      catch(e){
+          this.errorMsg = "diagnosticVerboseCheckboxElementId setter: Could not access  diagnostic verbose mode control id="+id+" because "+e.message;
+      }
+    }
     set errorMsgElementId(id) {
         this._errorMsgElement = document.getElementById(id);
         this._errorMsgElement.textContent = "["+getCurrentDateTimeStamp()+"]: Error messaging initialized."
@@ -1285,8 +1294,14 @@ class ReadingMonitor {
     }
     set diagnosticMsg(msg) {
       try {
+        let headerAndMsg = "["+getCurrentTimeStamp() + "]:" + msg;
         if (this._diagnosticElement != null) {
-          this._diagnosticElement.textContent = "["+getCurrentTimeStamp() + "]:" + msg;
+          if (this._diagnosticVerboseCheckboxElement.checked) {
+            this._diagnosticElement.innerHTML = this._diagnosticElement.innerHTML+"<br>"+headerAndMsg;
+          }
+          else {
+            this._diagnosticElement.innerHTML = headerAndMsg;
+          }
         }
       }
       catch(e) {
@@ -1295,6 +1310,15 @@ class ReadingMonitor {
       finally {
         console.log("RMdiag-"+getCurrentTimeStamp() + ": " + msg);
       };
+    }
+    set diagnosticMsgAppend(msg) {
+      try {
+          if (this._diagnosticMsgElement != null)
+            this._diagnosticMsgElement.innerHTML = this._diagnosticMsgElement.innerHTML+msg;
+      }
+      catch(e) {
+        this.errorMsg = "diagnosticMsgAppend setter: Could not access field because "+e.message;
+      }
     }
     set userMsg(msg) {
       try {
