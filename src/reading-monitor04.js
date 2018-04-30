@@ -521,7 +521,7 @@ initialize() {
           readingMonitor.listening.progress.reset();
 
           readingMonitor.listening.timer.start();
-          readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition';
+          readingMonitor.diagnosticMsg = 'listenBtn::onclick(): user started speech recognition (t='+readingMonitor.listening.timer.elapsedTime+"msec)";
           readingMonitor.listening.buttonActivate();
           readingMonitor.speaking.say("listening");
 
@@ -549,7 +549,8 @@ initialize() {
           let spokenWords = event.results[event.results.length - 1][0].transcript.split(" ");
           let isFinalResult = event.results[0].isFinal;
 //           MyReadingMonitor.diagnosticMsg = "recognition.onresult: is Final?: "+event.results[0].isFinal;
-           if (isFinalResult) readingMonitor.diagnosticMsg = "recognition.onresult: isfinal";
+            readingMonitor.diagnosticMsg = "recognition.onresult: (t="+readingMonitor.listening.timer.elapsedTime+"msec)";
+           if (isFinalResult) readingMonitor.diagnosticMsg = "recognition.onresult: 'isfinal";
            for (let w = 0; w < spokenWords.length; w++) {
 //             MyReadingMonitor.diagnosticMsg = "recognition.onresult: written word: "+MyReadingMonitor.currentWord;
              readingMonitor.diagnosticMsg = "recognition.onresult: spoken words["+ w.toString()+"]:"+spokenWords[w];
@@ -649,6 +650,7 @@ initialize() {
        recognition.onend = function(event) {
   //          thisMonitor.diagnosticMsg = "recognition.onend";
   //          thisMonitor.diagnosticMsg = "timerElapsedTime: "+ thisMonitor.timerElapsedTime;
+          readingMonitor.diagnosticMsg = "recognition.onend: (t="+readingMonitor.listening.timer.elapsedTime+"msec)";
           if (readingMonitor.listening.isActive && readingMonitor.listening.timer.isActive) {
             readingMonitor.diagnosticMsg = "recognition.onend: restart listening because timer still active";
             if (readingMonitor.currentWordId == 0) {
