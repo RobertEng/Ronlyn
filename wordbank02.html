@@ -1494,6 +1494,7 @@ input[type=range] {
   * onclick
   */
 document.body.onclick = function(e) {   //when the document body is clicked
+  let spelling;
     if (window.event) {
         e = event.srcElement; }          //assign the element clicked to e (IE 6-8)
     else {
