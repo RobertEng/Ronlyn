@@ -564,13 +564,6 @@ initialize() {
                readingMonitor.moveToNextWord();
 //               readingMonitor.listening.lastSpokenWordElement.innerText = "";
 
-               /*
-
-               if (stopAfterMoveToNextWord) {
-                 readingMonitor.listening.buttonDeactivate();
-                 recognition.stop();
-               }
-               */
                if (wasLastWordOfSentence) {
                  if (readingMonitor.listening.checkboxStopAtEosElement.checked) {
                    readingMonitor.listening.buttonDeactivate();
@@ -579,10 +572,16 @@ initialize() {
                  else {
                    // clears results and re-enable in onend event and probably (observed)
                    // resets SpeechRecognition engine internal grammar.
+                   readingMonitor.diagnosticMsg = "recognition.onresult: EOS abort() timer (t="+readingMonitor.listening.timer.elapsedTime+"msec)";
                    recognition.abort();
                    readingMonitor.listening.timer.start();
+                   readingMonitor.diagnosticMsg = "recognition.onresult: EOS restart timer (t="+readingMonitor.listening.timer.elapsedTime+"msec)";
                  }
                }
+               // restart timer after matching word
+               readingMonitor.listening.timer.start();
+               readingMonitor.diagnosticMsg = "recognition.onresult: restart timer (t="+readingMonitor.listening.timer.elapsedTime+"msec)";
+
              } // matchWord()
              else if (spokenWords[w].length > 0) { // detected a word albeit the wrong one
                if (isFinalResult && w == spokenWords.length - 1) {
