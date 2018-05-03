@@ -147,7 +147,6 @@ select {
   display: inline-block;
   white-space: nowrap;
 }
-
 </style>
 </head>
 <title>Ronlyn's Handwriting to Speech</title>
@@ -156,7 +155,7 @@ select {
 <header>
   <div class="grid" id="header">
     <div class="col-1-2 headertitle" XSAMPA="Ronlyns handwriting To Speech App">
-       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech (HWTS)</span>
+       <span class="speak-onclick" XSAMPA="Ronlyns Handwriting To Speech App">Ronlyn's Handwriting-to-Speech</span>
     </div>
     <div class="col-1-2 headerControls">
       <span class="option" id="volumeControl">
@@ -211,7 +210,9 @@ select {
                 hmacKey: "a3b9a27c-e3bc-456e-81dc-a6885101cebb", // MyScript Cloud HMAC key - change the keys for production use
                 type: MyScript.RecognitionType.TEXT, // Recognition type
                 protocol: MyScript.Protocol.WS,
-                width: 960, // InkPaper width
+//                width: window.innerWidth - 20, // InkPaper width
+                //height: window.innerHeight - 100, // InkPaper height
+                width: 960, // InkPaper height
                 height: 500, // InkPaper height
                 timeout: 25, // Recognition timeout
                 textParameters: {
@@ -225,8 +226,10 @@ select {
             /**
              * As canvas are positioned absolute to overlay, we have to explicitly set the parent dimensions
              */
-            inkPaper.style.height = options.height + 'px';
-            inkPaper.style.width = options.width + 'px';
+             inkPaper.style.height = options.height + 'px';
+             inkPaper.style.width = options.width + 'px';
+
+      //       inkPaper.style.width = (window.innerWidth) + 'px';
             /**
              * Init the ink paper
              * @param {Element} The DOM element to attach the ink paper
@@ -273,6 +276,12 @@ select {
                     speak.disabled = (data.canUndo) ? false : true;
                 }
             });
+            window.addEventListener('resize', function () {
+                let inkPaper = document.getElementById('ink-paper');
+//                inkPaper.style.height = window.innerHeight;
+//                inkPaper.style.width = window.innerWidth - 20 +"px";
+            }, false);
+
             /**
              * Map the buttons
              */
