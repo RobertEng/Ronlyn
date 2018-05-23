@@ -83,16 +83,49 @@
 .PoS {
   font-size:60%;
   font-style:italic;
-  align:center;
+  text-align:center;
 }
-#vnest-template {
-    display:grid;
+.hint {
+  font-size:60%;
+  font-style:italic;
+  text-align:center;
+}
+.grid-container {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-auto-columns: min-content;
+}
+.grid-element-container {
+  display: grid;
+  grid-row: row 2;
+}
+.grid-container--fill {
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-columns: min-content;
+}
+.grid-container--fit {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+#vnest-template9a {
+  text-align:center;
+    display:inline-grid;
+    grid-auto-flow: row;
     grid-gap: 5px;
-    grid-template-areas: "a a a a a";
+    grid-row-gap: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-columns: min-content;
+}
+#vnest-template9 {
+  text-align:center;
+    display:grid;
+    grid-auto-columns: auto;
+    grid-gap: 5px;
+    grid-row-gap: 2px;
+    grid-template-areas: "a a a a a a a a a";
     grid-auto-columns: min-content;
 }
 #vnest-template > span {
-  background-color: lime;
+  background-color: white;
 }
 </style>
     <!--[if lt IE 9]>
@@ -104,11 +137,86 @@
   <h1>Reading Monitor VNEST Tester</h1>
 Design and test vnest feature of reading-monitor.
 <br>
-
-<div id="vnest-template">
-  <span>the</span><span>quick</span><span>brown</span><span>fox</span><span>jumped</span>
-  <span class="PoS">article</span><span class="PoS">adjective</span><span class="PoS">adjective</span><span class="PoS">noun</span><span class="PoS">verb</span>
+Grid-auto-fill
+<div class="grid-container grid-container--fill">
+  <div class="grid-element-container">
+    <div>the</div>
+  </div>
+  <div>quick</div>
+  <div>brown</div>
+  <div>fox</div>
+  <div>jumped</div>
+  <div>over</div>
+  <div>the</div>
+  <div>lazy</div>
+  <div>dog</div>
 </div>
+<br>
+Grid-auto-fit
+<div class="grid-container grid-container--fit">
+  <span>the</span><span>quick</span><span>brown</span><span>fox</span><span>jumped</span><span>over</span><span>the</span><span>lazy</span><span>dog</span>
+</div>
+<br>
+grid-element-containers
+
+<div class="grid-container">
+  <span class="grid-element-container">
+    <span>noun1</span>
+    <span class="PoS">noun</span>
+  </span>
+  <span class="grid-element-container">
+    <span>verb1</span>
+    <span class="PoS">verb</span>
+  </span>
+  <span class="grid-element-container">
+    <span>noun1</span>
+    <span class="PoS">noun</span>
+  </span>
+  <span class="grid-element-container">
+    <span>verb1</span>
+    <span class="PoS">verb</span>
+  </span>
+  <span class="grid-element-container">
+    <span>adjective1</span>
+    <span class="PoS">adj</span>
+  </span>
+  <span class="grid-element-container">
+    <span>verb1</span>
+    <span class="PoS">verb</span>
+  </span>
+  <span class="grid-element-container">
+    <span>noun1</span>
+    <span class="PoS">noun</span>
+  </span>
+  <span class="grid-element-container">
+    <span>verb1</span>
+    <span class="PoS">verb</span>
+  </span>
+  <span class="grid-element-container">
+    <span>noun1</span>
+    <span class="PoS">noun</span>
+  </span>
+  <span class="grid-element-container">
+    <span>verb1</span>
+    <span class="PoS">verb</span>
+  </span>
+</div>
+
+<div="VNEST sentence">the quick brown fox jumped</div>
+<br>
+<div id="vnest-template9a">
+  <span>the</span><span>quick</span><span>brown</span><span>fox</span><span>jumped</span><span>over</span><span>the</span><span>lazy</span><span>dog</span>
+</div>
+<br>
+<div id="vnest-template9">
+  <span>the</span><span>quick</span><span>brown</span><span>fox</span><span>jumped</span><span>over</span><span>the</span><span>lazy</span><span>dog</span>
+  <span class="PoS">article</span>
+  <span class="PoS">adjective</span>
+  <span class="PoS">adjective</span>
+  <span class="PoS">noun</span><span class="PoS">verb</span><span class="PoS">preposition</span><span class="PoS">article</span><span class="PoS">adjective</span><span class="PoS">noun</span>
+  <span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span><span class="hint">hint</span>
+</div>
+<div class="sentence">starts with the letter W</div>
 
 <h2>Diagnostics</h2>
 <p><span>sentence idx:</span><span id="sentenceIdx">0</span></p>
