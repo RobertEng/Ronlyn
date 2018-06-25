@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+  font-family: arial;
+  font-size: 110%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+ol {
+  font-family: arial;
+}
+ol li .rm_sentence {
+    margin-bottom: 10px; /* override li */
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+img {
+  width:220px;
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+}
+.verbimg {
+    width:100px;
+    object-fit:contain;
+    border-radius: 1px;
+    height: auto;
+}
+.rm_fillin_checklist {
+  border: solid  2px LightGray;
+  border-collapse: collapse;
+  display: grid;
+  width: 80%;
+  min-width: 500px;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+.rm_fillin_checklist > div {
+  border: solid  1px Lightgray;
+  padding:10px;
+  padding-top:2px;
+  padding-bottom:2px;
+  vertical-align: middle;
+}
+.rm_fillin_checklist:hover {
+   cursor: pointer;
+}
+.rm_fillin_checklist_item {
+}
+.rm_fillin_checklist_item_checked_off {
+  color: Lightgray;
+  text-decoration: line-through;
+}
+.column2 {
+  column-count: 2;
+  column-fill: balance;
+}
+ul {
+  margin-top:0; /* otherwise columns tops do not align-top */
+}
+main {
+  background-color: linen;
+  padding-left: 5px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+
+</head>
+<title> Subject/Verb Fill-in Responses</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyn's Subject/verb Fill-in Responses">
+        <span style="float:left; padding-right:5px">
+          <button id="listenBtn" value="listen">
+            <img id="listenBtnImg"  alt="Listen">
+          </button>
+        </span>
+        <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Subject/Verb Fill-in Responses">Ronlyn's Subject/Verb Fill-in Responses</span>
+    </div>
+    <div class="col-1-3 headerControls">
+
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyPageNav.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<h1><a class="navbar-itemByHeadingLevel" id="verbs">Verb: Go</a></h1>
+<h2>Go (present simple tense)</h2>
+These conjugations express actions that do not change.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_present"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=1>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">go</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=2>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">goes</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=3>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">goes</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=4>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">go</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=5>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">go</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=6>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present">go</span> out.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>Go (present continuous tense)</h2>
+These conjugations express actions that are currently happening but will soon finish.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_present_continuous"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=7>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">am</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=8>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">is</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=9>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">is</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=10>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">are</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=11>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">are</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=12>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_present_continuous">are</span> going out.</div>
+  </li>
+</div>
+</div>
+<h2>Go (past simple tense)</h2>
+These conjugations express actions that just happened.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_past"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=13>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=14>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=15>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=16>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=17>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=18>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past">went</span> out.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>Go (past continuous tense)</h2>
+These conjugations express actions that happened for some time.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_past_continuous"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=13>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">was</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=14>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">was</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=15>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">was</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=16>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">were</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=17>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">were</span> going out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=18>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_past_continuous">were</span> going out.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>Go (future tense)</h2>
+These conjugations express iminent actions.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_future"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=13>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=14>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=15>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=16>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=17>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=18>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future">will</span> go out.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>Go (future continuous tense)</h2>
+These conjugations are appropriate when expressing actions that do not change.
+<div class="rm_fillin_checklist" id="rm_fillin_checklist_go_future_continuous"></div>
+<div class="column2">
+<ul>
+  <li>
+    <div class="sentence" sid=13>I <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=14>He <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=15>She <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=16>You <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=17>We <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+  <li>
+    <div class="sentence" sid=18>They <span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="go_future_continuous">went</span> out.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+The Reading Monitor will stop listening after the end of each sentence.
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+ </div>
+ The Reading Monitor recitation volume can be adjusted.
+ <div class="option" id="volumeControl">
+   <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+ </div>
+
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Progress</h2>
+  <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'fillin'+getCurrentDate()+'.log')">Download and Clear</button>
+
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+  <p>
+    <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+    <span>word idx:</span><span id="wordIdx">0</span>,
+    <span>word id:</span><span id="wordId">0</span>,
+    <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+  <p>
+  <span id="os-msg"></span>
+  </p>
+
+  <div class="option">
+     <label for="voice" id="voiceLabel">Voice</label>
+     <select name="voice" id="voice"></select>
+  </div>
+
+</main>
+
+<nav>
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+      <div onclick="" class="navbar-list ul">
+        <div onclick="" id="navbar-items">
+      </div>
+    </div>
+</nav>
+</body>
+
+<script>
+
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+ var MyReadingMonitor = new ReadingMonitor("fillin01");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+
+ // register html field names
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+
+
+</script>
+</html>
