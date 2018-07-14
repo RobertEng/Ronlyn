@@ -315,6 +315,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("mows", "moe's");
     this._recognitionPattern.set("SPARC", "spark");
     this._recognitionPattern.set("Hacktech", "h[ae]ct[ie][ck]");
+    this._recognitionPattern.set("Koshi", "kosh[iy]");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -1587,7 +1588,7 @@ class ReadingMonitor {
             }
             default: {
               classLabel = this.RM_WORD;
-              // handle apostrophe for possessives
+              // handle apostrophe for possessives and contractions
               // lookahead to see if next two tokens are an apostrophe followed by an s
               if (t < (tokens.length - 2)
                 && (tokens[t+1].text == "'")

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+body {
+}
+main {
+  background-color: linen;
+  margin: 20px;
+//  background-image: url("img/goodnight-moon-wallpaper1.jpg");
+}
+.rm_sentence {
+  font-family: garamond;
+  font-size: 200%;
+  line-height: 1.5;
+  font-weight: bolder;
+}
+#h1_story {
+  font-family: garamond;
+  font-size: 400%;
+  font-weight: bolder;
+
+}
+img {
+  margin-top: 40px;
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+</style>
+</head>
+<title>Familiar Stories</title>
+<body>
+  <header>
+    <div class="container" id="header">
+      <div class="col-2-3 headertitle" XSAMPA="Familiar Stories">
+          <span style="float:left; padding-right:5px">
+            <button id="listenBtn" value="listen">
+              <img id="listenBtnImg"  alt="Listen">
+            </button>
+          </span>
+          <span style="float:left" class="speak_onclick" XSAMPA="Familiar Stories">Familiar Stories</span>
+      </div>
+      <div class="col-1-3 headerControls">
+         <div class="option" id="partialSentenceControl">
+           <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+           <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+        </div>
+
+         <div class="option" id="lastSpokenWordControl">
+           <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+           <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+        </div>
+      </div>
+    </div>
+  </header>
+<main>
+<h1 id="h1_story"><a class="navbar-itemByHeadingLevel" id="story">Good Night Moon</a></h1>
+<div>by Margaret Wise Brown</div>
+<img width="600" src="img/goodnight-moon-cover.jpg" alt="goodnight moon cover"/>
+<img width="600" src="img/goodnight-moon01.jpg" alt="goodnight moon"/>
+<div sid=1 class="sentence storystyle">In the great green room,</div>
+<div sid=2 class="sentence storystyle">There was a telephone,</div>
+<div class="sentence storystyle">And a red balloon,</div>
+<div class="sentence">And a picture of...</div>
+
+<img  width="200" src="img/goodnight-moon-cow.png" alt="cow"/>
+<div class="sentence">The cow jumping over the moon.</div>
+
+<img width="200" src="img/goodnight-moon-3bears.png" alt="3 bears"/>
+<div class="sentence">And there were three little bears sitting on chairs,</div>
+
+<img width="400" src="img/goodnight-moon-kittens-mittens.jpg" alt="kittens and mittens"/>
+<div class="sentence">And two little kittens,</div>
+<div class="sentence">And a pair of mittens,</div>
+
+<img width="200" src="img/goodnight-moon-toyhouse.jpg" alt="toyhouse"/>
+<div class="sentence">And a little toy house,</div>
+
+<img width="200" src="img/goodnight-moon-mouse.jpg" alt="mouse"/>
+<div class="sentence">And a young mouse,</div>
+
+<img width="200" src="img/goodnight-moon-comb-brush-mush.jpg" alt="comb,brush, mush"/>
+<div class="sentence">And a comb and a brush and a bowl full of mush,</div>
+
+<img width="200" src="img/goodnight-moon-old-lady.jpg" alt="old lady"/>
+<div class="sentence">And a quiet old lady who was whispering &quot;hush&quot;.</div>
+
+<img width="800" src="img/goodnight-moon-room1.jpg" alt="goodnight room"/>
+<div class="sentence">Goodnight room.</div>
+<div class="sentence">Goodnight moon.</div>
+<div class="sentence">Goodnight cow jumping over the moon.</div>
+<div class="sentence">Goodnight light,</div>
+<div class="sentence">And the red balloon.</div>
+<div class="sentence">Goodnight bears.</div>
+<div class="sentence">Goodnight chairs.</div>
+<div class="sentence">Goodnight kittens,</div>
+<div class="sentence">And goodnight mittens.</div>
+<div class="sentence">Goodnight clocks.</div>
+<div class="sentence">And goodnight socks.</div>
+<div class="sentence">Goodnight little house.</div>
+<div class="sentence">And goodnight mouse.</div>
+<div class="sentence">Goodnight comb.</div>
+<div class="sentence">And goodnight brush.</div>
+<div class="sentence">Goodnight nobody.</div>
+<div class="sentence">Goodnight mush.</div>
+<div class="sentence">And goodnight to the old lady whispering &quot;hush&quot;.</div>
+<div class="sentence">Goodnight stars.</div>
+<div class="sentence">Goodnight air.</div>
+<div class="sentence">Good night noises everywhere.</div>
+
+<h1 id="h1_story"><a class="navbar-itemByHeadingLevel" id="humptydumpty">Humpty Dumpty</a></h1>
+
+<img width="400" src="img/humpty-dumpty1.jpg" alt="humpty-dumpty 1"/>
+<div class="sentence">Humpty Dumpty sat on a wall,</div>
+<img width="400" src="img/humpty-dumpty2.jpg" alt="humpty-dumpty 2"/>
+<div class="sentence">Humpty Dumpty had a great fall;</div>
+<img width="400" src="img/humpty-dumpty3.jpg" alt="humpty-dumpty 3"/>
+<div class="sentence">All the king's horses and all the king's men</div>
+<img width="400" src="img/humpty-dumpty4.jpg" alt="humpty-dumpty 4"/>
+<div class="sentence">Couldn't put Humpty together again.</div>
+
+<h1 id="h1_story"><a class="navbar-itemByHeadingLevel" id="greeneggs">Green Eggs and Ham</a></h1>
+
+<img width="400" src="img/green-eggs-and-ham.jpg" alt="green eggs and ham"/>
+
+<div class="sentence">I am Sam</div>
+<div class="sentence">Sam I am</div>
+
+<div class="sentence">That Sam-I-am</div>
+<div class="sentence">That Sam-I-am!</div>
+<div class="sentence">I do not like</div>
+<div class="sentence">That Sam-I-am</div>
+<img width="400" src="img/green-eggs-ham-doyoulike.jpg" alt="green eggs and ham"/>
+<div class="sentence">Do you like Green eggs and ham?</div>
+
+I do not like them,
+Sam-I-am.
+I do not like
+Green eggs and ham.
+
+Would you like them
+Here or there?
+
+I would not like them
+Here or there.
+I would not like them
+Anywhere.
+I do not like
+Green eggs and ham.
+I do not like them,
+Sam-I-am
+
+Would you like them
+In a house?
+Would you like them
+With a mouse?
+
+I do not like them
+In a house.
+I do not like them
+With a mouse.
+I do not like them
+Here or there.
+I do not like them
+Anywhere.
+I do not like green eggs and ham.
+I do not like them, Sam-I-am.
+
+Would you eat them
+In a box?
+Would you eat them
+With a fox?
+
+Not in a box.
+Not with a fox.
+Not in a house.
+Not with a mouse.
+I would not eat them here or there.
+I would not eat them anywhere.
+I would not eat green eggs and ham.
+I do not like them, Sam-I-am.
+<img width="400" src="img/green-eggs-and-ham-inacar.jpg" alt="green eggs and ham"/>
+<div class="sentence">Would you? Could you?</div>
+In a car?
+Eat them! Eat them!
+Here they are.
+
+I woould not,
+Could not,
+In a car
+
+You may like them.
+You will see.
+You may like them
+In a tree?
+
+I would not, could not in a tree.
+Not in a car! You let me be.
+I do not like them in a box.
+I do not like them with a fox
+I do not like them in a house
+I do mot like them with a mouse
+I do not like them here or there.
+I do not like them anywhere.
+I do not like green eggs and ham.
+I do not like them, Sam-I-am.
+
+A train! A train!
+A train! A train!
+Could you, would you
+On a train?
+
+Not on a train! Not in a tree!
+Not in a car! Sam! Let me be!
+I would not, could not, in a box.
+I could not, would not, with a fox.
+I will not eat them with a mouse
+I will not eat them in a house.
+I will not eat them here or there.
+I will not eat them anywhere.
+I do not like them, Sam-I-am.
+
+Say!
+In the dark?
+Here in the dark!
+Would you, could you, in the dark?
+
+I would not, could not,
+In the dark.
+
+Would you, could you,
+In the rain?
+
+I would not, could not, in the rain.
+Not in the dark. Not on a train,
+Not in a car, Not in a tree.
+I do not like them, Sam, you see.
+Not in a house. Not in a box.
+Not with a mouse. Not with a fox.
+I will not eat them here or there.
+I do not like them anywhere!
+
+You do not like
+Green eggs and ham?
+
+I do not
+Like them,
+Sam-I-am.
+<img width="400" src="img/green-eggs-and-ham-withagoat.jpg" alt="green eggs and ham"/>
+<div class="sentence">Could you, would you, with a goat?</div>
+
+<img width="400" src="img/green-eggs-and-ham-couldnotwouldnot.jpg" alt="green eggs and ham"/>
+I would not,
+Could not.
+With a goat!
+
+Would you, could you,
+On a boat?
+I could not, would not, on a boat.
+I will not, will not, with a goat.
+I will not eat them in the rain.
+I will not eat them on a train.
+Not in the dark! Not in a tree!
+Not in a car! You let me be!
+I do not like them in a box.
+I do not like them with a fox.
+I will not eat them in a house.
+I do not like them with a mouse.
+I do not like them here or there.
+I do not like them anywhere!
+
+I do not like
+Green egss
+And ham!
+green-eggs-ham-doyoulike.jpg
+I do not like them,
+Sam-I-am.
+
+You do not like them.
+So you say.
+Try them! Try them!
+And you may.
+Try them and you may I say.
+
+Sam!
+If you will let me be,
+I will try them.
+You will see.
+
+Say!
+I like green eggs and ham!
+I do! I like them, Sam-I-am!
+And I would eat them in a boat!
+And I would eat them with a goat...
+And I will eat them in the rain.
+And in the dark. And on a train.
+And in a car. And in a tree.
+They are so goodm so goodm you see!
+
+So I will eat them in a box.
+And I will eat them with a fox.
+And I will eat them in a house.
+And I will eat them with a mouse.
+And I will eat them here and there.
+Say! I will eat them anhywhere!
+
+I do so like
+Green eggs and ham!
+Thank you!
+Thank you,
+Sam-I-am
+</body>
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+The Reading Monitor will stop listening after the end of each sentence.
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+ </div>
+ The Reading Monitor recitation volume can be adjusted.
+ <div class="option" id="volumeControl">
+   <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+ </div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Progress</h2>
+  <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'myjournal'+getCurrentDate()+'.log')">Download and Clear</button>
+
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+<p>
+  <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+  <span>word idx:</span><span id="wordIdx">0</span>,
+  <span>word id:</span><span id="wordId">0</span>,
+  <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+<p>
+<span id="os-msg"></span>
+</p>
+
+<div class="option">
+   <label for="voice" id="voiceLabel">Voice</label>
+   <select name="voice" id="voice"></select>
+</div>
+
+</main>
+
+<nav>
+  <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+<div onclick="" class="navbar-list ul">
+  <div onclick="" id="navbar-items"/>
+</div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+document.body.onload = function(e) {   //when the document body is clicked
+var osMsg = document.getElementById('os-msg');
+var os = getOS();
+
+osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+var MyReadingMonitor = new ReadingMonitor("myjournal03");
+var MyPageNav = new Navbar();
+
+MyPageNav.populate();
+
+// register html field names
+try {
+ MyReadingMonitor.errorMsgElementId ="errormsg";
+}
+catch(e)
+{
+  alert("Could not register error reporting");
+}
+try { // register HTML controls and fields
+ MyReadingMonitor.diagnosticElementId ="diagnostic";
+ MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+ MyReadingMonitor.wordIdElementId = "wordId";
+ MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+ MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+ MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+ MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+ MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+ MyReadingMonitor.listening.buttonElementId = "listenBtn";
+ MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+ MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+ MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+ MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+ MyReadingMonitor.speaking.volumeControlElementId ="volume";
+ MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+ try {
+   MyReadingMonitor.initialize();
+ }
+ catch(e)
+ {
+   MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+ }
+}
+catch(e)
+{
+  MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+}
+
+
+</script>
+</html>

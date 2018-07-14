@@ -1528,11 +1528,11 @@ var volumeInput = document.getElementById('volume');
 var voiceSelect = document.getElementById('voice');
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; // global scope required
 var Listen = new SpeechRecognition();
-var ListenRecognitionList = new webkitSpeechGrammarList();
-var grammar = "#JSGF V1.0; grammar alphabet; public <letter> = a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z "
+//var ListenRecognitionList = new webkitSpeechGrammarList();
+//var grammar = "#JSGF V1.0; grammar alphabet; public <letter> = a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z "
                 + " | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z ;"
-ListenRecognitionList.addFromString(grammar, 1);
-Listen.grammars = ListenRecognitionList;
+//ListenRecognitionList.addFromString(grammar, 1);
+//Listen.grammars = ListenRecognitionList;
 Listen.lang = 'en-US';
 Listen.interimResults = false;
 Listen.continuous = false;
@@ -1680,7 +1680,9 @@ function speak(text, callback) {
   };
   window.speechSynthesis.speak(msg);
 } // function speak
-
+function callback() {
+  console.log("callback");
+};
 /***
  *
  * Initialize page
