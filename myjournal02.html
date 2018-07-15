@@ -4,8 +4,8 @@
   <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
   <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
 <style>
-
 body {
+  --img-width: 300px;
   margin: 0px;
   padding: 0;
   height: 100%;
@@ -32,7 +32,7 @@ ol li .rm_sentence {
 }
 .photoentry {
   display: grid;
-  grid-template-columns: 220px auto  ;
+  grid-template-columns: var(--img-width) auto;
   grid-template-areas: "photo captions ";
 }
 
@@ -48,7 +48,7 @@ ol li .rm_sentence {
   width: 100%;
 }
 img {
-  width:220px;
+  width: var(--img-width);
   object-fit:contain;
   border-radius: 5px;
   height: auto;
@@ -3388,6 +3388,12 @@ main {
      <label for="volume" id="volumeLabel">Volume</label>
       <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
    </div>
+   The width of images displayed can be adjusted.
+   <button id="width200" value="200" onclick="body.style.setProperty('--img-width', 200px)">200px</button>
+   <button id="width400" value="400" onclick="body.style.setProperty('--img-width', '400px')">400px</button>
+   <button id="width600" value="600" onclick="body.style.setProperty('--img-width', '600px')">600px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1200px')">1200px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1500px')">1500px</button>
 
   <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
   <h2>Progress</h2>
@@ -3431,9 +3437,10 @@ main {
 document.body.onload = function(e) {   //when the document body is clicked
   var osMsg = document.getElementById('os-msg');
   var os = getOS();
-
+//body.style.setProperty('--img-width', '200px');
   osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
 }
+
  var MyReadingMonitor = new ReadingMonitor("myjournal03");
  var MyPageNav = new Navbar();
 
