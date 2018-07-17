@@ -14,37 +14,41 @@ body {
 }
 .flashcard-grid {
   display: grid;
-  grid-template-columns: repeat(6, auto);
+  grid-template-columns: repeat(5, auto);
 }
 .flashcard-container {
   background-color: white;
   border: 1px solid gray;
   border-radius:5px;
-  margin-right:10px;
-  margin-bottom:10px;
+  margin-right:20px;
+  margin-bottom:20px;
   box-shadow: 5px 5px 10px gray ;
 }
-.flashcard-item {
+.flashcard-rows {
   display: grid;
-  grid-template-rows: [flashcard-header] 30px [flashcard-body] 200px [flashcard-footer] 20px;
+  grid-template-rows: [flashcard-header] 20px [flashcard-body] 150px [flashcard-footer] 30px;
 }
 .flashcard-header {
+  margin: auto;
+  font-size: smaller;
   text-align: center;
 }
 .flashcard-body {
-  margin-bottom:10px;
-  padding-left:10px;
+  margin: auto;
 }
 .flashcard-img {
-  object-fit:contain;
+/*  object-fit:contain;*/
   max-width:150px;
   max-height:100%;
 }
 .flashcard-footer {
+  margin: auto;
+  font-weight: bold;
   text-align: center;
 }
 .rm_sentence {
   font-family: arial;
+
   font-size: 110%;
 }
 
@@ -144,132 +148,523 @@ main {
 <div class="rm_fillin_checklist" id="rm_fillin_checklist_walk_future_continuous"></div>
 <div class="flashcard-grid">
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header1
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-bounce.jpg" alt="verb: bounce"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">bounce</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-brush.jpg" alt="verb: brush"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">brush</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-build.jpg" alt="verb: build"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">build</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
       </div>
       <div class="flashcard-body">
         <img class="flashcard-img" src="img/verb-carry.jpg" alt="verb: carry"/>
       </div>
       <div class="flashcard-footer">
-        footer1
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">carry</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header2
+        Verb
       </div>
       <div class="flashcard-body">
-        <img class="flashcard-img" src="img/verb-carry.jpg" alt="verb: carry"/>
+        <img class="flashcard-img" src="img/verb-climb.jpg" alt="verb: climb"/>
       </div>
       <div class="flashcard-footer">
-        footer2
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">climb</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header1
+        Verb
       </div>
       <div class="flashcard-body">
-        body1
+        <img class="flashcard-img" src="img/verb-crawl.jpg" alt="verb: crawl"/>
       </div>
       <div class="flashcard-footer">
-        footer1
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">crawl</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header2
+        Verb
       </div>
       <div class="flashcard-body">
-        body2
+        <img class="flashcard-img" src="img/verb-cry.jpg" alt="verb: cry"/>
       </div>
       <div class="flashcard-footer">
-        footer2
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">cry</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header1
+        Verb
       </div>
       <div class="flashcard-body">
-        body1
+        <img class="flashcard-img" src="img/verb-cut.jpg" alt="verb: cut"/>
       </div>
       <div class="flashcard-footer">
-        footer1
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">cut</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header2
+        Verb
       </div>
       <div class="flashcard-body">
-        body2
+        <img class="flashcard-img" src="img/verb-dance.jpg" alt="verb: dance"/>
       </div>
       <div class="flashcard-footer">
-        footer2
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">dance</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header1
+        Verb
       </div>
       <div class="flashcard-body">
-        body1
+        <img class="flashcard-img" src="img/verb-dig.jpg" alt="verb: dig"/>
       </div>
       <div class="flashcard-footer">
-        footer1
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">dig</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header2
+        Verb
       </div>
       <div class="flashcard-body">
-        body2
+        <img class="flashcard-img" src="img/verb-draw.jpg" alt="verb: draw"/>
       </div>
       <div class="flashcard-footer">
-        footer2
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">draw</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header1
+        Verb
       </div>
       <div class="flashcard-body">
-        body1
+        <img class="flashcard-img" src="img/verb-drink.jpg" alt="verb: drink"/>
       </div>
       <div class="flashcard-footer">
-        footer1
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">drink</span></div>
       </div>
     </div>
   </div>
   <div class="flashcard-container">
-    <div class="flashcard-item">
+    <div class="flashcard-rows">
       <div class="flashcard-header">
-        header2
+        Verb
       </div>
       <div class="flashcard-body">
-        body2
+        <img class="flashcard-img" src="img/verb-drive.jpg" alt="verb: drive"/>
       </div>
       <div class="flashcard-footer">
-        footer2
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">drive</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-dry.jpg" alt="verb: dry"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">dry</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-eat.jpg" alt="verb: eat"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">eat</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-hug.jpg" alt="verb: hug"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">hug</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-jump.jpg" alt="verb: jump"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">jump</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-kick.jpg" alt="verb: kick"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">kick</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-kiss.jpg" alt="verb: kiss"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">kiss</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-laugh.jpg" alt="verb: laugh"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">laugh</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-mow.jpg" alt="verb: mow"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">mow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-paint.jpg" alt="verb: paint"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">paint</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-play.jpg" alt="verb: play"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">play</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-push.jpg" alt="verb: push"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">push</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-read.jpg" alt="verb: read"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">read</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-ride.jpg" alt="verb: ride"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">ride</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-run.jpg" alt="verb: run"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">run</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-sing.jpg" alt="verb: sing"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">sing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-sit.jpg" alt="verb: sit"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">sit</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-skip.jpg" alt="verb: skip"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">skip</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-sleep.jpg" alt="verb: sleep"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">sleep</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-slide.jpg" alt="verb: slide"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">slide</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-sneeze.jpg" alt="verb: sneeze"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">sneeze</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-sweep.jpg" alt="verb: sweep"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">sweep</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-swim.jpg" alt="verb: swim"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">swim</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-swing.jpg" alt="verb: swing"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">swing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-throw.jpg" alt="verb: throw"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">throw</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-wave.jpg" alt="verb: wave"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">wave</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-whisper.jpg" alt="verb: whisper"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">whisper</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="flashcard-rows">
+      <div class="flashcard-header">
+        Verb
+      </div>
+      <div class="flashcard-body">
+        <img class="flashcard-img" src="img/verb-yawn.jpg" alt="verb: yawn"/>
+      </div>
+      <div class="flashcard-footer">
+        <div class="sentence" sid=1><span class="rm_word_fillin rm_word_hidden" rm_fillin_checklist="verbs">yawn</span></div>
       </div>
     </div>
   </div>
