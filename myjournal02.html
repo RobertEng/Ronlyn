@@ -34,24 +34,29 @@ ol li .rm_sentence {
   display: grid;
   grid-template-columns: var(--img-width) auto;
   grid-template-areas: "photo captions ";
+  margin-left:10px
 }
 
 .photo {
   display: grid;
   margin-bottom:10px;
-  padding-left:10px;
   grid-gap: 10px;
   grid-template-areas: "images";
 }
-#errormsg {
-  font-weight: normal;
-  width: 100%;
+.captions {
+  margin-left:20px;
+  border-bottom: solid var(--background-shadow-color) 1px;
 }
 img {
   width: var(--img-width);
   object-fit:contain;
   border-radius: 5px;
   height: auto;
+    box-shadow: 5px 5px 10px gray ;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
 }
 main {
   background-color: linen;
@@ -306,7 +311,7 @@ main {
     <div class="sentence">He is decorated with red and gold cords for his service to the institute.</div>
   </li>
   <li>
-    <div class="sentence">He poses for many pitcures with his friends and family afterwards.</div>
+    <div class="sentence">He poses for many pictures with his friends and family afterwards.</div>
   </li>
   <li>
     <div class="sentence">Robert packs his belongings into David's and Scott's cars before leaving.</div>

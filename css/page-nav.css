@@ -1,6 +1,7 @@
 :root {
   --header-height: 50px;
   --nav-width: 200px;
+  --background-shadow-color: #f2d9bf;
 }
 nav {
   -webkit-tap-highlight-color: transparent;
@@ -21,6 +22,7 @@ main {
   bottom: 0;
   overflow: auto;
   margin-left: 10px;
+  background-color: linen;
 }
 header {
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -54,18 +56,21 @@ header {
    cursor: pointer;
  }
  h1 {
+   background-image: linear-gradient(to bottom, var(--background-shadow-color), linen);
+   padding-left:10px;
    padding-top:5px;
    font-family: arial;
-   font-size: 100%;
+   font-size: 130%;
    font-weight: bold;
-   border-top: solid lightgray 4px;
+   height: 25px;
    width:100%
  }
  h2 {
+   padding-left:10px;
    font-family: arial;
-   font-size: 90%;
+   font-size: 110%;
    padding-top:2px;
-   border-bottom: solid lightgray 2px;
+   border-top: solid var(--background-shadow-color) 2px;
    width:100%;
  }
  /*
