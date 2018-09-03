@@ -316,6 +316,10 @@ class SpeechRecognition {
     this._recognitionPattern.set("SPARC", "spark");
     this._recognitionPattern.set("Hacktech", "h[ae]ct[ie][ck]");
     this._recognitionPattern.set("Koshi", "kosh[iy]");
+    this._recognitionPattern.set("Soo", "[Ss]ue");
+    this._recognitionPattern.set("Tin", "10");
+    this._recognitionPattern.set("Alyse", "[Aa]lice");
+    this._recognitionPattern.set("Paige", "[Pp]age");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
