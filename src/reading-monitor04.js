@@ -772,6 +772,7 @@ class SpeechSynthesis {
     this._alternatePronunication.set("95070", "9 5 0 7 0")
     this._alternatePronunication.set("Rummikub", "rummy cube")
     this._alternatePronunication.set("Dr", "doctor")
+    this._alternatePronunication.set("Degas", "day gah")
 //    this._alternatePronunication.set("writes", "rights")
 //    this._alternatePronunication.set("sells", "cells")
 //    this._alternatePronunication.set("Paratransit", "pair-ah-transit")

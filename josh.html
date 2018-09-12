@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+body {
+  --img-width: 300px;
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+ol {
+  font-family: arial;
+}
+ol li .rm_sentence {
+    margin-bottom: 10px; /* override li */
+
+}
+.photoentry {
+  display: grid;
+  grid-template-columns: var(--img-width) auto;
+  grid-template-areas: "photo captions ";
+  margin-left:10px
+}
+
+.photo {
+  display: grid;
+  margin-bottom:10px;
+  grid-gap: 10px;
+  grid-template-areas: "images";
+}
+.captions {
+  margin-left:20px;
+  border-bottom: solid var(--background-shadow-color) 1px;
+}
+img {
+  width: var(--img-width);
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+    box-shadow: 5px 5px 10px gray ;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+main {
+  background-color: linen;
+}
+</style>
+
+</head>
+<title>Josh's Journal</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Joshs Journal">
+        <span style="float:left; padding-right:5px">
+          <button id="listenBtn" value="listen">
+            <img id="listenBtnImg"  alt="Listen">
+          </button>
+        </span>
+        <span style="float:left" class="speak_onclick" XSAMPA="Joshs Journal">Josh's Journal</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<h1><a class="navbar-itemByHeadingLevel" id="Art">Fine Art</a></h1>
+<h2>Artists</h2>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Cezanne</div>
+      </li>
+      <li>
+        <div class="sentence">Cassatt</div>
+      </li>
+      <li>
+        <div class="sentence">Chagall</div>
+      </li>
+      <li>
+        <div class="sentence">Degas</div>
+      </li>
+      <li>
+        <div class="sentence">Haas</div>
+      </li>
+      <li>
+        <div class="sentence">Homer</div>
+      </li>
+      <li>
+        <div class="sentence">Manet</div>
+      </li>
+      <li>
+        <div class="sentence">Monet</div>
+      </li>
+      <li>
+        <div class="sentence">Picasso</div>
+      </li>
+      <li>
+        <div class="sentence">Rembrandt</div>
+      </li>
+      <li>
+        <div class="sentence">Renoir</div>
+      </li>
+      <li>
+        <div class="sentence">Turner</div>
+      </li>
+      <li>
+        <div class="sentence">Van Gogh</div>
+      </li>
+      <li>
+        <div class="sentence">Vermeer</div>
+      </li>
+    </ul>
+</div>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  The Reading Monitor will stop listening after the end of each sentence.
+    <div class="option" id="StopListeningAtEOSentenceControl">
+      <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+      <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+   </div>
+   The Reading Monitor recitation volume can be adjusted.
+   <div class="option" id="volumeControl">
+     <label for="volume" id="volumeLabel">Volume</label>
+      <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+   </div>
+   The width of images displayed can be adjusted.
+   <button id="width200" value="200" onclick="body.style.setProperty('--img-width', 200px)">200px</button>
+   <button id="width400" value="400" onclick="body.style.setProperty('--img-width', '400px')">400px</button>
+   <button id="width600" value="600" onclick="body.style.setProperty('--img-width', '600px')">600px</button>
+   <button id="width800" value="800" onclick="body.style.setProperty('--img-width', '800px')">800px</button>
+   <button id="width1000" value="1000" onclick="body.style.setProperty('--img-width', '1000px')">1000px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1200px')">1200px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1500px')">1500px</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+  <h2>Progress</h2>
+    <div id="usermsg"></div>
+    <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'myjournal'+getCurrentDate()+'.log')">Download and Clear</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+  <h2>Error Messages<h2>
+    <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+  <p>
+    <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+    <span>word idx:</span><span id="wordIdx">0</span>,
+    <span>word id:</span><span id="wordId">0</span>,
+    <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+  <p>
+  <span id="os-msg"></span>
+  </p>
+
+  <div class="option">
+     <label for="voice" id="voiceLabel">Voice</label>
+     <select name="voice" id="voice"></select>
+  </div>
+
+</main>
+
+<nav>
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+  <div onclick="" class="navbar-list ul">
+    <div onclick="" id="navbar-items"/>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+//body.style.setProperty('--img-width', '200px');
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+
+ var MyReadingMonitor = new ReadingMonitor("myjournal03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+
+ // register html field names
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+
+
+</script>
+</html>
