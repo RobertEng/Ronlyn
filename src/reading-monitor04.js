@@ -1597,7 +1597,9 @@ class ReadingMonitor {
               // lookahead to see if next two tokens are an apostrophe followed by an s
               if (t < (tokens.length - 2)
                 && (tokens[t+1].text == "'")
-                && ((tokens[t+2].text.toLowerCase() == "s") || (tokens[t+2].text.toLowerCase() == "t"))) {
+                && ((tokens[t+2].text.toLowerCase() == "s")
+                  || (tokens[t+2].text.toLowerCase() == "t")
+                  || (tokens[t+2].text.toLowerCase() == "m"))) {
                   tokenText = tokenText + "'"+tokens[t+2].text;
                   t = t + 2;
                 }
