@@ -1593,16 +1593,21 @@ class ReadingMonitor {
             }
             default: {
               classLabel = this.RM_WORD;
-              // handle apostrophe for possessives and contractions
-              // lookahead to see if next two tokens are an apostrophe followed by an s
+              // handle apostrophe for possessives and contractions because tokenizer considers apostrophe as a separator
+              // lookahead to see if next two tokens are an apostrophe followed by an s,t,m, ll, ve, re
               if (t < (tokens.length - 2)
                 && (tokens[t+1].text == "'")
                 && ((tokens[t+2].text.toLowerCase() == "s")
                   || (tokens[t+2].text.toLowerCase() == "t")
-                  || (tokens[t+2].text.toLowerCase() == "m"))) {
-                  tokenText = tokenText + "'"+tokens[t+2].text;
+                  || (tokens[t+2].text.toLowerCase() == "m")
+                  || (tokens[t+2].text.toLowerCase() == "ve")
+                  || (tokens[t+2].text.toLowerCase() == "ll")
+                  || (tokens[t+2].text.toLowerCase() == "re")
+                  )) {
+                  tokenText = tokenText + "'"+tokens[t+2].text; //concatenation the rest of contraction
                   t = t + 2;
                 }
+
 //            // if span with subtype span and attribute that contains rm_word_fillin
               // and insert next rm_word token into grid/list
               span.setAttribute("idx", spanIdx++);
