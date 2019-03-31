@@ -40,6 +40,10 @@ ol {
 li:not(:last-child) {
   margin-bottom: 10px; /* spacing between list items */
 }
+.my-links {
+  font-family: arial;
+}
+
 /* iPhone 5 specific formatting style; perhaps this code should be moved to
   page-nav iff another page requires the same customization*/
 
@@ -118,6 +122,15 @@ li:not(:last-child) {
 
 <meta name="google" value="notranslate"> <!-- disable iOS translation -->
 <meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<h1><a class="navbar-itemByHeadingLevel" id="practice">Practice sentences</a></h1>
+<div class="my-links">
+<ul>
+<li><a href="sentencebank3words.html" target="_blank">Three-word sentences</a></li>
+<li><a href="sentencebank4words.html" target="_blank">Four-word sentences</a></li>
+<li><a href="sentencebank5words.html" target="_blank">Five-word sentences</a></li>
+</ul>
+<div>
 <h1><a class="navbar-itemByHeadingLevel" id="who">Who am I</a></h1>
 <ul>
 <li><span class="sentence">My name is Ronlyn Goo.</span></li>
@@ -328,33 +341,6 @@ li:not(:last-child) {
 </div>
 </ul>
 
-<h1><a class="navbar-itemByHeadingLevel" id="3word">Three word sentences</a></h1>
-  <h2></h2>
-  <ul>
-    <div class="wrapper6">
-  <li><span class="sentence">I'm not done.</span></li>
-  <li><span class="sentence">I'm very tired.</span></li>
-  <li><span class="sentence">I'm going home.</span></li>
-  <li><span class="sentence">It's too hot.</span></li>
-  <li><span class="sentence">It's my birthday.</span></li>
-  <li><span class="sentence">It's her turn.</span></li>
-  <li><span class="sentence">Time to go.</span></li>
-  <li><span class="sentence">Let me try.</span></li>
-  <li><span class="sentence">Don't eat that.</span></li>
-  <li><span class="sentence">That's my hat.</span></li>
-  <li><span class="sentence">How are you?</span></li>
-  <li><span class="sentence">Will you play?</span></li>
-  <li><span class="sentence">Can I go?</span></li>
-  <li><span class="sentence">I don't know.</span></li>
-  <li><span class="sentence">He is mad.</span></li>
-  <li><span class="sentence">What's that noise?</span></li>
-  <li><span class="sentence">What's your name?</span></li>
-  <li><span class="sentence">Play with me.</span></li>
-  <li><span class="sentence">Let's have pizza.</span></li>
-  <li><span class="sentence">Take your turn.</span></li>
-</div>
-</ul>
-
 <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
   <div id="os-msg"></div>
   <br>
@@ -377,7 +363,7 @@ li:not(:last-child) {
   </div>
   <br>
 
- The Reading Monitor diagnoistics can be verbose.
+ The Reading Monitor diagnostics can be verbose.
   <div class="option" id="showDiagnosticMsgVerboseControl">
    <input type="checkbox" name="showDiagnosticMsgVerbose" id="showDiagnosticMsgVerbose" default="unchecked">
    <label id="showDiagnosticMsgVerboseLabel" for="showDiagnosticMsgVerbose">Show diagnostic message queue</label>
