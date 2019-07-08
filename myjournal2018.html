@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+body {
+  --img-width: 300px;
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+ol {
+  font-family: arial;
+}
+ol li .rm_sentence {
+    margin-bottom: 10px; /* override li */
+
+}
+.photoentry {
+  display: grid;
+  grid-template-columns: var(--img-width) auto;
+  grid-template-areas: "photo captions ";
+  margin-left:10px
+}
+
+.photo {
+  display: grid;
+  margin-bottom:10px;
+  grid-gap: 10px;
+  grid-template-areas: "images";
+}
+.captions {
+  margin-left:20px;
+  border-bottom: solid var(--background-shadow-color) 1px;
+}
+img {
+  width: var(--img-width);
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+    box-shadow: 5px 5px 10px gray ;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+main {
+  background-color: linen;
+}
+</style>
+
+</head>
+<title>Photo Journal 2018</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyns Photo Journal">
+        <span style="float:left; padding-right:5px">
+          <button id="listenBtn" value="listen">
+            <img id="listenBtnImg"  alt="Listen">
+          </button>
+        </span>
+        <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Photo Journal">Ronlyn's Photo Journal 2018</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+<h1><a class="navbar-itemByHeadingLevel" id="aug2018">August 2018</a></h1>
+
+<h2>9/8/2018 - Two Party System</h2>
+
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+<img src="img/ lowres.jpg" alt=""/>
+
+
+<h2>8/25/2018 - Handicapables</h2>
+
+ <img src="img/20180825_125338 lowres.jpg" alt="handicapables"/>
+ <img src="img/20180825_124244 lowres.jpg" alt="handicapables"/>
+
+<h2>8/17/2018 - Fresh baked Croissants</h2>
+
+<img src="img/20180817_120629 lowres.jpg" alt="baking"/>
+
+<h2>8/15/2018 - Lunch with Aruna and Her Mom</h2>
+
+<img src="img/20180815_124408 lowres.jpg" alt="Aruna"/>
+
+<h2>8/12/2018 - Back to Berkeley</h2>
+
+      <img src="img/20180812_123204 lowres.jpg" alt="Berkeley"/>
+      <img src="img/20180812_130921 lowres.jpg" alt="Berkeley"/>
+      <img src="img/20180812_131212 lowres.jpg" alt="Berkeley"/>
+
+<h2>8/8/2018 - Happy Birthday to SPARC</h2>
+<div class="photoentry">
+  <div class="photo">
+      <img src="img/IMG_4257 lowres.jpg" alt="SPARC"/>
+      <img src="img/IMG_4240 lowres.jpg" alt="SPARC"/>
+      <img src="img/20180808_133251 lowres.jpg" alt="SPARC"/>
+      <img src="img/IMG_4204 lowres.jpg" alt="SPARC"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We visit Harumi and Kei.</div>
+      </li>
+       <li>
+        <div class="sentence">They live in Portola Valley.</div>
+      </li>
+      <li>
+       <div class="sentence">He is a retired Stanford professor.</div>
+      </li>
+      <li>
+       <div class="sentence">They were both born in Japan.</div>
+      </li>
+      <li>
+       <div class="sentence">They are retired now.</div>
+      </li>
+      <li>
+       <div class="sentence">He had a stroke several years ago.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<h2>8/6/2018 - Harumi and Kei Visit</h2>
+<div class="photoentry">
+  <div class="photo">
+      <img src="img/20180806_194611 lowres.jpg" alt="beifu1"/>
+      <img src="img/20180806_194719 lowres.jpg" alt="beifu1"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We visit Harumi and Kei.</div>
+      </li>
+       <li>
+        <div class="sentence">They live in Portola Valley.</div>
+      </li>
+      <li>
+       <div class="sentence">He is a retired Stanford professor.</div>
+      </li>
+      <li>
+       <div class="sentence">They were both born in Japan.</div>
+      </li>
+      <li>
+       <div class="sentence">They are retired now.</div>
+      </li>
+      <li>
+       <div class="sentence">He had a stroke several years ago.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>8/4/2018 - My First at Handicapables</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180804_142033 lowres.jpg" alt="Handicapables 0804"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I attend Handicapables for the first time.</div>
+      </li>
+      <li>
+        <div class="sentence">I have my portrait sketched.</div>
+      </li>
+      <li>
+        <div class="sentence">We have lasagna for lunch.</div>
+      </li>
+      <li>
+        <div class="sentence">We play bingo after lunch.</div>
+      </li>
+      <li>
+        <div class="sentence">Marshall and Albert are also there.</div>
+      </li>
+      <li>
+        <div class="sentence">They serve a lasagna lunch.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="jul2018">July 2018</a></h1>
+<h2>7/31/2018 - Lemon bundt cake</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20170727_133237 lowres.jpg" alt="lemon bundt cake"/>
+    <img src="img/lemon-cake.jpg" alt="lemon bundt cake"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I bake a lemon bundt cake with lemon syrup.</div>
+      </li>
+      <li>
+        <div class="sentence">Martha Stewart makes this on her baking show.</div>
+      </li>
+      <li>
+        <div class="sentence">The cake contains butter, flour, eggs and lemon juice.</div>
+      </li>
+      <li>
+        <div class="sentence">But it also requires sour cream and lemon zest.</div>
+      </li>
+      <li>
+        <div class="sentence">Aunt Soo loans me a bundt pan.</div>
+      </li>
+      <li>
+        <div class="sentence">The cake is very rich and lemony!</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/27/2018 - First (and perhaps only) heirloom tomato of the season</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180727_150832 lowres.jpg" alt="heirloom tomato"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We harvest our first heirloom tomato of the season.</div>
+      </li>
+      <li>
+        <div class="sentence">It is quite tasty.</div>
+      </li>
+      <li>
+        <div class="sentence">Unfortunately, our tomato plants are not growing very well.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/26/2018 - End of the year party at Skills Plus</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180726_112834 lowres.jpg" alt="skills plus eoy party"/>
+    <img src="img/20180726_114054 lowres.jpg" alt="skills plus eoy party"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We celebrate the end of the year with a potluck party.</div>
+      </li>
+      <li>
+        <div class="sentence">The class wants me to bring a pumpkin pie again.</div>
+      </li>
+      <li>
+        <div class="sentence">Tin always brings King Egg Rolls.</div>
+      </li>
+      <li>
+        <div class="sentence">I enjoy all the different foods that people bring.</div>
+      </li>
+      <li>
+        <div class="sentence">Alyse, Jessalyn and I sit together.</div>
+      </li>
+      <li>
+        <div class="sentence">We will not see each other until the fall quarter.</div>
+      </li>
+      <li>
+        <div class="sentence">My pumpkin pie is a favorite.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/25/2018 - David's birthday</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/zareens.jpg" alt="David's birthday"/>
+    <img src="img/nike pants.jpg" alt="nike pants"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Happy birthday to David!</div>
+      </li>
+      <li>
+        <div class="sentence">I cannot believe he is twenty-four years old.</div>
+      </li>
+      <li>
+        <div class="sentence">We went to the Nike store over the weekend to purchase him a couple pairs of athletic pants that look like trousers.</div>
+      </li>
+      <li>
+        <div class="sentence">We meet him on California Ave. at Zareen's for Pakistani and Indian food.</div>
+      </li>
+      <li>
+        <div class="sentence">I order the chicken tikka burrito wrap.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen has the Punjabi chicken sandwich with Masala fries.</div>
+      </li>
+      <li>
+        <div class="sentence">David has the madras chicken burrito wrap with fries.</div>
+      </li>
+      <li>
+        <div class="sentence">David likes his birthday gifts.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/22/2018 - Lemon meringue pie</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180723_181115 lowres.jpg" alt=""/>
+    <img src="img/20180723_201758 lowres.jpg" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I bake a lemon meringue pie for the first time.</div>
+      </li>
+      <li>
+        <div class="sentence">I mix the ingredients for the dough.</div>
+      </li>
+      <li>
+        <div class="sentence">The dough is rolled out into a crust and baked.</div>
+      </li>
+      <li>
+        <div class="sentence">I create lemon curd by heating eggs, butter, sugar and lemon juice.</div>
+      </li>
+      <li>
+        <div class="sentence">The lemon curd is poured into the cooled crust.</div>
+      </li>
+      <li>
+        <div class="sentence">I whip egg whites and sugar to form the the meringue.</div>
+      </li>
+      <li>
+        <div class="sentence">The pie is baked for 10 minutes to cook and brown the meringue.</div>
+      </li>
+      <li>
+        <div class="sentence">I take it to Skills Plus.</div>
+      </li>
+      <li>
+        <div class="sentence">My classmates love it.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/22/2018 - Paige goes to vet school</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180722_192028 lowres.jpg" alt="Paige"/>
+    <img src="img/20180722_175648 lowres.jpg" alt="Austen"/>
+    <img src="img/20180722_180515 lowres.jpg" alt="Lindsey"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We celebrate Paige going to vet school.</div>
+      </li>
+      <li>
+        <div class="sentence">Mindy caters in mexican tacos.</div>
+      </li>
+      <li>
+        <div class="sentence">She also hires a churro truck.</div>
+      </li>
+      <li>
+        <div class="sentence">I start with the guacamole dip though.</div>
+      </li>
+      <li>
+        <div class="sentence">Carol and Jerry bring Austen and Lindsay.</div>
+      </li>
+      <li>
+        <div class="sentence">Paige's brother Evan is also there.</div>
+      </li>
+      <li>
+        <div class="sentence">Later, Kathleen Bloyd comes and talks with us.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/17/2018 - Strawberry pie</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180717_071853 lowres.jpg" alt="strawberry pie"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I bake a strawberry pie.</div>
+      </li>
+      <li>
+        <div class="sentence">The pie crust is difficult for me to roll out.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen buys fresh strawberries from the fruit stand on Saratoga Ave.</div>
+      </li>
+      <li>
+        <div class="sentence">I cut up the berries and mix them into a filling of strawberry-flavored gelatin.</div>
+      </li>
+      <li>
+        <div class="sentence">I take it to Skills Plus.</div>
+      </li>
+      <li>
+        <div class="sentence">My classmates devour it.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/14/2018 - Saratoga farmers market</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180714_111914 lowres.jpg" alt=""/>
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I go to the farmer's market</div>
+      </li>
+      <li>
+        <div class="sentence">I walk indepdendently while Wen buys vegetables.</div>
+      </li>
+      <li>
+        <div class="sentence">I try any samples especially at the baked goods stands.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/11/2018 - First day of Summer at SPARC</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180711_110509 lowres.jpg" alt=""/>
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">SPARC starts for the summer.</div>
+      </li>
+      <li>
+        <div class="sentence">Marshall joins the class.</div>
+      </li>
+      <li>
+        <div class="sentence">Others from the Cal State East Bay aphasia program attend our summer session.</div>
+      </li>
+      <li>
+        <div class="sentence">Several student clinicians are new to the program too.</div>
+      </li>
+      <li>
+        <div class="sentence">My student clinicians is named Janet.</div>
+      </li>
+      <li>
+        <div class="sentence">We are fortunate to be in the first floor rooms this semester.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/9/2018 - My first try at pumpkin pie</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180721_104301 lowres.jpg" alt=""/>
+    <img src="img/20180709_185738 lowres.jpg" alt=""/>
+    <img src="img/20180710_084302 lowres.jpg" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I make pumpkin pie for the first time since my stroke.</div>
+      </li>
+      <li>
+        <div class="sentence">The dough only has a few ingredients.</div>
+      </li>
+      <li>
+        <div class="sentence">I mix them together and let the dough rest in the refrigerator overnight.</div>
+      </li>
+      <li>
+        <div class="sentence">The pie dough is rolled out for the crust the next day.</div>
+      </li>
+      <li>
+        <div class="sentence">The pumpkin filling includes only a few ingredients besides pumpkin puree.</div>
+      </li>
+      <li>
+        <div class="sentence">I take it to Skills Plus.</div>
+      </li>
+      <li>
+        <div class="sentence">My classmates love eating it.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/7/2018 - Robert embarks on hobo trip</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180707_103133 lowres.jpg" alt="SJC leg of hobo trip"/>
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Robert starts his three-week long hobo trip across the country.</div>
+      </li>
+      <li>
+        <div class="sentence">He is flying to Burbank to meet Chen.</div>
+      </li>
+      <li>
+        <div class="sentence">They catch a train to Salt Lake City from there.</div>
+      </li>
+      <li>
+        <div class="sentence">They visit Omaha, Des Moines, Minneapolis, Madison, Chicago, Indianapolis, Louisville, Nashville, Atlanta, Mobile, New Orleans. El Paso.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/5/2018 - Andrew Bein visits</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180705_145351 lowres.jpg" alt="Andrew Bein"/>
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Andrew and his wife come to visit from the east coast.</div>
+      </li>
+      <li>
+        <div class="sentence">We meet them at China Styx for lunch.</div>
+      </li>
+      <li>
+        <div class="sentence">They are vegetarians.</div>
+      </li>
+      <li>
+        <div class="sentence">We have chow mein, tofu and mixed vegetables.</div>
+      </li>
+      <li>
+        <div class="sentence">Their children are very academically successful.</div>
+      </li>
+      <li>
+        <div class="sentence">Their oldest son graduated from Princton and is working at Facebook.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>7/4/2018 - Apple hand pies</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180704_213324 lowres.jpg" alt="handpies"/>
+    <img src="img/20180704_224222 lowres.jpg" alt="handpies"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I make handpies with David.</div>
+      </li>
+      <li>
+        <div class="sentence">I first make the pastry dough.</div>
+      </li>
+      <li>
+        <div class="sentence">I core and dice apples.</div>
+      </li>
+      <li>
+        <div class="sentence">The apples are dusted with sugar and cinammon.</div>
+      </li>
+      <li>
+        <div class="sentence">David helps me stuff and fold the pies using a press.</div>
+      </li>
+      <li>
+        <div class="sentence">David helps me stuff and fold the pies using a press.</div>
+      </li>
+      <li>
+        <div class="sentence">I take them to Skills Plus.</div>
+      </li>
+      <li>
+        <div class="sentence">My classmates devour them up.</div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="jun2018">June 2018</a></h1>
+<h2>6/29/2018 - Graduation Party</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/MVIMG_20180630_133656 lowres.jpg" alt="grad party"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Several cousins graduate from either high school or college this year.</div>
+  </li>
+  <li>
+    <div class="sentence">Three attend our party namely Robert, Lindsey and Shea.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen smokes pulled pork and char siu and grills Korean-style short ribs.</div>
+  </li>
+  <li>
+    <div class="sentence">We bring in egg rolls and chicken wings from King Eggroll and chow mein from Panda Express.</div>
+  </li>
+  <li>
+    <div class="sentence">Fruit and green salads are served too.</div>
+  </li>
+  <li>
+    <div class="sentence">My parents bring the white rice.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>6/28/2018 - VMC Summer BBQ</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180628_193535a lowres.jpg" alt="VMC BBQ"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">We attend the Santa Clara Valley Medical Center annual BBQ.</div>
+  </li>
+  <li>
+    <div class="sentence">They serve tri tip roast, hot dogs and veggie burgers along with potato salad and kale and broccoli salad.</div>
+  </li>
+  <li>
+    <div class="sentence">I sit with the VMC post stroke support group.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen is busy helping to serve the food to the disabled.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+
+<h2>6/26/2018 - Blueberry muffins for Skills Plus</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180626_073955 lowres.jpg" alt="blueberry muffins"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I bake blueberry muffins for Skills Plus.</div>
+  </li>
+  <li>
+    <div class="sentence">They always love my baked goods for snack time.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>6/25/2018 - Dinner with David</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180625_175154 lowres.jpg" alt="david dinner"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">We decide to meet David for dinner.</div>
+  </li>
+  <li>
+    <div class="sentence">He suggests we eat at Zareens on California Ave. in Palo Alto.</div>
+  </li>
+  <li>
+    <div class="sentence">When we get there, we find it closed on Mondays.</div>
+  </li>
+  <li>
+    <div class="sentence">I want to try Spice Kit across the street.</div>
+  </li>
+  <li>
+    <div class="sentence">David and Wen decide to eat at The Counter.</div>
+  </li>
+  <li>
+    <div class="sentence">I order a milkshake to go with my Korean-style street food.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>6/23/2018 - Walk-to-Talk</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180623_093324 lowres.jpg" alt="walk-to-talk"/>
+    <img src="img/20180623_095527  lowres.jpg" alt="walk-to-talk"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Every year Aphasia Center of California holds a walkathon.</div>
+  </li>
+  <li>
+    <div class="sentence">We pick up Josh on the way to Oakland.</div>
+  </li>
+  <li>
+    <div class="sentence">The walking course is three miles long and goes around Lake Merritt.</div>
+  </li>
+  <li>
+    <div class="sentence">I start walking by holding on to the transport chair.</div>
+  </li>
+  <li>
+    <div class="sentence">But after a half mile, I get tired.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen pushes me in the transport chair the rest of the way.</div>
+  </li>
+  <li>
+    <div class="sentence">They hold a silent auction after the walk to raise additional funds.</div>
+  </li>
+</ul>
+</div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180623_143142 lowres.jpg" alt="walk-to-talk"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I notice a bright, colorful Coach wristlet.</div>
+  </li>
+  <li>
+    <div class="sentence">A couple other people bid against me.</div>
+  </li>
+  <li>
+    <div class="sentence">But I register the high bid.</div>
+  </li>
+  <li>
+    <div class="sentence">I really love it!</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>6/16/2018 - Raspberry scones</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180616_210711 lowres.jpg" alt="raspberry scones"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I decide to bake raspberry scones.</div>
+  </li>
+  <li>
+    <div class="sentence">The recipe requires buttermilk.</div>
+  </li>
+  <li>
+    <div class="sentence">I work the dough by hand.</div>
+  </li>
+  <li>
+    <div class="sentence">The scones are only OK.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>6/15/2018 - Caltech graduation</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/2018 Commencement Class Photo lowres.jpg" alt="caltech grad"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">The entire class of 2018 poses for a picture.</div>
+  </li>
+  <li>
+    <div class="sentence">Classmates wear different color sashes to represent their respective houses.</div>
+  </li>
+  <li>
+    <div class="sentence">I think I see Robert.</div>
+  </li>
+  <li>
+    <div class="sentence">He gathers with his Blacker House classmates.</div>
+  </li>
+</div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/50310013_00101_0052_XLarge lowres.jpg" alt="caltech grad"/>
+    <img src="img/IMG_4131b lowres.jpg" alt="caltech grad"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I insist he wears an orchid lei during graduation ceremony.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert receives his diploma from the President.
+  </li>
+  <li>
+      <div class="sentence">He earns bachelor's degrees in Computer Science and History.</div>
+  </li>
+  <li>
+    <div class="sentence">He is decorated with red and gold cords for his service to the institute.</div>
+  </li>
+  <li>
+    <div class="sentence">He poses for many pictures with his friends and family afterwards.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert packs his belongings into David's and Scott's cars before leaving.</div>
+  </li>
+  <li>
+    <div class="sentence">Both cars are awfully full for the drives home.</div>
+  </li>
+  <li>
+    <div class="sentence">Bett intends to bring the rest of his possessions in a couple weeks.</div>
+  </li>
+</ul>
+</div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180615_135953a lowres.jpg" alt="caltech grad"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Robert chooses Korean BBQ for his graduation luncheon.</div>
+  </li>
+  <li>
+    <div class="sentence">His high school friends also come.</div>
+  </li>
+  <li>
+    <div class="sentence">We start driving home immediately after lunch.</div>
+  </li>
+  <li>
+    <div class="sentence">We arrive home at nine at night.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>6/14/2018 - Caltech pre graduation</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_3595a lowres.jpg" alt="caltech pre grad"/>
+    <img src="img/IMG_3639a lowres.jpg" alt="caltech pre grad"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Robert is graduating from Caltech.</div>
+  </li>
+  <li>
+    <div class="sentence">David drives us down to Pasadena starting at six in the morning.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert gets a much needed haircut after we arrive.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen wants to photograph him on campus before he leaves.</div>
+  </li>
+  <li>
+    <div class="sentence">Robert takes us to the interesting sites as if we are taking his tour.</div>
+  </li>
+  <li>
+    <div class="sentence">He has grown into a handsome young man.</div>
+  </li>
+  <li>
+    <div class="sentence">He goes to have photographs taken with his friends and housemates.</div>
+  </li>
+  <li>
+    <div class="sentence">We leave to check into our hotel.</div>
+  </li>
+</ul>
+</div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/50310312_00801_0258_XLarge a lowres.jpg" alt="caltech pre grad"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We return to attend a reception at the President's home.</div>
+    </li>
+    <li>
+      <div class="sentence">We have a family portrait taken.</div>
+    </li>
+    <li>
+      <div class="sentence">David and Robert seem to be taller than Wen.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_3699a lowres.jpg" alt="caltech pre grad"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We attend the senior graduation banquet at the Athenaeum.</div>
+    </li>
+    <li>
+      <div class="sentence">Bett, Scott, Elan, and Chen celebrate with us.</div>
+    </li>
+    <li>
+      <div class="sentence">The first course is a salad with heirloom tomatoes.</div>
+    </li>
+    <li>
+      <div class="sentence">They serve both filet mignon and chicken for the entree with risotto.</div>
+    </li>
+    <li>
+      <div class="sentence">The dessert is adorned with a white chocolate Caltech seal.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>6/12/2018 - Karen and Koshi visit</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180612_124639 lowres.jpg" alt="karen and koshi"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Karen and Koshi visit from Southern California.</div>
+  </li>
+  <li>
+    <div class="sentence">One of their relatives graduates from high school in Davis.</div>
+  </li>
+  <li>
+    <div class="sentence">We have lunch with them at Moonstar asian buffet in Daly City.</div>
+  </li>
+  <li>
+    <div class="sentence">I cannot decide what to eat.</div>
+  </li>
+  <li>
+    <div class="sentence">Sushi is always a favorite though.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>6/2/2018 - Kayaking</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180602_114027 lowres.jpg" alt="kayaking"/>
+    <img src="img/20180602_120505 lowres.jpg" alt="kayaking"/>
+
+    <img src="img/20180602_124549 lowres.jpg" alt="kayaking"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Santa Clara Valley Medical Center kicks off the summer with a Day on the Lake.</div>
+  </li>
+  <li>
+    <div class="sentence">I kayak around Vasona Lake for almost an hour.</div>
+  </li>
+  <li>
+    <div class="sentence">Two people help me into the kayak.</div>
+  </li>
+  <li>
+    <div class="sentence">I have not kayaked since before my stroke when the family went to Alaska together.</div>
+  </li>
+  <li>
+    <div class="sentence">My kayak is equipped to paddle with just my left arm.</div>
+  </li>
+  <li>
+    <div class="sentence">We stay to eat lunch and then go home before it gets too hot.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="may2018">May 2018</a></h1>
+
+<h2>5/27/2018 - Macaroons</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180529_074817 lowres.jpg" alt="macaroons"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I bake macaroons for my Skills Plus classmates.</div>
+  </li>
+  <li>
+    <div class="sentence">The recipe does not even contain flour.</div>
+  </li>
+  <li>
+    <div class="sentence">The cookie is made of mostly coconut, sugar and egg whites.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>5/17/2018 - My Garden</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180517_145414 lowres.jpg" alt="garden"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I decide to plant my vegetable garden after two years.</div>
+  </li>
+  <li>
+    <div class="sentence">We buy heirloom tomato plants from the Saratoga Farmers Market.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen buys organic gardening soil and fertilizer.</div>
+  </li>
+  <li>
+    <div class="sentence">We plant them and place cages over each plant for support.</div>
+  </li>
+  <li>
+    <div class="sentence">I cannot wait for them to bear fruit.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>5/13/2018 - Mother's Day</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180513_101600 lowres.jpg" alt="Mother's Day"/>
+    <img src="img/20180513_192042 lowres.jpg" alt="Mother's Day"/>
+
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">David and Wen take me out for dim sum at Joy Luck Palace on Mother's Day .</div>
+  </li>
+  <li>
+    <div class="sentence">We have the typical items including pork buns, rice noodles with BBQ pork and spring rolls.</div>
+  </li>
+  <li>
+    <div class="sentence">I vacuum the carpet in the master bedroom for exercise.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen grills steaks topped with a chimichurri sauce for dinner.</div>
+  </li>
+  <li>
+       <div class="sentence">For dessert, David bakes apple pie using his new technique.</div>
+  </li>
+  <li>
+     <div class="sentence">The apple pie is quite tasty and the apple filling is not soggy.</div>
+</li>
+<li>
+  <div class="sentence">David takes the leftover steak for his weekly dinners.</div>
+</li>
+</ul>
+</div>
+</div>
+
+<h2>5/9/2018 - PSA Then VMC</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180509_115736 lowres.jpg" alt="PSA"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">The Pacific Stroke Association invites us to their educational event in Millbrae.</div>
+  </li>
+  <li>
+    <div class="sentence">They are thoughtful.</div>
+  </li>
+  <li>
+    <div class="sentence">I meet many stroke survivors including Josh and Peter.</div>
+  </li>
+  <li>
+    <div class="sentence">The presentations are not interesting to us so we leave early.</div>
+    </li>
+    <li>
+       <div class="sentence">But we do enjoy eating the catered lunch with a fish entree.</div>
+  </li>
+</ul>
+</div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180509_190032 lowres.jpg" alt="VMC"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">We attend the monthly VMC stroke support group in the evening.</div>
+  </li>
+  <li>
+    <div class="sentence">Albert, Marshall, Janet, Susan, Scott and Cyndi come to the meeting.</div>
+  </li>
+  <li>
+    <div class="sentence">After we finish talking about our respective issues, we play Rummikub.</div>
+    </li>
+    <li>
+       <div class="sentence">Everyone seems to know how to play this game.</div>
+  </li>
+  </ul>
+</div>
+</div>
+<h2>5/8/2018 - SPARC Choir Performance</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_3535b lowres.jpg" alt="SPARC choir"/>
+    <img src="img/IMG_3579c lowres.jpg" alt="SPARC choir"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Brittany and Helena co-direct the choir performance.</div>
+  </li>
+  <li>
+    <div class="sentence">They have been preparing us for this recital over the term.</div>
+  </li>
+  <li>
+    <div class="sentence">I sing the opening verse of "Let It Be" as my solo.</div>
+  </li>
+  <li>
+    <div class="sentence">We have a party after the performance.</div>
+  </li>
+  <li>
+    <div class="sentence">We take a class photo.</div>
+  </li>
+  <li>
+    <div class="sentence">Marilyn and I become good buddies. She is sitting next to me in the photo.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>5/6/2018 - Annual Fight Stroke Walk</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180506_100836 lowres.jpg" alt="stroke walk"/>
+    <img src="img/20180506_121507 lowres.jpg" alt="stroke walk"/>
+
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I attend the Fight Stroke Walk at the Rose Garden in San Jose.</div>
+  </li>
+  <li>
+    <div class="sentence">People are already walking around the park when we arrive.</div>
+  </li>
+  <li>
+    <div class="sentence">I am able to walk two laps myself by pushing the transport chair.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen estimates I walk a mile.</div>
+  </li>
+  <li>
+    <div class="sentence">I meet fellow stroke survivors who are also walking.</div>
+  </li>
+  <li>
+    <div class="sentence">We have a catered lunch afterward.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h2>5/4 - 5/5/2018 - Caitie's LMU Graduation</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180504_181441 lowres.jpg" alt="captain jacks"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Wen and I fly down to Los Angeles for Caitie's graduation from LMU.</div>
+  </li>
+  <li>
+    <div class="sentence">We have dinner at Captain Jacks in Sunset Beach.</div>
+  </li>
+  <li>
+    <div class="sentence">I eat prime rib and crab legs with a baked potato and salad.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen orders chicken as usual.</div>
+  </li>
+</ul>
+</div>
+</div>
+<div class="photoentry">
+<div class="photo">
+  <img src="img/IMG_3390a lowres.jpg" alt="LMU graduation"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">The commencement ceremony starts at 10 am.</div>
+  </li>
+  <li>
+    <div class="sentence">She graduates with a business administration degree.</div>
+  </li>
+  <li>
+    <div class="sentence">Afterward, Brandon drives us to the airport and we fly home.</div>
+  </li>
+  <li>
+    <div class="sentence">I look forward to Robert's graduation next month.</div>
+  </li>
+
+</ul>
+</div>
+</div>
+
+<h2>5/3/2018 - Final Rehearsal</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180503_151311 lowres.jpg" alt="SPARC rehearsal"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Spring term at SPARC is coming to a close.</div>
+  </li>
+  <li>
+    <div class="sentence">The final session next week will be reserved for our Spring recital.</div>
+  </li>
+  <li>
+    <div class="sentence">We all practice to master the songs.</div>
+  </li>
+  <li>
+    <div class="sentence">I especially focus on my solo verse.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>5/1/2018 - New Eyeglasses</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180501_112204 lowres.jpg" alt="eyeglasses"/>
+    <img src="img/20180501_112147 lowres.jpg" alt="eyeglasses"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">My vision has gotten worse as I get older.</div>
+  </li>
+  <li>
+    <div class="sentence">I finally have my eyes examined again.</div>
+  </li>
+  <li>
+    <div class="sentence">I choose new frames to go with the new prescription.</div>
+  </li>
+  <li>
+    <div class="sentence">The frames designed by Vera Wang suit me best.</div>
+  </li>
+</ul>
+</div>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="apr2018">April 2018</a></h1>
+<h2>4/30/2018 - Springtime Planting</h2>
+<div class="photoentry">
+  <div class="photo">
+  <img src="img/20180430_160848 lowres.jpg" alt="springtime"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">I visit Yamagami's Nursery.</div>
+  </li>
+  <li>
+    <div class="sentence">My vegetable garden has gone idle since my stroke.</div>
+  </li>
+  <li>
+    <div class="sentence">I want to plant tomatoes and other vegetables again.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>4/25/2018 - Strawberry Roll to Skills Plus</h2>
+<div class="photoentry">
+  <div class="photo">
+  <img src="img/20180425_071752 lowres.jpg" alt="strawberry roll"/>
+  <img src="img/20180425_075419 lowres.jpg" alt="strawberry roll"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">My initial strawberry roll is so successful I decide to make it for my Skills Plus classmates.</div>
+  </li>
+  <li>
+    <div class="sentence">I get up early this morning to whip the cream, slice the strawberries and roll it up.</div>
+  </li>
+  <li>
+    <div class="sentence">I carry it in my lap all the way to class because it is so delicate.</div>
+  </li>
+  <li>
+    <div class="sentence">They eat it up fast as usual.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>4/24/2018 - SPARC Movie Day</h2>
+<div class="photoentry">
+  <div class="photo">
+  <img src="img/IMG_2970 lowres.jpg" alt="sparc speechless"/>
+  <img src="img/IMG_3043 lowres.jpg" alt="sparc speechless"/>
+  <img src="img/IMG_3108 lowres.jpg" alt="sparc speechless"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Dr. Mahendra starts an Aphasia program called SPARC at San Jose State.</div>
+  </li>
+  <li>
+    <div class="sentence">I am grateful to have such a resource.</div>
+  </li>
+  <li>
+    <div class="sentence">Today, SPARC hosts a movie that features three people recovering from aphasia.</div>
+  </li>
+  <li>
+    <div class="sentence">Wen and I sit on a question and answer panel after the movie.</div>
+  </li>
+  <li>
+    <div class="sentence">Ashlyn presents me with flowers and candy to show their appreciation.</div>
+  </li>
+  <li>
+    <div class="sentence">We attend a reception afterward with a variety of pastries and beverages.</div>
+  </li>
+</ul>
+</div>
+</div>
+<h2>4/23/2018 - First Oranges of the Season</h2>
+<div class="photoentry">
+    <div class="photo">
+  <img src="img/20180423_130734 lowres.jpg" alt="oranges"/>
+</div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">It is time to pick oranges from the tree.</div>
+      </li>
+      <li>
+        <div class="sentence">I cannot reach the high ones though.</div>
+      </li>
+      <li>
+        <div class="sentence">I avoid the bees attracted to the new orange blossoms.</div>
+      </li>
+      <li>
+        <div class="sentence">I rinse off the oranges before storing them in the garage for the summer.</div>
+      </li>
+      <li>
+        <div class="sentence">The oranges are very sweet and juicy.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>4/21/2018 - Music Place Mother's Reunion</h2>
+<div class="photoentry">
+  <div class="photo">
+  <img src="img/musicplace.gif" alt="musicplace"/>
+    <img src="img/20180421_150303 lowres.jpg" alt="strawberry"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">Almost twenty years ago, I met a group of mothers who enrolled their kids at Music Place.</div>
+    </li>
+    <li>
+      <div class="sentence">Mindy, Carol and Susan come over for lunch.</div>
+    </li>
+    <li>
+      <div class="sentence">We have chicken enchiladas with salsa and guacamole, spanish rice and salad.</div>
+    </li>
+    <li>
+      <div class="sentence">I serve my strawberry roll for dessert.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/20/2018 - Former Second Lady Speaks</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/jill_biden pic.jpg" alt="Jill Biden"/>
+    <img src="img/jillbiden.jpg" alt="Jill Biden"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We go to the DeAnza College Celebrity Speaker Series.</div>
+    </li>
+    <li>
+      <div class="sentence">Jill Biden talks about her life with Joe Biden.</div>
+    </li>
+    <li>
+      <div class="sentence">She tells of her life as a mother who continued to pursue her post graduate degree.</div>
+    </li>
+    <li>
+      <div class="sentence">She becomes a community college professor and advocate.</div>
+    </li>
+    <li>
+      <div class="sentence">She speaks on the tragic death of her son to brain cancer.</div>
+    </li>
+    <li>
+      <div class="sentence">She seems like a nice person.</div>
+    </li>
+    <li>
+      <div class="sentence">I enjoy the evening out.</div>
+    </li>
+  </ul>
+</div>
+</div>
+<h2>4/20/2018 - First Strawberries of the Season</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180420_120706 lowres.jpg" alt="strawberry"/>
+    <img src="img/20180421_150303 lowres.jpg" alt="strawberry"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">The strawberry stand on Saratoga Ave. is open for business again.</div>
+    </li>
+    <li>
+      <div class="sentence">I buy three baskets of large ripe strawberries.</div>
+    </li>
+    <li>
+      <div class="sentence">I decide to make a strawberry roll.</div>
+    </li>
+    <li>
+      <div class="sentence">First, I bake a thin sponge cake.</div>
+    </li>
+    <li>
+      <div class="sentence">Then, I fill it with whipped cream and sliced fresh, ripe strawberries.</div>
+    </li>
+    <li>
+      <div class="sentence">Finally, I roll it up into a log and dust it with some powdered sugar.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/17/2018 - Oatmeal and Raisins</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180417_220101 lowres.jpg" alt="oatmeal raisin cookies"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I decide to bake oatmeal raisin cookies.</div>
+    </li>
+    <li>
+      <div class="sentence">But we have no raisins in the pantry.</div>
+    </li>
+    <li>
+      <div class="sentence">I go to Sprouts to buy them.</div>
+    </li>
+    <li>
+      <div class="sentence">I bring them to Skills Plus.</div>
+    </li>
+    <li>
+      <div class="sentence">They always appreciate my baked goods.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/7/2018 - Teacher's Aide</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180416_163418 lowres.jpg" alt="SACG"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I help out at the Stanford Aphasia Communication Group.</div>
+    </li>
+    <li>
+      <div class="sentence">I write the spoken sentences of my fellow classmates on the whiteboard.</div>
+    </li>
+    <li>
+      <div class="sentence">Sandra compliments me on my neat handwriting and oral reading skills.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/7/2018 - Doubly Chocolate</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180410_185336 lowres.jpg" alt="chocolate chocolate chip"/>
+    <img src="img/20180411_070804 lowres.jpg" alt="chocolate chocolate chip"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I bake chocolate chip, chocolate cookies from scratch with cocoa powder and chips.</div>
+    </li>
+    <li>
+      <div class="sentence">The Skills Plus people gobble them up fast.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/7/2018 - Busy Saturday</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180407_105550 lowres.jpg" alt="farmers market"/>
+    <img src="img/20180407_112556 lowres.jpg" alt="market"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I go to the Saratoga farmers market this morning.</div>
+    </li>
+    <li>
+      <div class="sentence">I try many of the free samples.</div>
+    </li>
+    <li>
+      <div class="sentence">The croissants from a new french bakery are quite authentic.</div>
+    </li>
+    <li>
+      <div class="sentence">Next, we go grocery shopping.</div>
+    </li>
+    <li>
+      <div class="sentence">I stock up on baking supplies like chocolate chips.</div>
+    </li>
+    <li>
+      <div class="sentence">The walking practice outside the house gives me feel stronger and more confident.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_9924 lowres.jpg" alt="caltech"/>
+    <img src="img/IMG_9904 lowres.jpg" alt="caltech"/>
+    <img src="img/IMG_9914 lowres.jpg" alt="caltech"/>
+    <img src="img/IMG_9915 lowres.jpg" alt="caltech"/>
+    <img src="img/20180407_204209 lowres.jpg" alt="caltech"/>
+    <img src="img/baristotle_20180407_202713 lowres.jpg" alt="caltech"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We attend a Breakthrough Caltech fund raising event at the San Jose Fairmont Hotel.</div>
+    </li>
+    <li>
+      <div class="sentence">Several hundred Caltech alumni, faculty, staff, parents and students gather in the main ballroom.</div>
+    </li>
+    <li>
+      <div class="sentence">Leejune and Ping Tseng, Catherine and Albert parents, are there too.</div>
+    </li>
+    <li>
+      <div class="sentence">The event starts with a student panel that speak about the uniqueness of Caltech experience.</div>
+    </li>
+    <li>
+      <div class="sentence">Robert's first Avery roommate Phillip Liu serves on the panel along with three others.</div>
+    </li>
+    <li>
+      <div class="sentence">Another undergraduate panelist is a Blacker woman who also knows Robert.</div>
+    </li>
+    <li>
+      <div class="sentence">Next, we break out into smaller rooms and listen to presentations on scientific research and innovative technologies ongoing at Caltech.</div>
+    </li>
+    <li>
+      <div class="sentence">When we return to the main ballroom, a variety of fare and spirits are served.</div>
+    </li>
+    <li>
+      <div class="sentence">I especially enjoy the sashimi and crab cakes.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen tries too much of everything!</div>
+    </li>
+    <li>
+      <div class="sentence">After dinner, two outstanding young Caltech researchers talk about the their respective breakthroughs.</div>
+    </li>
+    <li>
+      <div class="sentence">Finally, the Caltech president talks of the educational opportunities afforded by their general endowment.</div>
+    </li>
+    <li>
+      <div class="sentence">For dessert, ice cream is made to order using liquid nitrogen and served with other dessert pastries too.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen takes a couple of candied apples home for me.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen and I have photos commemorating the occasion.</div>
+    </li>
+  </div>
+</div>
+<h2>4/6/2018 - Anne Jacobs visit</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/abj20180406 lowres.jpg" alt="ABJ"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I have been exercising for the last three months as Anne prescribed in January.</div>
+    </li>
+    <li>
+      <div class="sentence">I have been making steady progress and need to adjust my home therapy.</div>
+    </li>
+    <li>
+      <div class="sentence">We drive up to visit Anne Jacobs in Sonora.</div>
+    </li>
+    <li>
+      <div class="sentence">Last time we visited, we stayed overnight.</div>
+    </li>
+    <li>
+      <div class="sentence">This time we start driving early in the morning and return home the same day.</div>
+    </li>
+    <li>
+      <div class="sentence">She recommends I start using the aircast ankle brace with a new separate foot brace instead of the AFO.</div>
+    </li>
+    <li>
+      <div class="sentence">She also adds more advanced arm exercises because I am gaining more movement.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>4/1/2018 - Easter Mass at Sacred Heart</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180401_113607 lowres.jpg" alt="mass"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I attend Easter mass with David and Wen.</div>
+    </li>
+    <li>
+      <div class="sentence">The church is crowded with over 600 people.</div>
+    </li>
+    <li>
+      <div class="sentence">I see many people that I know.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180401_181418 lowres.jpg" alt="biscuits"/>
+    <img src="img/20180401_191713 lowres.jpg" alt="biscuits"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I decide to make buttermilk biscuits.</div>
+    </li>
+    <li>
+      <div class="sentence">The dough is rolled out thick.</div>
+    </li>
+    <li>
+      <div class="sentence">I form the round biscuit shape with a biscuit cutter.</div>
+    </li>
+    <li>
+      <div class="sentence">The biscuits look perfect right out of the oven.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="mar2018">March 2018</a></h1>
+
+<h2>3/31/2018 - Uncle Denis comes to visit</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/chinastix.jpg" alt="Uncle Denis"/>
+    <img src="img/20180331_132735 lowres.jpg" alt="Uncle Denis"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">Uncle Denis and his new wife Sue come to visit.</div>
+    </li>
+    <li>
+      <div class="sentence">My parents decide to have lunch at China Stix.</div>
+    </li>
+    <li>
+      <div class="sentence">We start with dim sum appetizers.</div>
+    </li>
+    <li>
+      <div class="sentence">We have hot and sour soup.</div>
+    </li>
+    <li>
+      <div class="sentence">mongolian beef, chicken chow mein, combination chow mein, honey walnut prawns, kung pao chicken, chinese broccoli with beef, eggplant with garlic sauce, braised tofu.</div>
+    </li>
+    <li>
+      <div class="sentence">Auntie Bev joins us.</div>
+    </li>
+    <li>
+      <div class="sentence">David joins us too.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>3/25/2018 - Sacred Heart Pancake Breakfast</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180325_123616 lowres.jpg" alt=""/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">The Men's Club always prepares a pancake breakfast on Palm Sunday.</div>
+    </li>
+    <li>
+      <div class="sentence">I have pancakes with syrup, scrambled eggs, ham and sausages.</div>
+    </li>
+    <li>
+      <div class="sentence">I drink orange juice and coffee.</div>
+    </li>
+    <li>
+      <div class="sentence">We sit with Hung.</div>
+    </li>
+    <li>
+      <div class="sentence">He tells us about his upcoming wedding plans.</div>
+    </li>
+    <li>
+      <div class="sentence">Father Gary talks with me afterward about his stroke twenty years ago.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>3/24/2018 - Jay and Mike come for a visit</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/baked pork buns.jpg" alt="china stix"/>
+    <img src="img/chinastix.jpg" alt="china stix"/>
+    <img src="img/20180324_155727 lowres.jpg" alt="banana nut bread"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">Jay and Mike come over with my parents.</div>
+    </li>
+    <li>
+      <div class="sentence">My parents bring me my favorite baked BBQ pork buns from Deli Cafe in San Francisco.</div>
+    </li>
+    <li>
+      <div class="sentence">They visit for the whole day.</div>
+    </li>
+    <li>
+      <div class="sentence">We decide to eat lunch at China Stix.</div>
+    </li>
+    <li>
+      <div class="sentence">I choose several dim sum appetizers off the carts.</div>
+    </li>
+    <li>
+      <div class="sentence">We also order our typical entrees like hot and sour soup, chicken chow mein, orange chicken, tofu, and eggplant.</div>
+    </li>
+    <li>
+      <div class="sentence">Mike likes beef chow fun.</div>
+    </li>
+    <li>
+      <div class="sentence">We order lemon chicken especially for Robert.</div>
+    </li>
+    <li>
+      <div class="sentence">When we get home, I make them banana nut bread to take back with them.</div>
+    </li>
+    <li>
+      <div class="sentence">For dinner, Jay prepares stew with merlot and tumeric.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>3/19/2018 - Stanford Aphasia Communication Group</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180319_163501 lowres.jpg" alt="SACG"/>
+    <img src="img/heads up.jpg" alt="Heads Up!"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We play a new party game during group therapy.</div>
+    </li>
+    <li>
+      <div class="sentence">The game is called Heads Up!</div>
+    </li>
+    <li>
+      <div class="sentence">Players take turns wearing but not seeing words above their heads.</div>
+    </li>
+    <li>
+      <div class="sentence">The other players try to give hints until players wearing the words guess correctly.</div>
+    </li>
+    <li>
+      <div class="sentence">Next session Madison will hopefully return to sing with us.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>3/17/2018 - 35th Anniversary of First Date</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180409_180607 lowres.jpg" alt="1st date"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">Wen and I celebrate our first date back in 1983.</div>
+    </li>
+    <li>
+      <div class="sentence">Every year he brings me an old-fashioned glazed doughnut to commemorate this special day.</div>
+    </li>
+  </div>
+</div>
+<h2>3/17/2018 - Skills Plus Friends Celebrate St Patrick's Day</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180317_142101 lowres.jpg" alt="Skills Plus Friends"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I invite Mary Ann and Alyse over for lunch.</div>
+    </li>
+    <li>
+      <div class="sentence">I know them from Skills Plus.</div>
+    </li>
+    <li>
+      <div class="sentence">They bring their respective daughters Virginia and Tiffany.</div>
+    </li>
+    <li>
+      <div class="sentence">We serve them Rueben sanwiches and coleslaw.</div>
+    </li>
+    <li>
+      <div class="sentence">I bake cinnamon rolls with icing for dessert.</div>
+    </li>
+    <li>
+      <div class="sentence">We play Rummikub after lunch.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>3/13/2018 - Peanut butter cookies for Skills Plus</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180313_191226 lowres.jpg" alt="peanut butter cookies"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I try another cookie recipe.</div>
+    </li>
+    <li>
+      <div class="sentence">This time I bake peanut butter cookies.</div>
+    </li>
+    <li>
+      <div class="sentence">They look and smell better than they taste.</div>
+    </li>
+    <li>
+      <div class="sentence">My fellow Skills Plus students love them though.</div>
+    </li>
+  </ul>
+  </div>
+</div><h2>3/11/2018 - Cookies that look like cinnamon rolls</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180310_203906 lowres.jpg" alt="cinnamon roll cookies"/>
+    <img src="img/20180311_203052 lowres.jpg" alt="cinnamon roll cookies"/>
+    <img src="img/20180311_232826 lowres.jpg" alt="cinnamon roll cookies"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I try another cookie recipe.</div>
+    </li>
+    <li>
+      <div class="sentence">The recipe is quite complicated.</div>
+    </li>
+    <li>
+      <div class="sentence">First, I make the pastry dough and roll it out.</div>
+    </li>
+    <li>
+      <div class="sentence">The pastry dough is then rolled out like a pancake and buttered.</div>
+    </li>
+    <li>
+      <div class="sentence">Next, I sprinkle cinnamon, sugar and chopped walnuts on it.</div>
+    </li>
+    <li>
+      <div class="sentence">The flattened dough is rolled up into a log and cut crosswise into round cookies.</div>
+    </li>
+    <li>
+      <div class="sentence">They look and smell like cinnamon rolls.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+
+<h2>3/4/2018 - A Busy Sunday</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180304_124555 lowres.jpg" alt="Busy Sunday"/>
+    <img src="img/20180304_173316 lowres.jpg" alt="Busy Sunday"/>
+    <img src="img/20180304_155413 lowres.jpg" alt="Busy Sunday"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We start our busy Sunday with dim sum.</div>
+    </li>
+    <li>
+      <div class="sentence">David joins us at Joy Luck Palace.</div>
+    </li>
+    <li>
+      <div class="sentence">We meet Ryland's parent by chance: Roddy and Brenda Chen.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen and I visit Shekhar and family and bring dim sum.</div>
+    </li>
+    <li>
+      <div class="sentence">He is undergoing chemotherapy again because his cancer returns.</div>
+    </li>
+    <li>
+      <div class="sentence">His whole family shows up while we are there.</div>
+    </li>
+    <li>
+      <div class="sentence">Then we rush to wine and cheese event with my GSB friends.</div>
+    </li>
+    <li>
+      <div class="sentence">Melisse and Brian host a Stanford Design School presenttation and discussion.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="feb2018">February 2018</a></h1>
+<h2>2/28/2018 - Lemon Cookies to Skills Plus</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180228_081229 lowres.jpg" alt="lemon cookies"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I decide to bake lemon cookies for Skills Plus instead of lemon squares.</div>
+    </li>
+    <li>
+      <div class="sentence">The recipe requires me to make a lemon glaze for the top of the cookie.</div>
+    </li>
+    <li>
+      <div class="sentence">I do not think the cookies turn out that well.</div>
+    </li>
+    <li>
+      <div class="sentence">But the students gobble them up.</div>
+    </li>
+    <li>
+      <div class="sentence">I probably will not make this recipe again.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>2/23/2018 - Grocery shopping</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180223_162549 lowres.jpg" alt="grocery shopping"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I walk up and down the aisles looking at all the different items.</div>
+    </li>
+    <li>
+      <div class="sentence">I am curious about the different types of apples.</div>
+    </li>
+    <li>
+      <div class="sentence">I do finally decide to buy some peanut butter pretzels.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen does our weekly grocery shopping at the same time.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>2/26/2018 - Stanford Aphasia Communication Group</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180226_154706 lowres.jpg" alt="SACG"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I attend the monthly aphasia communication group at Stanford.</div>
+    </li>
+    <li>
+      <div class="sentence">Sandra and Aileen typically facilitate the group.</div>
+    </li>
+    <li>
+      <div class="sentence">I sit between Sandra and Wanda.</div>
+    </li>
+    <li>
+      <div class="sentence">A new therapist named Madison Fox joins us.</div>
+    </li>
+    <li>
+      <div class="sentence">She was mostly recently the director of Aphasia Tones at Cal State University East Bay.</div>
+    </li>
+    <li>
+      <div class="sentence">Madison plays the guitar while we sing.</div>
+    </li>
+    <li>
+      <div class="sentence">I enjoy singing with others.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>2/25/2018 - Another muffin recipe</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180225_203543 lowres.jpg" alt="muffins"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I find another healthy muffin recipe.</div>
+    </li>
+    <li>
+      <div class="sentence">These muffins have shredded zucchini baked into them.</div>
+    </li>
+    <li>
+      <div class="sentence">They are very tasty.</div>
+    </li>
+    <li>
+      <div class="sentence">My parents like eating them too.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+
+<h2>2/14/2018 - Valentine's Day dinner with stroke group</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_3124 lowres.jpg" alt="VMC Support group"/>
+    <img src="img/IMG_3132 lowres.jpg" alt="VMC Support group"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">We spend Valentine's Day meeting with other stroke survivors.</div>
+    </li>
+    <li>
+      <div class="sentence">That day, the hospital is filming marketing footage with the group.</div>
+    </li>
+    <li>
+      <div class="sentence">We arrive an hour ealier than usual.</div>
+    </li>
+    <li>
+      <div class="sentence">We prepare a potluck dinner because the attendees will be there for three hours.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen makes an enchilada casserole topped with sour cream, salsa and green onions.</div>
+    </li>
+    <li>
+      <div class="sentence">Cyndi brings a bean salad prepared by Eileen.</div>
+    </li>
+    <li>
+      <div class="sentence">Josh and others bring chips and dip.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>2/12/2018 - Chinese New Year dim sum</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/dog.jpg" alt="New Years"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">Happy lunar new year!</div>
+    </li>
+    <li>
+      <div class="sentence">It is the Year of the Dog.</div>
+    </li>
+    <li>
+      <div class="sentence">David was born in the Year of the Dog.</div>
+    </li>
+    <li>
+      <div class="sentence">I was born in the Year of the Tiger.</div>
+    </li>
+    <li>
+      <div class="sentence">Wen was born in the Year of the Ox.</div>
+    </li>
+    <li>
+      <div class="sentence">Robert was born in the Year of the Rat.</div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="photoentry">
+<div class="photo">
+  <img src="img/20180212_114238 lowres.jpg" alt="New Years"/>
+  <img src="img/20180212_115530 lowres.jpg" alt="New Years"/>
+</div>
+<div class="captions">
+<ul>
+  <li>
+    <div class="sentence">Wen and I celebrate at Joy Luck Palace.</div>
+  </li>
+  <li>
+    <div class="sentence">On weekdays, we do not have to wait for the carts to come to our table.</div>
+  </li>
+  <li>
+    <div class="sentence">We just order from the menu by checking off the kinds of dim sum we want.</div>
+  </li>
+  <li>
+    <div class="sentence">All of our dishes come out from the kitchen freshly prepared.</div>
+  </li>
+  <li>
+    <div class="sentence">I order some of my favorite items:</div>
+    <ul>
+      <br>
+    <li>
+      <div class="sentence">shrimp dumplings</div>
+    </li>
+    <li>
+      <span class="sentence">BBQ pork rice noodles</span>
+    </li>
+    <li>
+      <span class="sentence">steamed BBQ pork buns</span>
+    </li>
+    <li>
+      <span class="sentence">spring rolls</span>
+    </li>
+    <li>
+      <span class="sentence">fried sesame balls for dessert</span>
+    </li>
+  </ul>
+</li>
+</ul>
+</div>
+</div>
+<h2>2/10/2018 - Muffins again?</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180210_114655 lowres.jpg" alt="Muffins"/>
+  </div>
+  <div class="captions">
+  <ul>
+    <li>
+      <div class="sentence">I bake blueberries and banana muffins again.</div>
+    </li>
+    <li>
+      <div class="sentence">I made them for the first time two weeks ago.</div>
+    </li>
+  </ul>
+  </div>
+</div>
+<h2>2/8/2018 - First Day of SPARC</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180213_112048 lowres.jpg" alt="SPARC"/>
+    <img src="img/20180208_144546 lowres.jpg" alt="SPARC"/>
+    <img src="img/20180208_144037 lowres.jpg" alt="SPARC"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I start attending the Spartan Aphasia Research Clinic at San Jose State.</div>
+      </li>
+      <li>
+        <div class="sentence">SPARC is the abbreviated name.</div>
+      </li>
+      <li>
+        <div class="sentence">I meet many new people with aphasia and some who I already know.</div>
+      </li>
+      <li>
+        <div class="sentence">Dr. Mahendra starts this program after running Cal State East Bay's Aphasia Treatment Program.</div>
+      </li>
+      <li>
+        <div class="sentence">The program meets twice a week for 4 hours a day divided into three periods.</div>
+      </li>
+      <li>
+        <div class="sentence">I receive individual therapy with Anna in the first period.</div>
+      </li>
+      <li>
+        <div class="sentence">We participate in group therapy in the second period.</div>
+      </li>
+      <li>
+        <div class="sentence">We sing in a choir for the third period.</div>
+      </li>
+      <li>
+        <div class="sentence">Singing is my favorite part of the program.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+</div><h2>2/4/2018 - Game Day On Super Bowl Sunday</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180204_113043a lowres.jpg" alt="rummikub with friends"/>
+  </div>
+    <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I invite my friends over to play Rummikub.</div>
+      </li>
+      <li>
+        <div class="sentence">Cyndi suggests we get together and play because it helped her brain recover.</div>
+      </li>
+      <li>
+        <div class="sentence">Eileen, Cyndi's mom, brings a chocolate bundt cake.</div>
+      </li>
+      <li>
+        <div class="sentence">Marshall and Josh also come over to play too.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen prepares egg casserole, bacon and freshly baked bread.</div>
+      </li>
+      <li>
+        <div class="sentence">I love playing this game.</div>
+      </li>
+      <li>
+        <div class="sentence">We play for several hours.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="jan2018">January 2018</a></h1>
+<h2>1/27/2018 - Dim Sum and lunch with parents</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180127_132101a.jpg" alt="Lunch with family"/>
+  </div>
+    <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We have lunch at China Stix with my parents.</div>
+      </li>
+      <li>
+        <div class="sentence">David comes home to see us and have a solid meal.</div>
+      </li>
+      <li>
+        <div class="sentence">I could not decide whether I wanted dim sum or entrees.</div>
+      </li>
+      <li>
+        <div class="sentence">Dad said I could have both.</div>
+      </li>
+      <li>
+        <div class="sentence">We order an assortment of dim sum items along with several dishes including chow mein, tofu, orange chicken and beef with chinese broccoli.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/26/2018 - New Muffin Recipe</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180126_190720 lowres.jpg" alt="muffins"/>
+  </div>
+    <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I try a new tasty but healthy muffin recipe.</div>
+      </li>
+      <li>
+        <div class="sentence">These muffins have blueberries and bananas in them.</div>
+      </li>
+      <li>
+        <div class="sentence">Whole wheat flour and wheat germ are added to increase the fiber.</div>
+      </li>
+      <li>
+        <div class="sentence">They are so yummy, I give a few to my parents.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/20/2018 - Family Support Meeting 2018</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/ucsf-logo.png" alt="UCSF"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Wen and I drive to UCSF.</div>
+      </li>
+      <li>
+        <div class="sentence">We listen to several lectures throughout the day.</div>
+      </li>
+      <li>
+        <div class="sentence">We ask every question that concerns us. They are very patient with us.</div>
+      </li>
+      <li>
+        <div class="sentence">The continental breakfast, box lunch and afternoon snack is well received.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen takes a couple box lunches and cookies for the road. He is shameless.</div>
+      </li>
+  </div>
+</div>
+<h2>1/19/2018 - An Evening With Judy Collins</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/judycollins lowres.jpg" alt="Judy Collins"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Judy Collins sings live at the Heritage Theatre in Campbell.</div>
+      </li>
+      <li>
+        <div class="sentence">Stacy drives down from Sacramento to accompany me.</div>
+      </li>
+      <li>
+        <div class="sentence">Judy has such a unique and soothing voice.</div>
+      </li>
+      <li>
+        <div class="sentence">I always love hearing her sing "Amazing Grace".</div>
+      </li>
+      <li>
+        <div class="sentence">I remember seeing her  and Roberta Flack performing together in Berkeley many years ago.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/14/2018 - New Technology For Stroke Recovery</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180118_164212 lowres.jpg" alt="Farley Visit"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Brian and Debbie invite us to their home to see a new stroke rehabilitation device under development.</div>
+      </li>
+      <li>
+        <div class="sentence">They live in Los Altos Hills.</div>
+      </li>
+      <li>
+        <div class="sentence">The device consists of a set of wearble sensors that read EEG brain waves and translate them into movements in a glove-like device.</div>
+      </li>
+      <li>
+        <div class="sentence">The technology seems interesting but still some time away from clinical deployment.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/14/2018 - Meyer Finally Bears Fruit</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180114_131106 lowres.jpg" alt="Meyer Lemon"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We planted a Meyer lemon tree shortly before my stroke.</div>
+      </li>
+      <li>
+        <div class="sentence">This year the tree bears a single lemon.</div>
+      </li>
+      <li>
+        <div class="sentence">Perhaps next year, it will yield more than just one fruit.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen needs to remember to fertilize and water it though.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<h2>1/10/2018 - Changing of the Guard (and the Location)</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180110_193053a lowres.jpg" alt="SCVMC stroke meeting"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">The Santa Clara Valley Medical Center post stroke support group meets in the new building for the first time.</div>
+      </li>
+      <li>
+        <div class="sentence">Wen and I are now responsible for preparing and facilitating the meetings.</div>
+      </li>
+      <li>
+        <div class="sentence">Dr K and his spouse Lana have been managing the meetings for over five years.</div>
+      </li>
+      <li>
+        <div class="sentence">Albert, Rob, his sister Sharon, Eileen, Cyndi, Josh, me, Dominic, his son, Manny, Gabrielle, Marshall and Tomas all attend.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/4/2018 - Old Problem, New Therapy</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20180103_174005 lowres.jpg" alt="Anne"/>
+    <img src="img/20180104_132729 lowres.jpg" alt="Anne"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Wen and I drive up to Sonora the night before we are to see Anne Jacobs.</div>
+      </li>
+      <li>
+        <div class="sentence">We have dinner in town. We order a plate of garlic fries to start. I order a hamburger while Wen orders a chicken sandwich.</div>
+      </li>
+      <li>
+        <div class="sentence">Anne meets us in someone's guest house for therapy. It turns out the house is next door to her home, both of which she owns.</div>
+      </li>
+      <li>
+        <div class="sentence">First, she reviews my current condition and current regimen.</div>
+      </li>
+      <li>
+        <div class="sentence">No more standing frame or night time braces will be required.</div>
+      </li>
+      <li>
+        <div class="sentence">A new, less restrictive ankle brace along with new mid high hiking shoes will replace my AFO during the new therapy exercises.</div>
+      </li>
+      <li>
+        <div class="sentence">For my lower extremity, I am expected to practice postural steadiness and weight distribution by standing with my feet in different positions.</div>
+      </li>
+      <li>
+        <div class="sentence">For my upper extremity, I will practice several shoulder and arm movements while on my back.</div>
+      </li>
+      <li>
+        <div class="sentence">She shows us new hoku exercises that will help me better manage the tone in my hand.</div>
+      </li>
+      <li>
+        <div class="sentence">We intend to return in a couple months.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/1/2018 - Baking Like Crazy</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/20171231_144656 lowres.jpg" alt="baking"/>
+    <img src="img/20180101_141426 lowres.jpg" alt="baking"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">Robert and I bake a variety of goodies to give to our neighbors.</div>
+      </li>
+      <li>
+        <div class="sentence">He helps me bake his favorite chocolate chip cookies.</div>
+      </li>
+      <li>
+        <div class="sentence">The bread machine makes short work of baking banana nut bread.</div>
+      </li>
+      <li>
+        <div class="sentence">Lemon bars seems to be my specialty lately because people keep giving me lemons.</div>
+      </li>
+      <li>
+        <div class="sentence">Later, Robert helps me deliver the plates of baked goods to each home.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="strategies">My Strategies</a></h1>
+<div class="sentence">I have 8 strategies to help me speak as I recover from aphasia.</div>
+
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/focus.png" alt="focus on it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">Focus on it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Close my eyes.</div>
+          </li>
+          <li>
+            <div class="sentence">Inhale slowly.</div>
+          </li>
+          <li>
+            <div class="sentence">Blow slowly through my mouth.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is useful to calm myself.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/visualize.png" alt="visualize it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">Visualize it.</div></b>
+        <ol>
+        <li>
+          <div class="sentence">Close my eyes.</div>
+        </li>
+        <li>
+          <div class="sentence">Visualize the object or action.</div>
+        </li>
+        <li>
+          <div class="sentence">See the letters in the word.</div>
+        </li>
+        </ol>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="photoentry">
+    <div class="photo">
+      <img border="1" style="background-color:white" src="img/say.png" alt="say it"/>
+    </div>
+    <div class="captions">
+      <ul>
+      <li>
+        <b><div class="sentence">Say it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Subvocalize it.</div>
+          </li>
+          <li>
+            <div class="sentence">Utter the first phoneme.</div>
+          </li>
+          <li>
+            <div class="sentence">Sound it out.</div>
+          </li>
+          <li>
+            <div class="sentence">Tap out syllables.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div><div class="photoentry">
+    <div class="photo">
+      <img border="1" style="background-color:white" src="img/find.png" alt="find it"/>
+    </div>
+    <div class="captions">
+      <ul>
+      <li>
+        <b><div class="sentence">Find it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Access word bank app.</div>
+          </li>
+          <li>
+            <div class="sentence">Select the category of word to be spoken.</div>
+          </li>
+          <li>
+            <div class="sentence">Scroll down until I find the word.</div>
+          </li>
+          <li>
+            <div class="sentence">Press word to have it spoken.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/airspell.png" alt="air spell it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">"Air" Spell it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Trace out the first letters of the word.</div>
+          </li>
+          <li>
+            <div class="sentence">Utter that phoneme.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+      <div class="photoentry">
+        <div class="photo">
+          <img border="1" style="background-color:white" src="img/gesture.png" alt="gesture it"/>
+        </div>
+        <div class="captions">
+          <ul>
+            <li>
+        <b><div class="sentence">Gesture it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Act out the meaning of the word.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is similar to playing charades.</div>
+        <div class="sentence" style="color:green">This is particularly useful for verbs and actions.</div>
+      </li>
+      </ul>
+    </div>
+  </div>
+    <div class="photoentry">
+      <div class="photo">
+        <img  border="1" style="background-color:white" src="img/draw.png" alt="draw it"/>
+      </div>
+      <div class="captions">
+        <ul>
+      <li>
+        <b><div class="sentence">Draw it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Get a sheet of paper.</div>
+          </li>
+          <li>
+            <div class="sentence">Grab a pencil.</div>
+          </li>
+          <li>
+            <div class="sentence">Draw the object I have in my mind.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is similar to playing pictionary.</div>
+
+      </li>
+      </ul>
+    </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img  border="1" style="background-color:white" src="img/write.png" alt="write it"/>
+      <img  border="1" style="background-color:white" src="img/write1.png" alt="write it"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li>
+          <b><div class="sentence">Write it.</div></b>
+          <ol>
+            <li>
+              <div class="sentence">Get a sheet of paper.</div>
+            </li>
+            <li>
+              <div class="sentence">Grab a pencil.</div>
+            </li>
+            <li>
+              <div class="sentence">Start writing the letters in the word.</div>
+            </li>
+            <li>
+              <div class="sentence">Utter the phonemes as I write the syllables.</div>
+            </li>
+          </ol>
+          OR
+          <ol>
+            <li>
+              <div class="sentence">Access handwriting-to-speech app.</div>
+            </li>
+            <li>
+              <div class="sentence">Start by using finger to trace letters in the word.</div>
+            </li>
+            <li>
+              <div class="sentence">Check to see if app is translating letters correctly.</div>
+            </li>
+            <li>
+              <div class="sentence">Press "Speak" button to have the word spoken.</div>
+            </li>
+          </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+    <div class="photoentry">
+      <div class="photo">
+        <img  border="1" style="background-color:white" src="img/multimodal2.jpg" alt="describe it"/>
+      </div>
+      <div class="captions">
+        <ul>
+      <li>
+        <b><div class="sentence">Describe it.</div></b>
+        <ul>
+          <li>
+            <div class="sentence">Looks like...</div>
+          </li>
+          <li>
+            <div class="sentence">Feels like...</div>
+          </li>
+          <li>
+            <div class="sentence">Smells like...</div>
+          </li>
+          <li>
+            <div class="sentence">Sounds like...</div>
+          </li>
+          <li>
+            <div class="sentence">Tastes like...</div>
+          </li>
+        </ul>
+        <div class="sentence" style="color:green">This strategy is similar to playing simile.</div>
+        <div class="sentence" style="color:green">This is particularly useful for nouns.</div>
+      </li>
+    </div>
+  </div>
+  <h1><a class="navbar-itemByHeadingLevel" id="WhoAmI">Who Am I</a></h1>
+  <div class="photoentry">
+    <div class="photo">
+    <img src="img/ronlyn.jpg" alt="me!"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">My name is Ronlyn Goo.</div></li>
+        <li><div class="sentence">I am 55 years old.</div>
+          <div class="sentence">My husband is named Wen.</div>
+            <div class="sentence">We have been married 25 years and we live in Saratoga.</div></li>
+        <li>
+          <div class="sentence">I was born in San Francisco.</div>
+          <div class="sentence">My family moved to Pacifica where I grew up and graduated from Terra Nova High School.</div>
+        </li>
+
+        <li><div class="sentence">I have a Bachelor's degree in Chemical Engineering from UC Berkeley.</div></li>
+        <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+        <li><div class="sentence">My current occupation is stroke rehabilitation and recovery.</div></li>
+        <li><div class="sentence">My hobbies are reading, solving puzzles, surfing the internet and baking.</div></li>
+      </ul>
+    </div>
+  </div>
+  <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  The Reading Monitor will stop listening after the end of each sentence.
+    <div class="option" id="StopListeningAtEOSentenceControl">
+      <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+      <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+   </div>
+   The Reading Monitor recitation volume can be adjusted.
+   <div class="option" id="volumeControl">
+     <label for="volume" id="volumeLabel">Volume</label>
+      <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+   </div>
+   The width of images displayed can be adjusted.
+   <button id="width200" value="200" onclick="body.style.setProperty('--img-width', 200px)">200px</button>
+   <button id="width400" value="400" onclick="body.style.setProperty('--img-width', '400px')">400px</button>
+   <button id="width600" value="600" onclick="body.style.setProperty('--img-width', '600px')">600px</button>
+   <button id="width800" value="800" onclick="body.style.setProperty('--img-width', '800px')">800px</button>
+   <button id="width1000" value="1000" onclick="body.style.setProperty('--img-width', '1000px')">1000px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1200px')">1200px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1500px')">1500px</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+  <h2>Progress</h2>
+    <div id="usermsg"></div>
+    <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'myjournal'+getCurrentDate()+'.log')">Download and Clear</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+  <h2>Error Messages<h2>
+    <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+  <p>
+    <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+    <span>word idx:</span><span id="wordIdx">0</span>,
+    <span>word id:</span><span id="wordId">0</span>,
+    <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+  <p>
+  <span id="os-msg"></span>
+  </p>
+
+  <div class="option">
+     <label for="voice" id="voiceLabel">Voice</label>
+     <select name="voice" id="voice"></select>
+  </div>
+
+</main>
+
+<nav>
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+  <div onclick="" class="navbar-list ul">
+    <div onclick="" id="navbar-items"/>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+//body.style.setProperty('--img-width', '200px');
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+
+ var MyReadingMonitor = new ReadingMonitor("myjournal03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+
+ // register html field names
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+
+
+</script>
+</html>
