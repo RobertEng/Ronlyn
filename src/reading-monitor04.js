@@ -297,8 +297,8 @@ class SpeechRecognition {
     this._recognitionPattern.set("Dori", "^(dor[iy])$");
     this._recognitionPattern.set("Dr", "dr.");
     this._recognitionPattern.set("Theatre", "theater");
-    this._recognitionPattern.set("pm", "p.m.");
-    this._recognitionPattern.set("am", "a.m.");
+    this._recognitionPattern.set("pm", "p.?m.?"); //with or without period
+    this._recognitionPattern.set("am", "a?m?"); //with or without period
     this._recognitionPattern.set("flour", "^(flo[uw]e{0,1}r)$");
     this._recognitionPattern.set("Cyndi", "c[iy]nd[yi]");
     this._recognitionPattern.set("Cyndi's", "c[iy]nd[yi]'s");
