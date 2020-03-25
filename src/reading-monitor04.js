@@ -320,6 +320,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Tin", "10");
     this._recognitionPattern.set("Alyse", "[Aa]lice");
     this._recognitionPattern.set("Paige", "[Pp]age");
+    this._recognitionPattern.set("Handicapables", "handi-capable");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
@@ -773,7 +774,8 @@ class SpeechSynthesis {
     this._alternatePronunication.set("Rummikub", "rummy cube")
     this._alternatePronunication.set("Dr", "doctor")
     this._alternatePronunication.set("Degas", "day gah")
-//    this._alternatePronunication.set("writes", "rights")
+    this._alternatePronunication.set("Handicapables", "handy capables")
+      this._alternatePronunication.set("writes", "rights")
 //    this._alternatePronunication.set("sells", "cells")
 //    this._alternatePronunication.set("Paratransit", "pair-ah-transit")
   }
