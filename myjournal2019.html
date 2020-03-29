@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+body {
+  --img-width: 300px;
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+ol {
+  font-family: arial;
+}
+ol li .rm_sentence {
+    margin-bottom: 10px; /* override li */
+
+}
+.photoentry {
+  display: grid;
+  grid-template-columns: var(--img-width) auto;
+  grid-template-areas: "photo captions ";
+  margin-left:10px
+}
+
+.photo {
+  display: grid;
+  margin-bottom:10px;
+  grid-gap: 10px;
+  grid-template-areas: "images";
+}
+.captions {
+  margin-left:20px;
+  border-bottom: solid var(--background-shadow-color) 1px;
+}
+img {
+  width: var(--img-width);
+  object-fit:contain;
+  border-radius: 5px;
+  height: auto;
+    box-shadow: 5px 5px 10px gray ;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+main {
+  background-color: linen;
+}
+</style>
+
+</head>
+<title>Photo Journal 2019</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyns Photo Journal">
+        <span style="float:left; padding-right:5px">
+          <button id="listenBtn" value="listen">
+            <img id="listenBtnImg"  alt="Listen">
+          </button>
+        </span>
+        <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Photo Journal">Ronlyn's Photo Journal 2019</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+<h1><a class="navbar-itemByHeadingLevel" id="jan2019">January 2019</a></h1>
+<h2>1/19/2019 - Bellarmine hosts Handicapables</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_20190119_110836.jpg" alt=""/>
+    <img src="img/IMG_20190119_105140.jpg" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We go to Bellarmine with Handicapables.</div>
+      </li>
+      <li>
+        <div class="sentence">Bellarmine College Prep is located in San Jose.</div>
+      </li>
+      <li>
+        <div class="sentence">We attend a mass.</div>
+      </li>
+      <li>
+        <div class="sentence">I play various party games with others.</div>
+      </li>
+      <li>
+        <div class="sentence">They serve chinese chicken salad and eggrolls for lunch.</div>
+      </li>
+      <li>
+        <div class="sentence">We solve brain teasers after lunch.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<h2>1/25/2019 - Stanford Visit</h2>
+
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_20190125_125227.jpg" alt=""/>
+    <img src="img/IMG_20190125_141647.jpg" alt=""/>
+    <img src="img/IMG_20190125_150630.jpg" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">The Bing Music Program presents a concert series at Stanford.</div>
+      </li>
+      <li>
+        <div class="sentence">We have lunch with David at Zareens.</div>
+      </li>
+      <li>
+        <div class="sentence">David takes me to the ice cream store for dessert.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1/26/2019 - Lindsay Mclaggan's Graduation Party</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_20190126_140109.jpg" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">We are invited to Lindsay's college graduation party.</div>
+      </li>
+      <li>
+        <div class="sentence">She graduates from Sacramento State.</div>
+      </li>
+      <li>
+        <div class="sentence">The party is hosted by family friends in Tracy.</div>
+      </li>
+      <li>
+        <div class="sentence">We also see Austin.</div>
+      </li>
+      <li>
+        <div class="sentence">We originally meet them at the Music School in Willow Glen twenty years ago..</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="feb2019">February 2019</a></h1>
+<h2>2/2/2019 - St. Mary Church hosts Handicapables</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/PANO_20190202_111734.vr.jpg" alt="Handicapables at St Mary"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>2/3/2019 - I keep relearning</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_20190203_173245.jpg" alt="baking skills"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">I bake as a hobby.</div>
+      </li>
+      <li>
+        <div class="sentence">It allows me to practice occupational skills.</div>
+      </li>
+      <li>
+        <div class="sentence">I create tasty desserts.</div>
+      </li>
+      <li>
+        <div class="sentence">I learn to use my impaired arm.</div>
+      </li>
+      <li>
+        <div class="sentence">I keep trying to recover.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>2/9/2019 - GSB mini-reunion</h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/IMG_20190209_211225a.jpg" alt="biz school friends"/>
+    <img src="img/IMG_20190209_165454.jpg" alt="biz school tart"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h2>1//2019 - </h2>
+<div class="photoentry">
+  <div class="photo">
+    <img src="img/" alt=""/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <div class="sentence">.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="mar2019">March 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="apr2019">April 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="may2019">May 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="jun2019">June 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="jul2019">July 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="aug2019">August 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="sep2019">September 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="oct2019">October 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="nov2019">November 2019</a></h1>
+<h1><a class="navbar-itemByHeadingLevel" id="dec2019">December 2019</a></h1>
+
+<h1><a class="navbar-itemByHeadingLevel" id="strategies">My Strategies</a></h1>
+<div class="sentence">I have 8 strategies to help me speak as I recover from aphasia.</div>
+
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/focus.png" alt="focus on it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">Focus on it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Close my eyes.</div>
+          </li>
+          <li>
+            <div class="sentence">Inhale slowly.</div>
+          </li>
+          <li>
+            <div class="sentence">Blow slowly through my mouth.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is useful to calm myself.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/visualize.png" alt="visualize it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">Visualize it.</div></b>
+        <ol>
+        <li>
+          <div class="sentence">Close my eyes.</div>
+        </li>
+        <li>
+          <div class="sentence">Visualize the object or action.</div>
+        </li>
+        <li>
+          <div class="sentence">See the letters in the word.</div>
+        </li>
+        </ol>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="photoentry">
+    <div class="photo">
+      <img border="1" style="background-color:white" src="img/say.png" alt="say it"/>
+    </div>
+    <div class="captions">
+      <ul>
+      <li>
+        <b><div class="sentence">Say it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Subvocalize it.</div>
+          </li>
+          <li>
+            <div class="sentence">Utter the first phoneme.</div>
+          </li>
+          <li>
+            <div class="sentence">Sound it out.</div>
+          </li>
+          <li>
+            <div class="sentence">Tap out syllables.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div><div class="photoentry">
+    <div class="photo">
+      <img border="1" style="background-color:white" src="img/find.png" alt="find it"/>
+    </div>
+    <div class="captions">
+      <ul>
+      <li>
+        <b><div class="sentence">Find it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Access word bank app.</div>
+          </li>
+          <li>
+            <div class="sentence">Select the category of word to be spoken.</div>
+          </li>
+          <li>
+            <div class="sentence">Scroll down until I find the word.</div>
+          </li>
+          <li>
+            <div class="sentence">Press word to have it spoken.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="photoentry">
+  <div class="photo">
+    <img border="1" style="background-color:white" src="img/airspell.png" alt="air spell it"/>
+  </div>
+  <div class="captions">
+    <ul>
+      <li>
+        <b><div class="sentence">"Air" Spell it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Trace out the first letters of the word.</div>
+          </li>
+          <li>
+            <div class="sentence">Utter that phoneme.</div>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+      <div class="photoentry">
+        <div class="photo">
+          <img border="1" style="background-color:white" src="img/gesture.png" alt="gesture it"/>
+        </div>
+        <div class="captions">
+          <ul>
+            <li>
+        <b><div class="sentence">Gesture it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Act out the meaning of the word.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is similar to playing charades.</div>
+        <div class="sentence" style="color:green">This is particularly useful for verbs and actions.</div>
+      </li>
+      </ul>
+    </div>
+  </div>
+    <div class="photoentry">
+      <div class="photo">
+        <img  border="1" style="background-color:white" src="img/draw.png" alt="draw it"/>
+      </div>
+      <div class="captions">
+        <ul>
+      <li>
+        <b><div class="sentence">Draw it.</div></b>
+        <ol>
+          <li>
+            <div class="sentence">Get a sheet of paper.</div>
+          </li>
+          <li>
+            <div class="sentence">Grab a pencil.</div>
+          </li>
+          <li>
+            <div class="sentence">Draw the object I have in my mind.</div>
+          </li>
+        </ol>
+        <div class="sentence" style="color:green">This strategy is similar to playing pictionary.</div>
+
+      </li>
+      </ul>
+    </div>
+  </div>
+  <div class="photoentry">
+    <div class="photo">
+      <img  border="1" style="background-color:white" src="img/write.png" alt="write it"/>
+      <img  border="1" style="background-color:white" src="img/write1.png" alt="write it"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li>
+          <b><div class="sentence">Write it.</div></b>
+          <ol>
+            <li>
+              <div class="sentence">Get a sheet of paper.</div>
+            </li>
+            <li>
+              <div class="sentence">Grab a pencil.</div>
+            </li>
+            <li>
+              <div class="sentence">Start writing the letters in the word.</div>
+            </li>
+            <li>
+              <div class="sentence">Utter the phonemes as I write the syllables.</div>
+            </li>
+          </ol>
+          OR
+          <ol>
+            <li>
+              <div class="sentence">Access handwriting-to-speech app.</div>
+            </li>
+            <li>
+              <div class="sentence">Start by using finger to trace letters in the word.</div>
+            </li>
+            <li>
+              <div class="sentence">Check to see if app is translating letters correctly.</div>
+            </li>
+            <li>
+              <div class="sentence">Press "Speak" button to have the word spoken.</div>
+            </li>
+          </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+    <div class="photoentry">
+      <div class="photo">
+        <img  border="1" style="background-color:white" src="img/multimodal2.jpg" alt="describe it"/>
+      </div>
+      <div class="captions">
+        <ul>
+      <li>
+        <b><div class="sentence">Describe it.</div></b>
+        <ul>
+          <li>
+            <div class="sentence">Looks like...</div>
+          </li>
+          <li>
+            <div class="sentence">Feels like...</div>
+          </li>
+          <li>
+            <div class="sentence">Smells like...</div>
+          </li>
+          <li>
+            <div class="sentence">Sounds like...</div>
+          </li>
+          <li>
+            <div class="sentence">Tastes like...</div>
+          </li>
+        </ul>
+        <div class="sentence" style="color:green">This strategy is similar to playing simile.</div>
+        <div class="sentence" style="color:green">This is particularly useful for nouns.</div>
+      </li>
+    </div>
+  </div>
+  <h1><a class="navbar-itemByHeadingLevel" id="WhoAmI">Who Am I</a></h1>
+  <div class="photoentry">
+    <div class="photo">
+    <img src="img/ronlyn.jpg" alt="me!"/>
+    </div>
+    <div class="captions">
+      <ul>
+        <li><div class="sentence">My name is Ronlyn Goo.</div></li>
+        <li><div class="sentence">I am 57 years old.</div>
+          <div class="sentence">My husband is named Wen.</div>
+            <div class="sentence">We have been married 27 years and we live in Saratoga.</div></li>
+        <li>
+          <div class="sentence">I was born in San Francisco.</div>
+          <div class="sentence">My family moved to Pacifica where I grew up and graduated from Terra Nova High School.</div>
+        </li>
+
+        <li><div class="sentence">I have a Bachelor's degree in Chemical Engineering from UC Berkeley.</div></li>
+        <li><div class="sentence">I also have an MBA degree from Stanford.</div></li>
+        <li><div class="sentence">My current occupation is stroke rehabilitation and recovery.</div></li>
+        <li><div class="sentence">My hobbies are reading, solving puzzles, surfing the internet and baking.</div></li>
+      </ul>
+    </div>
+  </div>
+  <h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  The Reading Monitor will stop listening after the end of each sentence.
+    <div class="option" id="StopListeningAtEOSentenceControl">
+      <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+      <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+   </div>
+   The Reading Monitor recitation volume can be adjusted.
+   <div class="option" id="volumeControl">
+     <label for="volume" id="volumeLabel">Volume</label>
+      <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+   </div>
+   The width of images displayed can be adjusted.
+   <button id="width200" value="200" onclick="body.style.setProperty('--img-width', 200px)">200px</button>
+   <button id="width400" value="400" onclick="body.style.setProperty('--img-width', '400px')">400px</button>
+   <button id="width600" value="600" onclick="body.style.setProperty('--img-width', '600px')">600px</button>
+   <button id="width800" value="800" onclick="body.style.setProperty('--img-width', '800px')">800px</button>
+   <button id="width1000" value="1000" onclick="body.style.setProperty('--img-width', '1000px')">1000px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1200px')">1200px</button>
+   <button id="width1200" value="1200" onclick="body.style.setProperty('--img-width', '1500px')">1500px</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+  <h2>Progress</h2>
+    <div id="usermsg"></div>
+    <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'myjournal'+getCurrentDate()+'.log')">Download and Clear</button>
+
+  <h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+  <h2>Error Messages<h2>
+    <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+  <p>
+    <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+    <span>word idx:</span><span id="wordIdx">0</span>,
+    <span>word id:</span><span id="wordId">0</span>,
+    <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+  <p>
+  <span id="os-msg"></span>
+  </p>
+
+  <div class="option">
+     <label for="voice" id="voiceLabel">Voice</label>
+     <select name="voice" id="voice"></select>
+  </div>
+
+</main>
+
+<nav>
+    <!--div class="innertube"-->
+<!--      <div class="wrapper1"> -->
+<!--        <div class="list-of-anchors-container"> -->
+  <div onclick="" class="navbar-list ul">
+    <div onclick="" id="navbar-items"/>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+//body.style.setProperty('--img-width', '200px');
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+
+ var MyReadingMonitor = new ReadingMonitor("myjournal03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+
+ // register html field names
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+//   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+
+
+</script>
+</html>
