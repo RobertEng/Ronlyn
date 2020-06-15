@@ -321,6 +321,7 @@ class SpeechRecognition {
     this._recognitionPattern.set("Alyse", "[Aa]lice");
     this._recognitionPattern.set("Paige", "[Pp]age");
     this._recognitionPattern.set("Handicapables", "handi-capable");
+    this._recognitionPattern.set("0", "zero");
   }
   set errorMsg(msg) {
     this._parent.errorMsg = msg;
