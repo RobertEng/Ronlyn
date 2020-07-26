@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+:root {
+  --nav-width: 220px;
+}
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+h1 {
+  font-family: arial;
+  font-size: 100%;
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+}
+.ul {
+  font-weight: bold;
+  font-family: arial;
+}
+ol {
+  font-family: arial;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+li:not(:last-child) {
+  margin-bottom: 10px; /* spacing between list items */
+}
+.my-links {
+  font-family: arial;
+}
+
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 200%;
+  }
+  nav {
+    width: var(--nav-width);
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  }
+  main {
+    left: var(--nav-width);
+  }
+  .navbar-li
+  {
+    font-size: 175%;
+  }
+  .rm_sentence {
+    font-size: 150%;
+  }
+}
+@media only screen
+  and (device-width: 360px) {
+    h1 {
+      font-size: 200%;
+    }
+    h2 {
+      font-size: 200%;
+    }
+    nav {
+      width: var(--nav-width);
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    }
+    main {
+      left: var(--nav-width);
+    }
+  .navbar-li
+  {
+    font-size: 150%;
+  }
+}
+</style>
+</head>
+<title>Sentence Bank</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyns Sentence Bank">
+      <span style="float:left; padding-right:5px">
+        <button id="listenBtn" value="listen">
+          <img id="listenBtnImg"  alt="Listen">
+        </button>
+      </span>
+      <span style="float:left" class="speak_onclick" XSAMPA="Ronlyns Photo Journal">Ronlyn's Sentence Bank</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<div class="sentence">by O. HENRY</div>
+<div class="sentence">Location:  Summit, Alabama</div>
+<div class="sentence">Time:  Early 1900s</div>
+<ol>
+  <li><span class="sentence">It seemed like a good idea.  It was not.</span></li>
+  <li><span class="sentence">I was with Bill Driscoll.  We were in Alabama.</span></li>
+  <li><span class="sentence">We thought about kidnapping.</span></li>
+  <li><span class="sentence">Later, Bill said it was a mistake.</span></li>
+  <li><span class="sentence">We didn't find out how big a mistake until later.</span></li>
+  <li><span class="sentence">There was a town down in Alabama.</span></li>
+  <li><span class="sentence">The town was called Summit.</span></li>
+  <li><span class="sentence">Summit was as flat as a pancake.</span></li>
+  <li><span class="sentence">The people living in Summit were harmless.  They stayed to themselves.</span></li>
+  <li></li>
+  <li><span class="sentence">Bill and me had about 600 dollars.</span></li>
+  <li><span class="sentence">We needed just 2,000 dollars more.</span></li>
+  <li><span class="sentence">We planned a phony real estate deal in Western Illinois.</span></li>
+  <li><span class="sentence">Bill and I talked about kidnapping on the front steps of our hotel.</span></li>
+  <li><span class="sentence">Family ties are strong in rural towns.</span></li>
+  <li><span class="sentence">Small newspapers would not send reporters to look into a kidnapping.</span></li>
+  <li><span class="sentence">Summit was a small town.</span></li>
+  <li><span class="sentence">Summit did not have a large police department.</span></li>
+  <li><span class="sentence">Summit had nothing stronger than constables.</span></li>
+  <li><span class="sentence">Summit might have some lazy bloodhounds.</span></li>
+  <li><span class="sentence">The local newspaper might write a little story.</span></li>
+  <li><span class="sentence">We had to decide on a person to kidnap.</span></li>
+  <li><span class="sentence">We decided the victim would be a child of a well-known (prominent) citizen.</span></li>
+  <li><span class="sentence">We would kidnap the only child of Ebenezer Dorset.</span></li>
+  <li><span class="sentence">The father was respectable.</span></li>
+  <li><span class="sentence">Ebenezer Dorset was a mortgage lender.</span></li>
+  <li><span class="sentence">Dorset went to church.  He foreclosed on property.</span></li>
+  <li><span class="sentence">The kid was a freckle-faced boy of ten.  He had bright red hair.</span></li>
+  <li><span class="sentence">Bill and me figured Ebenezer would pay a ransom of 2,000 dollars.</span></li>
+  <li><span class="sentence">But wait till I tell you.</span></li>
+  <li><span class="sentence">We found a cave in a mountain.  The cave was 2 miles from Summit.</span></li>
+  <li><span class="sentence">We stored supplies (provisions) in the cave.</span></li>
+  <li><span class="sentence">We picked an evening for the kidnapping.</span></li>
+  <li><span class="sentence">We drove in a buggy past old Dorset's house.</span></li>
+  <li><span class="sentence">The kid was in the street.</span></li>
+  <li><span class="sentence">He was throwing rocks at a kitten.</span></li>
+  <li><small>(page 1)</small></li>
+  <li><span class="sentence">"Hey, little boy!" says Bill, "would you like to have a bag of candy and</span></li>
+  <li><span class="sentence">a nice ride?"</span></li>
+  <li><span class="sentence">The boy hit Bill neatly in the eye with a piece of brick.</span></li>
+  <li><span class="sentence">"That will cost the old man an extra 500 dollars," says Bill,</span></li>
+  <li><span class="sentence">That boy put up a fight like a welterweight.</span></li>
+  <li><span class="sentence">Finally, we got him into the buggy and drove away.</span></li>
+  <li><span class="sentence">We took him up to the cave.</span></li>
+  <li><span class="sentence">I drove the buggy back to the little village, three miles away.</span></li>
+  <li><span class="sentence">We rented the buggy there.</span></li>
+  <li><span class="sentence">It was dark.</span></li>
+  <li><span class="sentence">I walked back to the mountain.</span></li>
+  <li><span class="sentence">Bill was plastering cream over scratches and bruises on his body.</span></li>
+  <li><span class="sentence">There was a fire burning in front of the cave.</span></li>
+  <li><span class="sentence">The boy was watching a pot of boiling coffee.</span></li>
+  <li><span class="sentence">He had two buzzard tail feathers in his red hair.</span></li>
+  <li><span class="sentence">The boy pointed a stick at me when I came to the cave.</span></li>
+  <li><span class="sentence">The boy says:</span></li>
+  <li><span class="sentence">"Ha! Cursed paleface, do you dare to enter the camp of Red Chief, the terror of</span></li>
+  <li><span class="sentence"> the plains?"</span></li>
+  <li><span class="sentence">"He's all right now," says Bill.</span></li>
+  <li><span class="sentence">Bill started rolling up his trousers.  He had new bruises on his shins.</span></li>
+  <li><span class="sentence">Bill says, "We're playing Indian.</span></li>
+  <li><span class="sentence">We're making Buffalo Bill's show look like a cheap magic show.</span></li>
+  <li><span class="sentence">I'm Old Hank, the Trapper, Red Chief's captive.</span></li>
+  <li><span class="sentence">Geronimo is going to scalp me in the morning.</span></li>
+  <li><span class="sentence">That kid can kick hard."</span></li>
+  <li><span class="sentence">The boy was having fun camping out in a cave.</span></li>
+  <li><span class="sentence">Camping made him forget that he was a captive himself.</span></li>
+  <li><span class="sentence">He immediately named me "Snake- eye, the Spy".</span></li>
+  <li><span class="sentence">The boy said, I would be broiled at the stake at sunrise.</span></li>
+  <li><span class="sentence">He was waiting for his scouts to return.</span></li>
+  <li><span class="sentence">Then we had supper.</span></li>
+  <li><span class="sentence">The boy filled his mouth full of bacon and bread and gravy.</span></li>
+  <li><span class="sentence">He began to talk.</span></li>
+  <li><span class="sentence">He made a during- dinner speech that made no sense…</span></li>
+  <li><span class="sentence">The boy just kept talking…something like this:</span></li>
+  <li><small>(page 2)</small></li>
+  <li><span class="sentence">"I like this fine. I never camped out before.</span></li>
+  <li><span class="sentence">I had a pet 'possum once, and I was 9 last birthday.</span></li>
+  <li><span class="sentence">I hate to go to school.</span></li>
+  <li><span class="sentence">Rats ate up 16 of Jimmy Talbot's aunt's speckled hen's eggs.</span></li>
+  <li><span class="sentence">Are there any real Indians in these woods?</span></li>
+  <li><span class="sentence">I want some more gravy.</span></li>
+  <li><span class="sentence">Does the trees moving make the wind blow?</span></li>
+  <li><span class="sentence">We had 5 puppies.</span></li>
+  <li><span class="sentence">What makes your nose so red, Hank?</span></li>
+  <li><span class="sentence">My father has lots of money.</span></li>
+  <li><span class="sentence">Are the stars hot?</span></li>
+  <li><span class="sentence">I whipped Ed Walker twice, Saturday.</span></li>
+  <li><span class="sentence">I don't like girls.</span></li>
+  <li><span class="sentence">You dassent catch toads unless with a string.</span></li>
+  <li><span class="sentence">Do oxen make any noise?</span></li>
+  <li><span class="sentence">Why are oranges round?</span></li>
+  <li><span class="sentence">Have you got beds to sleep on in this Cave?</span></li>
+  <li><span class="sentence">Amos Murray has got six toes.</span></li>
+  <li><span class="sentence">A parrot can talk, but a monkey or a fish can't.</span></li>
+  <li><span class="sentence">How many does it take to make 12?"</span></li>
+  <li><span class="sentence">The boy would remember that he was an Indian.</span></li>
+  <li><span class="sentence">He would pick up a stick for a rifle.</span></li>
+  <li><span class="sentence">The boy would tiptoe to the front of the cave.</span></li>
+  <li><span class="sentence">He was waiting for his scouts to return.</span></li>
+  <li><span class="sentence">Now and then he would let out a war-whoop.</span></li>
+  <li><span class="sentence">The sound made Old Hank the Trapper shake (shiver).</span></li>
+  <li><span class="sentence">That boy had Bill scared from the start.</span></li>
+  <li><span class="sentence">"Red Chief," says I to the kid, "would you like to go home?"</span></li>
+  <li><span class="sentence">"Aw, what for?" says he.</span></li>
+  <li><span class="sentence">"I don't have any fun at home. I hate to go to school.</span></li>
+  <li><span class="sentence">I like to camp out.</span></li>
+  <li><span class="sentence">You won't take me back home again, Snake-eye, will you?"</span></li>
+  <li><span class="sentence">"Not right away," says I.</span></li>
+  <li><span class="sentence">"We'll stay here in the cave awhile."</span></li>
+  <li><span class="sentence">"All right!" the boy said.</span></li>
+  <li><span class="sentence">"That'll be fine. I never had such fun in all my life."</span></li>
+  <li><span class="sentence">We went to bed about eleven o'clock.</span></li>
+  <li><span class="sentence">We spread down some wide blankets and quilts.</span></li>
+  <li><span class="sentence">We put Red Chief between us.</span></li>
+  <li><span class="sentence">We weren't afraid he'd run away.</span></li>
+  <li><span class="sentence">He kept us awake for three hours.</span></li>
+  <li><span class="sentence">The boy kept jumping up and reaching for his rifle.</span></li>
+  <li><span class="sentence">He screamed, "Hist! pard," in mine and Bill's ears.</span></li>
+  <li><span class="sentence">At last, I fell into a troubled sleep.</span></li>
+  <li><span class="sentence">I dreamed that I had been kidnapped.</span></li>
+  <li><span class="sentence">In my dream, I was chained to a tree by a ferocious pirate with red hair.</span></li>
+  <li><small>(page 3)</small></li>
+  <li><span class="sentence">I was awakened by a series of awful screams from Bill.</span></li>
+  <li><span class="sentence">They weren't manly yells, or howls, or shouts, or whoops, or yawps.</span></li>
+  <li><span class="sentence">They were indecent, terrifying, humiliating screams, such as women makes.</span></li>
+  <li><span class="sentence">It's an awful thing to hear.</span></li>
+  <li><span class="sentence">Bill was a strong, desperate, fat man.</span></li>
+  <li><span class="sentence">He screamed, uncontrollably in a cave at daybreak.</span></li>
+  <li><span class="sentence">I jumped up to see what the matter was.</span></li>
+  <li><span class="sentence">Red Chief was sitting on Bill's chest.</span></li>
+  <li><span class="sentence">The boy had one hand twined in Bill's hair.</span></li>
+  <li><span class="sentence">In the other he had the sharp jackknife we used for slicing bacon.</span></li>
+  <li><span class="sentence">The boy was realistically trying to take Bill's scalp.</span></li>
+  <li><span class="sentence">That was the punishment he was told to expect the evening before.</span></li>
+  <li><span class="sentence">I got the knife away from the kid.  I made him lie down again.</span></li>
+  <li><span class="sentence">But, from that moment, Bill's spirit was broken.</span></li>
+  <li><span class="sentence">Bill laid down on his side of the bed.</span></li>
+  <li><span class="sentence">He never closed an eye again in sleep as long as that boy was with us.</span></li>
+  <li><span class="sentence">I did doze off for a while.</span></li>
+  <li><span class="sentence">I woke up suddenly as the sun came up.</span></li>
+  <li><span class="sentence">Red Chief had said I was to be burned at the stake at sunrise.</span></li>
+  <li><span class="sentence">I wasn't nervous or afraid; but I sat up and lit my pipe and leaned against a</span></li>
+  <li><span class="sentence">rock.</span></li>
+  <li><span class="sentence">"What you getting up so soon for, Sam?" asked Bill.</span></li>
+  <li><span class="sentence">"Me?" says I.</span></li>
+  <li><span class="sentence">"Oh, I got a kind of pain in my shoulder. I thought sitting up would rest it."</span></li>
+  <li><span class="sentence">"You're a liar!" says Bill.</span></li>
+  <li><span class="sentence">"You're afraid.</span></li>
+  <li><span class="sentence">You was to be burned at sunrise, and you was afraid he'd do it.</span></li>
+  <li><span class="sentence">And he would, too, if he could find a match.</span></li>
+  <li><span class="sentence">Ain't it awful, Sam? Do you think anybody will pay our ransom?</span></li>
+  <li><span class="sentence">Who would want to get a little imp like that back home?"</span></li>
+  <li><span class="sentence">"Sure," said I.</span></li>
+  <li><span class="sentence">"A rowdy kid like that is just the kind that parents dote on.</span></li>
+  <li><span class="sentence">Now, you and the Chief get up and cook breakfast.</span></li>
+  <li><span class="sentence">I will go up on the top of this mountain and look around (reconnoiter).</span></li>
+  <li><small>(page 4)</small></li>
+  <li><span class="sentence">I went up on the peak of the little mountain.</span></li>
+  <li><span class="sentence">I looked over toward Summit.</span></li>
+  <li><span class="sentence">I expected to see the townsfolks looking  for the kidnapers.</span></li>
+  <li><span class="sentence">But what I saw was a peaceful landscape.</span></li>
+  <li><span class="sentence">I saw one man plowing with a mule.</span></li>
+  <li><span class="sentence">Nobody was dragging the creek;</span></li>
+  <li><span class="sentence">no one dashed around (hither and yon), bringing bad news to the parents.</span></li>
+  <li><span class="sentence">There was an attitude of sleepiness</span></li>
+  <li></li>
+  <li><span class="sentence">"Maybe," says I to myself, "they have not found out that the boy is missing.</span></li>
+  <li><span class="sentence">They don't know the ‘wolves' have taken the ‘tender lamb' from the fold.</span></li>
+  <li><span class="sentence">Heaven help the wolves!" says I.</span></li>
+  <li><span class="sentence">I went down the mountain to breakfast.</span></li>
+  <li><span class="sentence">I got to the cave.</span></li>
+  <li><span class="sentence">I found Bill backed up against the side of the cave.</span></li>
+  <li><span class="sentence">Bill was breathing hard.</span></li>
+  <li><span class="sentence">The boy threatened to smash him with a rock.</span></li>
+  <li><span class="sentence">The rock was half as big as a coconut.</span></li>
+  <li><span class="sentence">"He put a red-hot boiled potato down my back," explained Bill.</span></li>
+  <li><span class="sentence">"and then mashed it with his foot.</span></li>
+  <li><span class="sentence">I boxed that boy's ears.</span></li>
+  <li><span class="sentence">Have you got a gun about you, Sam?"</span></li>
+  <li><span class="sentence">I took the rock away from the boy.</span></li>
+  <li><span class="sentence">I patched up the argument.</span></li>
+  <li><span class="sentence">"I'll fix you," says the kid to Bill.</span></li>
+  <li><span class="sentence">"No man ever hit the Red Chief.</span></li>
+  <li><span class="sentence">You better beware!"</span></li>
+  <li><span class="sentence">We ate breakfast.</span></li>
+  <li><span class="sentence">The kid takes something out of his pocket.</span></li>
+  <li><span class="sentence">It is a piece of leather with strings wrapped around.</span></li>
+  <li><span class="sentence">The kid goes outside the cave unwinding it.</span></li>
+  <li><span class="sentence">"What's he up to now?" says Bill, anxiously.</span></li>
+  <li><span class="sentence">"You don't think he'll run away, do you, Sam?"</span></li>
+  <li><span class="sentence">"No fear of it," says I.</span></li>
+  <li><span class="sentence">"He don't seem to be much of a homebody.</span></li>
+  <li><span class="sentence">But we've got to fix up some plan about the ransom.</span></li>
+  <li><span class="sentence">There don't seem to be much excitement around Summit</span></li>
+  <li><span class="sentence">Maybe they don't know he's gone.</span></li>
+  <li><span class="sentence">His folks may think he's spending the night with Aunt Jane or a neighbor.</span></li>
+  <li><span class="sentence">Anyhow, he'll be missed today.</span></li>
+  <li><span class="sentence">We will send a message to his father tonight.</span></li>
+  <li><span class="sentence">We will demand 2,000 dollars for the boy's return."</span></li>
+  <li><span class="sentence">We heard a kind of war-whoop.</span></li>
+  <li><span class="sentence">David might have made that noise when he knocked out the Goliath.</span></li>
+  <li><span class="sentence">It was a sling.</span></li>
+  <li><span class="sentence">Red Chief had pulled it out of his pocket.</span></li>
+  <li><span class="sentence">He was whirling it around his head.</span></li>
+  <li><small>page 5</small></li>
+  <li><span class="sentence">I dodged.</span></li>
+  <li><span class="sentence">I heard a heavy thud and sigh from Bill.</span></li>
+  <li><span class="sentence">The rock was the size of an egg.</span></li>
+  <li><span class="sentence">The rock hit Bill just behind his left ear.</span></li>
+  <li><span class="sentence">Bill fell in the fire across the frying pan of hot water.</span></li>
+  <li><span class="sentence">I dragged Bill out.  I poured cold water on his head for half an hour.</span></li>
+  <li><span class="sentence">Soon, Bill sits up.  He felt behind his ear.</span></li>
+  <li><span class="sentence">Bill says, "Sam, do you know who my favorite Biblical character is?"</span></li>
+  <li><span class="sentence">"Take it easy," says I. "You'll come to your senses presently."</span></li>
+  <li><span class="sentence">"King Herod," says he.</span></li>
+  <li><span class="sentence">"You won't go away and leave me here alone, will you, Sam?"</span></li>
+  <li><span class="sentence">I went out and caught that boy.</span></li>
+  <li><span class="sentence">I shook him until his freckles rattled.</span></li>
+  <li><span class="sentence">"If you don't behave," says I, "I'll take you straight home.</span></li>
+  <li><span class="sentence">Now, are you going to be good, or not?"</span></li>
+  <li><span class="sentence">"I was only funning," the boy says.</span></li>
+  <li><span class="sentence">"I didn't mean to hurt Old Hank. But what did he hit me for?</span></li>
+  <li><span class="sentence">I'll behave, Snake- eye, if you won't send me home.</span></li>
+  <li><span class="sentence">Let me play the Black Scout today?"</span></li>
+  <li><span class="sentence">"I don't know the game," says I.</span></li>
+  <li><span class="sentence">"That's for you and Mr. Bill to decide.</span></li>
+  <li><span class="sentence">He's your playmate for the day.</span></li>
+  <li><span class="sentence">I'm going away for a while, on business.</span></li>
+  <li><span class="sentence">Now, you come in and make friends with him.</span></li>
+  <li><span class="sentence">Say you are sorry for hurting him, or home you go."</span></li>
+  <li><span class="sentence">I made him and Bill shake hands.</span></li>
+  <li><span class="sentence">I took Bill aside.  I told him I was going to Poplar Grove.</span></li>
+  <li><span class="sentence">Poplar Grove is a little village.  It is three miles from the cave.</span></li>
+  <li><span class="sentence">I needed to find out if people in Summit knew about the kidnapping.</span></li>
+  <li><span class="sentence">I also thought we had to send a letter to Ebenezer Dorset that day.</span></li>
+  <li><span class="sentence">I would demand the ransom.</span></li>
+  <li><span class="sentence">I would tell Dorset how the money should be paid.</span></li>
+  <li><span class="sentence">"You know, Sam," says Bill,</span></li>
+  <li><span class="sentence">"I've stood by you without batting an eye in earthquakes, fire, and flood—</span></li>
+  <li><span class="sentence">in poker games, dynamite outrages, police raids, train robberies, and cyclones.</span></li>
+  <li><span class="sentence">I never lost my nerve yet till we kidnapped that two-legged skyrocket of a kid.</span></li>
+  <li><span class="sentence">He's got me going.  You won't leave me long with him, will you, Sam?"</span></li>
+  <li><span class="sentence">"I'll be back sometime this afternoon," says I.</span></li>
+  <li><span class="sentence">"You must keep the boy amused and quiet till I get back.</span></li>
+  <li><span class="sentence">And now we'll write the letter to old Dorset."</span></li>
+  <li><small>(page 6)</small></li>
+  <li><span class="sentence">Bill and I got paper and pencil.</span></li>
+  <li><span class="sentence">We worked on the letter.</span></li>
+  <li><span class="sentence">Red Chief strutted up and down guarding the mouth of the cave.</span></li>
+  <li><span class="sentence">He was wrapped in a blanket.</span></li>
+  <li><span class="sentence">Bill begged to make the ransom 1,500 dollars instead of 2,000 dollars.</span></li>
+  <li><span class="sentence">He had tears in his eyes.</span></li>
+  <li><span class="sentence">"I ain't attempting," says he, "to deny strength of parental affection.</span></li>
+  <li><span class="sentence">but we're dealing with humans.</span></li>
+  <li><span class="sentence">No human is going to pay 2,000 dollars for that 40-pound chunk of wild cat.</span></li>
+  <li><span class="sentence">I'm willing to take a chance at 1,500 dollars.</span></li>
+  <li><span class="sentence">You can charge the difference to me."</span></li>
+  <li><span class="sentence">So, Bill, and I wrote a letter that ran this way:</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">EBENEZER DORSET, ESQ.:</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">We have your boy hidden in a place far from Summit.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">It is useless for you or the police to try to find him.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">The only terms on which you can have him restored to you are these:</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">We demand 1,500 dollars in large bills for his return.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Leave the money at midnight tonight</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Leave it at the same spot and in the box as your reply to this note.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">—hereinafter described.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">If you agree to these terms, send your answer in writing tonight.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Send one messenger at 8:30 tonight.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Send the messenger to: Cross Owl Creek on the road to Poplar Grove.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">You will see 3 large trees about 100 yards apart</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">They are close to the fence near the wheat field on the right.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">There will be a small cardboard (pasteboard) box.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">It will be the bottom of the fencepost, across from the third tree.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">The messenger will put the answer in the box.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">The messenger will return to Summit.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Don't try any tricks and meet our demands...</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">...or you will never see your boy again.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">Pay the money as demanded.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">He will be returned to you safe in 3 hours.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">These terms are final.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">If you do not meet the terms, that is it.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">There will be no more discussion.</span></li>
+  <li><span class="sentence" style="color:blue; font-style:italic;">--TWO DESPERATE MEN</span></li>
+  <li><span class="sentence">I addressed this letter to Dorset.</span></li>
+  <li><span class="sentence">I put the letter in my pocket.</span></li>
+  <li><span class="sentence">I was about to head to the post office.</span></li>
+  <li><span class="sentence">The kid comes up to me and says:</span></li>
+  <li><span class="sentence" style="font-style:italic;">"Snake-eye, you said I could play the Black Scout while you was gone."</span></li>
+  <li><small>(page 7)</small></li>
+  <li><span class="sentence" style="font-style:italic;">"Play it, of course," says I.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"Mr. Bill will play with you.</span></li>
+  <li><span class="sentence" style="font-style:italic;">What kind of a game is it?"</span></li>
+  <li><span class="sentence" style="font-style:italic;">I'm the Black Scout," says Red Chief.</span></li>
+  <li><span class="sentence" style="font-style:italic;">I have to ride to the stockade.</span></li>
+  <li><span class="sentence" style="font-style:italic;">I have to warn the settlers that the Indians are coming.</span></li>
+  <li><span class="sentence" style="font-style:italic;">I'm tired of playing the Indian myself.</span></li>
+  <li><span class="sentence" style="font-style:italic;">I want to be the Black Scout."</span></li>
+  <li><span class="sentence" style="font-style:italic;">"All right," says I.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"It sounds harmless to me.</span></li>
+  <li><span class="sentence" style="font-style:italic;">I guess Mr. Bill will help you foil the Indians."</span></li>
+  <li><span class="sentence" style="font-style:italic;">"What am I to do?" asks Bill.</span></li>
+  <li><span class="sentence" style="font-style:italic;">Bill looked at the kid.  Bill was suspicious.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"You are the hoss," says Black Scout.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"Get down on your hands and knees.</span></li>
+  <li><span class="sentence" style="font-style:italic;">How can I ride to the stockade without a hoss?"</span></li>
+  <li><span class="sentence" style="font-style:italic;">"You'd better keep him interested," said I,</span></li>
+  <li><span class="sentence" style="font-style:italic;">"at least until we get the kidnapping going.</span></li>
+  <li><span class="sentence" style="font-style:italic;">Loosen up."</span></li>
+  <li><span class="sentence">Bill gets down on his all fours.</span></li>
+  <li><span class="sentence">A strange look comes in his eye.</span></li>
+  <li><span class="sentence">He looks like a rabbit caught in a trap.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"How far is it to the stockade, kid?" he asks.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"90 miles," says the Black Scout.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"And you have hurry to get there on time.</span></li>
+  <li><span class="sentence" style="font-style:italic;">Whoa, now!"</span></li>
+  <li><span class="sentence">The Black Scout jumps on Bill's back.</span></li>
+  <li><span class="sentence">He digs his heels in his side.</span></li>
+  <li><span class="sentence" style="font-style:italic;">"For heaven's sake," says Bill,</span></li>
+  <li><span class="sentence">"hurry back, Sam, as soon as you can.</span></li>
+  <li><span class="sentence">I wish we hadn't made the ransom more than 1,000 dollars.</span></li>
+  <li><span class="sentence">Say, you, quit kicking me!</span></li>
+  <li><span class="sentence">I'll get up and warm you good if you hit me again."</span></li>
+  <li><span class="sentence">I walked over to the post office in Poplar Grove.</span></li>
+  <li><span class="sentence">I started talking with the chaw-bacons that came in to trade.</span></li>
+  <li><span class="sentence">One whiskerando says there is news from Summit.</span></li>
+  <li><span class="sentence">He said Summit is upset.</span></li>
+  <li><span class="sentence">Elder Ebenezer Dorset's boy is lost or stolen.</span></li>
+  <li><span class="sentence">That was all I wanted to know.</span></li>
+  <li><span class="sentence">I bought some smoking tobacco.</span></li>
+  <li><span class="sentence">I talked about the price of black-eyed peas.</span></li>
+  <li><span class="sentence">I mailed my letter secretly (surreptitiously) and left.</span></li>
+  <li><span class="sentence">The mail carrier would come in an hour.</span></li>
+  <li><span class="sentence">He would take the mail to Summit.</span></li>
+  <li><span class="sentence">I went back to the cave.</span></li>
+  <li><span class="sentence">Bill and the boy were gone.</span></li>
+  <li><span class="sentence">I explored the area of the cave.</span></li>
+  <li><span class="sentence">I made a yodel or two.</span></li>
+  <li><span class="sentence">There was no response.</span></li>
+  <li><span class="sentence">I lit my pipe.   I sat down on a mossy bank to wait.</span></li>
+  <li><small>(page 8)</small></li>
+<li><span class="sentence">A half-hour passed.</span></li>
+  <li><span class="sentence">I heard the bushes rustle.</span></li>
+  <li><span class="sentence">Bill wobbled out into the area in front of the cave.</span></li>
+  <li><span class="sentence">The kid was a few feet behind Bill.</span></li>
+  <li><span class="sentence">Th boy stepped softly like a scout.  He had a broad grin on his face.</span></li>
+  <li><span class="sentence">Bill stopped.</span></li>
+  <li><span class="sentence">Bill took off his hat.   He wiped his face with a red handkerchief.</span></li>
+  <li><span class="sentence">The kid stopped about 8 feet behind him.</span></li>
+  <li><span class="sentence">"Sam," says Bill, "I suppose you'll think I'm a traitor (renegade).</span></li>
+  <li><span class="sentence">I couldn't help it.</span></li>
+  <li><span class="sentence">I'm a grown person with masculine habits of self-defense…</span></li>
+  <li><span class="sentence">…but there is a time when all systems fail.</span></li>
+  <li><span class="sentence">The boy is gone. I sent him home. All is off.</span></li>
+  <li><span class="sentence">There was martyrs in old times," goes on Bill,</span></li>
+  <li><span class="sentence">"that suffered death rather than give up.</span></li>
+  <li><span class="sentence">None of ‘em had to deal with the tortures I have had.</span></li>
+  <li><span class="sentence">I tried to be faithful to our plan.</span></li>
+  <li><span class="sentence">There came a limit."</span></li>
+  <li><span class="sentence">"What's the trouble, Bill?" I asks him.</span></li>
+  <li><span class="sentence">"I was rode," says Bill, "the 90 miles to the stockade.</span></li>
+  <li><span class="sentence">When the settlers was rescued, I was given oats.</span></li>
+  <li><span class="sentence">Sand ain't a tasty substitute.</span></li>
+  <li><span class="sentence">For an hour, I had to try to explain to him:</span></li>
+  <li><span class="sentence">why there was nothin' in holes…</span></li>
+  <li><span class="sentence">how a road can run both ways…</span></li>
+  <li><span class="sentence">…and what makes the grass green.</span></li>
+  <li><span class="sentence">I tell you, Sam, a human can only stand so much.</span></li>
+  <li><span class="sentence">I takes him by the neck of his clothes</span></li>
+  <li><span class="sentence">I drags him down the mountain.</span></li>
+  <li><span class="sentence">The boy kicks my legs black and blue on the way down.</span></li>
+  <li><span class="sentence">I've got two or three bites on my thumb and hand.</span></li>
+  <li><span class="sentence">Those will need to be closed (cauterized).</span></li>
+  <li><span class="sentence">"But he's gone"—continues Bill—"gone home.</span></li>
+  <li><span class="sentence">I showed him the road to Summit.</span></li>
+  <li><span class="sentence">I kicked him about 8 feet nearer there at one kick.</span></li>
+  <li><span class="sentence">I'm sorry we won't get the ransom.</span></li>
+  <li><span class="sentence">It was either that or Bill Driscoll to the madhouse."</span></li>
+  <li><span class="sentence">Bill is puffing and blowing.</span></li>
+  <li><span class="sentence">There is a look of peace on his face.</span></li>
+  <li><span class="sentence">"Bill," says I, "there isn't any heart disease in your family, is there?"</span></li>
+  <li><span class="sentence">"No," says Bill, "nothing except malaria and accidents. Why?"</span></li>
+  <li><span class="sentence">"Then you might turn around," says I,</span></li>
+  <li><span class="sentence">"Have a look behind you."</span></li>
+  <li></li>
+  <li><small>(page 9)</small></li>
+  <li><span class="sentence">Bill turns and sees the boy.</span></li>
+  <li><span class="sentence">Bill turned pale and sat down on the ground.</span></li>
+  <li><span class="sentence">Bill plucked aimlessly at grass and little sticks.</span></li>
+  <li><span class="sentence">For an hour I was afraid of his mind.</span></li>
+  <li><span class="sentence">I told him that my idea was to rush the job.</span></li>
+  <li><span class="sentence">We would get the ransom and be off with it by midnight.</span></li>
+  <li><span class="sentence">Old Dorset would agree with our plan.</span></li>
+  <li><span class="sentence">Bill give the kid a weak smile.</span></li>
+  <li><span class="sentence">Bill promised to play a Russian in a Japanese war with the boy.</span></li>
+  <li><span class="sentence">I had a plan for collecting the ransom without being caught.</span></li>
+  <li><span class="sentence">Dorset would leave the answer under a tree.</span></li>
+  <li><span class="sentence">The money would be left there later.</span></li>
+  <li><span class="sentence">The tree was close to the road fence.</span></li>
+  <li><span class="sentence">There were big, bare fields on all sides.</span></li>
+  <li><span class="sentence">If police were watching for anyone to come for the note, they could see him.</span></li>
+  <li><span class="sentence">Police could see someone crossing the fields or in the road.</span></li>
+  <li><span class="sentence">But they wouldn't see me.  No, sirree!</span></li>
+  <li><span class="sentence">At 8:30 p.m. I was up in that tree.</span></li>
+  <li><span class="sentence">I was well hidden.</span></li>
+  <li><span class="sentence">I waited for the messenger to arrive.</span></li>
+  <li><span class="sentence">The messenger rode up the road on a bicycle.  He was right on time.</span></li>
+  <li><span class="sentence">He found the pasteboard box at the fencepost.</span></li>
+  <li><span class="sentence">He slipped a folded piece of paper into it.</span></li>
+  <li><span class="sentence">He pedals away again back toward Summit.</span></li>
+  <li><span class="sentence">I waited an hour.</span></li>
+  <li><span class="sentence">When I thought it was safe, I slid down the tree.</span></li>
+  <li><span class="sentence">I got the note.</span></li>
+  <li><span class="sentence">I walked along the fence till I came to the woods.</span></li>
+  <li><span class="sentence">I got back to the cave in 30 minutes.</span></li>
+  <li><span class="sentence">I opened the note and read it to Bill.</span></li>
+  <li><span class="sentence">It was written with a pen.   The sum and substance of it was this:</span></li>
+  <li><span class="sentence" style="color:blue;">TWO DESPERATE MEN:</span></li>
+  <li><span class="sentence" style="color:blue;">Gentlemen: I received your letter today by post.</span></li>
+  <li><span class="sentence" style="color:blue;">Regarding the ransom you ask for,</span></li>
+  <li><span class="sentence" style="color:blue;">I think you are a little high in your demands.</span></li>
+  <li><span class="sentence" style="color:blue;">I hereby make you a counter-proposition.</span></li>
+  <li><span class="sentence" style="color:blue;">I think you will accept my offer.</span></li>
+  <li><span class="sentence" style="color:blue;">You bring Johnny home.</span></li>
+  <li><span class="sentence" style="color:blue;">You pay me 250 dollars in cash.</span></li>
+  <li><span class="sentence" style="color:blue;">I agree to take him off your hands.</span></li>
+  <li><span class="sentence" style="color:blue;">You had better come at night.</span></li>
+  <li><span class="sentence" style="color:blue;">The neighbors believe he is lost.</span></li>
+  <li><span class="sentence" style="color:blue;">I won't be responsible for what they would if they saw you bring him back.</span></li>
+  <li><span class="sentence" style="color:blue;">Very respectfully,</span></li>
+  <li><span class="sentence" style="color:blue;">EBENEZER DORSET</span></li>
+  <li><small>(page 10)</small></li>
+  <li><span class="sentence"> "Great Pirates of Penzance," says I,</span></li>
+  <li><span class="sentence">"of all the bold—"</span></li>
+  <li><span class="sentence">But I glanced at Bill, and hesitated.</span></li>
+  <li><span class="sentence">He had the most appealing look in his eyes I ever saw.</span></li>
+  <li><span class="sentence">"Sam," says he, "what's 250 dollars, after all?</span></li>
+  <li><span class="sentence">We've got the money.</span></li>
+  <li><span class="sentence">One more night of this kid will send me to a bed in Bedlam.</span></li>
+  <li><span class="sentence">Besides being a thorough gentleman, I think Mr. Dorset is generous.</span></li>
+  <li><span class="sentence">He made us such a liberal offer.</span></li>
+  <li><span class="sentence">You ain't going to let the chance go, are you?"</span></li>
+  <li><span class="sentence">"Tell you the truth, Bill," says I,</span></li>
+  <li><span class="sentence">"this little lamb has some what got on my nerves, too.</span></li>
+  <li><span class="sentence">We'll take him home, pay the ransom, and make our getaway."</span></li>
+  <li><span class="sentence">We took him home that night.</span></li>
+  <li><span class="sentence">We lied to get the kid to go.</span></li>
+  <li><span class="sentence">We said that his father had bought a silver-mounted rifle and a pair of moccasins</span></li>
+  <li><span class="sentence">for him.</span></li>
+  <li><span class="sentence">We told him that we were hunting bears the next day.</span></li>
+  <li><span class="sentence">It was just 12:00 when we knocked at Ebenezer's front door.</span></li>
+  <li><span class="sentence">When I should have been getting the 1,500 dollars from the pasteboard box,</span></li>
+  <li><span class="sentence">Bill was counting out 250 dollars into Dorset's hand.</span></li>
+  <li><span class="sentence">The kid howled when he found out we were going to leave him at home.</span></li>
+  <li><span class="sentence">He fastened himself as tight as a leech to Bill's leg.</span></li>
+  <li><span class="sentence">His father peeled him away gradually.</span></li>
+  <li><span class="sentence">"How long can you hold him?" asks Bill.</span></li>
+  <li><span class="sentence">"I'm not as strong as I used to be," says old Dorset,</span></li>
+  <li><span class="sentence">"but I think I can promise you ten minutes."</span></li>
+  <li><span class="sentence">"Enough," says Bill.</span></li>
+  <li><span class="sentence">"In ten minutes I shall cross the Central, Southern, and Middle Western states.</span></li>
+  <li><span class="sentence">We will head for the Canadian border."</span></li>
+  <li><span class="sentence">It was dark when we left...</span></li>
+  <li><span class="sentence">As fat as Bill was, and as good a runner as I am, he was a good 1 and a half miles out of</span></li>
+  <li><span class="sentence">Summit before I could catch up with him.</span></li>
+</ol></span>
+
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  <div id="os-msg"></div>
+  <br>
+  The Reading Monitor will stop listening after the end of each sentence.
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+  </div>
+  <br>
+  The Reading Monitor recitation volume can be adjusted.
+  <div class="option" id="volumeControl">
+    <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+  </div>
+  <br>
+  The Reading Monitor voice can be changed.
+  <div class="option">
+    <label for="voice" id="voiceLabel">Voice</label>
+    <select name="voice" id="voice"></select>
+  </div>
+  <br>
+
+ The Reading Monitor diagnostics can be verbose.
+  <div class="option" id="showDiagnosticMsgVerboseControl">
+   <input type="checkbox" name="showDiagnosticMsgVerbose" id="showDiagnosticMsgVerbose" default="unchecked">
+   <label id="showDiagnosticMsgVerboseLabel" for="showDiagnosticMsgVerbose">Show diagnostic message queue</label>
+  </div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Progress</h2>
+  <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'mysentencebank'+getCurrentDate()+'.log')">Download and Clear</button>
+
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+
+  <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+  <span>word idx:</span><span id="wordIdx">0</span>,
+  <span>word id:</span><span id="wordId">0</span>,
+  <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+
+</main>
+
+<nav>
+  <div onclick="" class="navbar-list ol">
+    <div onclick="" id="navbar-items"> <!-- placeholder -->
+    </div>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+/***
+ *
+ * Initialize page
+ *
+ ***/
+ var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.diagnosticVerboseCheckboxElementId = "showDiagnosticMsgVerbose";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+ //   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+</script>
+</html>
