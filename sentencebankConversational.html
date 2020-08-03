@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+:root {
+  --nav-width: 220px;
+}
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+h1 {
+  font-family: arial;
+  font-size: 100%;
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+}
+.ul {
+  font-weight: bold;
+  font-family: arial;
+}
+ol {
+  font-family: arial;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+li:not(:last-child) {
+  margin-bottom: 10px; /* spacing between list items */
+}
+.my-links {
+  font-family: arial;
+}
+
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 200%;
+  }
+  nav {
+    width: var(--nav-width);
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  }
+  main {
+    left: var(--nav-width);
+  }
+  .navbar-li
+  {
+    font-size: 175%;
+  }
+  .rm_sentence {
+    font-size: 150%;
+  }
+}
+@media only screen
+  and (device-width: 360px) {
+    h1 {
+      font-size: 200%;
+    }
+    h2 {
+      font-size: 200%;
+    }
+    nav {
+      width: var(--nav-width);
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    }
+    main {
+      left: var(--nav-width);
+    }
+  .navbar-li
+  {
+    font-size: 150%;
+  }
+}
+</style>
+</head>
+<title>Conversational Sentences</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Conversational Sentences">
+      <span style="float:left; padding-right:5px">
+        <button id="listenBtn" value="listen">
+          <img id="listenBtnImg"  alt="Listen">
+        </button>
+      </span>
+      <span style="float:left" class="speak_onclick" XSAMPA="Conversational Sentences">Conversational Sentences</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<meta name="format-detection" content="telephone=no"> <!-- disable iOS autoformat of telephone# -->
+
+<div>
+<ol>
+  <li><span class="sentence">How are you?</span></li>
+  <li><span class="sentence">I am fine.</span></li>
+  <li><span class="sentence">Where are you going?</span></li>
+  <li><span class="sentence">I am going home.</span></li>
+  <li><span class="sentence">Who was that on the phone?</span></li>
+  <li><span class="sentence">It was for you.</span></li>
+  <li><span class="sentence">I am in a hurry.</span></li>
+  <li><span class="sentence">It was time for dinner.</span></li>
+  <li><span class="sentence">What are we having?</span></li>
+  <li><span class="sentence">Is that clear?</span></li>
+  <li><span class="sentence">Do you understand me?</span></li>
+  <li><span class="sentence">I don't know.</span></li>
+  <li><span class="sentence">What do you want?</span></li>
+  <li><span class="sentence">I want a drink.</span></li>
+  <li><span class="sentence">What's new?</span></li>
+  <li><span class="sentence">I've had it.</span></li>
+  <li><span class="sentence">I'm trying.</span></li>
+  <li><span class="sentence">Excuse me.</span></li>
+  <li><span class="sentence">I need your help.</span></li>
+  <li><span class="sentence">Oh, come on.</span></li>
+  <li><span class="sentence">Are you ready?</span></li>
+  <li><span class="sentence">I said so.</span></li>
+  <li><span class="sentence">Who knows?</span></li>
+  <li><span class="sentence">I don't care.</span></li>
+  <li><span class="sentence">I need you.</span></li>
+  <li><span class="sentence">Are you hungry?</span></li>
+  <li><span class="sentence">No, I am not.</span></li>
+  <li><span class="sentence">We will eat later.</span></li>
+  <li><span class="sentence">When are we going?</span></li>
+  <li><span class="sentence">I will ask him.</span></li>
+  <li><span class="sentence">Who was at the door?</span></li>
+  <li><span class="sentence">I've had enough.</span></li>
+  <li><span class="sentence">I'm okay.</span></li>
+  <li><span class="sentence">He gave it to me.</span></li>
+  <li><span class="sentence">I will think about it.</span></li>
+  <li><span class="sentence">Where is the doctor?</span></li>
+  <li><span class="sentence">I don't believe you.</span></li>
+  <li><span class="sentence">How are you doing?</span></li>
+  <li><span class="sentence">Please give it to me.</span></li>
+  <li><span class="sentence">I want some more.</span></li>
+  <li><span class="sentence">What is your name?</span></li>
+  <li><span class="sentence">It is too late.</span></li>
+  <li><span class="sentence">Are you coming?</span></li>
+  <li><span class="sentence">I know what I am doing.</span></li>
+  <li><span class="sentence">How old are you?</span></li>
+  <li><span class="sentence">What did you say?</span></li>
+  <li><span class="sentence">I said, "Let's go."</span></li>
+  <li><span class="sentence">Never mind.</span></li>
+  <li><span class="sentence">What time is it?</span></li>
+  <li><span class="sentence">I get it.</span></li>
+  <li><span class="sentence">Goodbye.</span></li>
+  </ol>
+</div>
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  <div id="os-msg"></div>
+  <br>
+  The Reading Monitor will stop listening after the end of each sentence.
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+  </div>
+  <br>
+  The Reading Monitor recitation volume can be adjusted.
+  <div class="option" id="volumeControl">TheR
+    <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+  </div>
+  <br>
+  The Reading Monitor voice can be changed.
+  <div class="option">
+    <label for="voice" id="voiceLabel">Voice</label>
+    <select name="voice" id="voice"></select>
+  </div>
+  <br>
+
+ The Reading Monitor diagnostics can be verbose.
+  <div class="option" id="showDiagnosticMsgVerboseControl">
+   <input type="checkbox" name="showDiagnosticMsgVerbose" id="showDiagnosticMsgVerbose" default="unchecked">
+   <label id="showDiagnosticMsgVerboseLabel" for="showDiagnosticMsgVerbose">Show diagnostic message queue</label>
+  </div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Progress</h2>
+  <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'mysentencebank'+getCurrentDate()+'.log')">Download and Clear</button>
+
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+
+  <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+  <span>word idx:</span><span id="wordIdx">0</span>,
+  <span>word id:</span><span id="wordId">0</span>,
+  <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+
+</main>
+
+<nav>
+  <div onclick="" class="navbar-list ol">
+    <div onclick="" id="navbar-items"> <!-- placeholder -->
+    </div>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+/***
+ *
+ * Initialize page
+ *
+ ***/
+ var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.diagnosticVerboseCheckboxElementId = "showDiagnosticMsgVerbose";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+ //   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+</script>
+</html>
