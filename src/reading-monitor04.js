@@ -1,6 +1,6 @@
 /*******************************************
  * Reading Monitor v0.4.0
- * (c) 2017, 2018 by Wen Eng. All rights reserved.
+ * (c) 2017, 2018, 2019, 2020 by Wen Eng. All rights reserved.
  ********************************************/
 "use strict";
 const senteneceIdxTag = "idx";
@@ -65,7 +65,7 @@ function getOS() {
 }
 class Stack {
   constructor() {
-    this._itmes = [];
+    this._items = [];
     this._depth = 0;
   }
   length() {
@@ -107,6 +107,7 @@ class CounterMap {
     return this._tokenCounter.size;
   }
 }
+// derived from Map() to specifically increment and decrement value field
 class ListMap {
   constructor() {
     this._indexMap = new Map();
@@ -163,6 +164,7 @@ class Timer {
     this._retries = retries;
   }
 }
+// derived from Map() to specifically increment and decrement value field
 class PronunciationMap {
   constructor(parent) {
     this._parent = parent;
@@ -208,13 +210,17 @@ class Progress {
   commit(comment) {
 
   }
-  write() {
+  write() { //serialize
 
   }
   reset() {
 
   }
 }
+/**************************************************************************
+ * Main Speech recognition class that encapsulates WebkitSpeechRecognition
+ * Web Speech API from Google
+***************************************************************************/
 class SpeechRecognition {
   constructor(parent) {
     this._parent = parent;
@@ -227,6 +233,7 @@ class SpeechRecognition {
     this._mismatchedWordCounterMap = new CounterMap();
     this._recognitionPattern = new PronunciationMap(this);
     this._progress = new Progress(this);
+
     this._currentWordCount = 0; //strictly for reporting and NOT recognition
     this._currentWordExpected = ""; //strictly for reporting and NOT recognition
     this._currentWordStart = 0; //strictly for reporting and NOT processing
@@ -739,6 +746,7 @@ initialize() {
     }
   } // initialize
 } // Speech Recognition class
+
 class SpeechSynthesis {
   constructor(parent) {
     this._parent = parent;
@@ -1827,7 +1835,8 @@ class ReadingMonitor {
       }
       this.diagnosticMsg = "Initialized reading monitor.";
 
-//      this.parseSentences("sentence");
+//    sentence parsing should not be perfomred onload but performed offline
+//    as part of the publishing process
       this.parseSentences("sentence");
       this.moveToFirstSentence();
 

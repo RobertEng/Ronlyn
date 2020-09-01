@@ -1,24 +1,46 @@
 {
   "list": [
     {
-        "name": "animals",
-        "description": "list of animals",
-        "items": [
-          { "item": "ant" },
-          { "item": "bat" },
-          { "item": "cat" },
-          { "item": "dog" },
-          { "item": "elephant" }
-        ]
+      "description": "list of animals",
+      "items": [
+        {
+          "item": "ant"
+        },
+        {
+          "item": "bat"
+        },
+        {
+          "item": "cat"
+        },
+        {
+          "item": "dog"
+        },
+        {
+          "item": "elephant"
+        }
+      ],
+      "name": "animals"
     },
-    { "name": "plants"
+    {
       "description": "list of plants",
       "items": [
-        { "item": "azalea" },
-        { "item": "banana" },
-        { "item": "cactus" },
-        { "item": "dogwood" },
-        { "item": "eucalyptus" }
-      ]
+        {
+          "item": "azalea"
+        },
+        {
+          "item": "banana"
+        },
+        {
+          "item": "cactus"
+        },
+        {
+          "item": "dogwood"
+        },
+        {
+          "item": "eucalyptus"
+        }
+      ],
+      "name": "plants"
     }
-]
+  ]
+}
