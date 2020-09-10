@@ -29,23 +29,8 @@ const ParserNodeType = { // must be unique
   TBD: 'TBD',
   WORD: 'WORD'
 };
-//const testMap =  [
-//  [TokenType.WORD, { tag: TokenTag.WORD, pattern: /([A-Za-z]+)/g }],
-//  [TokenType.TOKEN, { tag: TokenTag.WORD, pattern: /([A-Za-z]+)/g }]
-// ];
+class ParserNode_WORD1  {
+  //
+}
 
-// Definition maps tokentype to parserNodeType used by parse(token)
-const TokenToParserNodeDispatch = new Map( [
-  [TokenType.WORD, this.parseWord(token)]
-  [TokenType.NUMBER, this.parseNumber(token)],
-  [TokenType.PUNCTUATION, this.parsePunctuation(token)],
-  [TokenType.MLTAG, parseMLtag(token)]
-]);
-const MLtokenToParserNodeDispatch = new Map( [
-  [TokenType.CONTRACTION, this.parseContraction(token)]
-  [TokenType.NUMBER, this.parseNumber(token)],
-  [TokenType.PUNCTUATION, this.parsePunctuation(token)],
-  [TokenType.MLTAG, parseMLtag(token)]
-]);
-
-module.exports = { ParserNodeType };
+module.exports = { ParserNodeType, ParserNode_WORD1 };

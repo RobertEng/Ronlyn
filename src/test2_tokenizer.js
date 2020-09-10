@@ -5,14 +5,10 @@
 
 'use strict';
 const  { TokenType, endMarkupTag, TokenTag } = require('../src/test2_tokentypes.js');
-// Definition of tokens to be tokenized
-const TokenizerTokenTypeList = new Map( [
-  [TokenType.WORD, { tag: TokenTag.WORD, pattern: /([A-Za-z]+)/ }],
-  [TokenType.NUMBER, { tag: TokenTag.NUMBER, pattern: /([0-9]+)/ }],
-  [TokenType.PUNCTUATION, { tag: TokenTag.PUNCTUATION, pattern: /([,.\/#$%\^&\*;:{}=\-_'~()\"\?\.!@])/ }],
-  [TokenType.MLTAG, { tag: TokenTag.MLTAG, pattern: /(<[\w\s="/.':;#-\/\?]+>)/ }],
-  [TokenType.MLTAG_END, { tag: TokenTag.MLTAG_END, pattern: /(<[\w\s="/.':;#-\/\?]+>)/ }]
-]);
+const  { Logger } = require('../src/utilities.js');
+
+// Definition of tokens to be tokenized (Mpa gurantees order)
+
 // Add additional tokenTags/pattern to be processed as parser markup directives.
 // The tag field contains the ML tag to be embedded.
 // In the case of dates, the specific format is valuable to preserve since parsing will be handled
@@ -21,99 +17,77 @@ const TokenizerTokenTypeList = new Map( [
 // can be added at that time.
 // Note: Definition of tokens to be identified with mark up tags before tokenizing. TokenType is not
 // necessary because the method that uses this list does not record the Token Type, just the token tag
-const MarkupTokenTypeList = [
-  { tag: TokenTag.USD,
-    pattern: /(?<=^|\W)\$(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.EMAILADDRESS,
-    pattern: /(?<=^|\W)([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})(?=(?=\s|\W|$|[.!?\\-]))/g },
-
-  { tag: TokenTag.PHONENUMBER,
-    pattern: /(?<=^|\W)\(\d{3}\)\s\d{3}-\d{4}(?=(\W|$))/g },
-
-  { tag: TokenTag.TIME,
-    pattern: /(?<=^|\W)([0-9]|[0-1][0-9]|[2][0-3]):([0-5][0-9])(?=(\W|$))/g },
-
-  { tag: TokenTag.DATE1,
-    pattern: /(?<=^|\W)((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\ (((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])\s*(Jan(uary)?|Feb(ruary)?|Ma(r(ch)?|y)|Apr(il)?|Ju((ly?)|(ne?))|Aug(ust)?|Oct(ober)?|(Sep(?=\b|t)t?|Nov|Dec)(ember)?)\ ((1[6-9]|[2-9]\d)\d{2})(?=\s)/g }, //DD MMM YYY
-
-  { tag: TokenTag.DATE2,
-    pattern: /(?<=^|\W)(Jan(.|(uary))?|Feb(.|(ruary))?|Ma(r(.|(ch))?|y)|Apr(.|(il))?|Jul(.|(y))?|Jun(.|(e))?|Aug(.|(ust))?|Oct(.|(ober))?|(Sep(?=\b|t)t?|Nov|Dec)(.|(ember))?)\ ((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\s*(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8]),[\s]*((1[6-9]|[2-9]\d)\d{2})(?=(\W|$))/g }, //MMM* DD,YYYY
-
-  { tag: TokenTag.DATE3,
-    pattern: /(?<=^|\W)(Jan(.|(uary))?|Feb(.|(ruary))?|Ma(r(.|(ch))?|y)|Apr(.|(il))?|Jul(.|(y))?|Jun(.|(e))?|Aug(.|(ust))?|Oct(.|(ober))?|(Sep(?=\b|t)t?|Nov|Dec)(.|(ember))?)\ ((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\s*(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])(?=\s)/g }, //MMM* DD
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\s|^$)([A-Za-z]+)\'d(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\s|^$)([A-Za-z]+)\'ll(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\s|^$)I\'m(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\W|^$)(([Yy]ou|[Ww]e|[Tt]hey|[Ww]hat)\'re)(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\W|^$)([Ii]s|[Aa]re|[Ww]as|[Ww]ere|[Hh]ave|[Hh]as|[Hh]ad|[Ww]o|[Ww]ould|[Dd]o|[Dd]oes|[Dd]id|[Cc]a|[Cc]ould|[Ss]hould|[Mm]igh|[Mm]ust])n\'t(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\s|^$)([A-Za-z]+)\'s(?=\s|\W|$|[.!?\\-])/g }, // also includes possessives
-
-  { tag: TokenTag.CONTRACTION,
-    pattern: /(?<=^|\s|^$)(I|[Yy]ou|[Ww]e|[Tt]hey|[Ss]hould|[Cc]ould|[Ww]ould|[Mm]ight|[Mm]ust)\'ve(?=\s|\W|$|[.!?\\-])/g },
-
-  { tag: TokenTag.NUMBER_WITHCOMMAS,
-    pattern: /(?<=^|\s|^$)(\d{0,3},)?(\d{3},)*(\d{1,3},\d{3})(?=\s|\W|$|[.!?\\-])/g }
-  // scan for token that require potential markup tags
-];
 
 class Tokenizer {
   constructor(parent) {
+    this._logger = new Logger(this);
     this._parent = parent;
-//    this._wordTokenPattern = new RegExp(/([A-Za-z]+)/);
-/*
-    this._wordTokenPattern = new RegExp(WordTokenPattern);
-    this._numberTokenPattern = new RegExp(/([0-9]+)/);
-    this._punctuationTokenPattern = new RegExp(/([,.\/#$%\^&\*;:{}=\-_'~()\"\?\.!@])/);
-
-    this._htmlTagOpenTokenPattern = new RegExp(/(<[\w\s="/.':;#-\/\?]+>)/);
-    this._htmlTagCloseTokenPattern = new RegExp(/(<\/[\w\s="/.':;#-\/\?]+>)/);
-
-    this._htmltagPattern = new RegExp(/(<[\/]?[\w\s="/.':;#-\/\?]+>)/);
-
-    this._htmlTagTokenPattern = new RegExp(this._htmlTagOpenTokenPattern.source
-                                  + "|" + this._htmlTagCloseTokenPattern.source);
-*/
     // Build token pattern from TokenTypeList
     let tokenPatternSource = "";
-    TokenizerTokenTypeList.forEach((TokenizerTokenType) => {
+    this._TokenizerTokenTypeList = new Map( [
+      [TokenType.WORD, { tag: TokenTag.WORD, pattern: /([A-Za-z]+)/ }],
+      [TokenType.NUMBER, { tag: TokenTag.NUMBER, pattern: /([0-9]+)/ }],
+      [TokenType.PUNCTUATION, { tag: TokenTag.PUNCTUATION, pattern: /([,.\/#$%\^&\*;:{}=\-_'~()\"\?\.!@])/ }],
+      [TokenType.MLTAG, { tag: TokenTag.MLTAG, pattern: /(<[\w\s="/.':;#-\/\?]+>)/ }],
+      [TokenType.MLTAG_END, { tag: TokenTag.MLTAG_END, pattern: /(<[\w\s="/.':;#-\/\?]+>)/ }]
+    ]);
+    this._TokenizerTokenTypeList.forEach((TokenizerTokenType) => {
       tokenPatternSource = tokenPatternSource + TokenizerTokenType.pattern.source +"|";
     });
+    // should be its own object with iterator
     this._tokenPattern = new RegExp(tokenPatternSource.slice(0,-1),"g");
-//    console.log("pattern: "+tokenPatternSource);
-
-    /*
-    this._tokenPattern = new RegExp(TokenizerTokenTypeList.get(TokenType.WORD).pattern.source + "|"
-    + TokenizerTokenTypeList.get(TokenType.NUMBER).pattern.source + "|"
-    + TokenizerTokenTypeList.get(TokenType.PUNCTUATION).pattern.source + "|"
-    + TokenizerTokenTypeList.get(TokenType.MLTAG).pattern.source + "|"
-    + TokenizerTokenTypeList.get(TokenType.MLTAG_END).pattern.source, "g");
-
-//    console.log("pattern: "+this._tokenPattern);
-    this._tokenPattern = new RegExp(this._wordTokenPattern.source + "|"
-                              + this._numberTokenPattern.source + "|"
-                              + this._punctuationTokenPattern.source + "|"
-                              + this._htmlTagOpenTokenPattern.source + "|"
-                              + this._htmlTagCloseTokenPattern.source,"g"); //global flag thar returns ALL matches
-this._tokenPattern1 = new RegExp(this._wordTokenPattern.source + "|"
-                          + this._numberTokenPattern.source + "|"
-                          + this._punctuationTokenPattern.source + "|"
-                          + this._htmltagPattern.source,"g");
-
-  */
+    this._MarkupTokenTypeList = [
+      { tag: TokenTag.USD,
+        type: TokenType.USD,
+        pattern: /(?<=^|\W)\$(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.EMAILADDRESS,
+        type: TokenType.EMAILADDRESS,
+        pattern: /(?<=^|\W)([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})(?=(?=\s|\W|$|[.!?\\-]))/g },
+      { tag: TokenTag.PHONENUMBER,
+        type: TokenType.PHONENUMBER,
+        pattern: /(?<=^|\W)\(\d{3}\)\s\d{3}-\d{4}(?=(\W|$))/g },
+      { tag: TokenTag.TIME,
+        type: TokenType.TIME,
+        pattern: /(?<=^|\W)([0-9]|[0-1][0-9]|[2][0-3]):([0-5][0-9])(?=(\W|$))/g },
+      { tag: TokenTag.DATE1,
+        type: TokenType.DATE1,
+        pattern: /(?<=^|\W)((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\ (((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])\s*(Jan(uary)?|Feb(ruary)?|Ma(r(ch)?|y)|Apr(il)?|Ju((ly?)|(ne?))|Aug(ust)?|Oct(ober)?|(Sep(?=\b|t)t?|Nov|Dec)(ember)?)\ ((1[6-9]|[2-9]\d)\d{2})(?=\s)/g }, //DD MMM YYY
+      { tag: TokenTag.DATE2,
+        type: TokenType.DATE2,
+        pattern: /(?<=^|\W)(Jan(.|(uary))?|Feb(.|(ruary))?|Ma(r(.|(ch))?|y)|Apr(.|(il))?|Jul(.|(y))?|Jun(.|(e))?|Aug(.|(ust))?|Oct(.|(ober))?|(Sep(?=\b|t)t?|Nov|Dec)(.|(ember))?)\ ((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\s*(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8]),[\s]*((1[6-9]|[2-9]\d)\d{2})(?=(\W|$))/g }, //MMM* DD,YYYY
+      { tag: TokenTag.DATE3,
+        type: TokenType.DATE3,
+        pattern: /(?<=^|\W)(Jan(.|(uary))?|Feb(.|(ruary))?|Ma(r(.|(ch))?|y)|Apr(.|(il))?|Jul(.|(y))?|Jun(.|(e))?|Aug(.|(ust))?|Oct(.|(ober))?|(Sep(?=\b|t)t?|Nov|Dec)(.|(ember))?)\ ((31(?!\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\b|t)t?|Nov)(ember)?)))|((30|29)(?!\ Feb(ruary)?))|(29(?=\ Feb(ruary)?\s*(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])(?=\s)/g }, //MMM* DD
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)([A-Za-z]+)\'d(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)([A-Za-z]+)\'ll(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)I\'m(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\W|^$)(([Yy]ou|[Ww]e|[Tt]hey|[Ww]hat)\'re)(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\W|^$)([Ii]s|[Aa]re|[Ww]as|[Ww]ere|[Hh]ave|[Hh]as|[Hh]ad|[Ww]o|[Ww]ould|[Dd]o|[Dd]oes|[Dd]id|[Cc]a|[Cc]ould|[Ss]hould|[Mm]igh|[Mm]ust])n\'t(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)([A-Za-z]+)\'s(?=\s|\W|$|[.!?\\-])/g }, // also includes possessives
+      { tag: TokenTag.CONTRACTION,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)(I|[Yy]ou|[Ww]e|[Tt]hey|[Ss]hould|[Cc]ould|[Ww]ould|[Mm]ight|[Mm]ust)\'ve(?=\s|\W|$|[.!?\\-])/g },
+      { tag: TokenTag.NUMBER_WITHCOMMAS,
+        type: TokenType.CONTRACTION,
+        pattern: /(?<=^|\s|^$)(\d{0,3},)?(\d{3},)*(\d{1,3},\d{3})(?=\s|\W|$|[.!?\\-])/g }
+      // scan for token that require potential markup tags
+    ];
   };
+get logger() {
+  return this._logger;
+}
 tokenize(sentence) {
     let tokenList = Array(); // to be returned including whitespace
     let t = 0;
@@ -123,7 +97,8 @@ tokenize(sentence) {
       // of non-whitespace tokens, tokensOnly and extract and insert whitespace between
       // non-whitespace tokens.
       let tokenOnlyList = sentence.match(this._tokenPattern); // token list without whitespace
-      //console.log("tokenOnlyList: "+tokenOnlyList);
+      this.logger.diagnosticMode = false;
+      this.logger.diagnostic("tokenOnlyList="+tokenOnlyList);
       for (var tokenOnly of tokenOnlyList) {
         let tokenPos  = sentence.indexOf(tokenOnly, currentPos);
         if (currentPos < tokenPos) { // whitespace before token
@@ -135,7 +110,6 @@ tokenize(sentence) {
           tokenList[t++] = new Token(tokenOnly, this.tokenType(tokenOnly), currentPos,
                             tokenOnly.length);
           currentPos = tokenPos + tokenOnly.length; // positioned at next token
-
           if (currentPos < sentence.length) { // positioned at trailing whitespace, if any
             tokenList[t] = new Token(sentence.substring(currentPos, sentence.length),
                             TokenType.WHITESPACE, currentPos, sentence.length - currentPos);
@@ -168,29 +142,10 @@ tokenize(sentence) {
     tokens.forEach(token => tokenList = tokenList + "{"+token.text+"} " );
     console.log(tokenList);
   }
-  formatForUT(tokens) {
-    var tokenJson = {
-      TOK: "",
-      TYP: "",
-      POS: 0,
-      LEN: 0
-    };
-    let tokenList ="";
-    tokens.forEach(token => {
-      tokenJson.TOK = token.text;
-      tokenJson.TYP = token.type;
-      tokenJson.POS = token.positon;
-      tokenJson.LEN = token.length;
-      tokenList = tokenList + JSON.stringify(tokenJson);
-//      tokenList = tokenList + "TOK:"+token.text+"TYP:"+token.type+"POS:"+token.position+"LEN:"+token.length
-    } );
-    return tokenList;
-  }
   insertMarkupTags(sentence) {
     try {
       let result = sentence;
-
-      MarkupTokenTypeList.forEach((markupTag) => {
+      this._MarkupTokenTypeList.forEach((markupTag) => {
         let tokenList = result.match(markupTag.pattern); // with global flag set
         if (tokenList !== null) {
           let startPos = 0;
@@ -198,14 +153,16 @@ tokenize(sentence) {
           tokenList.forEach((token) => {
             tokenPos = result.indexOf(token, startPos);
             if (tokenPos < 0) {
-                console.log("Tokenizer.insertMarkupTags(): {" + token
-                  + "} not found in string from after pos=" +startPos);
+              // Found by regexp match and stored in tokenlist but not found by indexOf
+              this.logger.error("{" + token + "} not found in string from after pos="
+                                + startPos);
+              // should throw exception
             }
             else if (tokenPos >= markupTag.tag.length
-              & result.substr((tokenPos-markupTag.tag.length), markupTag.tag.length)
+              & result.substr((tokenPos - markupTag.tag.length), markupTag.tag.length)
                 === markupTag.tag) {
-              console.log("Tokenizer.insertMarkupTags(): {" + token + "} already tagged as "
-                + markupTag.tag)+".";
+              this.logger.warning("{" + token + "} already tagged as "
+                    + markupTag.tag+".");
             }
             else {
               // splice in the markup tags
@@ -225,21 +182,22 @@ tokenize(sentence) {
       return result;
     }
     catch(e) {
-      console.log("Tokenizer.insertMarkupTags(): Caught exception - "+e.message);
+      console.error("Tokenizer.insertMarkupTags(): Caught exception - "+e.message);
+      throw(e);
     }
   }
-  tokenizeToNumerals() {
+  serializeForUnitTest(tokens) {
+    let tokenJson = { TOK: "", TYP: "", POS: 0, LEN: 0 };
+    let tokenList ="";
+    tokens.forEach(token => {
+      tokenList = tokenList + token.serializeForUnitTest(tokenJson);
+//      tokenList = tokenList + JSON.stringify(tokenJson);
+    } );
+    return tokenList;
   }
   tokenType(token) {
     let type = TokenType.TBD;
-//    console.log(testMap);
-//    console.log(testMap['WORD']);
-//    console.log(TokenizerTokenTypeList.get(TokenType.WORD).pattern);
-//    console.log(testMap[0].pattern);
-//    console.log(TokenizerTokenTypeList.get(TokenType.WORD).pattern);
-//    console.log(TokenMap[TokenType.WORD].tag);
-//    console.log(TokenizerTokenTypeList[TokenType.WORD].pattern);
-    if (token.match(TokenizerTokenTypeList.get(TokenType.MLTAG).pattern)) {
+    if (token.match(this._TokenizerTokenTypeList.get(TokenType.MLTAG).pattern)) {
       if (token.substring(1,2) === TokenTag.FORWARDSLASH) {
           type = TokenType.MLTAG_END;
       }
@@ -250,13 +208,13 @@ tokenize(sentence) {
           type = TokenType.MLTAG;
       }
     }
-    else if (token.match(TokenizerTokenTypeList.get(TokenType.PUNCTUATION).pattern)) {
+    else if (token.match(this._TokenizerTokenTypeList.get(TokenType.PUNCTUATION).pattern)) {
       type = TokenType.PUNCTUATION;
     }
-    else if (token.match(TokenizerTokenTypeList.get(TokenType.NUMBER).pattern)) {
+    else if (token.match(this._TokenizerTokenTypeList.get(TokenType.NUMBER).pattern)) {
       type = TokenType.NUMBER;
     }
-    else if (token.match(TokenizerTokenTypeList.get(TokenType.WORD).pattern)) {
+    else if (token.match(this._TokenizerTokenTypeList.get(TokenType.WORD).pattern)) {
 //      else if (token.match(this._wordTokenPattern)) {
       type = TokenType.WORD;
     }
@@ -266,10 +224,7 @@ tokenize(sentence) {
     return type;
   };
   unitTest(actual, expected) {
-    //compare
-//    console.log("actual:"+this.formatForUT(actual));
-//    console.log("expected:"+expected);
-    return this.formatForUT(actual) === expected;
+    return this.serializeForUnitTest(actual) === expected;
   } // unitTest
 } // tokenizer class
 class Token {
@@ -292,23 +247,7 @@ class Token {
           this._text = text;
     }
   }
-//  dump() {
-//    return "{"+this._text+"} (type:"+this._type+") ("+this._position+","+this.length+")";
-//  }
-  dump(colWidth1, colWidth2, colWidth3) {
-    switch(arguments.length) {
-      case 0:
-        colWidth1 = this._text.length + 1;
-      case 1:
-        colWidth2 = this._type.length + 7; // 7 = string labels length
-      case 2:
-        colWidth3 = this._position.length+this._length.length + 3; // 3 = string formatting length
-    }
-    return ("{" + this._text + "}").padEnd(colWidth1-2)
-          + ("(type:" + this._type + ")".padEnd(colWidth2 - this._type.toString().length - 7)
-          + "("+this._position.toString() + "," + this.length.toString() + ")").padEnd(colWidth3);
-  }
-    get attributeList() {
+  get attributeList() {
     return this._attribute[0];
   }
   set attribute(attr) {
@@ -347,5 +286,28 @@ class Token {
   set type(tokenType) {
     this._type = tokenType;
   }
+  dump(colWidth1, colWidth2, colWidth3) {
+    switch(arguments.length) {
+      case 0:
+        colWidth1 = this._text.length + 1;
+      case 1:
+        colWidth2 = this._type.length + 7; // 7 = string labels length
+      case 2:
+        colWidth3 = this._position.length+this._length.length + 3; // 3 = string formatting length
+    }
+    return ("{" + this._text + "}").padEnd(colWidth1-2)
+          + ("(type:" + this._type + ")".padEnd(colWidth2 - this._type.toString().length - 7)
+          + "("+this._position.toString() + "," + this.length.toString() + ")").padEnd(colWidth3);
+  }
+  serializeForUnitTest(tokenJson) {
+    tokenJson.TOK = this.text;
+    tokenJson.TYP = this.type;
+    tokenJson.POS = this.positon;
+    tokenJson.LEN = this.length;
+    return JSON.stringify(tokenJson);
+  }
 } // Token class
-module.exports = { Tokenizer , Token };
+function getFunctionName() {
+  return getFunctionName.caller.name;
+}
+module.exports = { Tokenizer, Token };
