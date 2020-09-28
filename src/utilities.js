@@ -9,9 +9,25 @@ class AppError extends Error {
 class Logger { // logging from within supported objects
   constructor(parent) {
     this._parent = parent; // required to find proper stack frame
+    this._verboseMode = false;  // do not show debug messages
     this._diagnosticMode = false;  // do not show debug messages
     this._showTimestamp = false;  // do not show timestamp in messages
     this._errorObject = null;
+  }
+  get diagnosticMode() {
+    return this._diagnosticMode;
+  }
+  set diagnosticMode(onOff) { // only report change
+    if (onOff !== this._diagnosticMode) console.log("DIAG:  "+this.getMethodName()+(this._showTimestamp ? " (at "+timestamp+") " : " ") + "in module "+this.getModuleLocation()+": diagnostic mode is " + (onOff ? "ON" : "OFF"));
+    this._diagnosticMode = onOff;
+  }
+  get verboseMode() {
+    return this._verboseMode;
+  }
+  set verboseMode(onOff)
+  { // only report change
+    if (onOff !== this._verboseMode) console.log("ADORN:  "+this.getMethodName()+(this._showTimestamp ? " (at "+timestamp+") " : " ") + "in module "+this.getModuleLocation()+": verbose mode is " + (onOff ? "ON" : "OFF"));
+    this._verboseMode = onOff;
   }
   assert(message) {
     console.log(message);
@@ -25,8 +41,12 @@ class Logger { // logging from within supported objects
   showTimestamp(onOff) {
     this._showTimestamp = onOff;
   }
+  adorn(message) {
+    if (this._verboseMode) console.log(message);
+  }
   info(message) {
-    console.log(message);
+    let timestamp = new MyDate().yyyymmddhhmmss();
+      console.log("INFO: "+ (this._verboseMode ? this.getMethodName()+(this._showTimestamp ? " (at "+timestamp+") " : " ") + "in module "+this.getModuleLocation()+": " : "")+message);
   }
   error(message) { // Operational or programmatic try to fix
     let timestamp = new MyDate().yyyymmddhhmmss();
@@ -44,35 +64,43 @@ class Logger { // logging from within supported objects
     let timestamp = new MyDate().yyyymmddhhmmss();
     console.log("WARNING: "+this.getMethodName()+(this._showTimestamp ? " (at "+timestamp+") " : " ") + "in module "+this.getModuleLocation()+": "+message);
   }
-  set diagnosticMode(onOff)
-  {
-    this._diagnosticMode = onOff;
-  }
   getMethodName() {
     // search back through call stack for certain patterns.
     // A convenience and NOT robust
-    var methodName = "<unknown method>";
+    let frame;
+    let methodName = "<unknown method>";
+    let objectNameLocator = "";
     let stackFrames = new Error().stack.split("\n");
-    if (this._parent !== null) {
-      let objectNameLocator = " at "+this._parent.constructor.name+".";
-      let frame = stackFrames[stackFrames.findIndex(element => element.includes(objectNameLocator))];
-      methodName = frame.substring(frame.indexOf(objectNameLocator)+4).split(" ")[0];
+    if (this._parent === undefined) {
+      objectNameLocator = " at Object.<anonymous>";
     }
     else {
-      // fail quietly
+      objectNameLocator = " at "+this._parent.constructor.name+".";
     }
+    frame = stackFrames[stackFrames.findIndex(element => element.includes(objectNameLocator))];
+
+    methodName = frame.substring(frame.indexOf(objectNameLocator)+4).split(" ")[0];
     return methodName;
   }
   getModuleLocation() {
+    let frame;
+    let frameIdx;
+    let stackFrames;
     let moduleLocation = "<unknown module location>";
-    let stackFrames = new Error().stack.split("\n");
-    if (this._parent !== null) {
-      let objectNameLocator = " at "+this._parent.constructor.name+".";
-      let frameIdx = stackFrames.findIndex(element => element.includes(objectNameLocator));
-      let modulePath = stackFrames[frameIdx].split(" ").slice(-1)[0].slice(0,-1).split(":")[1];
-      let frame = stackFrames[stackFrames.findIndex(element => element.includes(modulePath))];
-      moduleLocation = frame.split("\\").slice(-1)[0].slice(0,-1).split(":").slice(0,-1).join(":");
+    let modulePath;
+    let objectNameLocator = " at Object.";
+
+    stackFrames = new Error().stack.split("\n");
+    if (this._parent === undefined) {
+      objectNameLocator = " at Object.";
     }
+    else {
+      objectNameLocator = " at "+this._parent.constructor.name+".";
+    }
+    frameIdx = stackFrames.findIndex(element => element.includes(objectNameLocator));
+    modulePath = stackFrames[frameIdx].split(" ").slice(-1)[0].slice(0,-1).split(":")[1];
+    frame = stackFrames[stackFrames.findIndex(element => element.includes(modulePath))];
+    moduleLocation = frame.split("\\").slice(-1)[0].slice(0,-1).split(":").slice(0,-1).join(":");
     return moduleLocation;
   }
 }

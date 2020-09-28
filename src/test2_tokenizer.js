@@ -127,6 +127,7 @@ tokenize(sentence) {
                     "is not found in the string.");  // EXCEPTIONAL
         }
       } // for-of
+      this.logger.diagnostic(this.serialize(tokenList));
       return tokenList;
     } // try
     catch(e) {
@@ -135,14 +136,9 @@ tokenize(sentence) {
     } // catch
   } //tokens method
   reset(){
-
   };
-  dump(tokens) {
-    let tokenList ="";
-    tokens.forEach(token => tokenList = tokenList + "{"+token.text+"} " );
-    console.log(tokenList);
-  }
   insertMarkupTags(sentence) {
+    /// this.logger.diagnosticMode = true;
     try {
       let result = sentence;
       this._MarkupTokenTypeList.forEach((markupTag) => {
@@ -186,13 +182,23 @@ tokenize(sentence) {
       throw(e);
     }
   }
+  serialize(tokenList) {
+      var tokenString ="";
+      tokenList.forEach(token => tokenList = tokenList + "{"+token.text+"} " );
+      return tokenString;
+    }
+  serializeAsTable(tokenList, col1, col2, col3) {
+    var tokenString ="\n";
+    tokenList.forEach(token => tokenString = tokenString + token.serializeColumnar(col1, col2, col3)+"\n");
+    tokenString = tokenString.slice(0, -1);
+    return tokenString;
+  }
   serializeForUnitTest(tokens) {
     let tokenJson = { TOK: "", TYP: "", POS: 0, LEN: 0 };
     let tokenList ="";
     tokens.forEach(token => {
       tokenList = tokenList + token.serializeForUnitTest(tokenJson);
-//      tokenList = tokenList + JSON.stringify(tokenJson);
-    } );
+    });
     return tokenList;
   }
   tokenType(token) {
@@ -286,7 +292,7 @@ class Token {
   set type(tokenType) {
     this._type = tokenType;
   }
-  dump(colWidth1, colWidth2, colWidth3) {
+  serializeColumnar(colWidth1, colWidth2, colWidth3) {
     switch(arguments.length) {
       case 0:
         colWidth1 = this._text.length + 1;

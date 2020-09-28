@@ -1,4 +1,4 @@
-const ParserNodeType = { // must be unique
+const ContentNodeType = { // must be unique
   WORD: 'WORD',
   DATE: 'DATE',
   TIME: 'TIME',
@@ -29,8 +29,5 @@ const ParserNodeType = { // must be unique
   TBD: 'TBD',
   WORD: 'WORD'
 };
-class ParserNode_WORD1  {
-  //
-}
 
-module.exports = { ParserNodeType, ParserNode_WORD1 };
+module.exports = { ContentNodeType };
