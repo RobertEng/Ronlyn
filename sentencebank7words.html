@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<meta charset="ISO-8859-1">
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reading-monitor.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/page-nav.css" media="screen"/>
+<style>
+:root {
+  --nav-width: 220px;
+}
+body {
+  margin: 0px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* strictly for iOS */
+  max-height: 100%;
+}
+h1 {
+  font-family: arial;
+  font-size: 100%;
+}
+h2 {
+  font-family: arial;
+  font-size: 90%;
+}
+.ul {
+  font-weight: bold;
+  font-family: arial;
+}
+ol {
+  font-family: arial;
+}
+.rm_sentence {
+  font-family: arial;
+  font-size: 110%;
+}
+#errormsg {
+  font-weight: normal;
+  width: 100%;
+}
+li:not(:last-child) {
+  margin-bottom: 10px; /* spacing between list items */
+}
+/* iPhone 5 specific formatting style; perhaps this code should be moved to
+  page-nav iff another page requires the same customization*/
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px) {
+  h1 {
+    font-size: 200%;
+  }
+  h2 {
+    font-size: 200%;
+  }
+  nav {
+    width: var(--nav-width);
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+  }
+  main {
+    left: var(--nav-width);
+  }
+  .navbar-li
+  {
+    font-size: 175%;
+  }
+  .rm_sentence {
+    font-size: 150%;
+  }
+}
+@media only screen
+  and (device-width: 360px) {
+    h1 {
+      font-size: 200%;
+    }
+    h2 {
+      font-size: 200%;
+    }
+    nav {
+      width: var(--nav-width);
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    }
+    main {
+      left: var(--nav-width);
+    }
+  .navbar-li
+  {
+    font-size: 150%;
+  }
+}
+</style>
+</head>
+<title>7-Word Sentence Bank</title>
+<body>
+<header>
+  <div class="container" id="header">
+    <div class="col-2-3 headertitle" XSAMPA="Ronlyns Sentence Bank">
+      <span style="float:left; padding-right:5px">
+        <button id="listenBtn" value="listen">
+          <img id="listenBtnImg"  alt="Listen">
+        </button>
+      </span>
+      <span style="float:left" class="speak_onclick">Ronlyn's Sentence Bank (7 words)</span>
+    </div>
+    <div class="col-1-3 headerControls">
+       <div class="option" id="partialSentenceControl">
+         <input type="checkbox" name="partialSentence" id="partialSentence" default="unchecked">
+         <label id="partialSentenceModeLabel" for="partialSentence">Recite sentence up to selected word</label>
+      </div>
+
+       <div class="option" id="lastSpokenWordControl">
+         <input type="checkbox" name="lastSpokenWord" id="lastSpokenWordCheckbox" default="checked" onchange="MyReadingMonitor.listening.lastSpokenWord_CheckboxChanged()">
+         <label id="lastSpokenWordLabel" for="lastSpokenWord">Show last spoken word</label><span style="visibility: hidden" id="lastSpokenWordspan"/>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+
+<meta name="google" value="notranslate"> <!-- disable iOS translation -->
+<h1><a class="navbar-itemByHeadingLevel" id="7word">Seven word sentences</a></h1>
+  <ol>
+    <li><span class="sentence">My children and I go to school.</span></li>
+    <li><span class="sentence">She said hello to the little girl.</span></li>
+    <li><span class="sentence">He has as many children as them.</span></li>
+    <li><span class="sentence">He can go and so can she.</span></li>
+    <li><span class="sentence">There are only five students here today.</span></li>
+    <li><span class="sentence">His name is very hard to spell.</span></li>
+    <li><span class="sentence">She said that she needed my help.</span></li>
+    <li><span class="sentence">They have two girls and one boy.</span></li>
+    <li><span class="sentence">Can you change the way you dress?</span></li>
+    <li><span class="sentence">She would like to answer that question.</span></li>
+    <li><span class="sentence">We can all learn from this exercise.</span></li>
+    <li><span class="sentence">You can have any thing you want.</span></li>
+    <li><span class="sentence">Does your boss need any new workers?</span></li>
+    <li><span class="sentence">I asked him to check my work.</span></li>
+    <li><span class="sentence">The charity is in need of funding</span></li>
+    <li><span class="sentence">Make sure you put your toys away.</span></li>
+    <li><span class="sentence">You seem to live a nice life.</span></li>
+    <li><span class="sentence">I am great today, how about you?</span></li>
+    <li><span class="sentence">It is much harder to do that.</span></li>
+    <li><span class="sentence">It is just about the same thing.</span></li>
+    <li><span class="sentence">You can use another piece of paper.</span></li>
+    <li><span class="sentence">This is what an orange looks like.</span></li>
+    <li><span class="sentence">That is how we do things here.</span></li>
+    <li><span class="sentence">I will help you with your work.</span></li>
+    <li><span class="sentence">Can you get up on the roof?</span></li>
+    <li><span class="sentence">How about we go to the movies?</span></li>
+    <li><span class="sentence">We like to go out on Saturday.</span></li>
+    <li><span class="sentence">He will take us into the caves.</span></li>
+    <li><span class="sentence">I don't have the time right now.</span></li>
+    <li><span class="sentence">Will you look at this for me?</span></li>
+    <li><span class="sentence">You can have one or two cookies.</span></li>
+    <li><span class="sentence">I am going to write a letter.</span></li>
+    <li><span class="sentence">Do you know which way they went?</span></li>
+    <li><span class="sentence">That could have been a bad accident.</span></li>
+    <li><span class="sentence">There are a lot of people here.</span></li>
+    <li><span class="sentence">She would rather have apples than oranges.</span></li>
+    <li><span class="sentence">Today has been a very long day.</span></li>
+    <li><span class="sentence">Will you help me find my wallet.</span></li>
+    <li><span class="sentence">I am going down to the basement.</span></li>
+    <li><span class="sentence">Everyone needs good luck for an interview.</span></li>
+    <li><span class="sentence">This is the end of the line.</span></li>
+    <li><span class="sentence">What was the name of that person?</span></li>
+    <li><span class="sentence">What was the price of that car?</span></li>
+    <li><span class="sentence">As time goes by, we get older.</span></li>
+    <li><span class="sentence">I spoke to my father this morning.</span></li>
+    <li><span class="sentence">There are a few of them left.</span></li>
+    <li><span class="sentence">I have lived a very long life.</span></li>
+    <li><span class="sentence">You can do this more than once.</span></li>
+    <li><span class="sentence">He went to bed late last night.</span></li>
+    <li><span class="sentence">That is a large body of water.</span></li>
+    <li><span class="sentence">I saw him walking across the street.</span></li>
+    <li><span class="sentence">The waves in the ocean are beautiful.</span></li>
+    <li><span class="sentence">I will meet you at five p.m.</span></li>
+    <li><span class="sentence">Who is the king of the castle?</span></li>
+    <li><span class="sentence">What kind of fish did you catch?</span></li>
+    <li><span class="sentence">He would like to ride a horse.</span></li>
+    <li><span class="sentence">Would you like another piece of pie?</span></li>
+    <li><span class="sentence">One hundred days is a long time.</span></li>
+    <li><span class="sentence">She is going into town later today.</span></li>
+    <li><span class="sentence">They are the last to be served.</span></li>
+    <li><span class="sentence">There are five years in high school.</span></li>
+    <li><span class="sentence">Can you read me a story tonight?</span></li>
+    <li><span class="sentence">There are 26 letters in the alphabet.</span></li>
+    <li><span class="sentence">I will meet you around the block.</span></li>
+    <li><span class="sentence">There are sixty minutes in an hour.</span></li>
+    <li><span class="sentence">A stove produces a lot of heat.</span></li>
+    <li><span class="sentence">What speed do you drive your car?</span></li>
+    <li><span class="sentence">I like to sail on the ocean.</span></li>
+    <li><span class="sentence">I couldn't think of anything to do.</span></li>
+    <li><span class="sentence">In case of an emergency, call 911.</span></li>
+    <li><span class="sentence">What was the result of the test?</span></li>
+    <li><span class="sentence">I have a new pair of shoes.</span></li>
+    <li><span class="sentence">She decided to wear a dress today.</span></li>
+    <li><span class="sentence">He left me a note this morning.</span></li>
+    <li><span class="sentence">She has less money than she thought.</span></li>
+    <li><span class="sentence">A circle is a very common shape.</span></li>
+    <li><span class="sentence">The road is meant for driving on.</span></li>
+    <li><span class="sentence">Is what you are saying a fact?</span></li>
+    <li><span class="sentence">I have known them for a while.</span></li>
+    <li><span class="sentence">I am going to do an experiment.</span></li>
+    <li><span class="sentence">Men and women are equal in Canada!</span></li>
+    <li><span class="sentence">You still need to write a report.</span></li>
+    <li><span class="sentence">I am going to visit my family.</span></li>
+    <li><span class="sentence">I have direct deposit with my bank.</span></li>
+    <li><span class="sentence">I am going to visit my uncle.</span></li>
+    <li><span class="sentence">How many students are in your class?</span></li>
+    <li><span class="sentence">He is the president of the company.</span></li>
+    <li><span class="sentence">Some math numbers use a decimal point.</span></li>
+    <li><span class="sentence">The glue will stick to the paper.</span></li>
+    <li><span class="sentence">Let's go to the movies this weekend!</span></li>
+    <li><span class="sentence">I like to be friends with everyone.</span></li>
+    <li><span class="sentence">Babies are very tiny compared to adults.</span></li>
+    <li><span class="sentence">Please be quiet, the baby is sleeping!</span></li>
+    <li><span class="sentence">Can you teach me how to act?</span></li>
+    <li><span class="sentence">I can count very high in French.</span></li>
+    <li><span class="sentence">Be careful you don't cut your fingers!</span></li>
+    <li><span class="sentence">I will include you in the game.</span></li>
+    <li><span class="sentence">He had shown me his stamp collection.</span></li>
+    <li><span class="sentence">Please cross the road at the lights.</span></li>
+    <li><span class="sentence">What is the amount of the bill?</span></li>
+    <li><span class="sentence">Some women go through a natural birth.</span></li>
+    <li><span class="sentence">I need new wheels for my car.</span></li>
+    <li><span class="sentence">The base of the lamp is broken.</span></li>
+    <li><span class="sentence">Will you explain that to me again?</span></li>
+    <li><span class="sentence">The shape of a ball is round.</span></li>
+    <li><span class="sentence">How did you do on the test?</span></li>
+    <li><span class="sentence">It's not good to fight with people.</span></li>
+    <li><span class="sentence">I like the beat to this song.</span></li>
+    <li><span class="sentence">Can you help me solve this problem?</span></li>
+    <li><span class="sentence">What factors is your decision based on?</span></li>
+    <li><span class="sentence">What type of music do you like?</span></li>
+    <li><span class="sentence">That was a wonderful moment we shared.</span></li>
+    <li><span class="sentence">There are five members in this club.</span></li>
+    <li><span class="sentence">Your legs are stronger than your arms.</span></li>
+    <li><span class="sentence">Am I going in the right direction?</span></li>
+    <li><span class="sentence">You must learn to use your mind.</span></li>
+    <li><span class="sentence">That is a large sum of money.</span></li>
+    <li><span class="sentence">You lay the baby on the bed.</span></li>
+    <li><span class="sentence">He made a long distance phone call.</span></li>
+    <li><span class="sentence">I heard you started a new job.</span></li>
+    <li><span class="sentence">We have many cells in our brains.</span></li>
+    <li><span class="sentence">What is the cause of this problem?</span></li>
+    <li><span class="sentence">Have you ever gone on a train?</span></li>
+    <li><span class="sentence">We sat at the table for dinner.</span></li>
+    <li><span class="sentence">All of our crops died this year.</span></li>
+    <li><span class="sentence">Please go play with your toy soldiers.</span></li>
+    <li><span class="sentence">You have a good sense of humour!</span></li>
+    <li><span class="sentence">He is the observer for this class.</span></li>
+    <li><span class="sentence">He works for a very large company.</span></li>
+    <li><span class="sentence">I would love to travel to France.</span></li>
+    <li><span class="sentence">How many people are in the office?</span></li>
+    <li><span class="sentence">Death is very sad for some people.</span></li>
+    <li><span class="sentence">He hopes he will win the contest.</span></li>
+    <li><span class="sentence">I need to buy some new tools.</span></li>
+    <li><span class="sentence">Take a right at the next corner.</span></li>
+    <li><span class="sentence">Most kittens like to play with string.</span></li>
+    <li><span class="sentence">There are many bare branches right now.</span></li>
+    <li><span class="sentence">I want to learn the Japanese language.</span></li>
+    <li><span class="sentence">She will be eight years old tomorrow.</span></li>
+    <li><span class="sentence">Our math test required doing some division.</span></li>
+    <li><span class="sentence">There is a new shop opening today.</span></li>
+    <li><span class="sentence">Some recipes require a lot of sugar.</span></li>
+    <li><span class="sentence">My son is huge for his age.</span></li>
+    <li><span class="sentence">My husband bought me a rose today.</span></li>
+    <li><span class="sentence">Does this have any effect on you?</span></li>
+    <li><span class="sentence">You must be silent in the library.</span></li>
+    <li><span class="sentence">There will be a big crowd tonight!</span></li>
+    <li><span class="sentence">There are seven days in a week.</span></li>
+    <li><span class="sentence">You must ring the bell before entering.</span></li>
+    <li><span class="sentence">That's a very emotional poem you wrote!</span></li>
+    <li><span class="sentence">Do you want to sell your car?</span></li>
+    <li><span class="sentence">Your dance requires a lot of movement.</span></li>
+    <li><span class="sentence">My uncle owns a couple of factories.</span></li>
+    <li><span class="sentence">The entrance is located at the rear.</span></li>
+    <li><span class="sentence">Your nose is located on you face.</span></li>
+    <li><span class="sentence">What is the suffix of that word?</span></li>
+    <li><span class="sentence">What colour of apple do you like?</span></li>
+    <li><span class="sentence">That movie had a lot of action.</span></li>
+    <li><span class="sentence">What's the chance of it snowing today?</span></li>
+    <li><span class="sentence">You have many molecules in your body.</span></li>
+    <li><span class="sentence">Have you ever seen the Northern Lights?</span></li>
+    <li><span class="sentence">I like the smell of cooked turkey.</span></li>
+    <li><span class="sentence">I like the view from this office.</span></li>
+    <li><span class="sentence">Where do you get your art supply.</span></li>
+    <li><span class="sentence">What position does your baby sleep in?</span></li>
+    <li><span class="sentence">What are the terms of the contract?</span></li>
+    <li><span class="sentence">I don't like that tone of voice.</span></li>
+    <li><span class="sentence">He broke several bones in the fall.</span></li>
+    <li><span class="sentence">We need an addition to the house.</span></li>
+    <li><span class="sentence">If he asked me, I‘d come.</span></li>
+    <li><span class="sentence">My son is older than my daughter.</span></li>
+    <li><span class="sentence">Will you go on holiday this summer?</span></li>
+    <li><span class="sentence">A fork is used to eat with.</span></li>
+    <li><span class="sentence">Mr Jones asked how I was yesterday. (=”How are you today?”)</span></li>
+    <li><span class="sentence">It rained all day yesterday, didn't it?</span></li>
+    <li><span class="sentence">If I were you, I would go.</span></li>
+    <li><span class="sentence">I have written this letter in ink.</span></li>
+    <li><span class="sentence">Do you ever go shopping without money?</span></li>
+    <li><span class="sentence">The teacher was angry with the pupil.</span></li>
+    <li><span class="sentence">Yesterday I sewed my son's trousers.</span></li>
+    <li><span class="sentence">If he asks me, I'll stay.</span></li>
+    <li><span class="sentence">My father's sister is my aunt.</span></li>
+    <li><span class="sentence">I wish I had passed the exam.</span></li>
+    <li><span class="sentence">Do you have a bath every day?</span></li>
+    <li><span class="sentence">"You are standing on my foot." - "Sorry!"</span></li>
+    <li><span class="sentence">I can hear a strange noise now.</span></li>
+    <li><span class="sentence">John saw this film two months ago.</span></li>
+    <li><span class="sentence">I haven't taken any photographs for years.</span></li>
+    <li><span class="sentence">The teacher agreed to come with us.</span></li>
+    <li><span class="sentence">I wasn't introduced to her mother.</span></li>
+    <li><span class="sentence">John is interested in passing his exam.</span></li>
+    <li><span class="sentence">I wish I could speak several languages.</span></li>
+    <li><span class="sentence">He wasn't surprised at what he saw.</span></li>
+    <li><span class="sentence">I saw your friend two weeks ago.</span></li>
+    <li><span class="sentence">You are asked to report at 9 o’clock.</span></li>
+    <li><span class="sentence">He has been watching television for hours.</span></li>
+    <li><span class="sentence">A single or a double room, sir?</span></li>
+    <li><span class="sentence">You will find the answer on page 75.</span></li>
+    <li><span class="sentence">I was told to rewrite my letter.</span></li>
+    <li><span class="sentence">The boy that ran away was David.</span></li>
+    <li><span class="sentence">Football is an interesting and popular game.</span></li>
+    <li><span class="sentence">He is very good at translating Latin texts.</span></li>
+    <li><span class="sentence">Smoking is a bad habit of yours.</span></li>
+    <li><span class="sentence">Our windows will be cleaned this afternoon.</span></li>
+    <li><span class="sentence">I don’t know what you mean.</span></li>
+    <li><span class="sentence">Please close the windows before you leave.</span></li>
+    <li><span class="sentence">Remember to wash your hands before dinner.</span></li>
+    <li><span class="sentence">Shall I open the door for you?</span></li>
+    <li><span class="sentence">We arrived in the village at night.</span></li>
+    <li><span class="sentence">Who came to see you last night?</span></li>
+    <li><span class="sentence">Arabic is the native language of Egypt.</span></li>
+    <li><span class="sentence">He has a good knowledge of history.</span></li>
+    <li><span class="sentence">Will you please lend me this book?</span></li>
+    <li><span class="sentence">You should brush your teeth after breakfast.</span></li>
+    <li><span class="sentence">May I have another piece of cake?</span></li>
+    <li><span class="sentence">Who did he talk to?” - His friend.”</span></li>
+    <li><span class="sentence">All our suggestions have been turned down.</span></li>
+    <li><span class="sentence">Can you exchange these dollars for forints?</span></li>
+    <li><span class="sentence">There is no excuse for coming late.</span></li>
+    <li><span class="sentence">The noise did not let me sleep.</span></li>
+    <li><span class="sentence">Waiter, when do I get my breakfast?</span></li>
+    <li><span class="sentence">His mother’s brother is his uncle.</span></li>
+    <li><span class="sentence">What’s the weather like in Britain?</span></li>
+    <li><span class="sentence">You are right, Genova is in Italy.</span></li>
+    <li><span class="sentence">He arrived at the station at 4 pm.</span></li>
+    <li><span class="sentence">This street is narrower than that one.</span></li>
+    <li><span class="sentence">He drank half a glass of milk.</span></li>
+    <li><span class="sentence">American children watch television 36 hours a week.</span></li>
+    <li><span class="sentence">Look, Mother! Jack has brought you some flowers.</span></li>
+    <li><span class="sentence">So far I have had no trouble.</span></li>
+    <li><span class="sentence">The scissors are lying on the table.</span></li>
+    <li><span class="sentence">Please ring me up when you arrive.</span></li>
+    <li><span class="sentence">I am looking forward to seeing you.</span></li>
+    <li><span class="sentence">He has been to London four times since 1974.</span></li>
+    <li><span class="sentence">I have a new pair of shoes.</span></li>
+    <li><span class="sentence">We arrived at the airport in time.</span></li>
+    <li><span class="sentence">After eating I often go to sleep.</span></li>
+    <li><span class="sentence">My brother's son is my nephew.</span></li>
+    <li><span class="sentence">Do you know how to make coffee?</span></li>
+    <li><span class="sentence">The lift was again out of order.</span></li>
+    <li><span class="sentence">I haven't driven since my accident.</span></li>
+    <li><span class="sentence">I have been working very hard lately.</span></li>
+    <li><span class="sentence">There was an accident here at midnight.</span></li>
+    <li><span class="sentence">He came late because of an accident.</span></li>
+    <li><span class="sentence">You had better go home at once.</span></li>
+    <li><span class="sentence">I know how to drive a car.</span></li>
+    <li><span class="sentence">What does he do for a living?</span></li>
+    <li><span class="sentence">He talks as if he knew everything.</span></li>
+    <li><span class="sentence">He asked me what games I played.</span></li>
+    <li><span class="sentence">The house he lives in needs repairing.</span></li>
+    <li><span class="sentence">„I am very unhappy today.” - „Cheer up!”</span></li>
+    <li><span class="sentence">I get up at six every morning.</span></li>
+    <li><span class="sentence">Henry was sick yesterday and missed his classes.</span></li>
+    <li><span class="sentence">My father has more books than you.</span></li>
+    <li><span class="sentence">You can buy meat at the butcher’s.</span></li>
+    <li><span class="sentence">If I were Peter, I would marry Sue.</span></li>
+    <li><span class="sentence">Sheila has a two-month-old baby.</span></li>
+    <li><span class="sentence">What is the price of this watch?</span></li>
+    <li><span class="sentence">Telling lies is a very bad habit.</span></li>
+    <li><span class="sentence">Is this a table? - Yes, it is.</span></li>
+    <li><span class="sentence">Where’s Mrs Harrison? - She’s in the kitchen.</span></li>
+    <li><span class="sentence">The window’s open and the door’s closed.</span></li>
+    <li><span class="sentence">Which books? - Those in front of you.</span></li>
+    <li><span class="sentence">I want those boxes. - These blue boxes?</span></li>
+    <li><span class="sentence">They’ve got wine and I’ve got water.</span></li>
+    <li><span class="sentence">Their hands and feet are not cold.</span></li>
+    <li><span class="sentence">But, of course, they have some money.</span></li>
+    <li><span class="sentence">Their wallets are not empty like Sue’s.</span></li>
+    <li><span class="sentence">There are no lights in the house.</span></li>
+    <li><span class="sentence">Come on, Mrs Harrison, open the door!</span></li>
+    <li><span class="sentence">Is there a bell? - Yes, of course.</span></li>
+    <li><span class="sentence">Is it yours? - No, it isn’t mine.</span></li>
+    <li><span class="sentence">Now Mrs Harrison’s walking into the sitting-room.</span></li>
+    <li><span class="sentence">In his dream Arthur’s got a car.</span></li>
+    <li><span class="sentence">Bruce isn’t driving the car; Arthur is.</span></li>
+    <li><span class="sentence">It’s a beautiful day and Arthur’s happy.</span></li>
+    <li><span class="sentence">Arthur and Mary are librarians in Middleford.</span></li>
+    <li><span class="sentence">He’s coming out of the water now.</span></li>
+    <li><span class="sentence">He has some books in his hand.</span></li>
+    <li><span class="sentence">They’re sending another box of books tomorrow.</span></li>
+    <li><span class="sentence">Mary, come here. - Coming, Mr Steele.</span></li>
+    <li><span class="sentence">It is now a quarter past nine.</span></li>
+    <li><span class="sentence">He cannot get up in the morning.</span></li>
+    <li><span class="sentence">’I must find them,’ he is thinking.</span></li>
+    <li><span class="sentence">Oh dear, the bus is not stopping.</span></li>
+    <li><span class="sentence">Arthur is looking through the library window.</span></li>
+    <li><span class="sentence">He isn’t late today - he’s early.</span></li>
+    <li><span class="sentence">This morning he has time for breakfast.</span></li>
+    <li><span class="sentence">Now Mrs Harrison’s bringing in the post.</span></li>
+    <li><span class="sentence">How much is the fare to Applefield?</span></li>
+    <li><span class="sentence">There’s only one girl in this room.</span></li>
+    <li><span class="sentence">We're going to her aunt's in London.</span></li>
+    <li><span class="sentence">How many stops are there before London?</span></li>
+    <li><span class="sentence">I've only got one pair of hands.</span></li>
+    <li><span class="sentence">Now Bob is talking to the porter.</span></li>
+    <li><span class="sentence">Is that for me? What is it?</span></li>
+    <li><span class="sentence">I’m a student. I’m at London University.</span></li>
+    <li><span class="sentence">This is Bob. Bob, this is Mary.</span></li>
+    <li><span class="sentence">She’s got your bag and your overcoat.</span></li>
+    <li><span class="sentence">I sometimes see him in the summer.</span></li>
+    <li><span class="sentence">There’s a young man in the car.</span></li>
+    <li><span class="sentence">Don’t come anywhere near the car, please!</span></li>
+    <li><span class="sentence">Can you hold this torch for me?</span></li>
+    <li><span class="sentence">Now, can somebody give me my bag?</span></li>
+    <li><span class="sentence">Now it’s eleven o’clock on Sunday morning.</span></li>
+    <li><span class="sentence">He has not even had a shave.</span></li>
+    <li><span class="sentence">What are you doing with that paper?</span></li>
+    <li><span class="sentence">Sheila, what do you want to drink?</span></li>
+    <li><span class="sentence">Just a sweet sherry for me, please.</span></li>
+    <li><span class="sentence">I’m going to have a tomato juice.</span></li>
+    <li><span class="sentence">James, of course, is still in hospital.</span></li>
+    <li><span class="sentence">Now Mr Steele has just come in.</span></li>
+    <li><span class="sentence">He hasn’t gone into his office yet</span></li>
+    <li><span class="sentence">Have you been here since nine o’clock?</span></li>
+    <li><span class="sentence">Well, 5 days, that’s nearly a week.</span></li>
+    <li><span class="sentence">Come into my office for a minute.</span></li>
+    <li><span class="sentence">Well, you haven’t sent me an email.</span></li>
+    <li><span class="sentence">Last weekend in Applefield Arthur was broke.</span></li>
+    <li><span class="sentence">It was the end of the month.</span></li>
+    <li><span class="sentence">We can go home now, can’t we?</span></li>
+    <li><span class="sentence">There were a lot of people in.</span></li>
+    <li><span class="sentence">Well, it’s a lovely evening, isn’t it?</span></li>
+    <li><span class="sentence">We must both work tomorrow, mustn’t we?</span></li>
+    <li><span class="sentence">That was very nice of you, Arthur.</span></li>
+    <li><span class="sentence">Arthur got up early on Saturday morning.</span></li>
+    <li><span class="sentence">He wanted to hear the weather forecast.</span></li>
+    <li><span class="sentence">I can row first if you like.</span></li>
+    <li><span class="sentence">I’m not too big, am I, Arthur?</span></li>
+    <li><span class="sentence">Perhaps it’s time to go back now.</span></li>
+    <li><span class="sentence">It’s a bit cloudy too, isn’t it?</span></li>
+    <li><span class="sentence">Mary didn’t even say goodnight to Arthur.</span></li>
+    <li><span class="sentence">You gave it to me on Monday.</span></li>
+    <li><span class="sentence">Did you ever learn about the controls?</span></li>
+    <li><span class="sentence">What do you think of that one?</span></li>
+    <li><span class="sentence">I must say it looks very nice.</span></li>
+    <li><span class="sentence">A bit too much for you, perhaps?</span></li>
+    <li><span class="sentence">I can see you’ve got the taste.</span></li>
+    <li><span class="sentence">That’s only three thousand, five hundred pounds.</span></li>
+    <li><span class="sentence">It goes well. That’s the main thing.</span></li>
+    <li><span class="sentence">Charlie, come over here for a minute.</span></li>
+    <li><span class="sentence">You want to buy that, do you?</span></li>
+    <li><span class="sentence">Why not drive it round the block?</span></li>
+    <li><span class="sentence">He needn’t go by train this time.</span></li>
+    <li><span class="sentence">He told her about his ‘new’ car.</span></li>
+    <li><span class="sentence">Now where did we put the car?</span></li>
+    <li><span class="sentence">I’ll sit in front because I’m navigating.</span></li>
+    <li><span class="sentence">Well, personally, I think it’s very nice.</span></li>
+    <li><span class="sentence">Look, it says Swanage - two miles.</span></li>
+    <li><span class="sentence">Arthur’s car was at the police station.</span></li>
+    <li><span class="sentence">That’s him over there, the grey one.</span></li>
+    <li><span class="sentence">He’s the nicest horse I’ve ever seen.</span></li>
+    <li><span class="sentence">I like ’Darling Mary’. (a horse’s name)</span></li>
+    <li><span class="sentence">We can see the race better there.</span></li>
+    <li><span class="sentence">You haven’t got much farther to go.</span></li>
+    <li><span class="sentence">It’s the slowest horse in the race.</span></li>
+    <li><span class="sentence">Didcot’s nearer to Applefield than Middleford is.</span></li>
+    <li><span class="sentence">I was talking to my friend, actually.</span></li>
+    <li><span class="sentence">What did you say about our Fred?</span></li>
+    <li><span class="sentence">It was a brief moment of joy.</span></li>
+    <li><span class="sentence">Mary was also working in the library.</span></li>
+    <li><span class="sentence">You see, I thought I was lucky.</span></li>
+    <li><span class="sentence">I have a flat and a house.</span></li>
+    <li><span class="sentence">I have a map in my notebook.</span></li>
+    <li><span class="sentence">I'm married and I have two children.</span></li>
+    <li><span class="sentence">I live in the south of Hungary.</span></li>
+    <li><span class="sentence">I want to drink a cold tea.</span></li>
+    <li><span class="sentence">I have a niece and a nephew.</span></li>
+    <li><span class="sentence">What are you doing in the afternoon?</span></li>
+    <li><span class="sentence">When will you come and see us?</span></li>
+    <li><span class="sentence">He has two hours to get here.</span></li>
+    <li><span class="sentence">Have you ever seen a big plane?</span></li>
+    <li><span class="sentence">I have to speak to the receptionist.</span></li>
+    <li><span class="sentence">What the hell are you doing here?</span></li>
+    <li><span class="sentence">I need to have a hobby.</span></li>
+    <li><span class="sentence">I don’t want you to be late.</span></li>
+    <li><span class="sentence">I never drink alcohol when I drive.</span></li>
+    <li><span class="sentence">It’s very windy now – let’s go sailing!</span></li>
+    <li><span class="sentence">This is one of my favourite songs.</span></li>
+    <li><span class="sentence">In winter I love having hot baths.</span></li>
+    <li><span class="sentence">Do you know what is behind you?</span></li>
+    <li><span class="sentence">In my room the carpet is grey.</span></li>
+    <li><span class="sentence">When were you last at the chemist's?</span></li>
+    <li><span class="sentence">Do you wake up by an alarm-clock?</span></li>
+    <li><span class="sentence">I was very happy during the weekend.</span></li>
+    <li><span class="sentence">My friend would like to be famous.</span></li>
+    <li><span class="sentence">I can't find food in the fridge.</span></li>
+    <li><span class="sentence">How often are you in your kitchen?</span></li>
+    <li><span class="sentence">Are you a member of the library?</span></li>
+    <li><span class="sentence">There isn't a mirror in my room.</span></li>
+    <li><span class="sentence">My radio-reading lamp-alarm clock is very modern.</span></li>
+    <li><span class="sentence">I haven't been to a big palace.</span></li>
+    <li><span class="sentence">There are six pictures on our wall.</span></li>
+    <li><span class="sentence">This is a great place in summer.</span></li>
+    <li><span class="sentence">We have a sofa opposite the tv.</span></li>
+    <li><span class="sentence">I got a stereo for my birthday.</span></li>
+    <li><span class="sentence">My cat likes sitting on my table.</span></li>
+    <li><span class="sentence">Do you know the new car-racing champion?</span></li>
+    <li><span class="sentence">Tell me where the check-in desk is.</span></li>
+    <li><span class="sentence">I can't answer you this question fluently.</span></li>
+    <li><span class="sentence">Who is that man at the gate?</span></li>
+    <li><span class="sentence">Can you hear me in this noise?</span></li>
+    <li><span class="sentence">How much did you earn last month?</span></li>
+    <li><span class="sentence">They stopped us at the passport control.</span></li>
+    <li><span class="sentence">I have to practise this all day.</span></li>
+    <li><span class="sentence">Can you smell this smoke or something?</span></li>
+    <li><span class="sentence">What do you think of this problem?</span></li>
+    <li><span class="sentence">Do you know who her clerk is?</span></li>
+    <li><span class="sentence">How much would you like to earn?</span></li>
+    <li><span class="sentence">What do you enjoy most in summer?</span></li>
+    <li><span class="sentence">Where can I find you in summer?</span></li>
+    <li><span class="sentence">What do you want to eat later?</span></li>
+    <li><span class="sentence">When did you come home last night?</span></li>
+    <li><span class="sentence">My grandfather is over 90 years old.</span></li>
+    <li><span class="sentence">It isn’t so good to be popular.</span></li>
+    <li><span class="sentence">Have you ever seen a real star?</span></li>
+    <li><span class="sentence">The weather is wonderful by the sea.</span></li>
+  </ol>
+
+<h1><a class="navbar-itemByHeadingLevel" id="Settings">Settings</a></h1>
+  <div id="os-msg"></div>
+  <br>
+  The Reading Monitor will stop listening after the end of each sentence.
+  <div class="option" id="StopListeningAtEOSentenceControl">
+    <input type="checkbox" name="stopListeningAtEOS" id="stopListeningAtEOS" default="unchecked">
+    <label id="stopListeningAtEOSmodeLabel" for="stopListeningAtEOS">Stop listening after each sentence</label>
+  </div>
+  <br>
+  The Reading Monitor recitation volume can be adjusted.
+  <div class="option" id="volumeControl">
+    <label for="volume" id="volumeLabel">Volume</label>
+    <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+  </div>
+  <br>
+  The Reading Monitor voice can be changed.
+  <div class="option">
+    <label for="voice" id="voiceLabel">Voice</label>
+    <select name="voice" id="voice"></select>
+  </div>
+  <br>
+
+ The Reading Monitor diagnoistics can be verbose.
+  <div class="option" id="showDiagnosticMsgVerboseControl">
+   <input type="checkbox" name="showDiagnosticMsgVerbose" id="showDiagnosticMsgVerbose" default="unchecked">
+   <label id="showDiagnosticMsgVerboseLabel" for="showDiagnosticMsgVerbose">Show diagnostic message queue</label>
+  </div>
+
+<h1><a class="navbar-itemByHeadingLevel" id="messages">Messages</a></h1>
+<h2>Progress</h2>
+  <div id="usermsg"></div>
+  <button id="downloadBtn" value="download" onclick="downloadAndClearElement('usermsg', 'mysentencebank'+getCurrentDate()+'.log')">Download and Clear</button>
+
+<h1><a class="navbar-itemByHeadingLevel" id="diag">App Diagnostics</a></h1>
+<h2>Error Messages<h2>
+  <div id="errormsg">Not initialized</div>
+
+<h2>Diagnostic Messages</h2>
+<div id="diagnostic"></div>
+
+  <span>sentence idx:</span><span id="sentenceIdx">0</span>,
+  <span>word idx:</span><span id="wordIdx">0</span>,
+  <span>word id:</span><span id="wordId">0</span>,
+  <span>last spoken word:</span><span id="lastSpokenWord">0</span>
+
+</main>
+
+<nav>
+  <div onclick="" class="navbar-list ol">
+    <div onclick="" id="navbar-items"> <!-- placeholder -->
+    </div>
+  </div>
+</nav>
+</body>
+<script type="text/javascript" src="src/reading-monitor04.js"></script>
+<script type="text/javascript" src="src/page-nav.js"></script>
+<script>
+/***
+ *
+ * Event Listeners
+ *
+ ***/
+document.body.onload = function(e) {   //when the document body is clicked
+  var osMsg = document.getElementById('os-msg');
+  var os = getOS();
+
+  osMsg.innerHTML = 'You are running on <strong>'+os+'</strong> operating system.';
+}
+/***
+ *
+ * Initialize page
+ *
+ ***/
+ var MyReadingMonitor = new ReadingMonitor("sentence03");
+ var MyPageNav = new Navbar();
+
+ MyPageNav.populate();
+ try {
+   MyReadingMonitor.errorMsgElementId ="errormsg";
+ }
+ catch(e)
+ {
+    alert("Could not register error reporting");
+ }
+ try { // register HTML controls and fields
+   MyReadingMonitor.diagnosticElementId ="diagnostic";
+   MyReadingMonitor.diagnosticVerboseCheckboxElementId = "showDiagnosticMsgVerbose";
+   MyReadingMonitor.userMsgElementId ="usermsg";
+ //   MyReadingMonitor.sentenceIdElementId = "sentenceId";
+   MyReadingMonitor.wordIdElementId = "wordId";
+   MyReadingMonitor.sentenceIdxElementId = "sentenceIdx";
+   MyReadingMonitor.wordIdxElementId = "wordIdx";
+
+   MyReadingMonitor.listening.buttonImgElementId = "listenBtnImg";
+   MyReadingMonitor.listening.buttonImgInactive = "img/mic1-inactive-xparent.gif";
+   MyReadingMonitor.listening.buttonImgActive ="img/mic1-250ms.gif";
+   MyReadingMonitor.listening.buttonElementId = "listenBtn";
+   MyReadingMonitor.listening.checkboxStopAtEosElementId = "stopListeningAtEOS";
+   MyReadingMonitor.listening.timer.timeout = 10; // seconds
+
+   MyReadingMonitor.speaking.checkboxPartialSentenceElementId ="partialSentence";
+   MyReadingMonitor.speaking.voiceSelectorElementId ="voice";
+   MyReadingMonitor.speaking.volumeControlElementId ="volume";
+   MyReadingMonitor.listening.lastSpokenWordElementId = "lastSpokenWordspan";
+
+   try {
+     MyReadingMonitor.initialize();
+   }
+   catch(e)
+   {
+     MyReadingMonitor.errorMsg = "ReadingMonitor: error initializing monitor.";
+   }
+ }
+ catch(e)
+ {
+    MyReadingMonitor.errorMsg = "ReadingMonitor: error registering HTML element.";
+ }
+</script>
+</html>

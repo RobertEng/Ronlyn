@@ -36,7 +36,7 @@ class Navbar {
       div.className = "navbar-li li onclick-href";
       div.id = navbarItemList[nb].id;
       var me = this;
-      div.onclick = function() { me.navbarDiv_onclick(event) } ;  //kludge for iOS
+      div.onclick = function() { me.navbarDiv_onclick(event); };  //kludge for iOS
       div.innerHTML = navbarItemList[nb].innerHTML;
       div_navbar.append(div);
     }

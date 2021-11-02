@@ -224,9 +224,9 @@ class Progress {
 class SpeechRecognition {
   constructor(parent) {
     this._parent = parent;
-    this._buttonImgInactive = "img/mic1-inactive-xparent.gif"
-    this._buttonImgActive = "img/mic1-250ms.gif"
-    this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif"
+    this._buttonImgInactive = "img/mic1-inactive-xparent.gif";
+    this._buttonImgActive = "img/mic1-250ms.gif";
+    this._buttonImgGhosted = "img/mic1-ghosted-xparent.gif";
 //    this._recognitionPattern = new wordCountMap(this);
 
     this._timer = new Timer(this);
@@ -378,7 +378,7 @@ class SpeechRecognition {
   set buttonElementId(buttonId) {
     try {
       this._buttonElement = document.getElementById(buttonId);
-      if (this._buttonElement == null) { throw "invalid button id" }
+      if (this._buttonElement == null) { throw "invalid button id"; }
     }
     catch(e) { // intercept
       this.errorMsg = "buttonElementId setter: "+e.message+"="+buttonId;
@@ -386,12 +386,12 @@ class SpeechRecognition {
     }
   }
   get buttonElement() {
-    return this._buttonElement
+    return this._buttonElement;handleNavItemClickn
   }
   set buttonImgElementId(buttonImgId) {
     try {
       this._buttonImgElement = document.getElementById(buttonImgId);
-      if (this._buttonImgElement == null) { throw "invalid buttonImg id" }
+      if (this._buttonImgElement == null) { throw "invalid buttonImg id"; }
     }
     catch(e) {
       this.errorMsg = "buttonImgElementId setter: "+e+"="+buttonImgId;
@@ -399,7 +399,7 @@ class SpeechRecognition {
     }
   }
   get buttonImgElement() {
-    return this._buttonImgElement
+    return this._buttonImgElement;
   }
   set buttonLabel(label) {
     try {
